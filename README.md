@@ -16,6 +16,8 @@ TapTap Maker 内容型新作：文字剧情 + 数值模拟。0 粉开播，在�
 - `maker-zhubo-gemini-draft-20261104.md` — **Gemini 初稿 v0.2（已终签冻结）**：213 卡 / 50 结局 / 数值表 / 状态字典 / 交付清单全本
 - `maker-zhubo-draft-review-20261104.md` — Orange 审稿单 + 补漏裁定 + 终签记录（审稿链全程在此）
 - `maker-zhubo-review-gap-20261104.md` — Yellow 补漏单（N1–N8，已按审稿单第三节裁定执行完毕）
+- `maker-zhubo-v02-errata-20261104.md` — Yellow 冻结后勘误单 + Orange 裁定（含 P1-2 改判修订）：搭建转录补丁，**与审稿单第四节合并执行**
+- `maker-zhubo-build-order-20261104.md` — 搭建启动工单（五阶段，2026-11-04 提前启动）
 
 ## 状态
 
