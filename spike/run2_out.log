@@ -1,0 +1,142 @@
+[2026-11-05 10_59_29_038][0] INFO: DownloadManager initialized
+[2026-11-05 10_59_29_192][0] INFO: a couple of Subsystems registered finish.
+[2026-11-05 10_59_29_193][0] INFO: Engine construct finish.
+[2026-11-05 10_59_29_198][0] INFO: Opened log file E:/taptap/maker-demo-clone/.cli/logs/game/urhox_runtime-2026-11-05 10_59_29_197.log
+[2026-11-05 10_59_29_198][0] INFO: =======Git Info=======
+[2026-11-05 10_59_29_198][0] INFO: UrhoX: main, fefb855f4; BuildTime: 2026-10-30_18_55_40
+[2026-11-05 10_59_29_198][0] INFO: Engine-res tag: 1.36
+[2026-11-05 10_59_29_198][0] INFO: Binary version: 1036010
+[2026-11-05 10_59_29_198][0] INFO: ======================
+[2026-11-05 10_59_29_198][0] INFO: Engine initialize begin.
+[2026-11-05 10_59_29_198][0] INFO: Rendering pipeline: forward
+[2026-11-05 10_59_29_199][0] INFO: enable MSAA
+[2026-11-05 10_59_29_205][0] INFO: Created 7 worker threads
+[2026-11-05 10_59_29_205][0] INFO: Engine resourcePrefixPath: E:/taptap/maker-demo-clone/.cli/, resource: Res
+[2026-11-05 10_59_29_205][0] INFO: Added resource path E:/taptap/maker-demo-clone/.cli/Res/
+[2026-11-05 10_59_29_206][0] INFO: Now resource dir: 
+[2026-11-05 10_59_29_206][0] INFO: 0 - E:/taptap/maker-demo-clone/.cli/Res/
+[2026-11-05 10_59_29_206][0] INFO: AddPackageFile 'E:/taptap/maker-demo-clone/.cli/Autoload/CoreData.pak' to cache
+[2026-11-05 10_59_29_206][0] INFO: PackageFile::Open, E:/taptap/maker-demo-clone/.cli/Autoload/CoreData.pak, 0
+[2026-11-05 10_59_29_207][0] INFO: UZSD package opened: E:/taptap/maker-demo-clone/.cli/Autoload/CoreData.pak, 127 entries (126 unique blocks), decompressed 68979 -> 154483 bytes, dict 5788 bytes
+[2026-11-05 10_59_29_207][0] INFO: Added resource package CoreData
+[2026-11-05 10_59_29_207][0] INFO: AddPackageFile 'E:/taptap/maker-demo-clone/.cli/Autoload/Data.pak' to cache
+[2026-11-05 10_59_29_207][0] INFO: PackageFile::Open, E:/taptap/maker-demo-clone/.cli/Autoload/Data.pak, 0
+[2026-11-05 10_59_29_242][0] INFO: UZSD package opened: E:/taptap/maker-demo-clone/.cli/Autoload/Data.pak, 1468 entries (1383 unique blocks), decompressed 6938925 -> 17795142 bytes, dict 65536 bytes
+[2026-11-05 10_59_29_242][0] INFO: Added resource package Data
+[2026-11-05 10_59_29_242][0] INFO: AddPackageFile 'E:/taptap/maker-demo-clone/.cli/Autoload/Res.pak' to cache
+[2026-11-05 10_59_29_242][0] INFO: PackageFile::Open, E:/taptap/maker-demo-clone/.cli/Autoload/Res.pak, 0
+[2026-11-05 10_59_29_366][0] INFO: UZSD package opened: E:/taptap/maker-demo-clone/.cli/Autoload/Res.pak, 593 entries (586 unique blocks), decompressed 39986842 -> 75555497 bytes, dict 10516 bytes
+[2026-11-05 10_59_29_366][0] INFO: Added resource package Res
+[2026-11-05 10_59_30_075][0] INFO: computeShaderSupport 1,caps->supported:4,aps->supported & BGFX_CAPS_INDEX32:4096
+[2026-11-05 10_59_30_075][0] INFO: Detected 3 GPUs
+[2026-11-05 10_59_30_076][0] INFO: GPU 0 Name: NVIDIA GeForce RTX 4050 Laptop GPU
+[2026-11-05 10_59_30_076][0] INFO: GPU 1 Name: NVIDIA GeForce RTX 4050 Laptop GPU
+[2026-11-05 10_59_30_076][0] INFO: GPU 2 Name: Microsoft Basic Render Driver
+[2026-11-05 10_59_30_076][0] INFO: Selected GPU name: NVIDIA GeForce RTX 4050 Laptop GPU
+[2026-11-05 10_59_30_076][0] INFO: Renderer Type: Direct3D 11
+[2026-11-05 10_59_30_076][0] INFO: CheckFeatureSupport => CpuInstance=1, _R32I=1, _R32U=1, _R32F=1, _RGBA16F=1, _RGBA32F=1, MaxTextureSizeLimit=16384
+[2026-11-05 10_59_30_077][0] INFO: Graphics mode: 509x906 (logic=509x906, dpr=1) windowed resizable highDPI monitor 0
+[2026-11-05 10_59_30_083][0] INFO: Initialized input
+[2026-11-05 10_59_30_083][0] INFO: Initialized user interface
+[2026-11-05 10_59_30_087][0] INFO: Initialized renderer
+[2026-11-05 10_59_30_088][0] INFO: Initialized graphics & audio output.
+[2026-11-05 10_59_30_088][0] INFO: Initialized engine
+[2026-11-05 10_59_30_089][0] INFO: LogUploader: auto-upload disabled (no SLS URL), UploadLogPack still available on demand
+[2026-11-05 10_59_30_090][0] INFO: Device Max Storage Block Binding Range: 16
+[2026-11-05 10_59_30_094][0] WARNING: Directory[E:/taptap/maker-demo-clone/.cli/AgentProject] not exists.
+[2026-11-05 10_59_30_094][0] INFO: Added resource path E:/taptap/maker-demo-clone/assets/
+[2026-11-05 10_59_30_095][0] INFO: Now resource dir: 
+[2026-11-05 10_59_30_095][0] INFO: 0 - E:/taptap/maker-demo-clone/assets/
+[2026-11-05 10_59_30_095][0] INFO: 1 - E:/taptap/maker-demo-clone/.cli/Res/
+[2026-11-05 10_59_30_095][0] INFO: Added resource path E:/taptap/maker-demo-clone/scripts/
+[2026-11-05 10_59_30_095][0] INFO: Now resource dir: 
+[2026-11-05 10_59_30_095][0] INFO: 0 - E:/taptap/maker-demo-clone/scripts/
+[2026-11-05 10_59_30_095][0] INFO: 1 - E:/taptap/maker-demo-clone/assets/
+[2026-11-05 10_59_30_095][0] INFO: 2 - E:/taptap/maker-demo-clone/.cli/Res/
+[2026-11-05 10_59_30_095][0] INFO: PackageFile::Open, E:/taptap/maker-demo-clone/.cli/Res/shadercache_runtime/shadercache_dx11.pak, 0
+[2026-11-05 10_59_30_193][0] INFO: UZSD MemoryLess package opened: E:/taptap/maker-demo-clone/.cli/Res/shadercache_runtime/shadercache_dx11.pak, 56829 entries (16832 unique blocks), compressed 28483486 bytes, dict 65536 bytes
+[2026-11-05 10_59_30_193][0] INFO: Added resource package shadercache_runtime
+[2026-11-05 10_59_30_226][0] INFO: Loaded shader cache package: E:/taptap/maker-demo-clone/.cli/Res/shadercache_runtime/shadercache_dx11.pak
+[2026-11-05 10_59_30_226][0] INFO: Custom Lua require system installed (module cache active)
+[2026-11-05 10_59_30_234][0] INFO: Lua 5.4: Generational GC enabled.
+[2026-11-05 10_59_30_234][0] INFO: Lua official log file initialized: E:/taptap/maker-demo-clone/.cli/logs/lua/lua-2026-11-05 10_59_30_234.log
+[2026-11-05 10_59_30_234][0] INFO: Lua infinite loop detection enabled.
+[2026-11-05 10_59_30_234][0] INFO: LobbyBridge Lua API registered
+[2026-11-05 10_59_30_234][0] INFO: [Validate] Mode enabled: frames=125, timeout=45s
+[2026-11-05 10_59_30_234][0] INFO: [Screenshot] enabled: frame=115 -> E:\taptap\zhubo\spike\timing_bar_run2.png
+[2026-11-05 10_59_30_235][0] INFO: Localization: auto-selected 'zh_CN' from [en, zh_CN]
+[2026-11-05 10_59_30_235][0] INFO: BootstrapManager: Localization initialized, language=zh_CN
+[2026-11-05 10_59_30_235][0] INFO: LoadingUI::Show()
+[2026-11-05 10_59_30_236][0] INFO: BootstrapPipeline: starting with 1 steps, total weight 1.00
+[2026-11-05 10_59_30_236][0] INFO: BootstrapPipeline: executing step [1/1] 'Ready'
+[2026-11-05 10_59_30_236][0] INFO: [Bootstrap/Ready] Starting...
+[2026-11-05 10_59_30_236][0] INFO: [Bootstrap/Ready] No project_id (-game=), project-scoped Lobby requests will be rejected
+[2026-11-05 10_59_30_236][0] INFO: [Bootstrap/Ready] settings.json not found, single player mode assumed
+[2026-11-05 10_59_30_237][1] INFO: Shader::BeginLoad: /Shaders/BLGL/UI.glsl
+[2026-11-05 10_59_30_237][1] INFO: Shader::EndLoad
+[2026-11-05 10_59_30_237][1] INFO: Loaded vertex shader UI(DIFFMAP GAMMA_IN_SHADERING MIXCOLOR VERTEXCOLOR)
+[2026-11-05 10_59_30_237][1] INFO: Loaded pixel shader UI(DIFFMAP GAMMA_IN_SHADERING MIXCOLOR OPACITY VERTEXCOLOR)
+[2026-11-05 10_59_30_237][1] INFO: Loaded vertex shader UI(DIFFMAP)
+[2026-11-05 10_59_30_237][1] INFO: Loaded pixel shader UI(DIFFMAP OPACITY)
+[2026-11-05 10_59_30_238][1] INFO: BXLOG:C:\actions-runner\_work\urhox\urhox\engine\Source\ThirdParty\bgfx-all\bgfx\src\dxgi.cpp (492): LOG Display Width: 800, Height: 600, RefreshRate: 60/1
+
+[2026-11-05 10_59_30_238][2] INFO: [Bootstrap/Ready] Completed successfully (1 ms)
+[2026-11-05 10_59_30_238][2] INFO: BootstrapPipeline: step 'Ready' completed successfully
+[2026-11-05 10_59_30_254][3] INFO: BootstrapPipeline: completed successfully
+[2026-11-05 10_59_30_254][3] INFO: LoadingUI::Hide()
+[2026-11-05 10_59_30_254][3] INFO: BootstrapManager: pipeline completed successfully
+[2026-11-05 10_59_30_254][3] INFO: BootstrapManager: using provided scriptFileName: spike_stage0.lua
+[2026-11-05 10_59_30_255][3] WARNING: RuntimeRetargeterCache: Cannot load mapping table: uuid://F4ItQUiV0gmvAelLXpk5yrTs
+[2026-11-05 10_59_30_255][3] INFO: Loaded Lua script LuaScripts/Utilities/EnginePreview.lua
+[2026-11-05 10_59_30_255][3][Script] IsNetworkMode:    false
+[2026-11-05 10_59_30_256][3] WARNING: Could not load global fallback font Fonts/MiSans-Regular.ttf
+[2026-11-05 10_59_30_257][3] INFO: Loaded Lua script urhox-libs/Engine/init.lua
+[2026-11-05 10_59_30_258][3] INFO: Loaded Lua script urhox-libs/Engine/InputExtensions.lua
+[2026-11-05 10_59_30_258][3] INFO: Loaded Lua script urhox-libs/Engine/ResourceCacheExtensions.lua
+[2026-11-05 10_59_30_260][3] INFO: Loaded Lua script urhox-libs/Engine/i18n.lua
+[2026-11-05 10_59_30_260][3] INFO: [i18n] loadConfig: i18n.json not found, i18n disabled
+[2026-11-05 10_59_30_260][3] INFO: [i18n] GetLanguage: no language resolved
+[2026-11-05 10_59_30_260][3] INFO: [i18n] init: no config found, hooks NOT installed
+[2026-11-05 10_59_30_261][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/InputAdaptor.lua
+[2026-11-05 10_59_30_261][3][Script] [InputAdaptor] Loading input event adaptor...
+[2026-11-05 10_59_30_261][3][Script] [InputAdaptor] Hooked SubscribeToEvent for event mapping.
+[2026-11-05 10_59_30_261][3][Script] [InputAdaptor] Platform: Windows, isTouchPlatform: false
+[2026-11-05 10_59_30_261][3][Script] [InputAdaptor] Hooked Input methods for touch emulation fallback.
+[2026-11-05 10_59_30_261][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/Scene.lua
+[2026-11-05 10_59_30_262][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/SceneGuard.lua
+[2026-11-05 10_59_30_262][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/UIGuard.lua
+[2026-11-05 10_59_30_263][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/UserInfo.lua
+[2026-11-05 10_59_30_263][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/TextModeration.lua
+[2026-11-05 10_59_30_263][3][Script] Check Transition.lua SimpleGrid.lua
+[2026-11-05 10_59_30_264][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/Isolation_Client.lua
+[2026-11-05 10_59_30_264][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/Isolation_Common.lua
+[2026-11-05 10_59_30_265][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/UrlWhitelist.lua
+[2026-11-05 10_59_30_265][3] INFO: [Preview/Isolation_Client] Loaded client URL whitelist from LuaScripts/Utilities/Previews/ClientUrlWhitelist.json (0 urls, 2 domains)
+[2026-11-05 10_59_30_265][3] WARNING: GetProjectRoot failed, falling back to UserDocumentsDir
+[2026-11-05 10_59_30_266][3] WARNING: userId is 0, savedata will not be per-user isolated
+[2026-11-05 10_59_30_267][3] INFO: Executed Lua script LuaScripts/Utilities/EnginePreview.lua
+[2026-11-05 10_59_30_268][3] INFO: Loaded Lua script Validate/cloud_stub.lua
+[2026-11-05 10_59_30_268][3] INFO: Executed Lua script Validate/cloud_stub.lua
+[2026-11-05 10_59_30_268][3] INFO: Loaded Lua script Validate/servercloud_stub.lua
+[2026-11-05 10_59_30_268][3] INFO: Executed Lua script Validate/servercloud_stub.lua
+[2026-11-05 10_59_30_269][3] INFO: Loaded Lua script spike_stage0.lua
+[2026-11-05 10_59_30_269][3] INFO: Loaded Lua script cjson.lua
+[2026-11-05 10_59_30_269][3] INFO: Executed Lua script spike_stage0.lua
+[2026-11-05 10_59_30_269][3][Script] [ZHUBO_SPIKE][INIT] Starting Stage 0 Spike in UrhoXRuntime
+[2026-11-05 10_59_30_270][3][Script] [ZHUBO_SPIKE][LOCAL_SAVE_READ_AFTER_RESTART] SUCCESS raw={"endings":["M01","D01","H05"],"unlocked_count":3,"ts":20261105,"talents":["M01","D01","H05"]}
+[2026-11-05 10_59_30_270][3][Script] [ZHUBO_SPIKE][CLOUD_SAVE_PROBE] clientCloud present, userId=1001, mapName=validate_map
+[2026-11-05 10_59_30_270][3][Script] [ZHUBO_SPIKE][CLOUD_SAVE_READ_AFTER_RESTART] values.zhubo_spike_test=nil (Validate/cloud_stub.lua in-memory only)
+[2026-11-05 10_59_30_270][3][Script] [ZHUBO_SPIKE][ACH_API_PROBE] sdk=nil type=nil
+[2026-11-05 10_59_30_270][3][Script] [ZHUBO_SPIKE][ACH_FALLBACK_RULING] sdk=nil & MCP achievement tool absent -> built-in achievement wall (10/25/50)
+[2026-11-05 10_59_30_283][3][Script] [ZHUBO_SPIKE][FONT_LOAD] fontId=0.0
+[2026-11-05 10_59_30_283][3] INFO: UrhoXRuntime: Game started successfully
+[2026-11-05 10_59_30_283][3] INFO: Shader::BeginLoad: /Shaders/BLGL/NanoVGFill.glsl
+[2026-11-05 10_59_30_283][3] INFO: Shader::EndLoad
+[2026-11-05 10_59_30_283][3] INFO: Loaded vertex shader NanoVGFill()
+[2026-11-05 10_59_30_283][3] INFO: Loaded pixel shader NanoVGFill(HIGH_PRECISION_OUTPUT=1)
+[2026-11-05 10_59_30_283][3] INFO: Loaded pixel shader NanoVGFill(GAUSSIAN_GLOW HIGH_PRECISION_OUTPUT=1)
+[2026-11-05 10_59_31_142][54][Script] [ZHUBO_SPIKE][TIMING_BAR_TAP] frame=51 pos=0.6725 tier=甜区命中! 涨粉/收入 x1.15 mult=1.15 dispatch_latency_ms=0.0000 frame_dt_ms=16.67
+[2026-11-05 10_59_32_197][115] INFO: [Screenshot] captured at frame 115 -> E:\taptap\zhubo\spike\timing_bar_run2.png
+[2026-11-05 10_59_32_347][121][Script] [ZHUBO_SPIKE][TIMING_BAR_PERF_SUMMARY] samples=113 avg_dt_ms=16.67 p95_dt_ms=16.67 min_dt_ms=16.67 max_dt_ms=16.67 avg_fps=60.0
+[2026-11-05 10_59_32_466][128]INFO__VALIDATE_UPDATE__:false
+[2026-11-05 10_59_32_718][128] INFO: DownloadManager: all tasks cancelled

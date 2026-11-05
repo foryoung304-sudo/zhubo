@@ -46,4 +46,37 @@
 
 ## 执行回报
 
-（执行方按阶段往下追加。）
+### 阶段 0 · 接口实测回报（2026-11-05）
+
+- **测试环境**：`UrhoXRuntime 20261030-1103-fefb855`（Engine-res `1.36`）+ `taptap-maker MCP 0.0.40`
+- **实测脚本与留证**：
+  - 实测脚本：`spike/spike_stage0.lua`
+  - 进程 #1 日志与帧截图（写入存档 + 60fps 扫条抓拍）：`spike/run1_out.log`、`spike/run1_validate.json`、`spike/timing_bar_run1.png`
+  - 进程 #2 日志与帧截图（杀进程重启后读取验证）：`spike/run2_out.log`、`spike/run2_validate.json`、`spike/timing_bar_run2.png`
+- **三项实测结论（一句结论）**：
+  1. **持久存档**：`File("zhubo_spike_save.json", FILE_WRITE/FILE_READ)` 杀进程重进后 94 字节存档（图鉴 `D01/S01/H05` 与天赋 `#1/#13/#46`）100% 完整保留，而 `clientCloud` 在本地 Runtime 仅为 `Validate/cloud_stub.lua` 内存桩（跨进程丢失 `values.zhubo_spike_test=nil`）→ **按已裁定回退：纯本地持久存档（Lua `File` / H5 `localStorage`）直接定案**。
+  2. **TapTap 成就上报**：本地 Runtime 全局 `sdk == nil`，且 `taptap-maker` MCP `0.0.40` 暴露的 16 个工具中未挂载 `achievement` 工具 → **按已裁定回退：只做游戏内 50 格图鉴与内置 10/25/50 三档成就墙，直接定案**。
+  3. **时机条平滑扫条**：NanoVG 最小扫条 demo 实测稳定 **60.0 FPS**（113 帧有效采样 `avg_dt=16.67ms`、`p95_dt=16.67ms`、`max_dt=16.67ms`），点停派发延迟 `<0.1ms`（实测 `0.0000ms`），第 51 帧精准停在甜区 `pos=0.6725`（`×1.15`）→ **平滑扫条帧率与点停延迟完全达标，无需降级，直接采用平滑扫条方案（保留三连点配置开关作兜底）**。
+- **剩余问题**：无。
+
+### 阶段 1 · 数据转录回报（2026-11-05）
+
+- **做了什么**：
+  1. 编写自动化转录器 `scripts/transcribe_data.mjs`，以只读方式解析冻结初稿 `maker-zhubo-gemini-draft-20261104.md`（`a51c0e0`），全量生成结构化 JSON 数据集入仓 `data/`。
+  2. **状态字典与快照自动生成（P1-1）**：直接从初稿 `§2.9` 表体解析生成 `data/state_dictionary.json`，共 **36 个状态键**（`Flag_` 20 + `Count_` 9 + `Tag_` 5 + `Param_` 1 + `Total_Income` 1）及 **51 字段 `Snapshot_BeforeCard`**（9 属性 + 5 维 + 钱包 + 粉丝构成 + 36 状态键），零手抄。
+  3. **213 张事件卡全量转录与勘误落表**：生成 `data/cards.json`（63 标志性卡 + 120 短卡 + 30 跨章随机卡），逐项落实勘误裁定：
+     - **P1-2（H05 算法觉醒）**：`Count_算法异常` 写入方带选项限定（`C4-S19` 选 B、`C5-S19` 选 B、`C6-S19` 选 A），H05 双触发源（`Count_算法异常 == 3` 满格即时触发，或 `运气 == 10` 打通第六章于六章末结算），`endings_and_talents.json` 与 `state_dictionary.json` 同步落表。
+     - **P2-1（双标权重分开判）**：短卡 `C2-S02` 保留 `weight_Rule_1: 0.5`，标志性卡 `C4-M06` / `C5-M06` / `C5-M07` 置 `weight_Rule_1: 1.0`（标志性卡池不吃短卡降权，仅挂载 `ui_Special_Mark: "Rule_1_Red_Mark"`）。
+     - **P3-1（翻样辨真四键）**：`data/config_and_screens.json` 中 `Ops-B` 明确 `buttons_count: 4`（查针脚 / 查吊牌 / 查水洗标 / 闻气味）。
+     - **P3-2（美术总盘 69 张封顶）**：写入 `data/config_and_screens.json` 的 `art_budget`（`total_cap: 69`）。
+     - **P3-3（C3-M08 补 `ops_note`）**：`C3-M08` 挂载时机条参数与 `ops_note` 追认说明。
+     - **P4-1（ID 全补零）**：`D1..D9 -> D01..D09`、`S1..S9 -> S01..S09`、`H1..H9 -> H01..H09` 全量归一（排除原型引用中的 `私 D1..D4` 编号）。
+     - **P4-2（X-EGG-09 双分支尾声豁免）**：`X-EGG-09` 的 A/B 双选项各自写入独立尾声文案，并在 `H12` 挂载 `branch_variants`（共用同一图鉴格 `H12` 与同一枚天赋 `#50`）。
+     - **P4-3（缩写展开）**：`立退 -> 立即触发退网结局`，`下章可触 -> 下一阶段可触发`。
+     - **P4-4（Screen-08 独立）**：`data/config_and_screens.json` 将 `Screen-08`（单局结算与结局页）与 `Screen-09`（50 格结局图鉴与天赋页）拆分为独立条目（共 9 屏 + 2 轻操作 = 11 条目）。
+  4. **转录校验脚本入库**：改造 `scripts/test_cards.mjs` 并提供 `scripts/validate_transcription.mjs`，执行 28 项断言（卡数 213 / ID 唯一 / 字典 36 键自动生成与引用零悬空 / 字数门 0 超限 / 结局 `50 = 12 + 26 + 12` / 勘误 P1~P4 专项断言），**28 / 28 全部 PASS**。
+- **证据在哪**：
+  - 结构化数据：`data/state_dictionary.json`、`data/cards.json`、`data/endings_and_talents.json`、`data/config_and_screens.json`
+  - 转录与校验脚本：`scripts/transcribe_data.mjs`、`scripts/validate_transcription.mjs`、`scripts/test_cards.mjs`
+  - 校验输出报告：`data/validation_report.txt`（`Result: 28 passed, 0 failed`）
+- **剩余问题**：无。冻结文件 `maker-zhubo-gemini-draft-20261104.md` 与 `maker-zhubo-design-20261104.md` 保持只读零改动。

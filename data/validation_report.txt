@@ -1,0 +1,50 @@
+================================================================================
+《从小主播到顶流》阶段 1 · 数据转录与勘误补丁校验报告 (validate_transcription.mjs)
+生成时间: 2026-11-05T03:02:06.978Z
+输入基线: maker-zhubo-gemini-draft-20261104.md (v0.2, commit a51c0e0, 只读未改动)
+================================================================================
+
+[总计断言] 28 / 28 全部通过 (PASS)
+
+--- 核心体量与结构核对 ---
+• 卡片总数: 213 张 (唯一 ID: 213)
+  - 标志性事件 (milestone): 63 张 (Ch1..Ch6 = 10/10/10/11/12/10)
+  - 章节离谱短卡 (short): 120 张 (Ch1..Ch6 = 6×20)
+  - 跨章专属池 (cross_*): 30 张 (模式 10 + 属性 10 + 彩蛋 10)
+• 字数硬门双口径 (口径A仅汉字数字 / 口径B含标点): 213 / 213 零超限
+  - 标志性卡最大值 (上限 80/20/40): 口径A 58/18/29 | 口径B 75/18/40
+  - 短卡与跨章卡最大值 (上限 60/14/30): 口径A 43/14/22 | 口径B 46/14/30
+• 全局状态字典 (§2.9 表体自动生成): 36 个键 (Flag=20, Count=9, Tag=5, Param=1, Total=1)
+• Snapshot_BeforeCard 自动生成字段数: 五维 5 + 影子指标 1 + 属性 9 + 状态字典 36 = 51 项
+• 结局与前世天赋: 结局 50 个 (12/26/12) ↔ 前世天赋 50 枚
+• 引用完整性: 悬空卡 ID = 0, 悬空结局 ID = 0, 悬空状态变量 = 0
+
+--- 逐项断言明细 ---
+[PASS #01] Frozen draft v0.2 LF byte size === 195,339 -> actual=195339
+[PASS #02] Total transcribed cards === 213 -> actual=213
+[PASS #03] All 213 card IDs unique -> unique=213
+[PASS #04] Milestone cards === 63 (10/10/10/11/12/10) -> actual=63
+[PASS #05] Short cards === 120 (6x20) -> actual=120
+[PASS #06] Cross-chapter cards === 30 (10/10/10) -> actual=10/10/10
+[PASS #07] Word-count hard gates pass 213/213 in both Mode A and Mode B -> violations=0, M_max(B)=75/18/40, S/X_max(B)=46/14/30
+[PASS #08] P1-1: State dictionary has exactly 36 keys from §2.9 table body -> actual=36 (Flag=20, Count=9, Tag=5, Param=1, Total=1)
+[PASS #09] P1-1: Snapshot_BeforeCard auto-generated field list includes all 36 dictionary keys -> count=36
+[PASS #10] P1-1: Snapshot_BeforeCard contains critical counters (Count_验货命中, Count_偷拍素材, Count_违规警告)
+[PASS #11] Endings total === 50 -> actual=50
+[PASS #12] Endings breakdown === 12 main / 26 death / 12 hidden -> 12/26/12
+[PASS #13] Talents total === 50 (1-to-1 with endings) -> actual=50
+[PASS #14] Zero dangling card references -> dangling=
+[PASS #15] Zero dangling ending references -> dangling=
+[PASS #16] Zero dangling state variable references -> dangling=
+[PASS #17] P1-2 + fb6cb71: H05 canonical name + dual trigger sources (=3 immediate OR max luck Ch6 end) -> [{"source_id":"H05_SRC_1_COUNTER_FULL_IMMEDIATE","expr":"运气 == 10 && Count_算法异常 == 3","timing":"immediate_on_counter_3_of_3","required_choices":["C4-S19:B","C5-S19:B","C6-S19:A"]},{"source_id":"H05_SRC_2_CH6_CLEAR_WITH_MAX_LUCK","expr":"运气 == 10 && chapter_6_cleared == true","timing":"chapter_6_end_settlement"}]
+[PASS #18] fb6cb71: Count_算法异常 writers have explicit option qualifiers (C4-S19:B, C5-S19:B, C6-S19:A) -> [{"card_id":"C4-S19","opt_key":"B","delta":1,"req_expr":"运气 == 10"},{"card_id":"C5-S19","opt_key":"B","delta":1,"req_expr":"运气 == 10"},{"card_id":"C6-S19","opt_key":"A","delta":1,"req_expr":"运气 == 10"}]
+[PASS #19] P2-1: 12 dual-tagged milestone cards have base=1.0, match=2.0, non_match=1.0 (no 0.5 downweight) -> count=12
+[PASS #20] P2-1: Mode-tagged short & cross-chapter cards maintain match=3.0, non_match=0.5 -> count=95
+[PASS #21] P3-1: Sample inspection (翻样辨真) configured as flip 2 of 3 + 4-button choice on C4-M02 & C5-M07 -> cards=C4-M02,C5-M07
+[PASS #22] P3-2: Art budget capped at 69 images (36 + 6 + 27) -> cap=69
+[PASS #23] P3-3: C3-M08 timing bar preserved with live-stage blind-jump ops_note -> 开火时点为耳返故障后的舞台盲跳卡点段（直播进行时）
+[PASS #24] Review §4 item 4: C6-M05 timing bar ops_note specifies post-option & non-incitement only -> 时机条结果在选项结算后生效，且只作用于非煽动选项（选项B）
+[PASS #25] P4-1: All ending IDs zero-padded (0 unpadded tokens) & H01 canonical name === 黑粉头子是真爱 -> unpadded=0
+[PASS #26] P4-2: X-EGG-09 / H12 has distinct A/B epilogues and shares 50th talent 【真·顶流权柄】
+[PASS #27] P4-3: Shorthand assignments expanded in C2-M01, C2-M06, C2-M07, C2-M08
+[PASS #28] P4-4: Screen-08 separated as standalone screen row with own inputs and outputs -> 结局分享卡弹窗（独立成行 · 勘误 P4-4）
