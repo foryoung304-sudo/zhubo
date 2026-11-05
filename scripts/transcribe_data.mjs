@@ -139,7 +139,7 @@ function parseStateDictionary() {
 }
 
 // ============================================================================
-// 2. Parse 213 Cards with Errata P2-1, P3-1, P3-3, P4-1, P4-2, P4-3, P4-4
+// 2. Parse 213 Cards with Errata P2-1, P3-1, P3-3, P4-1~P4-4, Second Review P1-A, P1-B, P1-C, P2-C
 // ============================================================================
 const DUAL_TAG_MILESTONE_IDS = new Set([
   'C1-M03', 'C1-M04', 'C2-M03', 'C2-M05',
@@ -147,9 +147,38 @@ const DUAL_TAG_MILESTONE_IDS = new Set([
   'C5-M03', 'C5-M04', 'C5-M05'
 ]);
 
-// 8 Official Scheduling Modes from Screen-02
-const SCHEDULE_MODES = new Set(['聊天', '才艺', '游戏', 'PK', '带货', '团播', '户外', '电台']);
-const SPECIAL_TAGS = new Set(['数字人诱惑', '全模式']);
+// Second review rulings: 7 official schedule modes + Digital human slot 8
+const SCHEDULE_MODES_7 = new Set(['游戏', '才艺', '电台', '团播', 'PK', '带货', '户外']);
+
+// P1-A Pity Chains mapping (4 chains + trigger cards)
+const PITY_CHAIN_MAP = {
+  // 1. 猫上镜线: C1-S01 -> C2-S01 -> C3-S01
+  'C1-S01': { chain: 'pity_cat', is_guaranteed: false, note: '猫上镜线起点卡，选A/B推进计数' },
+  'C2-S01': { chain: 'pity_cat', is_guaranteed: true, note: '猫上镜线第2块拼图，满足前置定向保底' },
+  'C3-S01': { chain: 'pity_cat', is_guaranteed: true, note: '猫上镜线第3块拼图，满足前置定向保底' },
+
+  // 2. 考编上岸线: C1-S07 -> C2-S17 -> C4-S16
+  'C1-S07': { chain: 'pity_exam', is_guaranteed: false, note: '考编上岸线起点卡，选A推进计数' },
+  'C2-S17': { chain: 'pity_exam', is_guaranteed: true, note: '考编上岸线第2块拼图，满足前置定向保底' },
+  'C4-S16': { chain: 'pity_exam', is_guaranteed: true, note: '考编上岸线第3块拼图，满足前置定向保底' },
+
+  // 3. 算法觉醒线: C4-S19 -> C5-S19 -> C6-S19
+  'C4-S19': { chain: 'pity_algorithm', is_guaranteed: true, note: '算法觉醒线第1块拼图，运气=10定向保底' },
+  'C5-S19': { chain: 'pity_algorithm', is_guaranteed: true, note: '算法觉醒线第2块拼图，运气=10定向保底' },
+  'C6-S19': { chain: 'pity_algorithm', is_guaranteed: true, note: '算法觉醒线第3块拼图，运气=10定向保底' },
+
+  // 4. 黑粉不对线: C1-M07 -> C2-S08/C3-S12 -> X-EGG-04
+  'C1-M07': { chain: 'pity_hater', is_guaranteed: false, note: '黑粉不对线起点卡，选B推进计数' },
+  'C2-S08': { chain: 'pity_hater', is_guaranteed: true, note: '黑粉挑刺短卡，温和请教推进计数' },
+  'C3-S12': { chain: 'pity_hater', is_guaranteed: true, note: '黑粉挑刺短卡，温和请教推进计数' },
+  'X-EGG-04': { chain: 'pity_hater', is_guaranteed: true, note: '黑粉不对线终极彩蛋扳机卡，达标定向保底必出' },
+
+  // 5. 跨章前置扳机必出保底卡 (X-EGG)
+  'X-EGG-03': { chain: 'pity_trigger', is_guaranteed: true, note: '签极光直播后后续必出保底卡' },
+  'X-EGG-05': { chain: 'pity_trigger', is_guaranteed: true, note: '放任切片号后后续必出保底卡' },
+  'X-EGG-08': { chain: 'pity_trigger', is_guaranteed: true, note: '解锁≥30结局后必出保底卡' },
+  'X-EGG-09': { chain: 'pity_trigger', is_guaranteed: true, note: '通关全部12主结局后终章必出仪式卡' }
+};
 
 function extractModeTags(cell) {
   const tags = [];
@@ -247,16 +276,14 @@ function parseCards() {
     const opsType = extractOpsType(modeCell, contextCell);
     const isSerious = id === 'C4-M09' || id === 'C4-M10' || id === 'C5-M11';
 
-    // Determine gate_type and weight_rule per Errata P2-1 and Review Corrections item 4
+    // P1-B: Determine gate_type from legal enum: ['hard', 'soft', 'dual_boost', 'progress', 'none']
     let gateType = 'soft';
     let weightRule = { base: 1.0, match_mode: 1.0, non_match_mode: 1.0, specific_modes: [] };
     const hasAllMode = modeTags.includes('全模式');
     const specificModes = modeTags.filter(t => t !== '全模式');
 
-    // Review corrections item 4: C6-M06 and special tags handling
-    // "数字人诱惑" is a special storyline tag, NOT a regular schedule mode.
-    // C6-M06 entry gate is chapter 6 + digital clone line unlocked, base 1.0, NO mode-filtering lock-out.
     if (id === 'C6-M06') {
+      // S2: progress gate type (chapter/progress gate, base 1.0, no mode lockout)
       gateType = 'progress';
       weightRule = {
         base: 1.0,
@@ -289,7 +316,6 @@ function parseCards() {
     } else {
       // Short cards and cross-chapter cards
       if (id === 'X-MODE-09') {
-        // Special tag card: soft boost, no 0 downweight
         gateType = 'soft';
         weightRule = {
           base: 1.0,
@@ -311,13 +337,20 @@ function parseCards() {
       }
     }
 
-    // P3-3: C3-M08 ops_note and timing bar params
+    // P1-C (Errata S3): Parameterized timing bar ops_note (no fixed absolute intervals)
     let opsNote = null;
     if (id === 'C3-M08') {
-      opsNote = 'P3-3: 追认挂载【轻操作：时机条】，甜区 0.58-0.70 (x1.15) / 良区 0.46-0.82 (x1.05)，结果在选项结算后生效';
+      opsNote = 'P3-3/S3: 挂载【轻操作：时机条】（参数化甜区宽0.15/良区宽0.40，中心实例随机），结果在选项结算后生效';
     } else if (id === 'C6-M05') {
-      opsNote = '终签备注: 时机条结果在选项结算后生效，且只作用于非煽动选项（选项B稳健控场生效，选项A煽动不吃时机条）';
+      opsNote = 'P3-3/S3: 挂载【轻操作：时机条】（参数化甜区宽0.15/良区宽0.40，中心实例随机），结果在选项结算后生效且只作用于非煽动选项（选项B稳健控场生效，选项A煽动不吃时机条）';
+    } else if (opsType === 'timing_bar') {
+      opsNote = 'S3: 挂载【轻操作：时机条】（参数化甜区宽0.15/良区宽0.40，中心实例随机），结果在选项结算后生效';
     }
+
+    // P1-A: Backfill pity_chain & is_pity_guaranteed
+    const pityInfo = PITY_CHAIN_MAP[id];
+    const isPityGuaranteed = pityInfo ? pityInfo.is_guaranteed : false;
+    const pityChain = pityInfo ? pityInfo.chain : null;
 
     // Parse options A/B/C
     const rawOptLines = optCell.split(/<br\s*\/?>/i).map(s => s.trim()).filter(Boolean);
@@ -412,8 +445,8 @@ function parseCards() {
       gate_type: gateType,
       weight_rule: weightRule,
       prereq_expr: id === 'C6-M06' ? 'chapter == 6 && Flag_数字人线开放 == 1' : null,
-      is_pity_guaranteed: false,
-      pity_chain: null,
+      is_pity_guaranteed: isPityGuaranteed,
+      pity_chain: pityChain,
       is_serious: isSerious,
       ops_type: opsType,
       ops_note: opsNote,
@@ -511,8 +544,7 @@ function parseEndingsAndTalents() {
       ];
     }
 
-    // Review corrections item 5: H03 dangling stat fix.
-    // Replace "智力/口才 ≥ 8" with "口才 ≥ 8". No "智力" key allowed in data.
+    // Review corrections item 5: H03 dangling stat fix (口才 ≥ 8, no 智力)
     if (id === 'H03') {
       triggerText = triggerText
         .replace(/智力\/口才\s*≥\s*8/g, '口才 ≥ 8')
@@ -586,7 +618,7 @@ function parseEndingsAndTalents() {
 }
 
 // ============================================================================
-// 4. Parse Config, Chapters, Attributes, Screens & Schedules (with Review Corrections)
+// 4. Parse Config, Chapters, Attributes, Screens, Schedules, Draw Rules & Timing Bar Parameters
 // ============================================================================
 function buildConfigAndScreens() {
   return {
@@ -596,36 +628,129 @@ function buildConfigAndScreens() {
       'P3-1: 翻样辨真为翻任意2件 + 四键指认（指认#1掺假 / 指认#2掺假 / 指认#3掺假 / 三件全合格）',
       'P3-2: 全本美术总盘69张封顶（NPC 36 + 底板模板 6 + 结局 27 = 69）',
       'P4-1: §2.6 属性表全部结局ID补零（M08 / M02 / M10 / H01 黑粉头子是真爱 / H05 冲出楚门直播间 / H06）',
-      'P4-4: Screen-08（结局分享卡弹窗）独立成行，具备独立输入与输出定义'
+      'P4-4: Screen-08（结局分享卡弹窗）独立成行，具备独立输入与输出定义',
+      'S1: 模式权威词表更正为 7 个常规排班模式 + 数字人锁定第 8 槽位',
+      'S2: gate_type 枚举扩展登记 progress 与 none',
+      'S3: 时机条分区参数化（甜区宽 0.15、良区宽 0.40、中心每卡实例随机）'
     ],
     review_corrections_applied: [
-      'Correction-3.1: 下午场 wallet_mult 1.25 改为仅带货模式生效，常规默认 1.0',
-      'Correction-3.2: §2.8A 时段表事件权重倾斜整列补全转录（5个时段全量覆盖）',
-      'Correction-3.3: 时长体力改回正文口径——无硬锁，6h 档体力 <6 可强开、状态追加 -10，删除 req_physique 硬锁语义',
-      'Correction-3.4: 下播行动 3 恢复「掉粉税减免 5%」并改回「M10 幕后操盘手必要条件」表述',
-      'Correction-4: 模式权威词表落地，8 个排班模式与特殊标签分开登记，C6-M06 改落第六章+进度门控不做模式匹配',
-      'Correction-5: H03 悬空属性修复：规约为口才 ≥ 8，数据层严禁出现非九属性悬空键名'
+      'P1-A: §1.8 保底链补转录（draw_rules 槽位 2+3、四条保底链、跨章池 4.0 与 40% 倾斜全入库）',
+      'P1-B: gate_type 枚举扩展登记 progress 与 none',
+      'P1-C: 时机条分区删除两套固定区间，统一参数化入库',
+      'P2-A: 字数门绊线复位为裁定 9 原口径（80/20/40 与 60/14/30）',
+      'P2-C: 词表更正为 7 个常规排班模式 + 数字人锁定第 8 槽位'
     ],
     mode_vocabulary: {
       schedule_modes: [
-        '聊天',
-        '才艺',
         '游戏',
+        '才艺',
+        '电台',
+        '团播',
         'PK',
         '带货',
-        '团播',
-        '户外',
-        '电台'
+        '户外'
       ],
+      locked_slot_8: '数字人',
       special_tags: [
         '数字人诱惑',
         '全模式'
       ],
       rules: {
-        schedule_modes_count: 8,
-        digital_clone_is_schedule_mode: false,
-        digital_clone_rule: '「数字人诱惑」属特殊标签、非排班模式（Screen-02 口径：数字人仅后期诱惑解锁）。C6-M06 门控改落：第六章 + 数字人线开放后入池（章节/进度门控，base 1、不做模式匹配），保住 H03 主分支。'
+        schedule_modes_count: 7,
+        locked_slot_8_description: '数字人为第 8 槽位锁定槽，后期诱惑解锁，不进常规排班池（Screen-02「8 选 1」即 7 常规 + 1 锁定槽）',
+        radio_note: '正本行名「聊天唠嗑 / 情感电台」，卡面标签统一用「电台」，「聊天」不作独立模式',
+        digital_clone_rule: '「数字人诱惑」属特殊标签、非排班模式。C6-M06 门控改落：第六章 + 数字人线开放后入池（章节/进度门控，base 1、不做模式匹配），保住 H03 主分支。'
       }
+    },
+    draw_rules: {
+      slots_per_chapter: 5,
+      slot_composition: {
+        guaranteed_slots: 2,
+        random_slots: 3,
+        description: '槽位 1–2 为主线与前置必出位，槽位 3–5 为短卡与跨章随机位'
+      },
+      overflow_rule: {
+        max_guaranteed_slots: 4,
+        min_random_slots: 1,
+        description: '若当章待必出卡超过 2 张，顺延占用随机位，最多占满 4 槽，至少留 1 槽给随机短卡调节节奏'
+      },
+      underflow_rule: {
+        fill_with_milestone: true,
+        description: '若当章无待必出链卡，从当章未抽过的标志性单卡池中按模式权重补齐 2 张标志性卡'
+      },
+      pity_chains: [
+        {
+          chain_id: 'pity_cat',
+          name: '猫上镜线',
+          state_key: 'Count_猫上镜',
+          target_ending: 'H04',
+          member_cards: ['C1-S01', 'C2-S01', 'C3-S01'],
+          locked_slot: 3,
+          advance_condition: '首张 C1-S01 选 A/B 推进计数，后续卡在对应章节（Ch2, Ch3）自动升格为「定向保底必出」，锁定槽位 3'
+        },
+        {
+          chain_id: 'pity_exam',
+          name: '考编上岸线',
+          state_key: 'Count_考编',
+          target_ending: 'H10',
+          member_cards: ['C1-S07', 'C2-S17', 'C4-S16'],
+          locked_slot: 3,
+          advance_condition: '首张 C1-S07 选 A 推进计数，后续卡在对应章节（Ch2, Ch4）自动升格为「定向保底必出」，锁定槽位 3'
+        },
+        {
+          chain_id: 'pity_algorithm',
+          name: '算法觉醒线',
+          state_key: 'Count_算法异常',
+          target_ending: 'H05',
+          member_cards: ['C4-S19', 'C5-S19', 'C6-S19'],
+          locked_slot: 3,
+          advance_condition: '开局 运气 = 10，C4-S19 选 B、C5-S19 选 B、C6-S19 选 A 各 +1，在对应目标章节升格定向保底'
+        },
+        {
+          chain_id: 'pity_hater',
+          name: '黑粉不对线',
+          state_key: 'Count_黑粉不对线',
+          target_ending: 'H01',
+          member_cards: ['C1-M07', 'C2-S08', 'C3-S12', 'X-EGG-04'],
+          locked_slot: 3,
+          advance_condition: 'C1-M07 选 B +1，后续黑粉短卡选温和请教各 +1，Count_黑粉不对线 ≥ 3 且 情商 ≥ 7 时，X-EGG-04 升格必出'
+        }
+      ],
+      cross_chapter_pool: {
+        entry_timings: {
+          'X-MODE': { chapter_min: 2, chapter_max: 6 },
+          'X-ATTR': { chapter_min: 2, chapter_max: 6 },
+          'X-EGG-01_to_05': { chapter_min: 3, chapter_max: 6 },
+          'X-EGG-06_to_10': { chapter_min: 4, chapter_max: 6 }
+        },
+        weights: {
+          base_short: 1.0,
+          mode_match_boost: 3.0,
+          mode_mismatch_penalty: 0.5,
+          x_attr_first_met_weight: 4.0,
+          x_egg_prereq_met_behavior: '升格为必出保底'
+        },
+        alert_zone_replacement: {
+          stamina_range: [1, 29],
+          skew_pct: 40,
+          target_bias_cards: ['C3-S18', 'X-EGG-01'],
+          description: '当 状态 ∈ [1, 29] 时，随机位中 40% 权重强制倾斜至熬夜翻车卡（C3-S18、X-EGG-01 等）'
+        }
+      }
+    },
+    timing_bar_parameters: {
+      sweet_width: 0.15,
+      good_width: 0.40,
+      cursor_speed: 0.85,
+      center_selection: 'random_per_card_instance',
+      center_range: [0.20, 0.80],
+      multipliers: {
+        sweet: 1.15,
+        good: 1.05,
+        normal: 1.00
+      },
+      applicable_cards: ['C1-M05', 'C2-M09', 'C3-M08', 'C4-M11', 'C5-M09', 'C6-M05'],
+      ruling: 'Errata S3: 甜区宽 0.15、良区宽 0.40，中心点每卡实例在良区范围内随机，六张卡共用此参数，删除固定绝对区间'
     },
     chapters: [
       { chapter: 1, name: '0 粉开播', fans_gate_from: 0, fans_gate_to: 1000, net_fans_req: 1000, cards_per_chapter: 5, Base_Fans: 220, Cap_Fans: 600, chapter_5card_fans_cap: 3000, Base_Income: 800, Cap_Wallet: 3000 },
@@ -832,9 +957,9 @@ function buildConfigAndScreens() {
     },
     screens: [
       { screen_id: 'Screen-01', name: '开局捏人与前世天赋屏', inputs: '9项属性±分配（基础45点，单项1-10）；看激励广告+3点（最多4次+12点，单项≤3且加后≤8）；前世天赋勾选（1-3枚，H11扩至4枚）；沿用上局配点与正式开播键', outputs: '实时显示剩余点数、广告次数(4/4)、粉丝吸引倾向标签；初始化状态字典进入 Screen-02' },
-      { screen_id: 'Screen-02', name: '阶段排班屏（三连点）', inputs: '三连点（<10秒）：选直播模式（8选1）+ 选开播时段（5选1）+ 选开播时长（3选1：2h/4h/6h）', outputs: '预览预计状态消耗、自然涨粉乘区、高发事件标签；生成本章5张事件卡队列进入 Screen-03' },
-      { screen_id: 'Screen-03', name: '事件卡主界面（纯文字卡默认）', inputs: '阅读情境文本（≤80/≤60字）；点选2-3个选项之一；结算后可点「重选一次（看广告）」（单局限1次，与暴毙复活共享额度）', outputs: '顶部常驻五维栏与章节进度；播放一句结算吐槽Toast、跳动五维数字；5卡走完进 Screen-04' },
-      { screen_id: 'Ops-A', parent_screen: 'Screen-03', name: '轻操作一：时机条', inputs: '挂载于6张直播标志性卡（单次≤5秒）：光标单向扫过横条，点击「停」按钮（或降级三连点节奏）', outputs: '甜区×1.15 / 良区×1.05 / 普通×1.0，并入所在卡结算并受单卡 Cap 夹逼' },
+      { screen_id: 'Screen-02', name: '阶段排班屏（三连点）', inputs: '三连点（<10秒）：选直播模式（7常规+1锁定槽数字人）+ 选开播时段（5选1）+ 选开播时长（3选1：2h/4h/6h）', outputs: '预览预计状态消耗、自然涨粉乘区、高发事件标签；生成本章5张事件卡队列进入 Screen-03' },
+      { screen_id: 'Screen-03', name: '事件卡主界面（纯文字卡默认）', inputs: '阅读情境文本（标志性≤80字，短卡≤60字）；点选2-3个选项之一；结算后可点「重选一次（看广告）」（单局限1次，与暴毙复活共享额度）', outputs: '顶部常驻五维栏与章节进度；播放一句结算吐槽Toast、跳动五维数字；5卡走完进 Screen-04' },
+      { screen_id: 'Ops-A', parent_screen: 'Screen-03', name: '轻操作一：时机条', inputs: '挂载于6张直播标志性卡（单次≤5秒）：光标单向扫过横条，点击「停」按钮（或降级三连点节奏）', outputs: '甜区×1.15 / 良区×1.05 / 普通×1.0（参数化甜区宽0.15/良区宽0.40，中心实例随机），并入所在卡结算并受单卡 Cap 夹逼' },
       { screen_id: 'Screen-04', name: '下播行动屏（8 选 1）', inputs: '每章1-2个行动点，在8项下播行动中点选；第3-6章附买推流券与高端SPA商店入口', outputs: '即时结算状态/属性/计数累加；选「5.选品」弹出 Ops-B 翻样辨真；耗尽行动点进 Screen-05' },
       { screen_id: 'Ops-B', parent_screen: 'Screen-04 / C4-M02 / C5-M07', name: '轻操作二：翻样辨真', inputs: '桌面扣放3件样品文字卡，先点击翻开任意2件看文字线索，再在4个指认按钮中四选一（指认#1掺假 / 指认#2掺假 / 指认#3掺假 / 三件全合格）', outputs: '指认命中写入 Count_验货命中 +1（同步激活 Flag_选品减伤=1）；选错无直接惩罚' },
       { screen_id: 'Screen-05', name: '阶段（章末）结算屏', inputs: '查看本章总涨粉/净收入/粉丝6类构成漂移；可选点「阶段结算双倍（看广告）」（单局限2次）；未达标可进加时赛（+3卡）或达标晋升下一章', outputs: '滚动展示跨槛横幅、更新6类粉丝占比与黑粉浓度；第6章结算后进 Screen-07' },
@@ -875,10 +1000,12 @@ fs.writeFileSync(path.join(DATA_DIR, 'config_and_screens.json'), JSON.stringify(
 console.log(JSON.stringify({
   status: 'TRANSCRIPTION_COMPLETE',
   state_dictionary_keys: stateDict.total_keys,
-  snapshot_fields: stateDict.Snapshot_BeforeCard.state_dictionary_keys_count,
+  snapshot_fields: stateDict.Snapshot_BeforeCard.total_fields,
   cards_total: cards.length,
   endings_total: endingsAndTalents.counts.total_endings,
   talents_total: endingsAndTalents.counts.total_talents,
   screens_total: configAndScreens.screens.length,
-  schedule_modes: configAndScreens.mode_vocabulary.schedule_modes.length
+  schedule_modes: configAndScreens.mode_vocabulary.schedule_modes.length,
+  pity_chains: configAndScreens.draw_rules.pity_chains.length,
+  timing_bar_parameters: configAndScreens.timing_bar_parameters.sweet_width
 }, null, 2));

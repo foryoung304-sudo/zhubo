@@ -21,32 +21,23 @@ function assert(condition, name, detail = '') {
   }
 }
 
-// Appendix B Word Gate counters
-function countModeA(str) {
-  const clean = str
-    .replace(/`\[操作：[^\]]+\]`/g, '')
-    .replace(/`\[正经卡\]`/g, '')
-    .replace(/<br\s*\/?>/gi, '')
-    .replace(/\*\*/g, '')
-    .replace(/`/g, '');
-  const matches = clean.match(/[\u4e00-\u9fa50-9％.]/g);
-  return matches ? matches.length : 0;
-}
-
-function countModeB(str) {
+// Appendix B / Ruling 9 Hanzi counter: count chinese characters, numbers, %, and dot
+function countHanzi(str) {
+  if (!str) return 0;
   const clean = str
     .replace(/`\[操作：[^\]]+\]`/g, '')
     .replace(/`\[正经卡\]`/g, '')
     .replace(/<br\s*\/?>/gi, '')
     .replace(/\*\*/g, '')
     .replace(/`/g, '')
-    .replace(/\s+/g, '');
-  return [...clean].length;
+    .trim();
+  const matches = clean.match(/[\u4e00-\u9fa50-9％.]/g);
+  return matches ? matches.length : 0;
 }
 
 console.log('================================================================================');
 console.log('《从小主播到顶流》冻结初稿层校验 (test_cards.mjs)');
-console.log('目标: 验证只读冻结初稿 v0.2 的卡池计数、字数门、50 结局 (M/D/H) 与禁用词');
+console.log('目标: 验证只读冻结初稿 v0.2 的卡池计数、裁定 9 严格字数门、50 结局 (M/D/H) 与禁用词');
 console.log('================================================================================\n');
 
 // 1. Verify Frozen Baseline Untouched
@@ -122,42 +113,46 @@ assert(milestoneCount === 63, 'Milestone cards === 63', `actual=${milestoneCount
 assert(shortCount === 120, 'Short cards === 120', `actual=${shortCount}`);
 assert(crossCount === 30, 'Cross-chapter cards === 30', `actual=${crossCount}`);
 
-// 3. Word Gate Check on Markdown Text
-let bodyViolations = 0;
-let optViolations = 0;
-let deltaViolations = 0;
+// 3. Ruling 9 Dual-Pool Word Gates Check (P2-A Restored)
+// Milestone: body <= 80, opt <= 20, delta <= 40
+// Short/Cross: body <= 60, opt <= 14, delta <= 30
+let mBodyMax = 0, mOptMax = 0, mDeltaMax = 0;
+let sBodyMax = 0, sOptMax = 0, sDeltaMax = 0;
+let wordGateViolations = [];
 
 for (const [id, c] of cardMap.entries()) {
-  const bodyLenA = countModeA(c.contextCol);
-  const bodyLenB = countModeB(c.contextCol);
-  if (bodyLenA > 140 || bodyLenB > 140) {
-    bodyViolations++;
+  const isM = c.isMilestone;
+  const bodyLen = countHanzi(c.contextCol);
+  const bodyLimit = isM ? 80 : 60;
+  if (isM) mBodyMax = Math.max(mBodyMax, bodyLen); else sBodyMax = Math.max(sBodyMax, bodyLen);
+  if (bodyLen > bodyLimit) {
+    wordGateViolations.push(`${id} body ${bodyLen} > ${bodyLimit}`);
   }
 
-  // Options check
-  const optMatches = c.optionsCol.split(/<br\s*\/?>/i);
-  for (const optStr of optMatches) {
-    const optClean = optStr.replace(/\*\*[A-B]\.\*\*/g, '').replace(/^[AB]\./g, '').trim();
-    if (optClean.length > 0) {
-      const optA = countModeA(optClean);
-      const optB = countModeB(optClean);
-      if (optA > 22 || optB > 22) {
-        optViolations++;
+  const optLines = c.optionsCol.split(/<br\s*\/?>/i);
+  const optLimit = isM ? 20 : 14;
+  for (const optStr of optLines) {
+    const cleanOpt = optStr.replace(/\*\*[A-B]\.\*\*/g, '').replace(/^[AB]\./g, '').trim();
+    if (cleanOpt.length > 0) {
+      const optLen = countHanzi(cleanOpt);
+      if (isM) mOptMax = Math.max(mOptMax, optLen); else sOptMax = Math.max(sOptMax, optLen);
+      if (optLen > optLimit) {
+        wordGateViolations.push(`${id} option "${cleanOpt}" ${optLen} > ${optLimit}`);
       }
     }
   }
 
-  // Delta check
-  const deltaA = countModeA(c.deltaCol);
-  const deltaB = countModeB(c.deltaCol);
-  if (deltaA > 60 || deltaB > 60) {
-    deltaViolations++;
+  const deltaLen = countHanzi(c.deltaCol);
+  const deltaLimit = isM ? 40 : 30;
+  if (isM) mDeltaMax = Math.max(mDeltaMax, deltaLen); else sDeltaMax = Math.max(sDeltaMax, deltaLen);
+  if (deltaLen > deltaLimit) {
+    wordGateViolations.push(`${id} delta ${deltaLen} > ${deltaLimit}`);
   }
 }
 
-assert(bodyViolations === 0, 'Card body word gate (<= 140 chars) 0 violations', `violations=${bodyViolations}`);
-assert(optViolations === 0, 'Card option word gate (<= 22 chars) 0 violations', `violations=${optViolations}`);
-assert(deltaViolations === 0, 'Card delta word gate (<= 60 chars) 0 violations', `violations=${deltaViolations}`);
+assert(wordGateViolations.length === 0,
+  'P2-A Ruling 9 Word Gate Restored: Milestone <= 80/20/40, Short/Cross <= 60/14/30 (0 violations)',
+  `violations=${wordGateViolations.length}, M_max=${mBodyMax}/${mOptMax}/${mDeltaMax}, S_max=${sBodyMax}/${sOptMax}/${sDeltaMax}`);
 
 // 4. Scan 50 Endings in Markdown (M01-M12, D01-D26, H01-H12)
 const endingMap = new Map();

@@ -1,60 +1,86 @@
 ================================================================================
-《从小主播到顶流》阶段 1 · 数据转录与勘误补丁校验报告 (validate_transcription.mjs)
-生成时间: 2026-11-05T04:26:38.256Z
+《从小主播到顶流》阶段 1 · 数据转录与二次复核裁定校验报告 (validate_transcription.mjs)
+生成时间: 2026-11-05T05:04:07.675Z
 数据基线: E:\taptap\zhubo\data (4 JSON files: state_dictionary, cards, endings_and_talents, config_and_screens)
+gate_type 分布: {"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
+7 模式匹配卡数: 游戏:20, 才艺:17, 电台:16, 团播:15, PK:18, 带货:21, 户外:18
 ================================================================================
 
 [PASS] 1. Card count === 213: total=213 (milestone=63, short=120, cross=30)
 [PASS] 2. Card IDs unique & distribution 63/120/30: unique=213
-[PASS] 3. Card schema completeness (§2.10 13 required fields): missing_fields=0
-[PASS] 4. State dictionary auto-generated from §2.9 === 36 keys: keys=36, snapshot_fields=57
+[PASS] 3. Card schema completeness (§2.10 required fields present): missing_fields=0
+[PASS] 4. State dictionary auto-generated from §2.9 === 36 keys: keys=36
 [PASS] 5. Snapshot_BeforeCard total fields === 57 (21 base stats/five_dim/fans + 36 state keys = 57): total_fields=57
 [PASS] 6. Zero dangling state references across all 213 cards: dangling=[]
 [PASS] 7. Zero dangling ending references in card options: dangling=[]
-[PASS] 8. Card context word gate (<= 140 chars) 0 violations: violations=0
-[PASS] 9. Card option word gate (<= 22 chars) 0 violations: violations=0
-[PASS] 10. Endings count === 50 (12 M + 26 D + 12 H): M=12, D=26, H=12
-[PASS] 11. Commercial main endings M01-M12 === 12: actual=12
-[PASS] 12. Death/knockout endings D01-D26 === 26: actual=26
-[PASS] 13. Hidden easter-egg endings H01-H12 === 12: actual=12
-[PASS] 14. Talents count === 50 (one-to-one with 50 endings): actual=50
-[PASS] 15. Ending H05 exists in data: 
-[PASS] 16. H05 has 2 dual trigger sources (counter full = 3 OR max luck at ch6 end): sources_count=2
-[PASS] 17. Count_算法异常 exists in state dictionary: 
-[PASS] 18. Count_算法异常 has 3 qualified writers (C4-S19:B, C5-S19:B, C6-S19:A): writers_count=3
-[PASS] 19. 12 milestone cards classified as dual_boost: count=12
-[PASS] 20. All 12 dual-tagged milestone cards have base 1.0, match 2.0, non_match 1.0 (NO 0.5 downweight): 
-[PASS] 21. Ops-B 翻样辨真 4 buttons (指认#1 / 指认#2 / 指认#3 / 三件全合格): buttons=[指认 #1 掺假, 指认 #2 掺假, 指认 #3 掺假, 三件全合格]
-[PASS] 22. Art budget total cap === 69: cap=69
-[PASS] 23. C3-M08 has timing_bar ops_type and P3-3 ops_note: ops_note=P3-3: 追认挂载【轻操作：时机条】，甜区 0.58-0.70 (x1.15) / 良区 0.46-0.82 (x1.05)，结果在选项结算后生效
-[PASS] 24. Screen-08 (结局分享卡弹窗) is an independent screen entry: name=结局分享卡弹窗（独立成行 · 勘误 P4-4）
-[PASS] 25. Afternoon slot exists in schedules: 
-[PASS] 26. Afternoon slot wallet_mult 1.25 applies only to ecommerce mode (default=1.00, ecommerce=1.25): default=1, ecommerce=1.25, cond=仅带货模式生效
-[PASS] 27. Time slots count === 5: count=5
-[PASS] 28. All 5 time slots have event_weight_skew fully transcribed per §2.8A column: slot_morning:电台/唠嗑主场；大爷大妈破圈短... | slot_noon:游戏/整活切片出圈率 +30%... | slot_afternoon:带货家居/食品转化率 +35%... | slot_prime:PK 主场、大哥出没、盛典冲榜... | slot_late:电台王炸时段；榜一私信、感情线...
-[PASS] 29. 6h duration exists in schedules: 
-[PASS] 30. 6h duration has no hard lock (can_force_start=true) and applies -10 stamina if physique < 6: can_force=true, extra_cost=10
-[PASS] 31. All 3 duration tiers have no hard locks (req_physique hard-lock semantic removed): 
-[PASS] 32. Action 3 exists in off_stream_actions: 
-[PASS] 33. Action 3 restores 掉粉税减免 5% and M10 幕后操盘手必要条件 phrasing: text=下一阶段「切片出圈」判定次数 +1，老粉粘性提升（掉粉税减免 5%）；累计 ≥3 次为 M10 幕后操盘手必要条件
-[PASS] 34. mode_vocabulary exists in config_and_screens.json: 
-[PASS] 35. 8 official schedule modes registered: modes=[聊天, 才艺, 游戏, PK, 带货, 团播, 户外, 电台]
-[PASS] 36. Schedule modes exactly match 8 Screen-02 modes (聊天/才艺/游戏/PK/带货/团播/户外/电台): 
-[PASS] 37. 数字人诱惑 registered as special tag, NOT a schedule mode: 
-[PASS] 38. digital_clone_is_schedule_mode === false: 
-[PASS] 39. C6-M06 exists in cards.json: 
-[PASS] 40. C6-M06 entry gate is chapter 6 progress, base 1.0 without mode-match lockout (protects H03 main branch reachability): gate=progress, base=1, non_match=1
-[PASS] 41. H03 exists in endings: 
-[PASS] 42. H03 trigger condition normalized to 口才 ≥ 8 (no 智力 allowed): trigger=第六章 C6-M06 选 A 命中 50% 觉醒分支 或（触发 X-MODE-09 选 B 且 口才 ≥ 8 走通数字人线）
-[PASS] 43. Zero occurrence of "智力" across all JSON data files: occurrences=0
-[PASS] 44. Chapter configuration contains exactly 6 chapters: count=6
-[PASS] 45. Chapter 1 Base and Cap values complete: 
-[PASS] 46. Chapter 2 Base and Cap values complete: 
-[PASS] 47. Chapter 3 Base and Cap values complete: 
-[PASS] 48. Chapter 4 Base and Cap values complete: 
-[PASS] 49. Chapter 5 Base and Cap values complete: 
-[PASS] 50. Chapter 6 Base and Cap values complete: 
-[PASS] 51. Engineering Red Lines count === 5: count=5
+[PASS] 8. Endings count === 50 (12 M + 26 D + 12 H): M=12, D=26, H=12
+[PASS] 9. Commercial main endings M01-M12 === 12: actual=12
+[PASS] 10. Death/knockout endings D01-D26 === 26: actual=26
+[PASS] 11. Hidden easter-egg endings H01-H12 === 12: actual=12
+[PASS] 12. Talents count === 50 (one-to-one with 50 endings): actual=50
+[PASS] 13. P2-A Word Gate Restored on Data: Milestone <= 80/20/40, Short/Cross <= 60/14/30 (0 violations): violations=0, M_max=58/18/27, S_max=43/14/22
+[PASS] 14. P1-B (Errata S2) gate_type strictly in legal enum [hard, soft, dual_boost, progress, none]: distribution={"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
+[PASS] 15. gate_type: progress has exactly 1 card (C6-M06): count=1
+[PASS] 16. gate_type: dual_boost has exactly 12 cards: count=12
+[PASS] 17. gate_type: none has exactly 97 cards: count=97
+[PASS] 18. gate_type: soft has exactly 95 cards: count=95
+[PASS] 19. gate_type: hard has exactly 8 cards: count=8
+[PASS] 20. mode_vocabulary exists in config_and_screens.json: 
+[PASS] 21. P2-C (Errata S1) Schedule modes count strictly === 7: count=7
+[PASS] 22. P2-C Schedule modes exactly match: 游戏/才艺/电台/团播/PK/带货/户外: modes=[游戏, 才艺, 电台, 团播, PK, 带货, 户外]
+[PASS] 23. P2-C Digital human registered as locked_slot_8 (Screen-02 8th slot): 
+[PASS] 24. Special tags registered: 数字人诱惑, 全模式: 
+[PASS] 25. P2-C Confirmed NO standalone "聊天" schedule mode (merged into 电台): 
+[PASS] 26. Mode [游戏] has matching cards (> 0): matched=20
+[PASS] 27. Mode [才艺] has matching cards (> 0): matched=17
+[PASS] 28. Mode [电台] has matching cards (> 0): matched=16
+[PASS] 29. Mode [团播] has matching cards (> 0): matched=15
+[PASS] 30. Mode [PK] has matching cards (> 0): matched=18
+[PASS] 31. Mode [带货] has matching cards (> 0): matched=21
+[PASS] 32. Mode [户外] has matching cards (> 0): matched=18
+[PASS] 33. P1-C timing_bar_parameters exists in config: 
+[PASS] 34. P1-C Sweet zone width === 0.15: width=0.15
+[PASS] 35. P1-C Good zone width === 0.40: width=0.4
+[PASS] 36. P1-C Center position randomly determined per card instance: 
+[PASS] 37. Exactly 6 milestone cards have ops_type === timing_bar: count=6
+[PASS] 38. Timing cards match C1-M05/C2-M09/C3-M08/C4-M11/C5-M09/C6-M05 (1 per chapter): 
+[PASS] 39. Timing card C1-M05 ops_note has NO hardcoded absolute intervals: ops_note=S3: 挂载【轻操作：时机条】（参数化甜区宽0.15/良区宽0.40，中心实例随机），结果在选项结算后生效
+[PASS] 40. Timing card C2-M09 ops_note has NO hardcoded absolute intervals: ops_note=S3: 挂载【轻操作：时机条】（参数化甜区宽0.15/良区宽0.40，中心实例随机），结果在选项结算后生效
+[PASS] 41. Timing card C3-M08 ops_note has NO hardcoded absolute intervals: ops_note=P3-3/S3: 挂载【轻操作：时机条】（参数化甜区宽0.15/良区宽0.40，中心实例随机），结果在选项结算后生效
+[PASS] 42. Timing card C4-M11 ops_note has NO hardcoded absolute intervals: ops_note=S3: 挂载【轻操作：时机条】（参数化甜区宽0.15/良区宽0.40，中心实例随机），结果在选项结算后生效
+[PASS] 43. Timing card C5-M09 ops_note has NO hardcoded absolute intervals: ops_note=S3: 挂载【轻操作：时机条】（参数化甜区宽0.15/良区宽0.40，中心实例随机），结果在选项结算后生效
+[PASS] 44. Timing card C6-M05 ops_note has NO hardcoded absolute intervals: ops_note=P3-3/S3: 挂载【轻操作：时机条】（参数化甜区宽0.15/良区宽0.40，中心实例随机），结果在选项结算后生效且只作用于非煽动选项（选项B稳健控场生效，选项A煽动不吃时机条）
+[PASS] 45. P1-A draw_rules exists in config: 
+[PASS] 46. P1-A Draw rules slots_per_chapter === 5: slots=5
+[PASS] 47. P1-A Slots composition: 2 guaranteed + 3 random: guaranteed=2, random=3
+[PASS] 48. P1-A Overflow rule: guaranteed occupies at most 4 slots, at least 1 random slot retained: max_guaranteed=4, min_random=1
+[PASS] 49. P1-A 4 directional pity chains registered: chains=4
+[PASS] 50. All 4 pity chains present (cat, exam, algorithm, hater): 
+[PASS] 51. pity_cat has 3 member cards: C1-S01, C2-S01, C3-S01: members=[C1-S01, C2-S01, C3-S01]
+[PASS] 52. pity_exam has 3 member cards: C1-S07, C2-S17, C4-S16: members=[C1-S07, C2-S17, C4-S16]
+[PASS] 53. pity_algorithm has 3 member cards: C4-S19, C5-S19, C6-S19: members=[C4-S19, C5-S19, C6-S19]
+[PASS] 54. pity_hater has 4 member cards: C1-M07, C2-S08, C3-S12, X-EGG-04: members=[C1-M07, C2-S08, C3-S12, X-EGG-04]
+[PASS] 55. cards.json: 3 cards tagged pity_cat: ids=[C1-S01, C2-S01, C3-S01]
+[PASS] 56. cards.json: 3 cards tagged pity_exam: ids=[C1-S07, C2-S17, C4-S16]
+[PASS] 57. cards.json: 3 cards tagged pity_algorithm: ids=[C4-S19, C5-S19, C6-S19]
+[PASS] 58. cards.json: 4 cards tagged pity_hater: ids=[C1-M07, C2-S08, C3-S12, X-EGG-04]
+[PASS] 59. P1-A X-ATTR first met chapter weight === 4.0: weight=4
+[PASS] 60. P1-A Stamina 1-29 alert zone 40% skew to overtime cards: skew=40%
+[PASS] 61. P1-A Alert zone bias cards include C3-S18 and X-EGG-01: 
+[PASS] 62. H05 has 2 dual trigger sources (counter full = 3 OR max luck at ch6 end): 
+[PASS] 63. Count_算法异常 has 3 qualified writers (C4-S19:B, C5-S19:B, C6-S19:A): 
+[PASS] 64. 12 milestone cards classified as dual_boost: count=12
+[PASS] 65. Ops-B 翻样辨真 4 buttons: 
+[PASS] 66. Art budget total cap === 69: 
+[PASS] 67. Screen-08 (结局分享卡弹窗) is an independent screen entry: 
+[PASS] 68. Afternoon slot wallet_mult 1.25 applies only to ecommerce mode: 
+[PASS] 69. Time slots count === 5: 
+[PASS] 70. 6h duration has no hard lock (can_force_start=true) and applies -10 stamina if physique < 6: 
+[PASS] 71. Action 3 restores 掉粉税减免 5% and M10 幕后操盘手必要条件: 
+[PASS] 72. H03 trigger condition normalized to 口才 ≥ 8 (no 智力 allowed): 
+[PASS] 73. Zero occurrence of "智力" across all JSON data files: 
+[PASS] 74. Chapter configuration contains exactly 6 chapters: 
+[PASS] 75. Engineering Red Lines count === 5: 
 
 --------------------------------------------------------------------------------
-Result: All 51 passed, 0 failed
+Result: All 75 passed, 0 failed
