@@ -15,9 +15,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C1-M02 选 A（摆假药瓶编巨债）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C1-M02 选 A（摆假药瓶编巨债）",
+      "consumers_text": "C5-M08 门控与引爆判定；暴毙结局 D20 触发条件"
     },
     {
       "line_no": 559,
@@ -25,9 +25,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C1-M03 选 A（焊死十级美颜声卡）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C1-M03 选 A（焊死十级美颜声卡）",
+      "consumers_text": "C2-M03 门控（滤镜崩溃事故）；激活期间开播检定享颜/嗓临时 +2"
     },
     {
       "line_no": 560,
@@ -35,9 +35,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C1-M04 选 A（通宵陪聊「夜航船」）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C1-M04 选 A（通宵陪聊「夜航船」）",
+      "consumers_text": "C2-M10、C6-M09 门控；彩蛋结局 H08 触发条件"
     },
     {
       "line_no": 561,
@@ -45,9 +45,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C1-M10 选 A（关掉同城推荐当树洞）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C1-M10 选 A（关掉同城推荐当树洞）",
+      "consumers_text": "彩蛋结局 H07（零人观看的桃花源）触发条件"
     },
     {
       "line_no": 562,
@@ -55,9 +55,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C2-M01 选 B（花 500 请学长审合同）；天赋 M03【法务铁盾】、H10【行测满分的逻辑】"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M01 选 B（花 500 请学长审合同）；天赋 M03【法务铁盾】、H10【行测满分的逻辑】",
+      "consumers_text": "C5-M03 选 A 起诉撕约胜败判定（=1 胜诉拿回自由身，=0 败诉进 D13）"
     },
     {
       "line_no": 563,
@@ -65,9 +65,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C2-M02 选 A（签约星耀互娱）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M02 选 A（签约星耀互娱）",
+      "consumers_text": "§2.3 分成比例与保底计算；§2.4 私活违约判定；C5-M03 门控；D13/D14 触发条件"
     },
     {
       "line_no": 564,
@@ -75,9 +75,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C2-M02 选 B（拒签坚持独立）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M02 选 B（拒签坚持独立）",
+      "consumers_text": "§2.3 独立五五分成计算；免除公会时长考核与第五章撕约雷"
     },
     {
       "line_no": 565,
@@ -85,9 +85,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C2-M03 选 B（拔网线黑屏赖黑客）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M03 选 B（拔网线黑屏赖黑客）",
+      "consumers_text": "第五章被锤事件黑粉浓度与掉粉税附加权重 +15%"
     },
     {
       "line_no": 566,
@@ -95,9 +95,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C2-M04 选 A（摆拍地铁口小学生绝交信）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M04 选 A（摆拍地铁口小学生绝交信）",
+      "consumers_text": "C5-M08 门控与官方通报引爆判定；暴毙结局 D21 触发条件"
     },
     {
       "line_no": 567,
@@ -105,9 +105,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C2-M07 选 A（配齐三千块专业安保报备）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M07 选 A（配齐三千块专业安保报备）",
+      "consumers_text": "C6-M02 选 B 万人见面会登台判定（=1 涨粉 40%，=0 秩序失控口碑 -50）"
     },
     {
       "line_no": 568,
@@ -115,9 +115,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C2-M08 选 A（签双人账号产权协议）；天赋 D19【产权独立证】"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M08 选 A（签双人账号产权协议）；天赋 D19【产权独立证】",
+      "consumers_text": "C5-M10 分手账号争夺判定（=1 选 B 保号，=0 账号被分走触发 D19）"
     },
     {
       "line_no": 569,
@@ -125,9 +125,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C3-M01 选 B（拒退挪用公款打赏分成）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M01 选 B（拒退挪用公款打赏分成）",
+      "consumers_text": "第五、六章税务与合规审查扣减口碑 -30 并强制追缴本金"
     },
     {
       "line_no": 570,
@@ -135,9 +135,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C3-M06 选 A（赴约榜一沈总开启感情线）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M06 选 A（赴约榜一沈总开启感情线）",
+      "consumers_text": "C6-M08 选 A/B 牵手收官时分流进入传说彩蛋结局 H02 星际巡航的港湾"
     },
     {
       "line_no": 571,
@@ -145,9 +145,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C3-M09 选 B（放任高仿切片号不管）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M09 选 B（放任高仿切片号不管）",
+      "consumers_text": "跨章卡 X-EGG-05 必出保底门控；暴毙结局 D26 真美猴王死于李鬼 触发条件"
     },
     {
       "line_no": 572,
@@ -155,9 +155,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C3-M10 选 A（建正规账目依法纳税）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M10 选 A（建正规账目依法纳税）",
+      "consumers_text": "C6-M07 顶流税务大考判定（=1 零损过关口碑 +30）"
     },
     {
       "line_no": 573,
@@ -165,9 +165,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C3-M10 选 B（拖延申报走私账）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M10 选 B（拖延申报走私账）",
+      "consumers_text": "C6-M07 须变卖 70% 钱包资产补税保号，否则触发封杀"
     },
     {
       "line_no": 574,
@@ -175,9 +175,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C4-M02 选 A（听厂家劝捂盖子卖掺假牛肉干）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C4-M02 选 A（听厂家劝捂盖子卖掺假牛肉干）",
+      "consumers_text": "C5-M07 门控与加重处罚；暴毙结局 D12 假牛肉干的眼泪 触发源"
     },
     {
       "line_no": 575,
@@ -185,9 +185,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "下播行动 5「选品」或 C4-M02 选 B（当 Count_验货命中 ≥ 1 时自动置 1）；天赋 D12【样品留存箱】"
+      "range_or_cap": "0 | 1",
+      "writers_text": "下播行动 5「选品」或 C4-M02 选 B（当 Count_验货命中 ≥ 1 时自动置 1）；天赋 D12【样品留存箱】",
+      "consumers_text": "C5-M07 减伤与反诉厂家判定（具体档位由 Count_验货命中 决定）"
     },
     {
       "line_no": 576,
@@ -195,9 +195,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C4-M07 选 A（与劣迹说唱歌手 K 谈恋爱）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C4-M07 选 A（与劣迹说唱歌手 K 谈恋爱）",
+      "consumers_text": "C5-M04 必出保底门控；暴毙结局 D17 恋爱脑的鹤顶红 触发源"
     },
     {
       "line_no": 577,
@@ -205,9 +205,9 @@
       "category": "Flag",
       "type": "Boolean",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "X-EGG-06 选 A（盘下街角烧烤大排档）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "X-EGG-06 选 A（盘下街角烧烤大排档）",
+      "consumers_text": "主结局 M11 人间烟火大排档 触发条件之一"
     },
     {
       "line_no": 578,
@@ -337,9 +337,9 @@
       "category": "Tag",
       "type": "Enum",
       "initial_value": "未定",
-      "range_or_cap": "单身 \\",
-      "writers_text": "留白 \\",
-      "consumers_text": "真实"
+      "range_or_cap": "单身 | 留白 | 真实",
+      "writers_text": "C2-M06 选 A=单身、选 B=留白、选 C=真实",
+      "consumers_text": "C4-M06 官宣恋情结算（真实 涨粉 +20%，单身 掉粉 -40% 且触发回踩）"
     },
     {
       "line_no": 588,
@@ -347,9 +347,9 @@
       "category": "Tag",
       "type": "BooleanTag",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C3-M02 选 A（关闭百元以上打赏劝理性消费）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M02 选 A（关闭百元以上打赏劝理性消费）",
+      "consumers_text": "正规商务报价乘区 ×1.5（与 口碑 ≥ 80 同源取最高值封顶 1.5×，不叠加）"
     },
     {
       "line_no": 589,
@@ -357,9 +357,9 @@
       "category": "Tag",
       "type": "BooleanTag",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C3-M01 选 A（主动全额退还公款打赏分成）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M01 选 A（主动全额退还公款打赏分成）",
+      "consumers_text": "第五、六章合规审查免伤，抵消 1 次财务类负面舆论"
     },
     {
       "line_no": 590,
@@ -367,9 +367,9 @@
       "category": "Tag",
       "type": "BooleanTag",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C4-M03 选 B（拒签极光直播留守星播）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C4-M03 选 B（拒签极光直播留守星播）",
+      "consumers_text": "第五、六章老粉星牌留存率 +20%，免除平台跑路雷 D24"
     },
     {
       "line_no": 591,
@@ -377,9 +377,9 @@
       "category": "Tag",
       "type": "BooleanTag",
       "initial_value": 0,
-      "range_or_cap": "0 \\",
-      "writers_text": "1",
-      "consumers_text": "C5-M11 选 A/C（面对 AI 伪造谣言勇敢发声/报警追责）"
+      "range_or_cap": "0 | 1",
+      "writers_text": "C5-M11 选 A/C（面对 AI 伪造谣言勇敢发声/报警追责）",
+      "consumers_text": "第六章盛典公众形象加分，口碑上限保护"
     },
     {
       "line_no": 592,

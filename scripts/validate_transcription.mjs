@@ -612,6 +612,92 @@ assert(skinSet.data_mapping['高光'] === '关键操作' && skinSet.data_mapping
   'V10: skin_set.data_mapping aligns data skins with canonical skins');
 
 // ============================================================================
+// Round-5 Rulings Assertions (W1-W8)
+// ============================================================================
+
+// W1: Base branch-unique keys cleared for conditional cards
+const w_c6m02B = findCard('C6-M02')?.options.find(o => o.opt_key === 'B');
+assert(w_c6m02B?.effects.delta_five_dim.fans_pct === undefined && w_c6m02B?.effects.delta_five_dim.fans === undefined,
+  'W1: C6-M02:B base delta cleared of then-branch fans_pct 40 and phantom fans 4');
+
+const w_c4m06A = findCard('C4-M06')?.options.find(o => o.opt_key === 'A');
+assert(w_c4m06A?.effects.delta_five_dim.fans_pct === undefined && w_c4m06A?.effects.delta_five_dim.fans === undefined,
+  'W1: C4-M06:A base delta cleared of branch-unique fans_pct 20 and phantom fans 2');
+
+// W2: Zero unexempted phantom fans absolute values across all cards
+const FANS_ABSOLUTE_EXEMPTIONS = new Set([]);
+const unexemptedFans = [];
+for (const c of cards) {
+  for (const opt of c.options) {
+    if (opt.effects.delta_five_dim?.fans !== undefined && !FANS_ABSOLUTE_EXEMPTIONS.has(`${c.card_id}:${opt.opt_key}`)) {
+      unexemptedFans.push(`${c.card_id}:${opt.opt_key}=${opt.effects.delta_five_dim.fans}`);
+    }
+    if (opt.check_fail?.delta_five_dim?.fans !== undefined && !FANS_ABSOLUTE_EXEMPTIONS.has(`${c.card_id}:${opt.opt_key}:fail`)) {
+      unexemptedFans.push(`${c.card_id}:${opt.opt_key}:fail=${opt.check_fail.delta_five_dim.fans}`);
+    }
+  }
+}
+assert(unexemptedFans.length === 0, 'W2: 65 phantom fans absolute values purged (0 unexempted fans remain)',
+  `found=${unexemptedFans.join(', ')}`);
+
+// W3: Hater mis-mapping fixes & full pool clean
+const w_c5m01A = findCard('C5-M01')?.options.find(o => o.opt_key === 'A');
+assert(w_c5m01A?.effects.delta_five_dim.fans_pct === -30 && w_c5m01A?.effects.delta_five_dim.hater_pct === 20,
+  'W3: C5-M01:A corrected: fans_pct === -30, hater_pct === 20');
+
+const w_c3m05A = findCard('C3-M05')?.options.find(o => o.opt_key === 'A');
+assert(w_c3m05A?.effects.delta_five_dim.fans_pct === undefined && w_c3m05A?.effects.delta_five_dim.hater_pct === 15,
+  'W3: C3-M05:A corrected: fans_pct undefined, hater_pct === 15');
+
+const w_c4m11A = findCard('C4-M11')?.options.find(o => o.opt_key === 'A');
+assert(w_c4m11A?.effects.delta_five_dim.fans_pct === undefined && w_c4m11A?.effects.delta_five_dim.hater_pct === 15,
+  'W3: C4-M11:A corrected: fans_pct undefined, hater_pct === 15');
+
+// Full pool scan for hater mis-mapping
+const misMappedHaterCards = [];
+for (const c of cards) {
+  for (const opt of c.options) {
+    const sum = opt.effects.summary || '';
+    const d = opt.effects.delta_five_dim || {};
+    const hm = sum.match(/黑粉[+＋]([0-9]+)%/);
+    if (hm) {
+      const hval = Number(hm[1]);
+      if (d.fans_pct === hval && !sum.match(/(?<!黑)粉[+＋]/)) {
+        misMappedHaterCards.push(`${c.card_id}:${opt.opt_key}`);
+      }
+    }
+  }
+}
+assert(misMappedHaterCards.length === 0, 'W3: Zero hater percentage mis-mapped into fans_pct across full pool',
+  `found=${misMappedHaterCards.join(', ')}`);
+
+// W4: Miscellaneous items
+const w_c5m02A = findCard('C5-M02')?.options.find(o => o.opt_key === 'A');
+assert(w_c5m02A?.effects.effects_conditional?.else?.delta_five_dim?.rep === 17,
+  'W4: C5-M02:A else branch half-blood rep === 17 (downward floor integer)');
+
+const w_c4m05B = findCard('C4-M05')?.options.find(o => o.opt_key === 'B');
+assert(w_c4m05B?.effects.delta_five_dim.conversion_rate_pct === 30 && w_c4m05B?.effects.delta_five_dim.fans_pct === -30,
+  'W4: C4-M05:B conversion_rate_pct === 30, fans_pct === -30 preserved');
+
+const w_xegg09B = findCard('X-EGG-09')?.options.find(o => o.opt_key === 'B');
+assert(w_xegg09B?.effects.delta_five_dim.rep === undefined && w_xegg09B?.effects.delta_five_dim.rep_target === 90,
+  'W4: X-EGG-09:B dead rep increment deleted, rep_target === 90 preserved');
+
+// W6: State dictionary re-transcription validation
+const trailingBackslashKeys = stateDict.variables.filter(v => typeof v.range_or_cap === 'string' && v.range_or_cap.endsWith('\\'));
+assert(trailingBackslashKeys.length === 0, 'W6: Zero state dictionary entries end with trailing backslash in range_or_cap',
+  `keys=${trailingBackslashKeys.map(k => k.key).join(', ')}`);
+
+const tagRenShe = stateDict.variables.find(v => v.key === 'Tag_人设');
+assert(tagRenShe && tagRenShe.range_or_cap.includes('真实') && tagRenShe.consumers_text.includes('C4-M06'),
+  'W6: Tag_人设 enum restored and consumers_text correctly references C4-M06');
+
+// W8: Timing bar note
+assert(skinSet.note && skinSet.note.includes('动作定皮优先'),
+  'W8: skin_set includes note specifying action skin priority');
+
+// ============================================================================
 // Write validation report
 // ============================================================================
 const reportLines = [

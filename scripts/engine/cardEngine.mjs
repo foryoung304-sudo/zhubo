@@ -57,22 +57,22 @@ export class CardEngine {
       }
     }
 
-    // 2. Evaluate effects_conditional (V2: 若...否则...)
+    // 2. Evaluate effects_conditional (W1: 有 effects_conditional 时以分支为唯一结算源，废除 merge 写法)
     if (option.effects.effects_conditional) {
       const cond = option.effects.effects_conditional;
       const condResult = gameState.evalCondition(cond.if);
-      if (condResult) {
-        if (cond.then && cond.then.delta_five_dim) {
-          appliedDeltas = { ...appliedDeltas, ...cond.then.delta_five_dim };
-        }
+      const branch = condResult ? cond.then : cond.else;
+      if (branch) {
+        appliedDeltas = branch.delta_five_dim ? { ...branch.delta_five_dim } : {};
+        if (branch.delta_attrs) appliedAttrs = { ...branch.delta_attrs };
+        if (branch.state_writes) appliedWrites = [...branch.state_writes];
+        if (branch.ending_triggers) appliedEndings = [...branch.ending_triggers];
       } else {
-        if (cond.else && cond.else.delta_five_dim) {
-          appliedDeltas = { ...appliedDeltas, ...cond.else.delta_five_dim };
-        }
+        appliedDeltas = {};
       }
     }
 
-    // 3. Timing Bar Multiplier Handling (with C6-M05 special ruling)
+    // 3. Multiplier Handling (W5.3 / W5.4: Ops Multiplier + Circus Multiplier)
     let opsMultiplier = 1.0;
     if (timingResult && card.ops_type === 'timing_bar') {
       opsMultiplier = timingResult.multiplier || 1.0;
@@ -81,20 +81,77 @@ export class CardEngine {
       if (card.card_id === 'C6-M05' && optionKey === 'A') {
         opsMultiplier = 1.0;
       }
+    }
 
-      // Apply multiplier to positive gains
-      if (appliedDeltas.fans_pct !== undefined && appliedDeltas.fans_pct > 0) {
-        appliedDeltas.fans_pct = Math.round(appliedDeltas.fans_pct * opsMultiplier);
-      }
-      if (appliedDeltas.wallet !== undefined && appliedDeltas.wallet > 0) {
-        appliedDeltas.wallet = Math.round(appliedDeltas.wallet * opsMultiplier);
+    let circusMultiplier = 1.0;
+    let circusZeroRevenue = false;
+    const isCircus = gameState.variables['Tag_流派'] === '整活' || gameState.variables['Tag_流派'] === '整活擦边';
+    if (isCircus) {
+      const circusCfg = this.globalRules.circus_style || { multiplier: 2.5, zero_revenue_rate: 0.35 };
+      const zeroRate = circusCfg.zero_revenue_rate !== undefined ? circusCfg.zero_revenue_rate : 0.35;
+      const roll = (timingResult && timingResult.circusRoll !== undefined) ? timingResult.circusRoll : Math.random();
+      if (roll < zeroRate) {
+        circusZeroRevenue = true;
+      } else {
+        circusMultiplier = circusCfg.multiplier || 2.5;
       }
     }
 
-    // 4. Global rules clamping [0.4, 3.0]
+    // 4. Global rules clamping [0.4, 3.0] (W5.2)
     const clamp = this.globalRules.total_multiplier_clamp || [0.4, 3.0];
-    if (appliedDeltas.fans_pct !== undefined) {
-      // Clamped within reasonable multiplier bounds
+    let totalMultiplier = opsMultiplier * circusMultiplier;
+    totalMultiplier = Math.max(clamp[0], Math.min(clamp[1], totalMultiplier));
+
+    // 5. Apply Multipliers and Single-card Cap (W5.1, W5.3)
+    const ch = gameState.currentChapter;
+    const chCfg = (this.config.chapters && this.config.chapters.find(c => c.chapter === ch)) ||
+                  (this.config.mainline_gates && this.config.mainline_gates.find(c => c.chapter === ch)) || {};
+    const capFans = chCfg.Cap_Fans !== undefined ? chCfg.Cap_Fans : null;
+    const capWallet = chCfg.Cap_Wallet !== undefined ? chCfg.Cap_Wallet : null;
+
+    if (circusZeroRevenue) {
+      // 35% probability revenue/positive gain is zeroed
+      if (appliedDeltas.fans_pct !== undefined && appliedDeltas.fans_pct > 0) {
+        appliedDeltas.fans = 0;
+        delete appliedDeltas.fans_pct;
+      }
+      if (appliedDeltas.wallet !== undefined && appliedDeltas.wallet > 0) {
+        appliedDeltas.wallet = 0;
+      }
+      if (appliedDeltas.wallet_pct !== undefined && appliedDeltas.wallet_pct > 0) {
+        delete appliedDeltas.wallet_pct;
+      }
+    } else {
+      // Fans: §2.3 product-level multiplication (do not amplify percentage itself)
+      if (appliedDeltas.fans_pct !== undefined && appliedDeltas.fans_pct > 0) {
+        let deltaFans = Math.round(gameState.fiveDim.fans * (appliedDeltas.fans_pct / 100) * totalMultiplier);
+        if (capFans !== null && capFans !== undefined) {
+          deltaFans = Math.min(deltaFans, capFans);
+        }
+        appliedDeltas.fans = deltaFans;
+        delete appliedDeltas.fans_pct;
+      }
+
+      // Wallet: wallet & wallet_pct use the same multiplier channel and Cap_Wallet clamp
+      if (appliedDeltas.wallet !== undefined && appliedDeltas.wallet > 0) {
+        let deltaWallet = Math.round(appliedDeltas.wallet * totalMultiplier);
+        if (capWallet !== null && capWallet !== undefined) {
+          deltaWallet = Math.min(deltaWallet, capWallet);
+        }
+        appliedDeltas.wallet = deltaWallet;
+      }
+      if (appliedDeltas.wallet_pct !== undefined && appliedDeltas.wallet_pct > 0) {
+        let deltaWallet = Math.round(gameState.fiveDim.wallet * (appliedDeltas.wallet_pct / 100) * totalMultiplier);
+        if (capWallet !== null && capWallet !== undefined) {
+          deltaWallet = Math.min(deltaWallet, capWallet);
+        }
+        appliedDeltas.wallet = (appliedDeltas.wallet || 0) + deltaWallet;
+        delete appliedDeltas.wallet_pct;
+      }
+    }
+
+    if (appliedDeltas.wallet !== undefined && appliedDeltas.wallet > 0) {
+      gameState.variables['Total_Income'] = (gameState.variables['Total_Income'] || 0) + appliedDeltas.wallet;
     }
 
     // 5. Mutate Game State

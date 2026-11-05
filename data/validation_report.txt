@@ -1,10 +1,10 @@
 ================================================================================
 《从小主播到顶流》阶段 1.5 · 机器可读补全与全量裁定校验报告 (validate_transcription.mjs)
-生成时间: 2026-11-05T11:00:03.661Z
+生成时间: 2026-11-05T12:13:32.990Z
 数据基线: E:\taptap\zhubo\data (4 JSON files: state_dictionary, cards, endings_and_talents, config_and_screens)
 gate_type 分布: {"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
 7 模式匹配卡数: 游戏:20, 才艺:17, 电台:16, 团播:15, PK:18, 带货:21, 户外:18
-字段覆盖统计: {"prereq_expr_cards":47,"req_expr_options":10,"delta_five_dim_options":319,"delta_attrs_options":60,"state_writes_options":56,"ending_triggers_options":51,"next_cards_options":6,"qualitative_notes_options":32}
+字段覆盖统计: {"prereq_expr_cards":47,"req_expr_options":10,"delta_five_dim_options":317,"delta_attrs_options":60,"state_writes_options":56,"ending_triggers_options":51,"next_cards_options":6,"qualitative_notes_options":32}
 ================================================================================
 
 [PASS] 1. Card count === 213: total=213 (milestone=63, short=120, cross=30)
@@ -97,7 +97,7 @@ gate_type 分布: {"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
 [PASS] 88. F1-3 Every option mentioning Flag_/Count_ in summary has non-empty state_writes (0 missing): missing=0
 [PASS] 89. F1-4 Off-stream actions count === 8: count=8
 [PASS] 90. F1-4 All 8 off-stream actions structured with cost/stat_deltas/attr_deltas/state_writes (8/8): structured=8
-[PASS] 91. F1-5 delta_five_dim coverage > 300 options: count=319
+[PASS] 91. F1-5 delta_five_dim coverage > 300 options: count=317
 [PASS] 92. F1-5 state_writes coverage >= 50 options: count=56
 [PASS] 93. F2: X-EGG-09 has Option A and Option B
 [PASS] 94. F2: X-EGG-09 Option A gives all 9 attributes +1
@@ -168,6 +168,19 @@ gate_type 分布: {"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
 [PASS] 159. V10: skin_set exists in config_and_screens.json
 [PASS] 160. V10: skin_set.canonical_names matches [接梗, 憋单放福袋, 最后一波拉票, 关键操作]
 [PASS] 161. V10: skin_set.data_mapping aligns data skins with canonical skins
+[PASS] 162. W1: C6-M02:B base delta cleared of then-branch fans_pct 40 and phantom fans 4
+[PASS] 163. W1: C4-M06:A base delta cleared of branch-unique fans_pct 20 and phantom fans 2
+[PASS] 164. W2: 65 phantom fans absolute values purged (0 unexempted fans remain): found=
+[PASS] 165. W3: C5-M01:A corrected: fans_pct === -30, hater_pct === 20
+[PASS] 166. W3: C3-M05:A corrected: fans_pct undefined, hater_pct === 15
+[PASS] 167. W3: C4-M11:A corrected: fans_pct undefined, hater_pct === 15
+[PASS] 168. W3: Zero hater percentage mis-mapped into fans_pct across full pool: found=
+[PASS] 169. W4: C5-M02:A else branch half-blood rep === 17 (downward floor integer)
+[PASS] 170. W4: C4-M05:B conversion_rate_pct === 30, fans_pct === -30 preserved
+[PASS] 171. W4: X-EGG-09:B dead rep increment deleted, rep_target === 90 preserved
+[PASS] 172. W6: Zero state dictionary entries end with trailing backslash in range_or_cap: keys=
+[PASS] 173. W6: Tag_人设 enum restored and consumers_text correctly references C4-M06
+[PASS] 174. W8: skin_set includes note specifying action skin priority
 
 --------------------------------------------------------------------------------
-Result: All 161 passed, 0 failed
+Result: All 174 passed, 0 failed

@@ -38,8 +38,16 @@ export class StageSettlement {
       gameState.adUsage.settlementDouble++;
     }
 
-    const netFansGain = Math.round((chCfg.Base_Fans || 1000) * fansMult);
-    const netWalletGain = Math.round((chCfg.Base_Income || 1000) * walletMult);
+    let netFansGain = Math.round((chCfg.Base_Fans || 1000) * fansMult);
+    let netWalletGain = Math.round((chCfg.Base_Income || 1000) * walletMult);
+
+    // W5.1: 广告翻倍同受 Cap 夹逼 (§2.4 Item 6 / §2.2)
+    if (chCfg.Cap_Fans !== undefined && chCfg.Cap_Fans !== null) {
+      netFansGain = Math.min(chCfg.Cap_Fans, netFansGain);
+    }
+    if (chCfg.Cap_Wallet !== undefined && chCfg.Cap_Wallet !== null) {
+      netWalletGain = Math.min(chCfg.Cap_Wallet, netWalletGain);
+    }
 
     gameState.fiveDim.fans += netFansGain;
     gameState.fiveDim.wallet += netWalletGain;

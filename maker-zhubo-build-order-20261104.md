@@ -553,3 +553,124 @@ Yellow 三轮复核成立，核心是 F1：转录交的是人读数据，不是�
 - **W8 时机条两处**：甜区中心随机以补遗 S3 为准（每卡实例内随机，正本「每局」措辞让位 S3）；`timingBar.mjs` 硬编码的 [0.25, 0.75] 改读 config `center_range` [0.2, 0.8]。换皮维持 F4「按卡内动作定皮」，skin_set 补注：动作定皮优先、正本模式映射只作未来新时机卡的默认。
 - **W9 UI 图四件**：仓内 `.webp` 实为 base64 文本（Orange 上传通道限制），已在同目录补 README 写明解码方式，内容完整可还原、不算数据损坏；施工方按 README 解码取图。
 - **阶段 3 门槛更新**：W1–W6 落地并经 Yellow 复算后才开扫表，此前一切阶段 3 数值结论不成立。Maker 可玩版接入不受此门槛影响，照旧并行。
+
+
+## Gemini 执行回报 · 阶段 2 · W 修正轮与 Maker 可玩版交付（2026-11-05，基于 a259017）
+
+### 原始日志数据切片支撑 (Data-First Principle)
+
+```text
+[GIT FETCH BASELINE]
+Repository: zhubo (https://github.com/foryoung304-sudo/zhubo.git)
+Commit af22dec -> a259017 (Round-5 rulings W1-W9)
+Branch: main, clean fast-forward.
+
+[DATA PURGE & MAPPING FIX EVIDENCE]
+- W1 Conditional source of truth:
+  * cardEngine.mjs: effects_conditional then/else becomes sole settlement source; base merge removed.
+  * cards.json: C6-M02:B base delta cleared of fans_pct 40 & fans 4; C4-M06:A cleared of fans_pct 20 & fans 2; C5-M02:A verified safe.
+  * Assertion: C6-M02:B failure branch delta = { rep: -50 } (fans increment strictly 0).
+- W2 Phantom fans purge:
+  * cards.json: 65/65 delta_five_dim.fans deleted (matches floor(|fans_pct|/10) systemic transcription bug).
+  * transcribe_data.mjs: Regex /粉\+([0-9]+)(?!%)/ removed; fans absolute values unexempted count === 0.
+- W3 Hater percentage mis-mapping:
+  * C3-M05:A -> { heat_pct: 40, hater_pct: 15 } (fans_pct cleared).
+  * C4-M11:A -> { wallet_pct: 40, heat_pct: 35, rep: -18, hater_pct: 15 } (fans_pct cleared).
+  * C5-M01:A -> { fans_pct: -30, hater_pct: 20 } (restored drop 30%).
+  * Full pool audit: 213 cards scanned, 0 additional mis-mapped cards found.
+- W4 Derivation & dead code:
+  * C5-M02:A else rep downward floor integer 17 preserved.
+  * C4-M05:B conversion_rate_pct: 30 added, fans_pct: -30 preserved.
+  * X-EGG-09:B dead increment rep: 30 deleted, rep_target: 90 preserved.
+- W5 Stage-2 Engine 4 items implemented & asserted:
+  * Cap_Fans & Cap_Wallet clamped per card and in stageSettlement ad doubling.
+  * Total multiplier clamped strictly to [0.4, 3.0].
+  * Ops multiplier multiplies settlement product (not percentage itself), wallet and wallet_pct uniform.
+  * Circus style multiplier x2.5 and 35% zero-revenue rate implemented.
+- W6 Dictionary re-transcription:
+  * transcribe_data.mjs: Fixed markdown \| split bug using __ESCAPED_PIPE__ placeholder.
+  * 37 keys restored: 0 keys with trailing backslash; Tag_人设 enum restored ("单身 | 留白 | 真实"); C4-M06 Tag_人设 == '真实' verified.
+- W7 Wallet audit script:
+  * generate_wallet_table.mjs: Real comparison against frozen markdown draft text implemented; 51/51 PASS.
+- W8 Timing bar:
+  * timingBar.mjs: Random sweet center reads config center_range [0.2, 0.8].
+  * config_and_screens.json: skin_set annotated with action skin priority over mode default.
+
+[TEST SUITE OUTCOMES - ASSERTIONS MONOTONICALLY INCREASED]
+1. node zhubo/scripts/validate_transcription.mjs -> All 174 passed, 0 failed (up from 161).
+2. node zhubo/scripts/test_stage2_core_loop.mjs -> All 66 passed, 0 failed (up from 52).
+3. node zhubo/scripts/generate_wallet_table.mjs -> All 51 items PASS (real comparison).
+
+[MAKER PLAYABLE BUILD VERIFICATION EVIDENCE]
+- Runtime: UrhoXRuntime.exe (Windows, Engine-res 1.36, NanoVG 60 FPS)
+- Script: maker-demo-clone/scripts/main.lua (1541 lines) + test_playable_full_loop.lua
+- Report: maker-demo-clone/.tmp/maker_playable_test_report.json
+  * status: "ALL_9_SCREENS_PASSED"
+  * frames: 42
+  * screens_visited: ["Screen-01", "Screen-02", "Screen-03", "Ops-A", "Screen-04", "Ops-B", "Screen-05", "Screen-06", "Screen-07", "Screen-08", "Screen-09"]
+  * save_verified: true
+  * lua_errors: 0
+```
+
+### 一、W 修正轮执行清单 (W1–W8)
+
+1. **W1 (条件结算改唯一结算源)**:
+   - `zhubo/scripts/engine/cardEngine.mjs`: `effects_conditional` 存在时废除与 base 的 merge 操作，分支（`then`/`else`）作为唯一增量结算源。
+   - `zhubo/data/cards.json`: 清理 `C6-M02:B` 与 `C4-M06:A` base 中残留的分支独有键（`fans_pct: 40`、`fans: 4`、`fans: 2` 等），`C5-M02:A` 经审定安全。
+   - 补断言：`C6-M02:B` 检定失败时 `rep === -50` 且 `fans === 0`。
+
+2. **W2 (全池清理 65 处幻影 fans)**:
+   - 全池 65 处 `delta_five_dim.fans` 恰等于 `floor(|fans_pct|/10)`，系转录器正则 `/粉\+([0-9]+)(?!%)/` 回溯误配造成，已全量清除。
+   - `transcribe_data.mjs` 正则修复；豁免清单现为空，校验器追加 0 残留断言。
+
+3. **W3 (黑粉 3 处改正 + 全池扫描同型)**:
+   - 改正 `C3-M05:A`（黑粉 15%）、`C4-M11:A`（黑粉 15%）、`C5-M01:A`（掉粉 30%、黑粉 20%）。
+   - 全池 213 张卡正则反查，确认无第四处同型误映射；校验器追加同型断言。
+
+4. **W4 (派生与死代码修正)**:
+   - `C5-M02:A` else 保持向下取整 17。
+   - `C4-M05:B` 补录 `conversion_rate_pct: 30`，保留 `fans_pct: -30`。
+   - `X-EGG-09:B` 删除无出处 `rep: 30`，保留 `rep_target: 90`。
+
+5. **W5 (引擎数值四条落地 + 补断言)**:
+   - `Cap_Fans`/`Cap_Wallet` 结算夹逼实装（单卡结算与阶段广告翻倍统一生效）。
+   - 总乘区 `[0.4, 3.0]` 硬夹逼实装。
+   - 操作乘区（时机条）乘整条结算乘积（不放大百分比自身，wallet 与 wallet_pct 同口径进入乘区）。
+   - 整活乘区 ×2.5 与 35% 收益清零逻辑实装。
+   - 核心循环测试断言由 52 项扩充至 66 项，既有 52 项全部保持。
+
+6. **W6 (字典按原表重转)**:
+   - 修复 `transcribe_data.mjs` 切分转义竖线 `\|` 导致的列错位缺陷，复原 37 键原表三列。
+   - 校验器加断言：0 反斜杠结尾；`Tag_人设` 比较 `Tag_人设 == '真实'` 复测通过。
+
+7. **W7 (对账脚本改真比对)**:
+   - `generate_wallet_table.mjs` 改用真实读取冻结稿正文字符串比对，51 项钱包变动 100% 吻合（51/51 PASS）。
+
+8. **W8 (时机条中心范围与换皮规则)**:
+   - `timingBar.mjs` 改读 config `center_range` `[0.2, 0.8]`。
+   - `config_and_screens.json` 补注动作定皮优先口径。
+
+---
+
+### 二、Maker 运行时可玩版交付成果
+
+1. **工程目录与资源同步**:
+   - `maker-demo-clone/assets/data/`: 同步 4 份最新清洗后的 JSON 数据文件（`cards.json` 556KB, `config_and_screens.json` 30KB, `endings_and_talents.json` 75KB, `state_dictionary.json` 16KB）。
+   - `maker-demo-clone/scripts/main.lua` (1541 行):
+     * **九屏全闭环**: Screen-01 (属性加点) -> Screen-02 (排班与时长) -> Screen-03 (5卡连环直播) -> Screen-04 (下播8选1) -> Screen-05 (章末结算) -> Screen-06 (暴毙结算) -> Screen-07 (通关大圆满) -> Screen-08 (结局分享卡) -> Screen-09 (50格结局图鉴与天赋)。
+     * **轻操作 A (Ops-A 时机条)**: NanoVG 60 FPS 平滑单向扫条 (0 -> 1 -> 0)，甜区 0.15、良区 0.40，点击判定倍率立即进入卡牌结算。
+     * **轻操作 B (Ops-B 翻样辨真)**: 4 样品查 2 查验交互，支持验货命中锁定供应链减伤存证。
+     * **存档与天赋**: 本地 JSON 持久化，支持解锁 50 结局继承前世天赋并重开新局。
+2. **自动化联调验证 (`test_playable_full_loop.lua`)**:
+   - 42 帧模拟完整跑通 9 屏及 2 轻操作，产出报告 `maker_playable_test_report.json`。
+   - UrhoXRuntime 运行阶段 `lua_errors: 0`，全屏流转与数据交互断言无异常。
+
+---
+
+### 三、阶段 3 闸门守则执行状态
+
+- **闸门 1 (阶段 3 万局模拟扫表严禁抢跑)**:
+  * **当前状态: 暂停驻守**。
+  * W1–W8 已全部落地并测试全绿。按铁律暂停启动阶段 3 万局扫表，严禁抢跑，**严格等待 Yellow 复算核验通过与店主抽检指令**。
+- **闸门 2 (数值类结论禁止自签)**:
+  * 本次回报仅提交工程落地、代码测试断言（174+66+51 项）与可玩版交互闭环证据，不包含任何阶段 3 万局数值自签结论。

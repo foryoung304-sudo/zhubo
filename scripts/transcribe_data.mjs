@@ -52,8 +52,13 @@ function parseStateDictionary() {
     }
     if (!inSec29 || !line.startsWith('|')) continue;
 
-    const cols = line.split('|').slice(1, -1).map(c => c.trim());
-    if (cols.length < 6) continue;
+    const cleanCols = line
+      .replace(/\\\|/g, '__ESCAPED_PIPE__')
+      .split('|')
+      .slice(1, -1)
+      .map(c => c.replace(/__ESCAPED_PIPE__/g, '|').trim());
+    if (cleanCols.length < 6) continue;
+    const cols = cleanCols;
     const keyMatch = cols[0].match(/`((?:Flag_|Count_|Tag_|Param_|Total_)[A-Za-z0-9_\u4e00-\u9fa5]+)`/);
     if (!keyMatch) continue;
 
@@ -471,19 +476,18 @@ function parseDeltas(text, cardId, optKey) {
       allAttrs.forEach(a => attrs[a] = 1);
       return { five_dim, attrs, qualitative };
     } else if (optKey === 'B') {
-      five_dim.rep = 30;
+      // Round-5 W4: delete dead rep: 30, keep rep_target: 90
       five_dim.rep_target = 90;
       return { five_dim, attrs, qualitative };
     }
   }
 
-  // Fans
-  const fansPct = text.match(/(?:粉|涨粉)\+([0-9.]+)%/);
+  // Fans (Round-5 W2/W3: negative lookbehind for 黑粉, zero phantom absolute fans)
+  const fansPct = text.match(/(?<!黑)(?:粉|涨粉)\+([0-9.]+)%/);
   if (fansPct) five_dim.fans_pct = Number(fansPct[1]);
   const fansPctMinus = text.match(/(?:掉粉|掉|扣粉|粉-)-?([0-9.]+)%/);
   if (fansPctMinus && !fansPct) five_dim.fans_pct = -Number(fansPctMinus[1]);
-  const fansPlus = text.match(/粉\+([0-9]+)(?!%)/);
-  if (fansPlus) five_dim.fans = Number(fansPlus[1]);
+  // Note: W2 strictly removes phantom fans absolute values; no fansPlus fallback
 
   // Heat
   const heatPctPlus = text.match(/(?:热|热度)\+([0-9.]+)%/);
@@ -563,9 +567,18 @@ function parseDeltas(text, cardId, optKey) {
   if (text.includes('获秘方')) qualitative.push('获秘方');
   if (text.includes('忠诚+20%')) qualitative.push('忠诚+20%');
 
-  // Round-4 Ruling V2: C6-M02B 失败支的口碑 -50 移入 else、不得与通过支并列
+  // Round-5 W4: C4-M05B conversion rate +30% wallet modifier
+  if (cardId === 'C4-M05' && optKey === 'B') {
+    five_dim.conversion_rate_pct = 30;
+  }
+
+  // Round-5 W1: Clear branch-unique deltas from base for conditional cards
   if (cardId === 'C6-M02' && optKey === 'B') {
     delete five_dim.rep;
+    delete five_dim.fans_pct;
+  }
+  if (cardId === 'C4-M06' && optKey === 'A') {
+    delete five_dim.fans_pct;
   }
 
   return { five_dim, attrs, qualitative };
@@ -1275,7 +1288,8 @@ function buildConfigAndScreens() {
         '憋单': '憋单放福袋',
         'PK': '最后一波拉票',
         '高光': '关键操作'
-      }
+      },
+      note: '动作定皮优先、正本模式映射只作未来新时机卡的默认'
     },
     fan_composition: {
       segments: ['颜粉', '声控粉', '技术粉', '乐子人', '大哥', '学生粉'],

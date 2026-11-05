@@ -293,6 +293,108 @@ const c3m03A = cardsData.find(c => c.card_id === 'C3-M03').options.find(o => o.o
 assert(c3m03A.effects.qualitative_notes.some(q => q.includes('高危塌房')),
   '47. Ambiguity D: C3-M03A retains narrative qualitative note');
 
+// -----------------------------------------------------------------------------
+// Test 16: Round-5 Engine Rulings (W1, W5, W6)
+// -----------------------------------------------------------------------------
+
+// W1: C6-M02:B failure branch settlement = rep -50 and fans gain === 0
+const w1State = new GameState(configData, stateDict, endingsData);
+w1State.currentChapter = 6;
+w1State.fiveDim.fans = 5000000;
+w1State.fiveDim.rep = 80;
+w1State.variables['Flag_安保习惯'] = 0; // Failure condition
+const c6m02Card = cardsData.find(c => c.card_id === 'C6-M02');
+cardEngine.selectOption(c6m02Card, 'B', w1State);
+assert(w1State.fiveDim.rep === 30, '48. W1: C6-M02:B failure branch rep drops by 50 (80 -> 30)');
+assert(w1State.fiveDim.fans === 5000000, '49. W1: C6-M02:B failure branch fans delta strictly === 0 (no leaked +40% or +4 fans)');
+
+// W5.1: Single-card Cap_Fans and Cap_Wallet clamp
+const capState = new GameState(configData, stateDict, endingsData);
+capState.currentChapter = 1; // Ch1 Cap_Fans = 600, Cap_Wallet = 3000
+capState.fiveDim.fans = 5000; // 5000 * 40% = 2000, exceeding Cap_Fans 600
+capState.fiveDim.wallet = 2000;
+const testCardCap = {
+  card_id: 'TEST-CAP',
+  pool_type: 'milestone',
+  ops_type: 'none',
+  options: [{
+    opt_key: 'A',
+    effects: {
+      delta_five_dim: { fans_pct: 40, wallet: 10000 }
+    }
+  }]
+};
+cardEngine.selectOption(testCardCap, 'A', capState);
+assert(capState.fiveDim.fans === 5000 + 600, '50. W5.1: Single-card fans gain clamped to Ch1 Cap_Fans (600)');
+assert(capState.fiveDim.wallet === 2000 + 3000, '51. W5.1: Single-card wallet gain clamped to Ch1 Cap_Wallet (3000)');
+
+// W5.1b: Stage settlement ad double clamped to Cap_Fans & Cap_Wallet
+const settleCapState = new GameState(configData, stateDict, endingsData);
+settleCapState.currentChapter = 1;
+settleCapState.fiveDim.fans = 1000;
+settleCapState.fiveDim.wallet = 1000;
+const dblSettle = stageSettlement.settleChapter(settleCapState, true);
+assert(dblSettle.netFansGain <= 600, '52. W5.1: Stage settlement ad double fans gain clamped to Ch1 Cap_Fans (<= 600)');
+assert(dblSettle.netWalletGain <= 3000, '53. W5.1: Stage settlement ad double wallet gain clamped to Ch1 Cap_Wallet (<= 3000)');
+
+// W5.2 / W5.3: Product-level ops multiplier & total multiplier clamp [0.4, 3.0]
+const multState = new GameState(configData, stateDict, endingsData);
+multState.currentChapter = 4; // Ch4 Cap_Fans = 400000, Cap_Wallet = 500000
+multState.fiveDim.fans = 100000;
+multState.fiveDim.wallet = 50000;
+const testCardMult = {
+  card_id: 'TEST-MULT',
+  pool_type: 'milestone',
+  ops_type: 'timing_bar',
+  options: [{
+    opt_key: 'A',
+    effects: {
+      delta_five_dim: { fans_pct: 10, wallet: 10000 }
+    }
+  }]
+};
+// With 1.15 ops multiplier: fans delta = Math.round(100000 * 0.10 * 1.15) = 11500; wallet delta = Math.round(10000 * 1.15) = 11500
+cardEngine.selectOption(testCardMult, 'A', multState, { multiplier: 1.15 });
+assert(multState.fiveDim.fans === 100000 + 11500, '54. W5.3: Ops multiplier applies at product-level to fans (100000 * 10% * 1.15 = 11500)');
+assert(multState.fiveDim.wallet === 50000 + 11500, '55. W5.3: Ops multiplier applies at product-level to wallet (10000 * 1.15 = 11500)');
+
+// W5.4: Circus style (Tag_流派 == '整活') x2.5 multiplier & 35% zero-revenue
+const circusState = new GameState(configData, stateDict, endingsData);
+circusState.currentChapter = 4;
+circusState.fiveDim.fans = 100000;
+circusState.fiveDim.wallet = 50000;
+circusState.variables['Tag_流派'] = '整活';
+// Test x2.5 branch (circusRoll = 0.50 >= 0.35)
+cardEngine.selectOption(testCardMult, 'A', circusState, { multiplier: 1.0, circusRoll: 0.50 });
+assert(circusState.fiveDim.fans === 100000 + 25000, '56. W5.4: Circus style x2.5 multiplier applies (fans +25000)');
+assert(circusState.fiveDim.wallet === 50000 + 25000, '57. W5.4: Circus style x2.5 multiplier applies (wallet +25000)');
+
+// Test 35% zero revenue branch (circusRoll = 0.10 < 0.35)
+const zeroCircusState = new GameState(configData, stateDict, endingsData);
+zeroCircusState.currentChapter = 4;
+zeroCircusState.fiveDim.fans = 100000;
+zeroCircusState.fiveDim.wallet = 50000;
+zeroCircusState.variables['Tag_流派'] = '整活';
+cardEngine.selectOption(testCardMult, 'A', zeroCircusState, { multiplier: 1.0, circusRoll: 0.10 });
+assert(zeroCircusState.fiveDim.fans === 100000, '58. W5.4: Circus style 35% zero-revenue branch zeros fans gain');
+assert(zeroCircusState.fiveDim.wallet === 50000, '59. W5.4: Circus style 35% zero-revenue branch zeros wallet gain');
+
+// W6: Tag_人设 == '真实' evaluation in C4-M06:A
+const renSheTrueState = new GameState(configData, stateDict, endingsData);
+renSheTrueState.currentChapter = 4;
+renSheTrueState.fiveDim.fans = 100000;
+renSheTrueState.variables['Tag_人设'] = '真实';
+const c4m06Card = cardsData.find(c => c.card_id === 'C4-M06');
+cardEngine.selectOption(c4m06Card, 'A', renSheTrueState);
+assert(renSheTrueState.fiveDim.fans === 100000 + 20000, '60. W6: C4-M06:A Tag_人设==真实 evaluates true and awards +20% fans');
+
+const renSheFalseState = new GameState(configData, stateDict, endingsData);
+renSheFalseState.currentChapter = 4;
+renSheFalseState.fiveDim.fans = 100000;
+renSheFalseState.variables['Tag_人设'] = '单身';
+cardEngine.selectOption(c4m06Card, 'A', renSheFalseState);
+assert(renSheFalseState.fiveDim.fans === 100000 - 40000, '61. W6: C4-M06:A Tag_人设!=真实 evaluates false and drops -40% fans');
+
 // Clean up test storage file
 try {
   if (fs.existsSync('E:/taptap/zhubo/test_stage2_save.json')) {

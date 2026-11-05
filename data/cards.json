@@ -140,7 +140,6 @@
           "summary": "粉+40%热+30%记Flag_卖惨人设=1",
           "delta_five_dim": {
             "fans_pct": 40,
-            "fans": 4,
             "heat_pct": 30
           },
           "delta_attrs": {},
@@ -225,8 +224,7 @@
         "effects": {
           "summary": "等效颜/嗓+2粉+35%记Flag_科技人设=1",
           "delta_five_dim": {
-            "fans_pct": 35,
-            "fans": 3
+            "fans_pct": 35
           },
           "delta_attrs": {},
           "state_writes": [
@@ -658,8 +656,7 @@
         "effects": {
           "summary": "粉+25%增切片反噬权重",
           "delta_five_dim": {
-            "fans_pct": 25,
-            "fans": 2
+            "fans_pct": 25
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -822,7 +819,6 @@
           "summary": "粉+20%状态-10",
           "delta_five_dim": {
             "fans_pct": 20,
-            "fans": 2,
             "stamina": -10
           },
           "delta_attrs": {},
@@ -1041,8 +1037,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -1202,8 +1197,7 @@
         "effects": {
           "summary": "粉+10%",
           "delta_five_dim": {
-            "fans_pct": 10,
-            "fans": 1
+            "fans_pct": 10
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -1699,8 +1693,7 @@
         "effects": {
           "summary": "粉+10%",
           "delta_five_dim": {
-            "fans_pct": 10,
-            "fans": 1
+            "fans_pct": 10
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -1920,8 +1913,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -2177,8 +2169,7 @@
         "effects": {
           "summary": "粉+10%",
           "delta_five_dim": {
-            "fans_pct": 10,
-            "fans": 1
+            "fans_pct": 10
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -2336,8 +2327,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -2415,8 +2405,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -2721,7 +2710,6 @@
           "summary": "粉+60%热+50%记Flag_造假剧本=1",
           "delta_five_dim": {
             "fans_pct": 60,
-            "fans": 6,
             "heat_pct": 50
           },
           "delta_attrs": {},
@@ -2808,8 +2796,7 @@
         "effects": {
           "summary": "粉+45%Param_观众当真度+40",
           "delta_five_dim": {
-            "fans_pct": 45,
-            "fans": 4
+            "fans_pct": 45
           },
           "delta_attrs": {},
           "state_writes": [
@@ -3088,8 +3075,7 @@
         "effects": {
           "summary": "好感+10粉+15%记=0",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -3395,8 +3381,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -3496,8 +3481,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -3877,8 +3861,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -3978,8 +3961,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -4117,8 +4099,7 @@
         "effects": {
           "summary": "粉+10%",
           "delta_five_dim": {
-            "fans_pct": 10,
-            "fans": 1
+            "fans_pct": 10
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -4218,8 +4199,7 @@
         "effects": {
           "summary": "粉+10%",
           "delta_five_dim": {
-            "fans_pct": 10,
-            "fans": 1
+            "fans_pct": 10
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -4853,8 +4833,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -5245,8 +5224,6 @@
         "effects": {
           "summary": "热+40%好感-20黑粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1,
             "heat_pct": 40,
             "hater_pct": 15
           },
@@ -5526,7 +5503,6 @@
           "summary": "（才艺≥7）粉+30%口碑+15锁M07",
           "delta_five_dim": {
             "fans_pct": 30,
-            "fans": 3,
             "rep": 15
           },
           "delta_attrs": {},
@@ -6011,8 +5987,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -6152,8 +6127,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -6331,8 +6305,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -6412,8 +6385,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -6471,8 +6443,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -6952,8 +6923,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -7053,8 +7023,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -7270,8 +7239,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -7703,7 +7671,8 @@
           "summary": "货净口碑+25转化+30%（假扣粉30%）",
           "delta_five_dim": {
             "fans_pct": -30,
-            "rep": 25
+            "rep": 25,
+            "conversion_rate_pct": 30
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -7760,10 +7729,7 @@
         "check_fail": null,
         "effects": {
           "summary": "若Tag_人设=真实粉+20%，单身掉粉40%",
-          "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
-          },
+          "delta_five_dim": {},
           "delta_attrs": {},
           "state_writes": [
             "Tag_人设 = 真实"
@@ -8246,8 +8212,6 @@
         "effects": {
           "summary": "钱包+40%热+35%口碑-18黑粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1,
             "heat_pct": 35,
             "wallet_pct": 40,
             "rep": -18,
@@ -8412,8 +8376,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -8753,8 +8716,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -9150,8 +9112,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -9291,8 +9252,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -9392,8 +9352,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -9771,8 +9730,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -9850,8 +9808,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -9929,8 +9886,7 @@
         "effects": {
           "summary": "掉粉30%黑粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2,
+            "fans_pct": -30,
             "hater_pct": 20
           },
           "delta_attrs": {},
@@ -10692,7 +10648,6 @@
           "summary": "（心态≥7）状态-15后粉+50%口碑+35逆袭",
           "delta_five_dim": {
             "fans_pct": 50,
-            "fans": 5,
             "rep": 35,
             "stamina": -15
           },
@@ -11237,8 +11192,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -11398,8 +11352,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -11639,8 +11592,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -11858,8 +11810,7 @@
         "effects": {
           "summary": "粉+25%",
           "delta_five_dim": {
-            "fans_pct": 25,
-            "fans": 2
+            "fans_pct": 25
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -12039,8 +11990,7 @@
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
-            "fans_pct": 15,
-            "fans": 1
+            "fans_pct": 15
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -12774,10 +12724,7 @@
         "check_fail": null,
         "effects": {
           "summary": "若Flag_安保习惯=1粉+40%，否则口碑-50",
-          "delta_five_dim": {
-            "fans_pct": 40,
-            "fans": 4
-          },
+          "delta_five_dim": {},
           "delta_attrs": {},
           "state_writes": [
             "Flag_安保习惯 = 1"
@@ -13697,8 +13644,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -13878,8 +13824,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -14039,8 +13984,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -14358,8 +14302,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -14757,8 +14700,7 @@
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
-            "fans_pct": 20,
-            "fans": 2
+            "fans_pct": 20
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -15158,8 +15100,7 @@
         "effects": {
           "summary": "粉+40%埋封号高危隐患",
           "delta_five_dim": {
-            "fans_pct": 40,
-            "fans": 4
+            "fans_pct": 40
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -15219,8 +15160,7 @@
         "effects": {
           "summary": "粉+25%技术+",
           "delta_five_dim": {
-            "fans_pct": 25,
-            "fans": 2
+            "fans_pct": 25
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -15950,8 +15890,7 @@
         "effects": {
           "summary": "粉+35%颜粉+",
           "delta_five_dim": {
-            "fans_pct": 35,
-            "fans": 3
+            "fans_pct": 35
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -15974,7 +15913,6 @@
           "summary": "口碑+15粉+20%",
           "delta_five_dim": {
             "fans_pct": 20,
-            "fans": 2,
             "rep": 15
           },
           "delta_attrs": {},
@@ -16054,8 +15992,7 @@
         "effects": {
           "summary": "粉+30%",
           "delta_five_dim": {
-            "fans_pct": 30,
-            "fans": 3
+            "fans_pct": 30
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -16114,7 +16051,6 @@
           "summary": "口碑+25粉+20%",
           "delta_five_dim": {
             "fans_pct": 20,
-            "fans": 2,
             "rep": 25
           },
           "delta_attrs": {},
@@ -16218,7 +16154,6 @@
           "summary": "粉+30%热+25%",
           "delta_five_dim": {
             "fans_pct": 30,
-            "fans": 3,
             "heat_pct": 25
           },
           "delta_attrs": {},
@@ -16458,8 +16393,7 @@
         "effects": {
           "summary": "粉+25%",
           "delta_five_dim": {
-            "fans_pct": 25,
-            "fans": 2
+            "fans_pct": 25
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -16517,8 +16451,7 @@
         "effects": {
           "summary": "黑转粉+25%口才+1",
           "delta_five_dim": {
-            "fans_pct": 25,
-            "fans": 2
+            "fans_pct": 25
           },
           "delta_attrs": {
             "口才": 1
@@ -16603,7 +16536,6 @@
           "summary": "口碑+25粉+25%",
           "delta_five_dim": {
             "fans_pct": 25,
-            "fans": 2,
             "rep": 25
           },
           "delta_attrs": {},
@@ -17273,7 +17205,6 @@
           "summary": "获赠推流券粉+30%口碑+15",
           "delta_five_dim": {
             "fans_pct": 30,
-            "fans": 3,
             "rep": 15
           },
           "delta_attrs": {},
@@ -17442,7 +17373,6 @@
         "effects": {
           "summary": "达H12万界旅人，口碑90",
           "delta_five_dim": {
-            "rep": 30,
             "rep_target": 90
           },
           "delta_attrs": {},
@@ -17525,8 +17455,7 @@
         "effects": {
           "summary": "粉+25%乐子+",
           "delta_five_dim": {
-            "fans_pct": 25,
-            "fans": 2
+            "fans_pct": 25
           },
           "delta_attrs": {},
           "state_writes": [],

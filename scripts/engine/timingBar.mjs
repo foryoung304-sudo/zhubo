@@ -14,8 +14,9 @@ export class TimingBar {
     const cursorSpeed = this.params.cursor_speed || 0.65;
     const maxDuration = this.params.max_duration_seconds || 5.0;
 
-    // Center randomly determined per card instance in [0.25, 0.75]
-    const center = 0.25 + Math.random() * 0.50;
+    // Center randomly determined per card instance in center_range (S3/W8: [0.2, 0.8])
+    const centerRange = this.params.center_range || [0.2, 0.8];
+    const center = centerRange[0] + Math.random() * (centerRange[1] - centerRange[0]);
 
     const sweetStart = center - sweetWidth / 2;
     const sweetEnd = center + sweetWidth / 2;
