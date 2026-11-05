@@ -1,0 +1,814 @@
+{
+  "schema_version": "v0.2-transcribed",
+  "errata_rulings_applied": [
+    "P1-1: 状态字典与快照字段由 §2.9 表身自动生成（36 键 / 57 字段）",
+    "P1-2: H05 触发双来源（Count_算法异常=3 即时 或 运气满值打通第六章六章末结算），Count_算法异常写入方限定 C4-S19:B / C5-S19:B / C6-S19:A",
+    "P2-1: 12张双标标志性卡基线1.0、匹配×2.0、未匹配不降权(1.0)；短卡/跨章软门控维持匹配×3.0、未匹配×0.5",
+    "P3-1: 翻样辨真为翻任意2件 + 四键指认（指认#1掺假 / 指认#2掺假 / 指认#3掺假 / 三件全合格）",
+    "P3-2: 全本美术总盘69张封顶（NPC 36 + 底板模板 6 + 结局 27 = 69）",
+    "P3-3: C3-M08 挂载 ops_note（轻操作时机条参数化）",
+    "P4-1: 全部结局ID补零（M01..M12 / D01..D26 / H01..H12），H01 规范名称为 黑粉头子是真爱",
+    "P4-2: X-EGG-09 / H12 独立 A/B 分支文案与 branch_variants，共用第 50 枚天赋",
+    "P4-3: 缩写全展开（立退 -> 立即触发退网结局，下章可触 -> 下一阶段可触发）",
+    "P4-4: Screen-08（结局分享卡弹窗）独立成行，具备独立输入与输出定义",
+    "S1: 模式权威词表更正为 7 个常规排班模式 + 数字人锁定第 8 槽位",
+    "S2: gate_type 枚举扩展登记 progress 与 none",
+    "S3: 时机条分区参数化（甜区宽 0.15、良区宽 0.40、中心每卡实例随机）",
+    "F1: 阶段 1.5 机器可读补全（prereq_expr、req_expr、结构化 effects、8/8 下播行动结构化）",
+    "F2: X-EGG-09 拆 A/B 文案与 effects，H12 挂载 branch_variants",
+    "F3: 时机条参数补全（5秒上限、三连点兜底开关、cursor_speed 改回 0.65）",
+    "F4: 时机条四换皮按卡内动作分配（接梗/憋单/PK/高光，六卡全落 ops_skin）",
+    "F5: pity_trigger 登记进 draw_rules.trigger_upgrade",
+    "F6: 校验断言只增不减纪律与 errata_rulings_applied 全名单恢复",
+    "F7: 模式匹配语义定为 contains 成员关系，电竞作为游戏别名登记"
+  ],
+  "review_corrections_applied": [
+    "P1-A: §1.8 保底链补转录（draw_rules 槽位 2+3、四条保底链、跨章池 4.0 与 40% 倾斜全入库）",
+    "P1-B: gate_type 枚举扩展登记 progress 与 none",
+    "P1-C: 时机条分区删除两套固定区间，统一参数化入库",
+    "P2-A: 字数门绊线复位为裁定 9 原口径（80/20/40 与 60/14/30）",
+    "P2-C: 词表更正为 7 个常规排班模式 + 数字人锁定第 8 槽位",
+    "F1: 阶段 1.5 补全机器可执行字段（47 张 prereq_expr、23 项 req_expr、317 选项五维结构化、55 处 state_writes、8 项行动结构化）",
+    "F2: X-EGG-09 与 H12 双分支结构化落地",
+    "F3: 时机条参数挂载 5 秒超时与三连点兜底开关，cursor_speed 复位 0.65",
+    "F4: 六张时机条卡按卡内剧情动作全量挂载 ops_skin",
+    "F5: pity_trigger 登记至 draw_rules.trigger_upgrade",
+    "F7: 模式词表登记 contains 成员关系语义与电竞别名"
+  ],
+  "mode_vocabulary": {
+    "schedule_modes": [
+      "游戏",
+      "才艺",
+      "电台",
+      "团播",
+      "PK",
+      "带货",
+      "户外"
+    ],
+    "locked_slot_8": "数字人",
+    "special_tags": [
+      "数字人诱惑",
+      "全模式"
+    ],
+    "tag_aliases": {
+      "电竞": "游戏"
+    },
+    "matching_semantics": "contains_membership (按标签成员关系匹配，复合标签命中任一模式即算命中)",
+    "rules": {
+      "schedule_modes_count": 7,
+      "locked_slot_8_description": "数字人为第 8 槽位锁定槽，后期诱惑解锁，不进常规排班池（Screen-02「8 选 1」即 7 常规 + 1 锁定槽）",
+      "radio_note": "正本行名「聊天唠嗑 / 情感电台」，卡面标签统一用「电台」，「聊天」不作独立模式",
+      "alias_note": "F7: 「电竞」作「游戏」别名登记，抽取器按标签成员关系判定",
+      "digital_clone_rule": "「数字人诱惑」属特殊标签、非排班模式。C6-M06 门控改落：第六章 + 数字人线开放后入池（章节/进度门控，base 1、不做模式匹配），保住 H03 主分支。"
+    }
+  },
+  "draw_rules": {
+    "slots_per_chapter": 5,
+    "slot_composition": {
+      "guaranteed_slots": 2,
+      "random_slots": 3,
+      "description": "槽位 1–2 为主线与前置必出位，槽位 3–5 为短卡与跨章随机位"
+    },
+    "overflow_rule": {
+      "max_guaranteed_slots": 4,
+      "min_random_slots": 1,
+      "description": "若当章待必出卡超过 2 张，顺延占用随机位，最多占满 4 槽，至少留 1 槽给随机短卡调节节奏"
+    },
+    "underflow_rule": {
+      "fill_with_milestone": true,
+      "description": "若当章无待必出链卡，从当章未抽过的标志性单卡池中按模式权重补齐 2 张标志性卡"
+    },
+    "pity_chains": [
+      {
+        "chain_id": "pity_cat",
+        "name": "猫上镜线",
+        "state_key": "Count_猫上镜",
+        "target_ending": "H04",
+        "member_cards": [
+          "C1-S01",
+          "C2-S01",
+          "C3-S01"
+        ],
+        "locked_slot": 3,
+        "advance_condition": "首张 C1-S01 选 A/B 推进计数，后续卡在对应章节（Ch2, Ch3）自动升格为「定向保底必出」，锁定槽位 3"
+      },
+      {
+        "chain_id": "pity_exam",
+        "name": "考编上岸线",
+        "state_key": "Count_考编",
+        "target_ending": "H10",
+        "member_cards": [
+          "C1-S07",
+          "C2-S17",
+          "C4-S16"
+        ],
+        "locked_slot": 3,
+        "advance_condition": "首张 C1-S07 选 A 推进计数，后续卡在对应章节（Ch2, Ch4）自动升格为「定向保底必出」，锁定槽位 3"
+      },
+      {
+        "chain_id": "pity_algorithm",
+        "name": "算法觉醒线",
+        "state_key": "Count_算法异常",
+        "target_ending": "H05",
+        "member_cards": [
+          "C4-S19",
+          "C5-S19",
+          "C6-S19"
+        ],
+        "locked_slot": 3,
+        "advance_condition": "开局 运气 = 10，C4-S19 选 B、C5-S19 选 B、C6-S19 选 A 各 +1，在对应目标章节升格定向保底"
+      },
+      {
+        "chain_id": "pity_hater",
+        "name": "黑粉不对线",
+        "state_key": "Count_黑粉不对线",
+        "target_ending": "H01",
+        "member_cards": [
+          "C1-M07",
+          "C2-S08",
+          "C3-S12",
+          "X-EGG-04"
+        ],
+        "locked_slot": 3,
+        "advance_condition": "C1-M07 选 B +1，后续黑粉短卡选温和请教各 +1，Count_黑粉不对线 ≥ 3 且 情商 ≥ 7 时，X-EGG-04 升格必出"
+      }
+    ],
+    "trigger_upgrade": [
+      {
+        "card_id": "X-EGG-03",
+        "prereq": "has_encountered('C4-M03') && C4-M03 == 'A' (签过极光直播)",
+        "target_ending": "D24",
+        "upgrade_to": "guaranteed_slot",
+        "description": "第四章选过签约极光直播，后续极光跑路卡必出保底"
+      },
+      {
+        "card_id": "X-EGG-05",
+        "prereq": "Flag_放任切片号 == 1",
+        "target_ending": "D26",
+        "upgrade_to": "guaranteed_slot",
+        "description": "放任高仿切片号不管，后续真假美猴王卡必出保底"
+      },
+      {
+        "card_id": "X-EGG-08",
+        "prereq": "total_endings_unlocked >= 30",
+        "target_ending": "H11",
+        "upgrade_to": "guaranteed_slot",
+        "description": "累计解锁结局数达到 30 个，后续时光机老麦克风必出保底"
+      },
+      {
+        "card_id": "X-EGG-09",
+        "prereq": "cleared_main_endings_count == 12",
+        "target_ending": "H12",
+        "upgrade_to": "guaranteed_slot",
+        "description": "通关全部 12 主结局后终章必出仪式卡"
+      }
+    ],
+    "cross_chapter_pool": {
+      "entry_timings": {
+        "X-MODE": {
+          "chapter_min": 2,
+          "chapter_max": 6
+        },
+        "X-ATTR": {
+          "chapter_min": 2,
+          "chapter_max": 6
+        },
+        "X-EGG-01_to_05": {
+          "chapter_min": 3,
+          "chapter_max": 6
+        },
+        "X-EGG-06_to_10": {
+          "chapter_min": 4,
+          "chapter_max": 6
+        }
+      },
+      "weights": {
+        "base_short": 1,
+        "mode_match_boost": 3,
+        "mode_mismatch_penalty": 0.5,
+        "x_attr_first_met_weight": 4,
+        "x_egg_prereq_met_behavior": "升格为必出保底"
+      },
+      "alert_zone_replacement": {
+        "stamina_range": [
+          1,
+          29
+        ],
+        "skew_pct": 40,
+        "target_bias_cards": [
+          "C3-S18",
+          "X-EGG-01"
+        ],
+        "description": "当 状态 ∈ [1, 29] 时，随机位中 40% 权重强制倾斜至熬夜翻车卡（C3-S18、X-EGG-01 等）"
+      }
+    }
+  },
+  "timing_bar_parameters": {
+    "sweet_width": 0.15,
+    "good_width": 0.4,
+    "cursor_speed": 0.65,
+    "cursor_speed_source": "spike/spike_stage0.lua:14",
+    "sweep_direction": "unidirectional",
+    "sweet_window_seconds": 0.23,
+    "max_duration_seconds": 5,
+    "triple_tap_fallback": false,
+    "center_selection": "random_per_card_instance",
+    "center_range": [
+      0.2,
+      0.8
+    ],
+    "multipliers": {
+      "sweet": 1.15,
+      "good": 1.05,
+      "normal": 1
+    },
+    "applicable_cards": [
+      "C1-M05",
+      "C2-M09",
+      "C3-M08",
+      "C4-M11",
+      "C5-M09",
+      "C6-M05"
+    ],
+    "skins": {
+      "C1-M05": "接梗",
+      "C2-M09": "PK",
+      "C3-M08": "高光",
+      "C4-M11": "憋单",
+      "C5-M09": "高光",
+      "C6-M05": "PK"
+    },
+    "ruling": "F3/F4/S3/V8: 甜区宽0.15、良区宽0.40，单向扫条甜区窗口约0.23秒，5秒超时上限，三连点兜底开关默认关，cursor_speed=0.65源自spike_stage0.lua:14"
+  },
+  "skin_set": {
+    "canonical_names": [
+      "接梗",
+      "憋单放福袋",
+      "最后一波拉票",
+      "关键操作"
+    ],
+    "data_mapping": {
+      "接梗": "接梗",
+      "憋单": "憋单放福袋",
+      "PK": "最后一波拉票",
+      "高光": "关键操作"
+    },
+    "note": "动作定皮优先、正本模式映射只作未来新时机卡的默认"
+  },
+  "fan_composition": {
+    "segments": [
+      "颜粉",
+      "声控粉",
+      "技术粉",
+      "乐子人",
+      "大哥",
+      "学生粉"
+    ],
+    "exclusive_pool_threshold_pct": 35,
+    "normalize_sum_pct": 100,
+    "revenue_modifier_range": [
+      0.6,
+      1.8
+    ],
+    "description": "正本 §2.7 粉丝构成 6 类阶段结算矩阵"
+  },
+  "global_rules": {
+    "total_multiplier_clamp": [
+      0.4,
+      3
+    ],
+    "circus_style": {
+      "multiplier": 2.5,
+      "zero_revenue_rate": 0.35,
+      "description": "整活流乘区 ×2.5，35% 概率收益清零"
+    },
+    "commercial_multiplier": {
+      "sources_stack_rule": "take_highest_no_stack",
+      "rep_max_cap": 1.5,
+      "description": "商务乘区两来源取最高不叠加，口碑侧上限 1.5"
+    }
+  },
+  "chapters": [
+    {
+      "chapter": 1,
+      "name": "0 粉开播",
+      "fans_gate_from": 0,
+      "fans_gate_to": 1000,
+      "net_fans_req": 1000,
+      "cards_per_chapter": 5,
+      "Base_Fans": 220,
+      "Cap_Fans": 600,
+      "chapter_5card_fans_cap": 3000,
+      "Base_Income": 800,
+      "Cap_Wallet": 3000
+    },
+    {
+      "chapter": 2,
+      "name": "千粉小成",
+      "fans_gate_from": 1000,
+      "fans_gate_to": 10000,
+      "net_fans_req": 9000,
+      "cards_per_chapter": 5,
+      "Base_Fans": 2000,
+      "Cap_Fans": 5000,
+      "chapter_5card_fans_cap": 25000,
+      "Base_Income": 4000,
+      "Cap_Wallet": 15000
+    },
+    {
+      "chapter": 3,
+      "name": "万粉新秀",
+      "fans_gate_from": 10000,
+      "fans_gate_to": 100000,
+      "net_fans_req": 90000,
+      "cards_per_chapter": 5,
+      "Base_Fans": 20000,
+      "Cap_Fans": 45000,
+      "chapter_5card_fans_cap": 225000,
+      "Base_Income": 20000,
+      "Cap_Wallet": 80000
+    },
+    {
+      "chapter": 4,
+      "name": "十万粉达人",
+      "fans_gate_from": 100000,
+      "fans_gate_to": 1000000,
+      "net_fans_req": 900000,
+      "cards_per_chapter": 5,
+      "Base_Fans": 200000,
+      "Cap_Fans": 400000,
+      "chapter_5card_fans_cap": 2000000,
+      "Base_Income": 120000,
+      "Cap_Wallet": 500000
+    },
+    {
+      "chapter": 5,
+      "name": "百万粉头部",
+      "fans_gate_from": 1000000,
+      "fans_gate_to": 5000000,
+      "net_fans_req": 4000000,
+      "cards_per_chapter": 5,
+      "Base_Fans": 900000,
+      "Cap_Fans": 2000000,
+      "chapter_5card_fans_cap": 10000000,
+      "Base_Income": 500000,
+      "Cap_Wallet": 2000000
+    },
+    {
+      "chapter": 6,
+      "name": "顶流之夜",
+      "fans_gate_from": 5000000,
+      "fans_gate_to": 10000000,
+      "net_fans_req": 5000000,
+      "cards_per_chapter": 5,
+      "Base_Fans": 1100000,
+      "Cap_Fans": 5000000,
+      "chapter_5card_fans_cap": 25000000,
+      "Base_Income": 1200000,
+      "Cap_Wallet": 5000000
+    }
+  ],
+  "five_dimensions": {
+    "Fans": {
+      "initial": 0,
+      "min": 0,
+      "max": 10000000,
+      "chapter_never_regresses": true
+    },
+    "Heat": {
+      "initial": 100,
+      "min": 0,
+      "max": 10000,
+      "stage_decay_pct": 0.15,
+      "stage_decay_floor_min": 15,
+      "rounding": "Math.floor",
+      "death_ending_on_zero": "D04"
+    },
+    "Wallet": {
+      "initial": 2000,
+      "min": 0,
+      "max": 99999999,
+      "normal_zero_death": "D02",
+      "Indemnity_negative_deaths": {
+        "fake_goods": "D12",
+        "contract_lawsuit": "D13"
+      }
+    },
+    "Rep": {
+      "initial": 60,
+      "min": -100,
+      "max": 100,
+      "death_threshold": -20,
+      "death_ending": "D03",
+      "sponsor_mult_cap": 1.5,
+      "sponsor_mult_threshold": 80
+    },
+    "Stamina": {
+      "initial": 80,
+      "min": 0,
+      "max": 100,
+      "death_ending_on_zero": "D01",
+      "alert_zone_threshold": 30,
+      "alert_skew_pct": 0.4,
+      "high_status_highlight_threshold": 85
+    }
+  },
+  "attributes_config": {
+    "base_points_total": 45,
+    "ad_bonus_points_max": 12,
+    "total_starting_pool_cap": 57,
+    "single_attribute_min": 1,
+    "single_attribute_base_max": 10,
+    "single_attribute_ad_bonus_cap": 3,
+    "single_attribute_after_ad_max": 8,
+    "in_game_growth_cap_per_attribute": 2,
+    "attributes": [
+      "颜值",
+      "嗓音",
+      "才艺",
+      "游戏技术",
+      "口才",
+      "情商",
+      "体力",
+      "心态",
+      "运气"
+    ]
+  },
+  "schedules": {
+    "time_slots": [
+      {
+        "id": "slot_morning",
+        "name": "清晨场 (06–09点)",
+        "target_audience": "通勤上班族、早起大爷",
+        "competition": "竞争低、推流门槛极低",
+        "fans_mult": 0.85,
+        "wallet_mult": 0.7,
+        "wallet_mult_default": 0.7,
+        "wallet_mult_ecommerce": 0.7,
+        "stamina_mult": 0.8,
+        "event_weight_skew": "电台/唠嗑主场；大爷大妈破圈短卡权重 up"
+      },
+      {
+        "id": "slot_noon",
+        "name": "午间场 (11–14点)",
+        "target_audience": "学生午休、职场摸鱼党",
+        "competition": "竞争中等、短平快",
+        "fans_mult": 1.1,
+        "wallet_mult": 0.85,
+        "wallet_mult_default": 0.85,
+        "wallet_mult_ecommerce": 0.85,
+        "stamina_mult": 1,
+        "event_weight_skew": "游戏/整活切片出圈率 +30%；乐子人事件权重 up"
+      },
+      {
+        "id": "slot_afternoon",
+        "name": "下午场 (14–18点)",
+        "target_audience": "全职妈妈、中老年盘",
+        "competition": "全天竞争最低",
+        "fans_mult": 0.9,
+        "wallet_mult": 1,
+        "wallet_mult_default": 1,
+        "wallet_mult_ecommerce": 1.25,
+        "wallet_mult_condition": "仅带货模式生效",
+        "stamina_mult": 0.9,
+        "event_weight_skew": "带货家居/食品转化率 +35%；才艺与游戏盘极弱"
+      },
+      {
+        "id": "slot_prime",
+        "name": "黄金档 (19–23点)",
+        "target_audience": "全民流量峰值",
+        "competition": "竞争最惨烈、推流门槛最高",
+        "fans_mult": 1.4,
+        "wallet_mult": 1.4,
+        "wallet_mult_default": 1.4,
+        "wallet_mult_ecommerce": 1.4,
+        "stamina_mult": 1.3,
+        "event_weight_skew": "PK 主场、大哥出没、盛典冲榜；同行竞争与被锤事件高发"
+      },
+      {
+        "id": "slot_late",
+        "name": "深夜档 (23–02点)",
+        "target_audience": "夜猫子、情绪消费盘",
+        "competition": "门槛中、留存时长极高",
+        "fans_mult": 1.15,
+        "wallet_mult": 1.5,
+        "wallet_mult_default": 1.5,
+        "wallet_mult_ecommerce": 1.5,
+        "stamina_mult": 2,
+        "event_weight_skew": "电台王炸时段；榜一私信、感情线、私生越界（私C2）与熬夜翻车权重 up"
+      }
+    ],
+    "durations": [
+      {
+        "hours": 2,
+        "name": "2 小时（短播养生档）",
+        "fans_mult": 0.8,
+        "base_stamina_cost": 10,
+        "recommended_physique": 1,
+        "can_force_start": true,
+        "is_hard_locked": false,
+        "note": "无体力门槛"
+      },
+      {
+        "hours": 4,
+        "name": "4 小时（标准主力档）",
+        "fans_mult": 1,
+        "base_stamina_cost": 20,
+        "recommended_physique": 4,
+        "can_force_start": true,
+        "is_hard_locked": false,
+        "note": "推荐体力 ≥ 4"
+      },
+      {
+        "hours": 6,
+        "name": "6 小时（铁人爆肝档）",
+        "fans_mult": 1.2,
+        "base_stamina_cost": 35,
+        "recommended_physique": 6,
+        "can_force_start": true,
+        "is_hard_locked": false,
+        "low_physique_extra_cost": 10,
+        "penalty_condition": "体力 < 6 强开额外追加 -10 状态",
+        "all_attendance_check": "连续 4 章选 6 小时触发公会全勤奖或 H06 全勤之神判定"
+      }
+    ],
+    "off_stream_actions": [
+      {
+        "id": 1,
+        "name": "补觉休息",
+        "cost": {
+          "stamina": 0
+        },
+        "stat_deltas": {
+          "stamina": 30
+        },
+        "attr_deltas": {},
+        "state_writes": [],
+        "buffs": {
+          "clear_debuff": "熬夜透支",
+          "prevent_alert_zone": true
+        },
+        "risk": null,
+        "immediate_effects": "状态 +30",
+        "continuous_effects": "清除「熬夜透支」Debuff，防止下一章落入 <30 警戒翻车区",
+        "effects": "状态 +30，清除熬夜透支 Debuff"
+      },
+      {
+        "id": 2,
+        "name": "专心练功",
+        "cost": {
+          "stamina": -5
+        },
+        "stat_deltas": {
+          "stamina": -5
+        },
+        "attr_deltas": {
+          "select_one": [
+            "才艺",
+            "游戏技术",
+            "口才"
+          ],
+          "delta": 1,
+          "cap_per_game": 2
+        },
+        "state_writes": [],
+        "buffs": {
+          "next_mode_mult_bonus": 0.15
+        },
+        "risk": null,
+        "immediate_effects": "才艺/技术/口才三选一 +1（单局单项上限+2），状态 -5",
+        "continuous_effects": "下阶段若排对应模式的班，模式乘区额外 +0.15",
+        "effects": "才艺/技术/口才三选一 +1（单局单项上限+2），状态 -5，下阶段对应模式乘区 +0.15"
+      },
+      {
+        "id": 3,
+        "name": "剪切片、运营账号",
+        "cost": {
+          "stamina": -5
+        },
+        "stat_deltas": {
+          "heat_pct": 15,
+          "stamina": -5
+        },
+        "attr_deltas": {},
+        "state_writes": [
+          "Count_剪切片运营 += 1"
+        ],
+        "buffs": {
+          "clip_outbreak_checks": 1,
+          "hater_tax_reduction": 0.05,
+          "m10_req_counter": 1
+        },
+        "risk": null,
+        "immediate_effects": "热度 +15%，状态 -5",
+        "continuous_effects": "下一阶段「切片出圈」判定次数 +1，老粉粘性提升（掉粉税减免 5%）；累计 ≥3 次为 M10 幕后操盘手必要条件",
+        "effects": "热度 +15%，状态 -5；下一阶段「切片出圈」判定次数 +1，老粉粘性提升（掉粉税减免 5%）；累计 ≥3 次为 M10 幕后操盘手必要条件"
+      },
+      {
+        "id": 4,
+        "name": "粉丝群运营/回私信",
+        "cost": {
+          "stamina": -5
+        },
+        "stat_deltas": {
+          "rep": 5,
+          "stamina": -5
+        },
+        "attr_deltas": {},
+        "state_writes": [],
+        "buffs": {
+          "star_card_loyalty_pct": 15,
+          "top_fan_favor": 10
+        },
+        "risk": null,
+        "immediate_effects": "口碑 +5，状态 -5",
+        "continuous_effects": "高等级「星牌」忠诚度 +15%，榜一大哥好感度 +10（降低一切脱粉回踩痛感）",
+        "effects": "口碑 +5，状态 -5，高等级「星牌」忠诚度 +15%，大哥好感 +10"
+      },
+      {
+        "id": 5,
+        "name": "选品与商务对接",
+        "cost": {
+          "stamina": 0
+        },
+        "stat_deltas": {},
+        "attr_deltas": {},
+        "state_writes": [
+          "Count_验货命中 += 1",
+          "Flag_选品减伤 = 1"
+        ],
+        "buffs": {
+          "next_ecommerce_conversion_pct": 20
+        },
+        "risk": null,
+        "ops_type": "sample_inspect",
+        "ops_config": {
+          "total_samples": 3,
+          "flip_limit": 2,
+          "choice_buttons": [
+            "指认 #1 掺假",
+            "指认 #2 掺假",
+            "指认 #3 掺假",
+            "三件全合格"
+          ],
+          "hit_effect": "Count_验货命中 +1; Flag_选品减伤 = 1"
+        },
+        "immediate_effects": "下一场带货转化率 +20%，触发【翻样辨真】轻操作",
+        "continuous_effects": "三件样品扣放翻2件，指认命中则 Count_验货命中 +1（同步置 Flag_选品减伤=1），累加至 C5-M07 减伤/反诉判线",
+        "effects": "下一场带货转化率 +20%，触发【翻样辨真】（翻任意2件 + 四键指认），命中则 Count_验货命中 +1（同步置 Flag_选品减伤=1）"
+      },
+      {
+        "id": 6,
+        "name": "看回放复盘、整理素材留档",
+        "cost": {
+          "stamina": 0
+        },
+        "stat_deltas": {},
+        "attr_deltas": {
+          "mindset_per_2_counts": 1
+        },
+        "state_writes": [
+          "Count_复盘留档 += 1"
+        ],
+        "buffs": {
+          "unique_counterattack_source": "C5-M02"
+        },
+        "risk": null,
+        "immediate_effects": "Count_复盘留档 +1（每累计 2 次留档，心态 +1）",
+        "continuous_effects": "【唯一反杀源】保存原始录屏与未剪辑工程文件，第五章高潮「被锤事件（事19）」中解锁完整证据链绝地反杀选项的唯一来源",
+        "effects": "Count_复盘留档 +1（每累计 2 次留档，心态 +1），唯一反杀源（第五章被锤事件绝地反杀唯一来源）"
+      },
+      {
+        "id": 7,
+        "name": "约会 / 社交",
+        "cost": {
+          "stamina": 0
+        },
+        "stat_deltas": {
+          "stamina": 10
+        },
+        "attr_deltas": {},
+        "state_writes": [],
+        "buffs": {
+          "advance_love_favor": 1
+        },
+        "risk": {
+          "condition": "is_secret_period",
+          "trigger": "Count_偷拍素材 += 1",
+          "description": "处于保密期则触发 1 次被狗仔偷拍判定"
+        },
+        "immediate_effects": "状态 +10（甜段），推进当前对象好感",
+        "continuous_effects": "按当前结识恋爱对象进入甜段互动；若处于保密期则触发 1 次被狗仔偷拍判定",
+        "effects": "状态 +10，推进恋爱对象好感；保密期触发狗仔偷拍判定"
+      },
+      {
+        "id": 8,
+        "name": "接私活",
+        "cost": {
+          "stamina": -20
+        },
+        "stat_deltas": {
+          "stamina": -20,
+          "wallet_chapter_base_mult": 0.4
+        },
+        "attr_deltas": {},
+        "state_writes": [],
+        "buffs": null,
+        "risk": {
+          "condition": "Flag_签公会 == 1",
+          "chance": 0.4,
+          "warning": "触发公会违约警告"
+        },
+        "immediate_effects": "钱包 +当章基准×0.4，状态 -20",
+        "continuous_effects": "快速补充现金流救急；但签约公会状态下有 40% 概率触发公会违约警告",
+        "effects": "钱包 +当章基准×0.4，状态 -20（签约公会状态下 40% 概率触发公会违约警告）"
+      }
+    ]
+  },
+  "screens": [
+    {
+      "screen_id": "Screen-01",
+      "name": "捏人与前置属性分配屏",
+      "inputs": "45点基础总点自由分配至9条属性（1-10）；可选看激励视频广告（广告点位1，每看1条+3点，最多4条封顶+12点，单项广告上限+3且吃满不超过8）",
+      "outputs": "生成玩家9维初始属性（总和45-57）；进入第一章开播"
+    },
+    {
+      "screen_id": "Screen-02",
+      "name": "直播排班配置屏（8 选 1）",
+      "inputs": "1.选择开播模式（7常规排班 + 1后期数字人锁定槽）；2.选择开播时段（清晨/午间/下午/黄金/深夜）；3.选择时长（2h/4h/6h）",
+      "outputs": "计算推流乘区、钱包变现乘区、状态消耗；决定本场事件池模式门控与抽取权重"
+    },
+    {
+      "screen_id": "Screen-03",
+      "name": "直播主界面（事件卡连续交互）",
+      "inputs": "每场开播抽取2-4张事件卡（单章5张）；每卡阅读正文与两难，在2-3个选项中点击其一",
+      "outputs": "展示卡面文案与NPC差分；若点选暴毙选项进入 Screen-06，若完成整场进 Screen-04"
+    },
+    {
+      "screen_id": "Ops-A",
+      "parent_screen": "Screen-03",
+      "name": "轻操作一：时机条点停",
+      "inputs": "每章至多1张标志性卡挂载；光标在时机条往复扫动（速度0.65，5秒超时上限），玩家点击屏幕完成点停判定",
+      "outputs": "甜区×1.15 / 良区×1.05 / 普通×1.0（参数化甜区宽0.15/良区宽0.40，中心实例随机），并入所在卡结算并受单卡 Cap 夹逼"
+    },
+    {
+      "screen_id": "Screen-04",
+      "name": "下播行动屏（8 选 1）",
+      "inputs": "每章1-2个行动点，在8项下播行动中点选；第3-6章附买推流券与高端SPA商店入口",
+      "outputs": "即时结算状态/属性/计数累加；选「5.选品」弹出 Ops-B 翻样辨真；耗尽行动点进 Screen-05"
+    },
+    {
+      "screen_id": "Ops-B",
+      "parent_screen": "Screen-04 / C4-M02 / C5-M07",
+      "name": "轻操作二：翻样辨真",
+      "inputs": "桌面扣放3件样品文字卡，先点击翻开任意2件看文字线索，再在4个指认按钮中四选一（指认#1掺假 / 指认#2掺假 / 指认#3掺假 / 三件全合格）",
+      "outputs": "指认命中写入 Count_验货命中 +1（同步激活 Flag_选品减伤=1）；选错无直接惩罚"
+    },
+    {
+      "screen_id": "Screen-05",
+      "name": "阶段（章末）结算屏",
+      "inputs": "查看本章总涨粉/净收入/粉丝6类构成漂移；可选点「阶段结算双倍（看广告）」（单局限2次）；未达标可进加时赛（+3卡）或达标晋升下一章",
+      "outputs": "滚动展示跨槛横幅、更新6类粉丝占比与黑粉浓度；第6章结算后进 Screen-07"
+    },
+    {
+      "screen_id": "Screen-06",
+      "name": "中途暴毙结算页",
+      "inputs": "1.「暴毙复活：回到上一张卡重选（看广告）」（并入广告点位2，单局限1次）；2.「认命收下结局→进图鉴」；3.「再来一局」置顶按钮",
+      "outputs": "展示暴毙结局名、稀有度、搞笑文案、人生评语及【因果回放条】；点暴毙复活执行 Snapshot_BeforeCard 整卡快照回滚"
+    },
+    {
+      "screen_id": "Screen-07",
+      "name": "终局加冕结算页",
+      "inputs": "1. 查看 M01–M12 主结局或 H01–H12 彩蛋详情与新解锁天赋；2.「番外视角解锁（看广告）」（广告点位3）；3.「生成结局分享卡」按钮（打开 Screen-08）；4. 置顶「再来一局」按钮（含沿用上局配点勾选）",
+      "outputs": "写入本地持久化图鉴与天赋存档，展示本局关键选择回放，支持打开 Screen-08 或 Screen-09"
+    },
+    {
+      "screen_id": "Screen-08",
+      "name": "结局分享卡弹窗（独立成行 · 勘误 P4-4）",
+      "inputs": "1. 在分享卡预览弹窗中切换「显示/隐藏五维雷达图」或「显示/隐藏因果回放标签」；2. 点击「保存截图 / 晒图分享」按钮；3. 点击「关闭返回结算页」按钮（永不禁用）",
+      "outputs": "独立渲染单张高传播度分享卡片（结局大标题 + 稀有度印章 + 一句人生评语 + 五维最终雷达图 + 埋雷/封神关键选择回放），导出静态图片或触发截图引导后返回 Screen-06 / Screen-07"
+    },
+    {
+      "screen_id": "Screen-09",
+      "name": "50 格结局图鉴与天赋陈列室",
+      "inputs": "按「主结局(12) / 中途暴毙(26) / 隐藏彩蛋(12)」三页签浏览50格图鉴；点击已解锁格看详情与天赋，点击未解锁剪影看单句线索；内置10/25/50成就墙切换",
+      "outputs": "顶部显示总收集进度 X/50 与稀有度分色统计（普通蓝/稀有紫/传说金），达成 10/25/50 结局时点亮内置成就墙勋章横幅"
+    }
+  ],
+  "art_budget": {
+    "cap_total": 69,
+    "ruling": "P3-2: 追认 69 张为全本总盘封顶（超出 69 须店主另批）",
+    "breakdown": {
+      "npc_portraits_and_diffs": 36,
+      "ui_and_scene_templates": 6,
+      "ending_illustrations": 27
+    }
+  },
+  "engineering_red_lines": [
+    "1. 退出按钮永不禁用",
+    "2. 会话看门狗约 300 秒防无回调死等",
+    "3. 进度用墙钟不用 SDK 回调",
+    "4. skipped 绝不自动重试",
+    "5. 改广告代码必跑回归"
+  ]
+}

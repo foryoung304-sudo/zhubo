@@ -179,9 +179,10 @@ for (let ch = 1; ch <= 6; ch++) {
   const cards = drawEngine.drawChapterCards(ch, fullState);
   assert(cards.length === 5, `31.${ch}. Chapter ${ch} draw queue === 5 cards`);
 
+  let ch1CardFansGained = 0;
   // Play each card
   for (const card of cards) {
-    const safeOpt = card.options.find(o => {
+    const selectableOpts = card.options.filter(o => {
       if (!cardEngine.isOptionSelectable(o, fullState)) return false;
       const w = o.effects.delta_five_dim.wallet;
       if (w !== undefined && w < 0 && Math.abs(w) > fullState.fiveDim.wallet) return false;
@@ -189,13 +190,20 @@ for (let ch = 1; ch <= 6; ch++) {
       if (o.check_expr && !fullState.evalCondition(o.check_expr)) {
         if (o.check_fail?.ending_triggers?.some(e => e.startsWith('D'))) return false;
       }
-      // Avoid excessive reputation loss if nearing gate
-      const r = o.effects.delta_five_dim.rep;
-      if (r !== undefined && r < 0 && (fullState.fiveDim.rep + r < 80)) return false;
       return true;
-    }) || card.options.find(o => cardEngine.isOptionSelectable(o, fullState)) || card.options[0];
+    });
 
+    const safeOpt = selectableOpts.sort((a, b) => {
+      const aF = a.effects.delta_five_dim?.fans_pct || a.effects.delta_five_dim?.fans || 0;
+      const bF = b.effects.delta_five_dim?.fans_pct || b.effects.delta_five_dim?.fans || 0;
+      return bF - aF;
+    })[0] || card.options.find(o => cardEngine.isOptionSelectable(o, fullState)) || card.options[0];
+
+    const fBefore = fullState.fiveDim.fans;
     cardEngine.selectOption(card, safeOpt.opt_key, fullState);
+    if (ch === 1) {
+      ch1CardFansGained += (fullState.fiveDim.fans - fBefore);
+    }
     if (fullState.isDead) break;
   }
 
@@ -206,8 +214,34 @@ for (let ch = 1; ch <= 6; ch++) {
 
   // Chapter settlement
   if (!fullState.isDead) {
-    fullState.fiveDim.fans += configData.chapters.find(c => c.chapter === ch).fans_gate_to;
-    stageSettlement.settleChapter(fullState);
+    let sRes = stageSettlement.settleChapter(fullState);
+    if (!sRes.isPromoted && sRes.canOvertime) {
+      // Overtime 3 cards
+      const otCards = drawEngine.drawChapterCards(ch, fullState, 3);
+      for (const otCard of otCards) {
+        const selectableOpts = otCard.options.filter(o => {
+          if (!cardEngine.isOptionSelectable(o, fullState)) return false;
+          if (o.effects.ending_triggers.some(e => e.startsWith('D'))) return false;
+          return true;
+        });
+        const opt = selectableOpts.sort((a, b) => {
+          const aF = a.effects.delta_five_dim?.fans_pct || a.effects.delta_five_dim?.fans || 0;
+          const bF = b.effects.delta_five_dim?.fans_pct || b.effects.delta_five_dim?.fans || 0;
+          return bF - aF;
+        })[0] || otCard.options[0];
+        cardEngine.selectOption(otCard, opt.opt_key, fullState);
+      }
+      sRes = stageSettlement.settleChapter(fullState);
+    }
+    if (ch === 1) {
+      // X1 Acceptance: Faithful run through Chapter 1, zero force-advance, card fans gain > 0 and end-of-stage passes 1000
+      assert(ch1CardFansGained > 0, '31.1. Ch1 Faithful: Card fans gain > 0 without force-advance', `gained=${ch1CardFansGained}`);
+      assert(sRes.isPromoted && fullState.fiveDim.fans >= 1000, '31.2. Ch1 Faithful: Natural gate promotion (fans >= 1000)', `fans=${fullState.fiveDim.fans}`);
+    }
+    if (!sRes.isPromoted && ch > 1) {
+      fullState.fiveDim.fans = Math.max(fullState.fiveDim.fans, configData.chapters.find(c => c.chapter === ch).fans_gate_to);
+      sRes = stageSettlement.settleChapter(fullState);
+    }
     if (ch < 6) stageSettlement.advanceChapter(fullState);
   }
 }
@@ -311,7 +345,7 @@ assert(w1State.fiveDim.fans === 5000000, '49. W1: C6-M02:B failure branch fans d
 // W5.1: Single-card Cap_Fans and Cap_Wallet clamp
 const capState = new GameState(configData, stateDict, endingsData);
 capState.currentChapter = 1; // Ch1 Cap_Fans = 600, Cap_Wallet = 3000
-capState.fiveDim.fans = 5000; // 5000 * 40% = 2000, exceeding Cap_Fans 600
+capState.fiveDim.fans = 5000;
 capState.fiveDim.wallet = 2000;
 const testCardCap = {
   card_id: 'TEST-CAP',
@@ -320,7 +354,7 @@ const testCardCap = {
   options: [{
     opt_key: 'A',
     effects: {
-      delta_five_dim: { fans_pct: 40, wallet: 10000 }
+      delta_five_dim: { fans_pct: 200, wallet: 10000 }
     }
   }]
 };
@@ -339,7 +373,7 @@ assert(dblSettle.netWalletGain <= 3000, '53. W5.1: Stage settlement ad double wa
 
 // W5.2 / W5.3: Product-level ops multiplier & total multiplier clamp [0.4, 3.0]
 const multState = new GameState(configData, stateDict, endingsData);
-multState.currentChapter = 4; // Ch4 Cap_Fans = 400000, Cap_Wallet = 500000
+multState.currentChapter = 4; // Ch4 Cap_Fans = 400000, Cap_Wallet = 500000, Base_Fans = 200000, Base_Income = 120000
 multState.fiveDim.fans = 100000;
 multState.fiveDim.wallet = 50000;
 const testCardMult = {
@@ -353,10 +387,11 @@ const testCardMult = {
     }
   }]
 };
-// With 1.15 ops multiplier: fans delta = Math.round(100000 * 0.10 * 1.15) = 11500; wallet delta = Math.round(10000 * 1.15) = 11500
+// Under Formula ①: deltaFans = Math.floor(200000 * (1.4 * 1.15) * 1.10) = 354200
+// Under Formula ②: deltaWallet = Math.floor((120000 * 1.4 * 0.9 * 0.5 + 10000) * 1.15) = 98440
 cardEngine.selectOption(testCardMult, 'A', multState, { multiplier: 1.15 });
-assert(multState.fiveDim.fans === 100000 + 11500, '54. W5.3: Ops multiplier applies at product-level to fans (100000 * 10% * 1.15 = 11500)');
-assert(multState.fiveDim.wallet === 50000 + 11500, '55. W5.3: Ops multiplier applies at product-level to wallet (10000 * 1.15 = 11500)');
+assert(multState.fiveDim.fans === 100000 + 354200, '54. W5.3: Ops multiplier applies at product-level to fans (200000 * 1.61 * 1.10 = 354200)');
+assert(multState.fiveDim.wallet === 50000 + 98440, '55. W5.3: Ops multiplier applies at product-level to wallet ((75600 + 10000) * 1.15 = 98440)');
 
 // W5.4: Circus style (Tag_流派 == '整活') x2.5 multiplier & 35% zero-revenue
 const circusState = new GameState(configData, stateDict, endingsData);
@@ -365,9 +400,10 @@ circusState.fiveDim.fans = 100000;
 circusState.fiveDim.wallet = 50000;
 circusState.variables['Tag_流派'] = '整活';
 // Test x2.5 branch (circusRoll = 0.50 >= 0.35)
+// Fans: 200000 * 3.0(clamp) * 1.10 = 660000 -> clamped by Cap_Fans to 400000; Wallet: (75600 + 10000) * 2.5 = 214000
 cardEngine.selectOption(testCardMult, 'A', circusState, { multiplier: 1.0, circusRoll: 0.50 });
-assert(circusState.fiveDim.fans === 100000 + 25000, '56. W5.4: Circus style x2.5 multiplier applies (fans +25000)');
-assert(circusState.fiveDim.wallet === 50000 + 25000, '57. W5.4: Circus style x2.5 multiplier applies (wallet +25000)');
+assert(circusState.fiveDim.fans === 100000 + 400000, '56. W5.4: Circus style x2.5 multiplier applies (fans +400000 clamped by Cap_Fans)');
+assert(circusState.fiveDim.wallet === 50000 + 214000, '57. W5.4: Circus style x2.5 multiplier applies (wallet +214000)');
 
 // Test 35% zero revenue branch (circusRoll = 0.10 < 0.35)
 const zeroCircusState = new GameState(configData, stateDict, endingsData);
@@ -386,7 +422,7 @@ renSheTrueState.fiveDim.fans = 100000;
 renSheTrueState.variables['Tag_人设'] = '真实';
 const c4m06Card = cardsData.find(c => c.card_id === 'C4-M06');
 cardEngine.selectOption(c4m06Card, 'A', renSheTrueState);
-assert(renSheTrueState.fiveDim.fans === 100000 + 20000, '60. W6: C4-M06:A Tag_人设==真实 evaluates true and awards +20% fans');
+assert(renSheTrueState.fiveDim.fans === 100000 + 336000, '60. W6: C4-M06:A Tag_人设==真实 evaluates true and awards +20% fans (Base_Fans 200000 * 1.4 * 1.2 = 336000)');
 
 const renSheFalseState = new GameState(configData, stateDict, endingsData);
 renSheFalseState.currentChapter = 4;
@@ -394,6 +430,273 @@ renSheFalseState.fiveDim.fans = 100000;
 renSheFalseState.variables['Tag_人设'] = '单身';
 cardEngine.selectOption(c4m06Card, 'A', renSheFalseState);
 assert(renSheFalseState.fiveDim.fans === 100000 - 40000, '61. W6: C4-M06:A Tag_人设!=真实 evaluates false and drops -40% fans');
+
+// -----------------------------------------------------------------------------
+// Test 17: Round-6 Engine Rulings (X1, X2, X3 Behavior Assertions)
+// -----------------------------------------------------------------------------
+
+// X1: Card fans anchor to Base_Fans formula (§2.3 公式①)
+const x1State = new GameState(configData, stateDict, endingsData);
+x1State.currentChapter = 1; // Base_Fans = 220
+x1State.fiveDim.fans = 1000;
+x1State.selectedSchedule.mode = 'PK';
+x1State.selectedSchedule.timeSlot = 'slot_prime'; // 1.4
+x1State.selectedSchedule.duration = 4; // 1.0
+const cardX1Positive = {
+  card_id: 'X1-POS',
+  pool_type: 'milestone',
+  mode_tags: ['PK'],
+  ops_type: 'none',
+  options: [{ opt_key: 'A', effects: { delta_five_dim: { fans_pct: 25 } } }]
+};
+// 220 * 1.4 * 1.25 = 385
+cardEngine.selectOption(cardX1Positive, 'A', x1State);
+assert(x1State.fiveDim.fans === 1000 + 385, '62. X1: Card fans anchored to Base_Fans(1)=220 formula (gain === 385)');
+
+// X1.1: Designated normal play line in Chapter 1 runs faithfully without force-advance
+const x1Faithful = new GameState(configData, stateDict, endingsData);
+x1Faithful.fiveDim.fans = 0;
+x1Faithful.currentChapter = 1;
+x1Faithful.selectedSchedule.mode = 'PK';
+x1Faithful.selectedSchedule.timeSlot = 'slot_prime';
+x1Faithful.selectedSchedule.duration = 4;
+const designatedCardsCh1 = [
+  { card: cardsData.find(c => c.card_id === 'C1-M01'), opt: 'A' },
+  { card: cardsData.find(c => c.card_id === 'C1-M02'), opt: 'A' },
+  { card: cardsData.find(c => c.card_id === 'C1-M03'), opt: 'A' },
+  { card: cardsData.find(c => c.card_id === 'C1-M08'), opt: 'B' },
+  { card: cardsData.find(c => c.card_id === 'C1-M10'), opt: 'B' }
+];
+let ch1DesignatedCardGain = 0;
+for (const item of designatedCardsCh1) {
+  const fBefore = x1Faithful.fiveDim.fans;
+  cardEngine.selectOption(item.card, item.opt, x1Faithful);
+  ch1DesignatedCardGain += (x1Faithful.fiveDim.fans - fBefore);
+}
+assert(ch1DesignatedCardGain > 0, '63. X1: Designated normal line card fans gain > 0 without force-advance', `gained=${ch1DesignatedCardGain}`);
+const ch1FaithfulSettle = stageSettlement.settleChapter(x1Faithful);
+assert(ch1FaithfulSettle.isPromoted && x1Faithful.fiveDim.fans >= 1000,
+  '64. X1: Designated normal line faithfully passes gate 1000 at end of Chapter 1',
+  `fans=${x1Faithful.fiveDim.fans}`);
+
+// X1: Negative fans tax drops current fans
+const cardX1Tax = {
+  card_id: 'X1-TAX',
+  pool_type: 'milestone',
+  ops_type: 'none',
+  options: [{ opt_key: 'A', effects: { delta_five_dim: { fans_pct: -15 } } }]
+};
+const beforeTaxFans = x1State.fiveDim.fans;
+cardEngine.selectOption(cardX1Tax, 'A', x1State);
+const expectedTaxDrop = Math.floor(beforeTaxFans * 0.15);
+assert(x1State.fiveDim.fans === beforeTaxFans - expectedTaxDrop, '65. X1: Negative fans tax cuts from current fans pool (§2.2 注 3)');
+
+// X1: Card with no fans specified yields strictly 0 fans delta
+const cardX1Zero = {
+  card_id: 'X1-ZERO',
+  pool_type: 'milestone',
+  ops_type: 'none',
+  options: [{ opt_key: 'A', effects: { delta_five_dim: { rep: -50 } } }]
+};
+const beforeZeroFans = x1State.fiveDim.fans;
+cardEngine.selectOption(cardX1Zero, 'A', x1State);
+assert(x1State.fiveDim.fans === beforeZeroFans, '66. X1: Card with no fans deltas produces strictly 0 fans delta');
+
+// X2.① 经营乘区五段行为断言
+// M_模式 (契合 1.0 vs 不契合 0.8 vs 公会 1.2)
+const sModeMatch = new GameState(configData, stateDict, endingsData);
+sModeMatch.currentChapter = 1;
+sModeMatch.selectedSchedule.mode = '游戏';
+const cardModeGame = { card_id: 'C-MODE', pool_type: 'milestone', mode_tags: ['游戏'], ops_type: 'none', options: [{ opt_key: 'A', effects: { delta_five_dim: { fans_pct: 0 } } }] };
+cardEngine.selectOption(cardModeGame, 'A', sModeMatch); // 220 * 1.4 * 1.0 = 308
+assert(sModeMatch.fiveDim.fans === 308, '67. X2.①: M_模式 matching gives 1.0 multiplier (308)');
+
+const sModeMismatch = new GameState(configData, stateDict, endingsData);
+sModeMismatch.currentChapter = 1;
+sModeMismatch.selectedSchedule.mode = '电台';
+cardEngine.selectOption(cardModeGame, 'A', sModeMismatch); // 220 * 1.4 * 0.8 = 246
+assert(sModeMismatch.fiveDim.fans === 246, '68. X2.①: M_模式 mismatching gives 0.8 multiplier (246)');
+
+const sModeGuild = new GameState(configData, stateDict, endingsData);
+sModeGuild.currentChapter = 1;
+sModeGuild.selectedSchedule.mode = '游戏';
+sModeGuild.variables['Flag_签公会'] = 1;
+cardEngine.selectOption(cardModeGame, 'A', sModeGuild); // 220 * 1.4 * 1.2 = 369
+assert(sModeGuild.fiveDim.fans === 369, '69. X2.①: M_模式 guild push adds +0.2 giving 1.2 multiplier (369)');
+
+// M_时段 (slot_prime 1.4 vs slot_morning 0.85)
+const sSlotPrime = new GameState(configData, stateDict, endingsData);
+sSlotPrime.currentChapter = 1;
+sSlotPrime.selectedSchedule.mode = '游戏';
+sSlotPrime.selectedSchedule.timeSlot = 'slot_prime';
+cardEngine.selectOption(cardModeGame, 'A', sSlotPrime); // 220 * 1.4 = 308
+assert(sSlotPrime.fiveDim.fans === 308, '70. X2.①: M_时段 slot_prime gives 1.4 multiplier (308)');
+
+const sSlotMorning = new GameState(configData, stateDict, endingsData);
+sSlotMorning.currentChapter = 1;
+sSlotMorning.selectedSchedule.mode = '游戏';
+sSlotMorning.selectedSchedule.timeSlot = 'slot_morning';
+cardEngine.selectOption(cardModeGame, 'A', sSlotMorning); // 220 * 0.85 = 187
+assert(sSlotMorning.fiveDim.fans === 187, '71. X2.①: M_时段 slot_morning gives 0.85 multiplier (187)');
+
+// M_时长 (2h 0.8 vs 4h 1.0 vs 6h 1.2)
+const sDur2 = new GameState(configData, stateDict, endingsData);
+sDur2.currentChapter = 1;
+sDur2.selectedSchedule.mode = '游戏';
+sDur2.selectedSchedule.duration = 2;
+cardEngine.selectOption(cardModeGame, 'A', sDur2); // 220 * 1.4 * 0.8 = 246
+assert(sDur2.fiveDim.fans === 246, '72. X2.①: M_时长 2h gives 0.8 multiplier (246)');
+
+const sDur6 = new GameState(configData, stateDict, endingsData);
+sDur6.currentChapter = 1;
+sDur6.selectedSchedule.mode = '游戏';
+sDur6.selectedSchedule.duration = 6;
+cardEngine.selectOption(cardModeGame, 'A', sDur6); // 220 * 1.4 * 1.2 = 369
+assert(sDur6.fiveDim.fans === 369, '73. X2.①: M_时长 6h gives 1.2 multiplier (369)');
+
+// M_属性 (核心属性 10 -> 1.25; 核心属性 1 -> 0.80)
+const sAttr10 = new GameState(configData, stateDict, endingsData);
+sAttr10.currentChapter = 1;
+sAttr10.selectedSchedule.mode = '游戏';
+sAttr10.attributes['游戏技术'] = 10;
+cardEngine.selectOption(cardModeGame, 'A', sAttr10); // 220 * 1.4 * 1.25 = 385
+assert(sAttr10.fiveDim.fans === 385, '74. X2.①: M_属性 coreAttr=10 gives 1.25 multiplier (385)');
+
+const sAttr1 = new GameState(configData, stateDict, endingsData);
+sAttr1.currentChapter = 1;
+sAttr1.selectedSchedule.mode = '游戏';
+sAttr1.attributes['游戏技术'] = 1;
+cardEngine.selectOption(cardModeGame, 'A', sAttr1); // 220 * 1.4 * 0.80 = 246
+assert(sAttr1.fiveDim.fans === 246, '75. X2.①: M_属性 coreAttr=1 gives 0.80 multiplier (246)');
+
+// M_口碑 (口碑 100 -> 1.40; 口碑 10 -> 0.50)
+const sRep100 = new GameState(configData, stateDict, endingsData);
+sRep100.currentChapter = 1;
+sRep100.selectedSchedule.mode = '游戏';
+sRep100.fiveDim.rep = 100;
+cardEngine.selectOption(cardModeGame, 'A', sRep100); // 220 * 1.4 * 1.40 = 431
+assert(sRep100.fiveDim.fans === 431, '76. X2.①: M_口碑 rep=100 gives 1.40 multiplier (431)');
+
+const sRep10 = new GameState(configData, stateDict, endingsData);
+sRep10.currentChapter = 1;
+sRep10.selectedSchedule.mode = '游戏';
+sRep10.fiveDim.rep = 10;
+cardEngine.selectOption(cardModeGame, 'A', sRep10); // 220 * 1.4 * 0.50 = 154
+assert(sRep10.fiveDim.fans === 154, '77. X2.①: M_口碑 rep=10 gives 0.50 multiplier (154)');
+
+// X2.②: 总乘区夹逼 [0.4, 3.0] 改夹总乘积
+// Extreme low clamp to 0.4
+const sExtremeLow = new GameState(configData, stateDict, endingsData);
+sExtremeLow.currentChapter = 1;
+sExtremeLow.selectedSchedule.mode = 'PK';
+sExtremeLow.selectedSchedule.timeSlot = 'slot_morning'; // 0.85
+sExtremeLow.selectedSchedule.duration = 2; // 0.8
+sExtremeLow.attributes['口才'] = 1; // 0.8
+sExtremeLow.fiveDim.rep = 10; // 0.5
+// Raw mult = 0.8 * 0.85 * 0.8 * 0.8 * 0.5 = 0.2176 < 0.4 -> clamped to 0.4
+// 220 * 0.4 = 88
+cardEngine.selectOption(cardModeGame, 'A', sExtremeLow);
+assert(sExtremeLow.fiveDim.fans === 88, '78. X2.②: Total multiplier clamp [0.4, 3.0] clamps low product to 0.4 (88 fans)');
+
+// X2.③: 钱包三条 R 乘区行为断言
+// R_粉丝构成: 大哥 35, 学生粉 15 -> 1.40
+const sFanCompHigh = new GameState(configData, stateDict, endingsData);
+sFanCompHigh.currentChapter = 1; // Base_Income = 800, Cap_Wallet = 3000
+sFanCompHigh.fiveDim.wallet = 1000;
+sFanCompHigh.fanComposition = { '大哥': 35, '学生粉': 15 };
+const cardWalletTest = { card_id: 'C-WALL', pool_type: 'milestone', ops_type: 'none', options: [{ opt_key: 'A', effects: { delta_five_dim: { wallet: 10 } } }] };
+// baseRevenue = 800 * 1.4 * 1.40 * 0.5 * 1.0 = 784; positiveWallet = 784 + 10 = 794
+cardEngine.selectOption(cardWalletTest, 'A', sFanCompHigh);
+assert(sFanCompHigh.fiveDim.wallet === 1000 + 794, '79. X2.③: R_粉丝构成 high big spender increases revenue by 1.40x (794)');
+
+// R_分成: 野生 0.5 vs 公会 0.35
+const sGuildRev = new GameState(configData, stateDict, endingsData);
+sGuildRev.currentChapter = 1;
+sGuildRev.fiveDim.wallet = 1000;
+sGuildRev.variables['Flag_签公会'] = 1;
+// baseRevenue = 800 * 1.4 * 0.90 * 0.35 * 1.0 = 352.8; positiveWallet = 353 + 10 = 363
+cardEngine.selectOption(cardWalletTest, 'A', sGuildRev);
+assert(sGuildRev.fiveDim.wallet === 1000 + 363, '80. X2.③: R_分成 guild stream reduces revenue share to 0.35 (363)');
+
+// R_商务: 口碑 >= 80 -> 1.5; Tag_理性消费清流 -> 1.5; 两来源取最高不叠加 (1.5)
+const sBizRep = new GameState(configData, stateDict, endingsData);
+sBizRep.currentChapter = 1;
+sBizRep.fiveDim.wallet = 1000;
+sBizRep.fiveDim.rep = 85;
+// baseRevenue = 800 * 1.4 * 0.90 * 0.5 * 1.5 = 756; positiveWallet = 756 + 10 = 766
+cardEngine.selectOption(cardWalletTest, 'A', sBizRep);
+assert(sBizRep.fiveDim.wallet === 1000 + 766, '81. X2.③: R_商务 rep>=80 grants 1.5x business rate (766)');
+
+const sBizTag = new GameState(configData, stateDict, endingsData);
+sBizTag.currentChapter = 1;
+sBizTag.fiveDim.wallet = 1000;
+sBizTag.variables['Tag_理性消费清流'] = 1;
+cardEngine.selectOption(cardWalletTest, 'A', sBizTag);
+assert(sBizTag.fiveDim.wallet === 1000 + 766, '82. X2.③: R_商务 Tag_理性消费清流 grants 1.5x business rate (766)');
+
+const sBizBoth = new GameState(configData, stateDict, endingsData);
+sBizBoth.currentChapter = 1;
+sBizBoth.fiveDim.wallet = 1000;
+sBizBoth.fiveDim.rep = 85;
+sBizBoth.variables['Tag_理性消费清流'] = 1;
+// Both present: strictly 1.5x, DOES NOT stack to 2.25x
+cardEngine.selectOption(cardWalletTest, 'A', sBizBoth);
+assert(sBizBoth.fiveDim.wallet === 1000 + 766, '83. X2.③: R_商务 non-stacking clamp: both conditions present still capped at 1.5x (766)');
+
+// X2.④: chapter_5card_fans_cap 5卡累计上限生效
+const s5CardCap = new GameState(configData, stateDict, endingsData);
+s5CardCap.currentChapter = 1; // chapter_5card_fans_cap = 3000, Cap_Fans = 600
+s5CardCap.fiveDim.fans = 0;
+const cardCapCh1 = { card_id: 'C-CAP', pool_type: 'milestone', ops_type: 'none', options: [{ opt_key: 'A', effects: { delta_five_dim: { fans_pct: 200 } } }] };
+// Play 4 cards, each clamped to Cap_Fans 600 -> 2400
+for (let i = 0; i < 4; i++) {
+  cardEngine.selectOption(cardCapCh1, 'A', s5CardCap);
+}
+assert(s5CardCap.fiveDim.fans === 2400, '84. X2.④: 4 cards reach 2400 fans gained');
+// 5th card attempts 600: 2400 + 600 = 3000
+cardEngine.selectOption(cardCapCh1, 'A', s5CardCap);
+assert(s5CardCap.fiveDim.fans === 3000, '85. X2.④: 5th card reaches exactly chapter_5card_fans_cap (3000)');
+// 6th card attempts more: remainingCap is 0, fans delta is 0
+cardEngine.selectOption(cardCapCh1, 'A', s5CardCap);
+assert(s5CardCap.fiveDim.fans === 3000, '86. X2.④: chapter_5card_fans_cap blocks further fans gain once exhausted (3000)');
+// Advance chapter resets chapterFansGained
+stageSettlement.advanceChapter(s5CardCap);
+assert(s5CardCap.chapterFansGained === 0, '87. X2.④: advanceChapter resets chapterFansGained to 0');
+
+// X2.⑤: 加时赛行为断言 (未达闸补播 3 卡再判，不得直接判尾部结局)
+const sOvertime = new GameState(configData, stateDict, endingsData);
+sOvertime.currentChapter = 1;
+sOvertime.fiveDim.fans = 400; // Below gate 1000
+sOvertime.fiveDim.rep = 60;
+const otSettle1 = stageSettlement.settleChapter(sOvertime);
+assert(otSettle1.isPromoted === false, '88. X2.⑤: Stage settlement flags isPromoted === false');
+assert(otSettle1.canOvertime === true, '89. X2.⑤: Stage settlement triggers canOvertime === true on first failure');
+assert(sOvertime.overtimeActive === true, '90. X2.⑤: GameState overtimeActive set to true');
+const otCards = drawEngine.drawChapterCards(1, sOvertime, 3);
+assert(otCards.length === 3, '91. X2.⑤: Overtime draws exactly 3 cards');
+
+// Simulate 2nd settlement where player still fails gate -> graceful exit M04 (rep >= 50)
+sOvertime.fiveDim.fans = 600; // Still < 1000
+const otSettle2 = stageSettlement.settleChapter(sOvertime);
+assert(otSettle2.isPromoted === false, '92. X2.⑤: Second settlement still fails gate');
+assert(otSettle2.canOvertime === false, '93. X2.⑤: Overtime can only be played once (canOvertime === false)');
+assert(sOvertime.triggeredEnding === 'M04', '94. X2.⑤: Graceful exit to M04 (佛系小主播) after overtime failure');
+
+// X3: conversion_rate_pct 必须被消费 (带货结算等价钱包 +30% 修饰)
+const sConv = new GameState(configData, stateDict, endingsData);
+sConv.currentChapter = 4; // Base_Income = 120000
+sConv.fiveDim.wallet = 10000;
+sConv.selectedSchedule.mode = '带货';
+sConv.selectedSchedule.timeSlot = 'slot_prime'; // wallet_mult = 1.26
+sConv.selectedSchedule.duration = 4;
+// Baseline: baseRevenue = 120000 * 1.26 * 0.5 = 75600
+// With C4-M05:B conversion_rate_pct = 30:
+// cardBonus = Math.floor(75600 * 0.30) = 22680; positiveWallet = 75600 + 22680 = 98280
+const c4m05B = cardsData.find(c => c.card_id === 'C4-M05');
+const convRes = cardEngine.selectOption(c4m05B, 'B', sConv);
+assert(convRes.appliedDeltas.wallet === 98280, '95. X3: C4-M05:B conversion_rate_pct consumed, yielding +30% wallet income (75600 * 1.30 = 98280)');
+assert(convRes.appliedDeltas.conversion_rate_pct === undefined, '96. X3: conversion_rate_pct field consumed and removed from deltas');
+assert(sConv.fiveDim.wallet === 10000 + 98280, '97. X3: GameState wallet reflects consumed conversion rate payout');
 
 // Clean up test storage file
 try {

@@ -1,0 +1,481 @@
+{
+  "schema_version": "v0.2-transcribed",
+  "total_keys": 37,
+  "counts": {
+    "Flag": 21,
+    "Count": 9,
+    "Tag": 5,
+    "Param": 1,
+    "Total": 1
+  },
+  "variables": [
+    {
+      "line_no": 558,
+      "key": "Flag_卖惨人设",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C1-M02 选 A（摆假药瓶编巨债）",
+      "consumers_text": "C5-M08 门控与引爆判定；暴毙结局 D20 触发条件"
+    },
+    {
+      "line_no": 559,
+      "key": "Flag_科技人设",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C1-M03 选 A（焊死十级美颜声卡）",
+      "consumers_text": "C2-M03 门控（滤镜崩溃事故）；激活期间开播检定享颜/嗓临时 +2"
+    },
+    {
+      "line_no": 560,
+      "key": "Flag_老粉",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C1-M04 选 A（通宵陪聊「夜航船」）",
+      "consumers_text": "C2-M10、C6-M09 门控；彩蛋结局 H08 触发条件"
+    },
+    {
+      "line_no": 561,
+      "key": "Flag_零粉快乐",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C1-M10 选 A（关掉同城推荐当树洞）",
+      "consumers_text": "彩蛋结局 H07（零人观看的桃花源）触发条件"
+    },
+    {
+      "line_no": 562,
+      "key": "Flag_审过合同",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M01 选 B（花 500 请学长审合同）；天赋 M03【法务铁盾】、H10【行测满分的逻辑】",
+      "consumers_text": "C5-M03 选 A 起诉撕约胜败判定（=1 胜诉拿回自由身，=0 败诉进 D13）"
+    },
+    {
+      "line_no": 563,
+      "key": "Flag_签公会",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M02 选 A（签约星耀互娱）",
+      "consumers_text": "§2.3 分成比例与保底计算；§2.4 私活违约判定；C5-M03 门控；D13/D14 触发条件"
+    },
+    {
+      "line_no": 564,
+      "key": "Flag_野生主播",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M02 选 B（拒签坚持独立）",
+      "consumers_text": "§2.3 独立五五分成计算；免除公会时长考核与第五章撕约雷"
+    },
+    {
+      "line_no": 565,
+      "key": "Flag_装死黑历史",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M03 选 B（拔网线黑屏赖黑客）",
+      "consumers_text": "第五章被锤事件黑粉浓度与掉粉税附加权重 +15%"
+    },
+    {
+      "line_no": 566,
+      "key": "Flag_造假剧本",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M04 选 A（摆拍地铁口小学生绝交信）",
+      "consumers_text": "C5-M08 门控与官方通报引爆判定；暴毙结局 D21 触发条件"
+    },
+    {
+      "line_no": 567,
+      "key": "Flag_安保习惯",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M07 选 A（配齐三千块专业安保报备）",
+      "consumers_text": "C6-M02 选 B 万人见面会登台判定（=1 涨粉 40%，=0 秩序失控口碑 -50）"
+    },
+    {
+      "line_no": 568,
+      "key": "Flag_账号协议",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C2-M08 选 A（签双人账号产权协议）；天赋 D19【产权独立证】",
+      "consumers_text": "C5-M10 分手账号争夺判定（=1 选 B 保号，=0 账号被分走触发 D19）"
+    },
+    {
+      "line_no": 569,
+      "key": "Flag_公款雷",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M01 选 B（拒退挪用公款打赏分成）",
+      "consumers_text": "第五、六章税务与合规审查扣减口碑 -30 并强制追缴本金"
+    },
+    {
+      "line_no": 570,
+      "key": "Flag_榜一恋爱",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M06 选 A（赴约榜一沈总开启感情线）",
+      "consumers_text": "C6-M08 选 A/B 牵手收官时分流进入传说彩蛋结局 H02 星际巡航的港湾"
+    },
+    {
+      "line_no": 571,
+      "key": "Flag_放任切片号",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M09 选 B（放任高仿切片号不管）",
+      "consumers_text": "跨章卡 X-EGG-05 必出保底门控；暴毙结局 D26 真美猴王死于李鬼 触发条件"
+    },
+    {
+      "line_no": 572,
+      "key": "Flag_税务合规",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M10 选 A（建正规账目依法纳税）",
+      "consumers_text": "C6-M07 顶流税务大考判定（=1 零损过关口碑 +30）"
+    },
+    {
+      "line_no": 573,
+      "key": "Flag_税务隐患",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M10 选 B（拖延申报走私账）",
+      "consumers_text": "C6-M07 须变卖 70% 钱包资产补税保号，否则触发封杀"
+    },
+    {
+      "line_no": 574,
+      "key": "Flag_带货死雷",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C4-M02 选 A（听厂家劝捂盖子卖掺假牛肉干）",
+      "consumers_text": "C5-M07 门控与加重处罚；暴毙结局 D12 假牛肉干的眼泪 触发源"
+    },
+    {
+      "line_no": 575,
+      "key": "Flag_选品减伤",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "下播行动 5「选品」或 C4-M02 选 B（当 Count_验货命中 ≥ 1 时自动置 1）；天赋 D12【样品留存箱】",
+      "consumers_text": "C5-M07 减伤与反诉厂家判定（具体档位由 Count_验货命中 决定）"
+    },
+    {
+      "line_no": 576,
+      "key": "Flag_劣迹对象",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C4-M07 选 A（与劣迹说唱歌手 K 谈恋爱）",
+      "consumers_text": "C5-M04 必出保底门控；暴毙结局 D17 恋爱脑的鹤顶红 触发源"
+    },
+    {
+      "line_no": 577,
+      "key": "Flag_餐馆老板",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "X-EGG-06 选 A（盘下街角烧烤大排档）",
+      "consumers_text": "主结局 M11 人间烟火大排档 触发条件之一"
+    },
+    {
+      "line_no": 578,
+      "key": "Count_验货命中",
+      "category": "Count",
+      "type": "Integer",
+      "initial_value": 0,
+      "range_or_cap": "0 → 3",
+      "writers_text": "下播行动 5「选品（翻样辨真）」指认命中 +1；C4-M02 首验命中 +1；C5-M07 复验命中 +1；天赋 D12 初始 +1",
+      "consumers_text": "操作层核心计数（Item 12）：C5-M07 消费——≥ 1 提前拦截、供应链雷伤害减半；≥ 2 反诉厂家全身而退并锁定 M02；0 且选 B（或赔穿钱包）触发 D12"
+    },
+    {
+      "line_no": 579,
+      "key": "Count_复盘留档",
+      "category": "Count",
+      "type": "Integer",
+      "initial_value": 0,
+      "range_or_cap": "0 → 10",
+      "writers_text": "下播行动 6「看回放复盘留档」每次 +1（每满 2 次额外 心态 +1）",
+      "consumers_text": "唯一反杀源：C5-M02 选 A 要求 Count_复盘留档 ≥ 2 达成完整时间戳绝地反杀"
+    },
+    {
+      "line_no": 580,
+      "key": "Count_偷拍素材",
+      "category": "Count",
+      "type": "Integer",
+      "initial_value": 0,
+      "range_or_cap": "0 → 3（满格爆）",
+      "writers_text": "C3-M04 选 B +1；C4-M06 选 B +1；下播行动 7 保密期约会被拍 +1（天赋 D16【阅后即焚】 减免首格累积）",
+      "consumers_text": "满 3/3 格即刻在第五章强制触发 C5-M04（同款拼图曝光）及 C5-M10；若分手清算嘴硬否认或败北则触发暴毙结局 D16 求锤得锤的高清截屏"
+    },
+    {
+      "line_no": 581,
+      "key": "Count_违规警告",
+      "category": "Count",
+      "type": "Integer",
+      "initial_value": 0,
+      "range_or_cap": "0 → 2（满 2 封号）",
+      "writers_text": "C2-M09 选 A（过界 PK 惩罚）+1；C2-S06 / C4-S11 等低俗擦边选项 +1",
+      "consumers_text": "累计达 ≥ 2 即刻触发暴毙结局 D08 芥末味的封禁通知"
+    },
+    {
+      "line_no": 582,
+      "key": "Count_黑粉不对线",
+      "category": "Count",
+      "type": "Integer",
+      "initial_value": 0,
+      "range_or_cap": "0 → 5",
+      "writers_text": "C1-M07 选 B +1；后续章节黑粉挑刺短卡（C2-S08、C3-S12 等）选温和请教各 +1",
+      "consumers_text": "推进后触发 X-EGG-04 定向保底；Count_黑粉不对线 ≥ 3 且 情商 ≥ 7 解锁彩蛋结局 H01 黑粉头子是真爱"
+    },
+    {
+      "line_no": 583,
+      "key": "Count_前任律师函",
+      "category": "Count",
+      "type": "Integer",
+      "initial_value": 0,
+      "range_or_cap": "0 → 2",
+      "writers_text": "C4-M08 选 C（委托法务取证发律师函）+1",
+      "consumers_text": "C5-M12 选 C 要求 Count_前任律师函 ≥ 1 完成三次敲诈证据链闭环批捕"
+    },
+    {
+      "line_no": 584,
+      "key": "Count_猫上镜",
+      "category": "Count",
+      "type": "Integer",
+      "initial_value": 0,
+      "range_or_cap": "0 → 3",
+      "writers_text": "C1-S01 选 A/B +1；C2-S01 选 A/B +1；C3-S01 选 A/B +1（首张触发后次章定向保底）",
+      "consumers_text": "累计达 = 3 解锁彩蛋结局 H04 全星播最贵铲屎官"
+    },
+    {
+      "line_no": 585,
+      "key": "Count_考编",
+      "category": "Count",
+      "type": "Integer",
+      "initial_value": 0,
+      "range_or_cap": "0 → 3",
+      "writers_text": "C1-S07 选 A +1；C2-S17 选 A +1；C4-S16 选 A +1（首张触发后定向保底）",
+      "consumers_text": "累计达 = 3 解锁彩蛋结局 H10 宇宙尽头是编制"
+    },
+    {
+      "line_no": 586,
+      "key": "Count_算法异常",
+      "category": "Count",
+      "type": "Integer",
+      "initial_value": 0,
+      "range_or_cap": "0 → 3",
+      "writers_text": "运气 = 10 时仅 C4-S19 选 B、C5-S19 选 B、C6-S19 选 A 时各 +1（定向保底）",
+      "consumers_text": "累计达 = 3 满格即时触发，或（运气 = 10 满值且打通第六章）于第六章章末结算触发，解锁彩蛋结局 H05 冲出楚门直播间",
+      "writers_qualified": [
+        {
+          "card_id": "C4-S19",
+          "opt_key": "B",
+          "delta": 1,
+          "req_expr": "运气 == 10"
+        },
+        {
+          "card_id": "C5-S19",
+          "opt_key": "B",
+          "delta": 1,
+          "req_expr": "运气 == 10"
+        },
+        {
+          "card_id": "C6-S19",
+          "opt_key": "A",
+          "delta": 1,
+          "req_expr": "运气 == 10"
+        }
+      ],
+      "consumers_qualified": [
+        {
+          "ending_id": "H05",
+          "trigger_mode": "immediate_on_full_3",
+          "expr": "Count_算法异常 == 3"
+        },
+        {
+          "ending_id": "H05",
+          "trigger_mode": "chapter_6_end_settlement",
+          "expr": "运气 == 10 && chapter_6_cleared"
+        }
+      ]
+    },
+    {
+      "line_no": 587,
+      "key": "Tag_人设",
+      "category": "Tag",
+      "type": "Enum",
+      "initial_value": "未定",
+      "range_or_cap": "单身 | 留白 | 真实",
+      "writers_text": "C2-M06 选 A=单身、选 B=留白、选 C=真实",
+      "consumers_text": "C4-M06 官宣恋情结算（真实 涨粉 +20%，单身 掉粉 -40% 且触发回踩）"
+    },
+    {
+      "line_no": 588,
+      "key": "Tag_理性消费清流",
+      "category": "Tag",
+      "type": "BooleanTag",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M02 选 A（关闭百元以上打赏劝理性消费）",
+      "consumers_text": "正规商务报价乘区 ×1.5（与 口碑 ≥ 80 同源取最高值封顶 1.5×，不叠加）"
+    },
+    {
+      "line_no": 589,
+      "key": "Tag_清白账本",
+      "category": "Tag",
+      "type": "BooleanTag",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C3-M01 选 A（主动全额退还公款打赏分成）",
+      "consumers_text": "第五、六章合规审查免伤，抵消 1 次财务类负面舆论"
+    },
+    {
+      "line_no": 590,
+      "key": "Tag_长红口碑",
+      "category": "Tag",
+      "type": "BooleanTag",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C4-M03 选 B（拒签极光直播留守星播）",
+      "consumers_text": "第五、六章老粉星牌留存率 +20%，免除平台跑路雷 D24"
+    },
+    {
+      "line_no": 591,
+      "key": "Tag_勇敢发声者",
+      "category": "Tag",
+      "type": "BooleanTag",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "C5-M11 选 A/C（面对 AI 伪造谣言勇敢发声/报警追责）",
+      "consumers_text": "第六章盛典公众形象加分，口碑上限保护"
+    },
+    {
+      "line_no": 592,
+      "key": "Param_观众当真度",
+      "category": "Param",
+      "type": "Integer",
+      "initial_value": 0,
+      "range_or_cap": "0 ～ 100",
+      "writers_text": "C2-M05 选 A（炒假情侣 CP 营业）+40；后续 CP 互动累加",
+      "consumers_text": "拆 CP 或官宣真恋情时，若 Param_观众当真度 ≥ 60 扣除 1.5 倍掉粉税并触发暴毙 D18 碎成玻璃渣的假糖"
+    },
+    {
+      "line_no": 593,
+      "key": "Total_Income",
+      "category": "Total",
+      "type": "Integer",
+      "initial_value": 0,
+      "range_or_cap": "¥0 ～ ¥99,999,999",
+      "writers_text": "每张卡结算当 $\\Delta \\text{Wallet}_{\\text{单卡}} > 0$ 时累加净入额",
+      "consumers_text": "主结局 M02 人形上链接机器 触发条件（要求 Total_Income ≥ ¥5,000,000）"
+    },
+    {
+      "line_no": 0,
+      "key": "Flag_数字人线开放",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "X-MODE-09 与数字人线相关卡既定结算",
+      "consumers_text": "C6-M06 前置表达式、H03 主分支"
+    }
+  ],
+  "Snapshot_BeforeCard": {
+    "source": "Auto-generated from §2.9 table body keys (Errata P1-1)",
+    "total_fields": 58,
+    "base_stats_count": 21,
+    "state_dictionary_keys_count": 37,
+    "fields": [
+      "颜值",
+      "嗓音",
+      "才艺",
+      "游戏技术",
+      "口才",
+      "情商",
+      "体力",
+      "心态",
+      "运气",
+      "Fans",
+      "Heat",
+      "Wallet",
+      "Rep",
+      "Stamina",
+      "Hater_Pct",
+      "Fans_颜粉_Pct",
+      "Fans_声控粉_Pct",
+      "Fans_技术粉_Pct",
+      "Fans_乐子人_Pct",
+      "Fans_大哥_Pct",
+      "Fans_学生粉_Pct",
+      "Flag_卖惨人设",
+      "Flag_科技人设",
+      "Flag_老粉",
+      "Flag_零粉快乐",
+      "Flag_审过合同",
+      "Flag_签公会",
+      "Flag_野生主播",
+      "Flag_装死黑历史",
+      "Flag_造假剧本",
+      "Flag_安保习惯",
+      "Flag_账号协议",
+      "Flag_公款雷",
+      "Flag_榜一恋爱",
+      "Flag_放任切片号",
+      "Flag_税务合规",
+      "Flag_税务隐患",
+      "Flag_带货死雷",
+      "Flag_选品减伤",
+      "Flag_劣迹对象",
+      "Flag_餐馆老板",
+      "Count_验货命中",
+      "Count_复盘留档",
+      "Count_偷拍素材",
+      "Count_违规警告",
+      "Count_黑粉不对线",
+      "Count_前任律师函",
+      "Count_猫上镜",
+      "Count_考编",
+      "Count_算法异常",
+      "Tag_人设",
+      "Tag_理性消费清流",
+      "Tag_清白账本",
+      "Tag_长红口碑",
+      "Tag_勇敢发声者",
+      "Param_观众当真度",
+      "Total_Income",
+      "Flag_数字人线开放"
+    ]
+  }
+}

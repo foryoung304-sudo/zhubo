@@ -105,9 +105,32 @@ export class StageSettlement {
 
     gameState.fanComposition = newComposition;
 
-    // 4. Chapter Gate Check
+    // 4. Chapter Gate Check & §2.2 注 1 Overtime Mechanism (X2.⑤)
     const gateTarget = chCfg.fans_gate_to;
     const isPromoted = gameState.fiveDim.fans >= gateTarget;
+    gameState.overtimePlayed = gameState.overtimePlayed || {};
+
+    let canOvertime = false;
+    if (!isPromoted && !gameState.isDead) {
+      if (!gameState.overtimePlayed[ch]) {
+        // First time failing gate: can play overtime (3 cards)
+        canOvertime = true;
+        gameState.overtimeActive = true;
+        gameState.overtimePlayed[ch] = true;
+      } else {
+        // Already played overtime and still failed gate: graceful exit (M04 / M12)
+        gameState.isCleared = false;
+        if (!gameState.triggeredEnding) {
+          if (gameState.fiveDim.rep >= 50) {
+            gameState.triggeredEnding = 'M04'; // 佛系小主播 (口碑良好)
+          } else {
+            gameState.triggeredEnding = 'M12'; // 正常上班 (泯然众人)
+          }
+        }
+      }
+    } else if (isPromoted) {
+      gameState.overtimeActive = false;
+    }
 
     // Check Chapter 6 Cleared (盛典加冕)
     if (ch === 6 && isPromoted && !gameState.isDead) {
@@ -136,6 +159,7 @@ export class StageSettlement {
       totalWallet: gameState.fiveDim.wallet,
       fanComposition: newComposition,
       isPromoted,
+      canOvertime,
       isCleared: gameState.isCleared,
       triggeredEnding: gameState.triggeredEnding
     };
@@ -147,6 +171,8 @@ export class StageSettlement {
       gameState.currentChapter++;
       gameState.currentCardIndex = 0;
       gameState.actionPoints = 1;
+      gameState.chapterFansGained = 0; // X2.④: 重置当章 5 卡累计涨粉统计
+      gameState.overtimeActive = false;
       return gameState.currentChapter;
     }
     return 6;

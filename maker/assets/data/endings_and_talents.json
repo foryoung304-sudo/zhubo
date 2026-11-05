@@ -1,0 +1,1505 @@
+{
+  "schema_version": "v0.2-transcribed",
+  "counts": {
+    "total_endings": 50,
+    "main_endings": 12,
+    "death_endings": 26,
+    "hidden_endings": 12,
+    "total_talents": 50
+  },
+  "carry_rules": {
+    "default_slots": 3,
+    "h11_expanded_slots": 4,
+    "same_stat_bonus_cap": 3,
+    "five_dim_init_bonus_cap_pct": 15,
+    "total_pool_hard_cap": 57,
+    "single_stat_hard_cap": 10
+  },
+  "endings": [
+    {
+      "ending_id": "M01",
+      "line_no": 677,
+      "tier": "main",
+      "sub_category": null,
+      "name": "加冕星播之王",
+      "original_name": "顶流主播",
+      "aliases": [
+        "顶流主播"
+      ],
+      "trigger_condition": "打通第六章 + 粉丝 = 10,000,000（顶格） + 口碑 ≥ 85 + 顶流之夜全过且未踩红线",
+      "trigger_sources": null,
+      "settlement_copy": "百艘「星际巡航」把夜空照得像白昼，你捧着纯金小金人站在万人体育馆中央，突然想起第一天对着仙人掌说话的那个下午。全网都在刷你的名字，连当初骂你最凶的营销号都在连夜背诵你的生平事迹。你终于站在了流量的最高峰，而且难得地——没塌房。",
+      "life_quote": "「从零人在线到千万星海，你居然真的干干净净走完了全场。」",
+      "rarity": "传说",
+      "silhouette_hint": "「站在星播之巅的人，手里握着最初的麦克风。」",
+      "talent_id": "TALENT_M01",
+      "talent_name": "【星海加冕】",
+      "talent_effect": "开局全属性随机 2 项 +1，初始口碑 +10"
+    },
+    {
+      "ending_id": "M02",
+      "line_no": 678,
+      "tier": "main",
+      "sub_category": null,
+      "name": "人形上链接机器",
+      "original_name": "带货头部",
+      "aliases": [
+        "带货头部"
+      ],
+      "trigger_condition": "打通第六章 + 主修[带货]模式 ≥ 3 章 + Total_Income ≥ ¥5,000,000 +（C5-M07 全身而退 或 Count_验货命中 ≥ 2 或 全程未触发带货死雷）",
+      "trigger_sources": null,
+      "settlement_copy": "你的年货节GMV突破了十个亿，品牌方排着队在你工作室门口发号码牌。唯一的问题是职业病太重——昨晚说梦话你都在大喊「三二一上链接」，把你家橘猫吓得连夜打包离家出走了。",
+      "life_quote": "「我现在看到亲妈端菜上桌，都想问一句能不能给家人们砍两刀。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「三、二、一……手慢无！」",
+      "talent_id": "TALENT_M02",
+      "talent_name": "【金牌选品官】",
+      "talent_effect": "下播行动「选品」转化加成翻倍，开局口才 +2"
+    },
+    {
+      "ending_id": "M03",
+      "line_no": 679,
+      "tier": "main",
+      "sub_category": null,
+      "name": "屠龙者终成老板",
+      "original_name": "转型 MCN 老板",
+      "aliases": [
+        "转型 MCN 老板"
+      ],
+      "trigger_condition": "打通第六章 + 钱包 ≥ ¥3,000,000 +（第五章 C5-M03 撕约/出走成功 或 Flag_野生主播=1 且 情商 ≥ 8）",
+      "trigger_sources": null,
+      "settlement_copy": "你不仅打赢了前公会的霸王条款官司，还反手把他们那栋写字楼租了下来成立自己的 MCN。今天你在办公桌后看着刚毕业的新人主播战战兢兢签下合同，突然发现自己推眼镜的姿势越来越像当年的赵总监了。",
+      "life_quote": "「淋过雨的人，终于买下了整座生产雨伞的工厂——顺便给伞定了个二八分。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「从被抽成的人，变成坐在老板椅上算分成的人。」",
+      "talent_id": "TALENT_M03",
+      "talent_name": "【法务铁盾】",
+      "talent_effect": "开局自带 Flag_审过合同=1，初始钱包 +¥3,000"
+    },
+    {
+      "ending_id": "M04",
+      "line_no": 680,
+      "tier": "main",
+      "sub_category": null,
+      "name": "赛博桃花源主",
+      "original_name": "佛系小主播",
+      "aliases": [
+        "佛系小主播"
+      ],
+      "trigger_condition": "打通第六章 + 粉丝 < 1,000,000（加时赛结算）+ 口碑 ≥ 80 + 状态 ≥ 80",
+      "trigger_sources": null,
+      "settlement_copy": "你没有冲上千万顶流的修罗场，但你拥有全网最温暖的三万个铁粉。每天准点开播两小时喝茶唠嗑，按时下播遛弯睡觉，体检报告比二十岁的小伙子还健康，连头发都比同行浓密三倍。",
+      "life_quote": "「别人在热搜上死去活来，你在自己的小直播间里长命百岁。」",
+      "rarity": "普通",
+      "silhouette_hint": "「不争榜、不熬夜，谁说小透明不能算通关？」",
+      "talent_id": "TALENT_M04",
+      "talent_name": "【保温杯泡枸杞】",
+      "talent_effect": "开局体力 +2，每阶段自然恢复状态 +5"
+    },
+    {
+      "ending_id": "M05",
+      "line_no": 681,
+      "tier": "main",
+      "sub_category": null,
+      "name": "江湖远去·归来白月光",
+      "original_name": "退圈—复出",
+      "aliases": [
+        "退圈—复出"
+      ],
+      "trigger_condition": "第六章 C6-M08 选择「退圈结婚」 或（打通第六章 + 恋爱对象好感满值 + C6-M10 选 C 退居幕后）",
+      "trigger_sources": null,
+      "settlement_copy": "你在最红的巅峰夜挥手告别，留下一整个时代的传说。五年后你一时兴起重新打开尘封的直播间，00后新观众在问「这老前辈是谁」，而当年那群已经结婚生子的老粉带着满屏高等级星牌哭着刷爆了服务器：「恭迎白月光回宫！」",
+      "life_quote": "「退圈不是结束，是把你的名字存进了整个青春的定期存单。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「在烟火最盛的夜晚转身离开，几年后还会有人记得吗？」",
+      "talent_id": "TALENT_M05",
+      "talent_name": "【白月光滤镜】",
+      "talent_effect": "老粉星牌忠诚度永不自然衰减，开局情商 +2"
+    },
+    {
+      "ending_id": "M06",
+      "line_no": 682,
+      "tier": "main",
+      "sub_category": null,
+      "name": "午夜城市的赛博枕头",
+      "original_name": "电台夜王",
+      "aliases": [
+        "电台夜王"
+      ],
+      "trigger_condition": "打通第六章 + 主修[电台]模式 ≥ 3 章 + 嗓音 ≥ 8",
+      "trigger_sources": null,
+      "settlement_copy": "你的深夜电台成了这座城市三百万失眠者的精神止痛药。连市心理健康中心都给你发了感谢信，唯一的烦恼是每次去便利店买东西一开口，收银员就会条件反射地困得打哈欠。",
+      "life_quote": "「你用一副好嗓子，接住了整座城市凌晨两点掉下来的眼泪。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「当全城关灯的时候，你的麦克风刚刚亮起。」",
+      "talent_id": "TALENT_M06",
+      "talent_name": "【天籁低音炮】",
+      "talent_effect": "开局嗓音 +2，深夜档状态消耗额外减轻 15%"
+    },
+    {
+      "ending_id": "M07",
+      "line_no": 683,
+      "tier": "main",
+      "sub_category": null,
+      "name": "滚烫的中央聚光灯",
+      "original_name": "团播 C 位",
+      "aliases": [
+        "团播 C 位"
+      ],
+      "trigger_condition": "打通第六章 + 主修[团播]模式 ≥ 3 章 + 才艺 ≥ 8 + 公会线未爆雷",
+      "trigger_sources": null,
+      "settlement_copy": "你终于稳稳站在了盛典百人团播最正中间的皇冠 C 位上，身后是整齐划一为你伴舞的队友。顶光灯烤得你额头冒汗，你保持着完美的偶像微笑心想：原来站得最中间，意味着连挠痒痒都得卡在节拍器上。",
+      "life_quote": "「全场的追光灯都打在你身上，好闪，但也真的好烫。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「四个人跳同一支舞，但镜头永远只追着正中间那个人。」",
+      "talent_id": "TALENT_M07",
+      "talent_name": "【绝对舞台感】",
+      "talent_effect": "开局才艺 +2，团播模式粉丝乘区 +0.15"
+    },
+    {
+      "ending_id": "M08",
+      "line_no": 684,
+      "tier": "main",
+      "sub_category": null,
+      "name": "官方认证·人形外挂",
+      "original_name": "电竞解说转正",
+      "aliases": [
+        "电竞解说转正"
+      ],
+      "trigger_condition": "打通第六章 + 主修[游戏]模式 ≥ 3 章 + 游戏技术 ≥ 8 + 通过开挂质疑自证（C3-M03/X-ATTR-04）",
+      "trigger_sources": null,
+      "settlement_copy": "熬过了逐帧分析的开挂质疑，你用几十块的百元办公鼠标把所有质疑者打服了。全球总决赛官方一纸聘书把你挖上了官方解说席，现在轮到你穿着西装坐在台上，锐评当年那些质疑你的职业选手「这波操作像人机」。",
+      "life_quote": "「锤不死你的数学概率，最终把你送上了官方解说台。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「放下出租屋的百元办公鼠标，拿起全球总决赛的官方话筒。」",
+      "talent_id": "TALENT_M08",
+      "talent_name": "【帧数级反应】",
+      "talent_effect": "开局游戏技术 +2，游戏模式高光率 +15%"
+    },
+    {
+      "ending_id": "M09",
+      "line_no": 685,
+      "tier": "main",
+      "sub_category": null,
+      "name": "把直播间搬进山海",
+      "original_name": "户外旅行博主",
+      "aliases": [
+        "户外旅行博主"
+      ],
+      "trigger_condition": "打通第六章 + 主修[户外]模式 ≥ 3 章 + 状态 ≥ 75 + 户外失控值未爆",
+      "trigger_sources": null,
+      "settlement_copy": "你背着云台走过了漠河的极光、帕米尔的高原和南海的礁石，把十平米的出租屋直播间扩展到了九百六十万平方公里。粉丝跟着你的镜头云游完了全国，而你也从苍白的宅男/宅女晒成了健康的小麦色。",
+      "life_quote": "「别人的背景墙是九块九绿幕，你的背景墙是万里江山。」",
+      "rarity": "普通",
+      "silhouette_hint": "「走出演播室的门，去看看没有天花板的地方。」",
+      "talent_id": "TALENT_M09",
+      "talent_name": "【风餐露宿体魄】",
+      "talent_effect": "开局体力 +1、运气 +1，户外模式收益 +15%"
+    },
+    {
+      "ending_id": "M10",
+      "line_no": 686,
+      "tier": "main",
+      "sub_category": null,
+      "name": "隐身造星的黄金推手",
+      "original_name": "幕后操盘手",
+      "aliases": [
+        "幕后操盘手"
+      ],
+      "trigger_condition": "打通第六章 + 颜值 ≤ 4 + 情商 ≥ 7 且 口才 ≥ 7 +（累计下播行动「剪切片」≥ 3 次 或 触发过 X-ATTR-10）",
+      "trigger_sources": null,
+      "settlement_copy": "你发现自己站在镜头前远不如躲在镜头后快乐。你亲手剪辑的切片捧红了全网半数的新人顶流，江湖上处处是你的传说，但狗仔蹲了半年连你到底是男是女、长啥样都没拍到。",
+      "life_quote": "「台前的顶流换了一茬又一茬，而拿走最大头分成的永远是写剧本的你。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「不需要露脸，你的剪辑刀就是点石成金的魔杖。」",
+      "talent_id": "TALENT_M10",
+      "talent_name": "【神级百万剪辑】",
+      "talent_effect": "下播「剪切片」出圈率 +30%，开局情商 +1、口才 +1"
+    },
+    {
+      "ending_id": "M11",
+      "line_no": 687,
+      "tier": "main",
+      "sub_category": null,
+      "name": "人间烟火大排档",
+      "original_name": "网红餐馆老板",
+      "aliases": [
+        "网红餐馆老板"
+      ],
+      "trigger_condition": "打通第六章 + 钱包 ≥ ¥1,000,000 + 口碑 ≥ 65 + 触发过 X-EGG-06 或第六章选主动收手开店",
+      "trigger_sources": null,
+      "settlement_copy": "你在人气最旺的时候功成身退，用攒下的第一桶金盘下了街角那家烧烤大排档。原来的直播间直接改成了后厨透明监控，每天三万个云监工在线看你颠勺炒菜，店门口的排队号已经排到了下个月。",
+      "life_quote": "「流量会过期，但你炒出来的那盘辣子鸡永远滚烫。」",
+      "rarity": "普通",
+      "silhouette_hint": "「放下声卡拿起铁锅，这届粉丝改叫食客了。」",
+      "talent_id": "TALENT_M11",
+      "talent_name": "【夜市烟火气】",
+      "talent_effect": "开局初始钱包 +¥3,000，心态 +1"
+    },
+    {
+      "ending_id": "M12",
+      "line_no": 688,
+      "tier": "main",
+      "sub_category": null,
+      "name": "早八打卡打工人",
+      "original_name": "正常上班",
+      "aliases": [
+        "正常上班"
+      ],
+      "trigger_condition": "打通第六章（或章节加时未达标体面收场）+ 无任何专精路线达标，全程中庸平安",
+      "trigger_sources": null,
+      "settlement_copy": "折腾了一圈既没大红大紫也没塌房负债，你把补光灯挂上二手网站卖了八十块钱，老老实实找了份朝九晚五的公司文员工作。偶尔在地铁上刷到自己当年摇花手的糊涂切片，你会默默戴上口罩深藏功与名。",
+      "life_quote": "「轰轰烈烈闯荡过赛博江湖，最后发现还是公司的带薪年假比较香。」",
+      "rarity": "普通",
+      "silhouette_hint": "「平平淡淡才是真，工位永远为你留着。」",
+      "talent_id": "TALENT_M12",
+      "talent_name": "【摸鱼老手】",
+      "talent_effect": "午间档与清晨场推流乘区 +0.15，开局心态 +1"
+    },
+    {
+      "ending_id": "D01",
+      "line_no": 696,
+      "tier": "death",
+      "sub_category": "数值跌穿 (1/5)",
+      "name": "ICU 尊享VIP机位",
+      "original_name": "熬夜进医院",
+      "aliases": [
+        "熬夜进医院"
+      ],
+      "trigger_condition": "任意阶段 状态 ≤ 0",
+      "trigger_sources": null,
+      "settlement_copy": "你连续熬了四个大夜冲榜，刚喊完一声「家人们顶住」就两眼一黑栽倒在了键盘上。醒来时护士姐姐正拿着你的手机看直播——十万观众正在在线围观你的心电图监护仪，还顺手给你刷了个「祝早日康复」小星星。",
+      "life_quote": "「命硬学不来弯腰，但心电图一旦变直就真下播了。」",
+      "rarity": "普通",
+      "silhouette_hint": "「再熬一个通宵，救护车已经在楼下热车了。」",
+      "talent_id": "TALENT_D01",
+      "talent_name": "【急诊室常客】",
+      "talent_effect": "开局状态上限 +10，初始体力 +1"
+    },
+    {
+      "ending_id": "D02",
+      "line_no": 697,
+      "tier": "death",
+      "sub_category": "数值跌穿 (2/5)",
+      "name": "村口情报局特派员",
+      "original_name": "钱包归零回老家",
+      "aliases": [
+        "钱包归零回老家"
+      ],
+      "trigger_condition": "任意阶段 钱包 ≤ ¥0（非官司/带货专项）",
+      "trigger_sources": null,
+      "settlement_copy": "交不起这个月房租的你被房东客气地请出了出租屋，全身上下只剩一张回老家的硬座火车票。现在你每天坐在村口大槐树下跟大爷大妈吹嘘「我当年在星播也是有几十号粉丝的人」，换来大娘塞给你的一把毛豆。",
+      "life_quote": "「创业未半而花光预算，老家的玉米地永远欢迎你。」",
+      "rarity": "普通",
+      "silhouette_hint": "「摸摸兜里最后一枚硬币，连泡面都买不起了。」",
+      "talent_id": "TALENT_D02",
+      "talent_name": "【抠门记账本】",
+      "talent_effect": "所有固定开支与买推流消耗降低 15%"
+    },
+    {
+      "ending_id": "D03",
+      "line_no": 698,
+      "tier": "death",
+      "sub_category": "数值跌穿 (3/5)",
+      "name": "互联网过街老鼠",
+      "original_name": "口碑负数全网黑",
+      "aliases": [
+        "口碑负数全网黑"
+      ],
+      "trigger_condition": "任意阶段 口碑 ≤ -20",
+      "trigger_sources": null,
+      "settlement_copy": "因为你一路攒下的槽点实在太多，全网各路视频博主把黑你当成了财富密码，连卖老鼠药的网店都拿你的照片当宣传图。你试着戴面具开小号复出，结果因为抠脚的姿势太有辨识度，三秒钟就被认出来骂下了播。",
+      "life_quote": "「能做到让全网不同圈子的人团结一致骂你，也是一种反向顶流。」",
+      "rarity": "普通",
+      "silhouette_hint": "「当路人缘败光的时候，连呼吸都是错的。」",
+      "talent_id": "TALENT_D03",
+      "talent_name": "【防弹厚脸皮】",
+      "talent_effect": "负面事件扣除口碑的幅度减轻 15%"
+    },
+    {
+      "ending_id": "D04",
+      "line_no": 699,
+      "tier": "death",
+      "sub_category": "数值跌穿 (4/5)",
+      "name": "赛博透明人",
+      "original_name": "热度归零查无此人",
+      "aliases": [
+        "热度归零查无此人"
+      ],
+      "trigger_condition": "任意阶段 热度 ≤ 0",
+      "trigger_sources": null,
+      "settlement_copy": "你停播歇了太久又毫无水花，星播算法彻底忘了还有你这么一号人。昨晚你对着镜头足足唱了三个小时，后台统计观众人数是 0——连平时最敬业的色情广告机器人都嫌你这儿太冷清不来发小广告了。",
+      "life_quote": "「你在互联网上挥一挥衣袖，没有留下一条弹幕。」",
+      "rarity": "普通",
+      "silhouette_hint": "「比被骂更可怕的，是根本没人记得你开播过。」",
+      "talent_id": "TALENT_D04",
+      "talent_name": "【冷启动火花】",
+      "talent_effect": "初始热度 +150，前两章自然推流 +15%"
+    },
+    {
+      "ending_id": "D05",
+      "line_no": 700,
+      "tier": "death",
+      "sub_category": "数值跌穿 (5/5)",
+      "name": "十万键盘侠的祭品",
+      "original_name": "黑粉浓度爆表被骂退网",
+      "aliases": [
+        "黑粉浓度爆表被骂退网"
+      ],
+      "trigger_condition": "任意阶段 黑粉浓度 ≥ 100% 且心态检定失败",
+      "trigger_sources": null,
+      "settlement_copy": "你的直播间彻底沦为了全网黑粉的团建基地，每秒三百条毒舌弹幕把屏幕糊得连你的脸都看不见。你终于顶不住高压当场破防痛哭关播，黑粉们意犹未尽地散去寻找下一个目标，留你一个人在房间里怀疑人生。",
+      "life_quote": "「欲戴王冠必承其重，但这顶帽子里塞满了仙人掌。」",
+      "rarity": "普通",
+      "silhouette_hint": "「红和黑是同一枚硬币，只是你这枚全是黑的。」",
+      "talent_id": "TALENT_D05",
+      "talent_name": "【弹幕屏蔽仪】",
+      "talent_effect": "黑粉浓度增长速度降低 20%，开局心态 +1"
+    },
+    {
+      "ending_id": "D06",
+      "line_no": 701,
+      "tier": "death",
+      "sub_category": "作死选项 (1/5)",
+      "name": "全网封杀速通王",
+      "original_name": "煽动粉丝塌房",
+      "aliases": [
+        "煽动粉丝塌房"
+      ],
+      "trigger_condition": "命中 C5-M01 选项 C 或 C6-M05 选项 A（或任意被锤事件在 黑粉浓度 ≥ 80% 时选择煽动粉丝冲锋）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 面对质疑你没有拿出证据，而是振臂一呼让粉丝去冲烂对家。三分钟后你的粉丝攻陷了半个互联网，十分钟后全平台联合封杀令下达——你的账号、粉丝专区、乃至跨平台小号在同一秒灰飞烟灭，创下了从顶流到素人最快的世界纪录。",
+      "life_quote": "「压死顶流的从来不是第一个锤，而是你把粉丝当成私兵的那一秒。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「试着在被锤的时候喊一句：家人们给我冲？」",
+      "talent_id": "TALENT_D06",
+      "talent_name": "【克制警钟】",
+      "talent_effect": "被锤事件中心态伤害减免 20%，开局情商 +2"
+    },
+    {
+      "ending_id": "D07",
+      "line_no": 702,
+      "tier": "death",
+      "sub_category": "作死选项 (2/5)",
+      "name": "铁窗边缘的封口费",
+      "original_name": "接赌博赞助被封",
+      "aliases": [
+        "接赌博赞助被封"
+      ],
+      "trigger_condition": "第四章 C4-M04 选 A（或累计 2 次在商务事件中强接违规灰产推广）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 你以为只是演示一下「能提现的网页小游戏」就能白拿十倍快钱。结果不到半个月跨境涉赌团伙被端，顺着资金链直接查到了你的推广账户——巨额赃款被全数追缴不说，你的直播间也被贴上了永久封禁的蓝底封条。",
+      "life_quote": "「有些报价高得不像商务费，因为那本来就是买你前途的买路钱。」",
+      "rarity": "普通",
+      "silhouette_hint": "「十倍月收入的神秘网页游戏，真的敢接吗？」",
+      "talent_id": "TALENT_D07",
+      "talent_name": "【反诈防火墙】",
+      "talent_effect": "正规商务报价提升 10%，自动高亮识别违规合同"
+    },
+    {
+      "ending_id": "D08",
+      "line_no": 703,
+      "tier": "death",
+      "sub_category": "作死选项 (3/5)",
+      "name": "芥末味的封禁通知",
+      "original_name": "PK 惩罚过界封号",
+      "aliases": [
+        "PK 惩罚过界封号"
+      ],
+      "trigger_condition": "Count_违规警告 ≥ 2（由 C2-M09 选 A、C2-S06、C4-S11 等过界低俗选项累加达标）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 为了博榜一大哥一笑，你在PK惩罚里把整活尺度越拉越大。就在你往鼻孔里插大葱准备表演倒立吞芥末的瞬间，超管一脚把你的直播间踹进了小黑屋：「因涉嫌低俗危险表演，账号永久封停。」",
+      "life_quote": "「为了赢一把PK，你把自己活成了超管绩效考核的典型案例。」",
+      "rarity": "普通",
+      "silhouette_hint": "「PK输了不想做深蹲，非要选那个最狠的惩罚？」",
+      "talent_id": "TALENT_D08",
+      "talent_name": "【安全整活指南】",
+      "talent_effect": "PK模式基础胜率 +10%，开局口才 +1"
+    },
+    {
+      "ending_id": "D09",
+      "line_no": 704,
+      "tier": "death",
+      "sub_category": "作死选项 (4/5)",
+      "name": "赛博假人拔网线",
+      "original_name": "无人直播被严打",
+      "aliases": [
+        "无人直播被严打"
+      ],
+      "trigger_condition": "第六章 C6-M06 选 A 命中 50% 严打分支 或（主修[数字人诱惑]且 口碑 < 60）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 你美滋滋地花钱搞了个 24 小时 AI 数字人替你循环录播卖货，自己躺在三亚海滩上喝椰汁。结果平台当天启动「清朗·严打无人录播」专项行动，你的数字人因为卡Bug连续重复了一万遍「家人们快拍」，被系统当场处以极刑永久封号。",
+      "life_quote": "「想靠代码躺着把钱挣了，结果代码替你躺进了封号名单。」",
+      "rarity": "普通",
+      "silhouette_hint": "「如果24小时都让假人替你播，超管会发现吗？」",
+      "talent_id": "TALENT_D09",
+      "talent_name": "【真人温度】",
+      "talent_effect": "亲自开播时自然推流权重 +10%"
+    },
+    {
+      "ending_id": "D10",
+      "line_no": 705,
+      "tier": "death",
+      "sub_category": "作死选项 (5/5)",
+      "name": "顺着网线去敲门",
+      "original_name": "线下对峙口碑核爆",
+      "aliases": [
+        "线下对峙口碑核爆"
+      ],
+      "trigger_condition": "第六章 C6-M04 选 A 或（C6-M03 选 B 机场偷播扰乱秩序且 口碑 ≤ 0）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 线上的嘴仗你偏要线下解决，你开着直播杀到对家门口拍门叫骂，以为自己演的是快意恩仇。结果全网路人被你的私闯骚扰行为惊呆了，口碑在一夜间跌穿地心，警察叔叔赶到现场给你戴上了银手镯体验卡。",
+      "life_quote": "「线上吵架谁先下线找真人，谁就亲手给自己挖好了坟墓。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「知道死对头住哪个房间，你会直接杀过去敲门吗？」",
+      "talent_id": "TALENT_D10",
+      "talent_name": "【法治冷静期】",
+      "talent_effect": "同行竞争事件中口碑固定 +5，开局心态 +2"
+    },
+    {
+      "ending_id": "D11",
+      "line_no": 706,
+      "tier": "death",
+      "sub_category": "带货雷 (1/2)",
+      "name": "铁锤下的带货亡魂",
+      "original_name": "打假人锤爆",
+      "aliases": [
+        "打假人锤爆"
+      ],
+      "trigger_condition": "第四章 C4-M05 选 A（贿赂打假人）且（Flag_带货死雷=1 或接过三无微商 C3-M07 A）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 你以为塞十万块公关费就能让职业打假人「铁锤测评」闭嘴，结果人家反手把你的行贿录音连同假货送检报告一起做成了三集连续剧。视频播放量破亿的那天，你的带货橱窗被永久焊死，成了年度打假教材。",
+      "life_quote": "「在显微镜和送检报告面前，一切话术都是呈堂证供。」",
+      "rarity": "普通",
+      "silhouette_hint": "「当『铁锤测评』买走你的货时，千万别动歪心思。」",
+      "talent_id": "TALENT_D11",
+      "talent_name": "【质检放大镜】",
+      "talent_effect": "带货爆雷率永久降低 15%"
+    },
+    {
+      "ending_id": "D12",
+      "line_no": 707,
+      "tier": "death",
+      "sub_category": "带货雷 (2/2)",
+      "name": "假牛肉干的眼泪",
+      "original_name": "检测报告翻车赔光",
+      "aliases": [
+        "检测报告翻车赔光"
+      ],
+      "trigger_condition": "第五章 C5-M07（Count_验货命中 = 0 且选 B 拒赔，或退赔致钱包跌入负值）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 样品是真手撕牛肉，大货全是廉价鸭肉。你在镜头前拍着胸脯赌咒发誓没问题，结果市场监管局的红头文件直接甩在了热搜第一。罚没款加上退一赔三把你三年攒下的家底掏得干干净净，你还欠了仓库一屁股鸭肉钱。",
+      "life_quote": "「带货的雷一半在供应链，另一半在你死鸭子嘴硬的那张嘴。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「那包没有牛肉的手撕牛肉干，最终会由谁来买单？」",
+      "talent_id": "TALENT_D12",
+      "talent_name": "【样品留存箱】",
+      "talent_effect": "开局自带 Count_验货命中 = 1（Flag_选品减伤=1），初始口才 +1"
+    },
+    {
+      "ending_id": "D13",
+      "line_no": 708,
+      "tier": "death",
+      "sub_category": "公会线 (1/2)",
+      "name": "五百万的卖身契",
+      "original_name": "撕约官司打输倾家荡产",
+      "aliases": [
+        "撕约官司打输倾家荡产"
+      ],
+      "trigger_condition": "Flag_审过合同=0 +（第五章 C5-M03 选 A 硬打官司 或违约金赔付致钱包跌入负值）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 当年第二章省下的那 500 块法务审合同费，在三年后变成了法庭上那张写着「五百万违约金」的判决书。你赢回了空壳子自由身，但银行卡余额变成了刺眼的负数，接下来十年你打工的每一分钱都在替前老板换新车。",
+      "life_quote": "「签合同时你看的是两千块保底，翻脸时合同看的是你的全部身家。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「当年签公会合同时，你仔细看背面那行小字了吗？」",
+      "talent_id": "TALENT_D13",
+      "talent_name": "【放大镜看小字】",
+      "talent_effect": "所有合同/法务类事件自动解锁最优隐藏提示"
+    },
+    {
+      "ending_id": "D14",
+      "line_no": 709,
+      "tier": "death",
+      "sub_category": "公会线 (2/2)",
+      "name": "团播角落的绿叶",
+      "original_name": "被公会雪藏成背景板",
+      "aliases": [
+        "被公会雪藏成背景板"
+      ],
+      "trigger_condition": "Flag_签公会=1 +（第五章 C5-M03 选 C 妥协 或连续 2 章未完成公会 4h 时长考核被雪藏）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 你不敢跟新老板撕破脸，乖乖签下了长达八年的补充协议。结果公会转头把所有推流资源全砸给了刚满十八岁的新人，你被安排在团播最后排最角落的位置专门负责拍手喊666，活成了一株带工龄的仿真绿植。",
+      "life_quote": "「你保住了每个月两千五的全勤奖，代价是交出了自己的名字。」",
+      "rarity": "普通",
+      "silhouette_hint": "「既不敢撕约也不敢出走，最后会被安排站在舞台哪儿呢？」",
+      "talent_id": "TALENT_D14",
+      "talent_name": "【C位野心】",
+      "talent_effect": "开局才艺 +1、颜值 +1，拒绝沦为背景板"
+    },
+    {
+      "ending_id": "D15",
+      "line_no": 710,
+      "tier": "death",
+      "sub_category": "感情线 (1/5)",
+      "name": "小作文败犬",
+      "original_name": "小作文后手被反杀",
+      "aliases": [
+        "小作文后手被反杀"
+      ],
+      "trigger_condition": "第五章 C5-M10 选 A（抢发小作文）且 Count_复盘留档 < 2",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 分手夜你抢在八点发了一篇长达三千字的伤感小作文控诉对方冷暴力，以为能吃满同情分。结果八点零五分对方直接甩出九宫格高清转账记录与时间线表格，把你的小作文逐句批改成了大型撒谎精现场。",
+      "life_quote": "「没有证据的先手小作文，只是给对方的反击递了一把开山斧。」",
+      "rarity": "普通",
+      "silhouette_hint": "「分手时抢先发小作文泼脏水，万一对方留了证据呢？」",
+      "talent_id": "TALENT_D15",
+      "talent_name": "【公关排版学】",
+      "talent_effect": "声明与回应类事件口碑收益 +15%"
+    },
+    {
+      "ending_id": "D16",
+      "line_no": 711,
+      "tier": "death",
+      "sub_category": "感情线 (2/5)",
+      "name": "求锤得锤的高清截屏",
+      "original_name": "聊天记录核武器",
+      "aliases": [
+        "聊天记录核武器"
+      ],
+      "trigger_condition": "Count_偷拍素材 ≥ 3（0→3 满格） 且在 C5-M04 / C5-M10 嘴硬否认或无公证时间线",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 你在直播间信誓旦旦地说「我们从来没联系过」，话音未落，前任直接把你们长达两百页的私人联系方式原始聊天录屏投屏到了热搜榜一。连你半夜发的那句「宝我今天吃撑了」都被网友做成了年度打脸圣经。",
+      "life_quote": "「在赛博时代，每一句发出去的语音都是未来瞄准你脑门的核弹。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「数字时代的恋爱，最致命的武器藏在聊天框里。」",
+      "talent_id": "TALENT_D16",
+      "talent_name": "【阅后即焚】",
+      "talent_effect": "开局初始减免 1 次 Count_偷拍素材 累积（仍维持 0→3 满格标准）"
+    },
+    {
+      "ending_id": "D17",
+      "line_no": 712,
+      "tier": "death",
+      "sub_category": "感情线 (3/5)",
+      "name": "恋爱脑的鹤顶红",
+      "original_name": "劣迹对象连坐",
+      "aliases": [
+        "劣迹对象连坐"
+      ],
+      "trigger_condition": "Flag_劣迹对象=1 +（第五章 C5-M04 选 A 硬刚粉丝 或 C5-M05 选 B 念稿憋笑）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 全网都在劝你远离那个满身烂账的劣迹歌手，你却在直播间拍桌怒吼「我谈恋爱关你们屁事」。那一晚你的高等级星牌碎了一地，五天后对方转身去泡别人把你踹了，而你的直播间已经彻底长满了荒草。",
+      "life_quote": "「对象是谁决定了粉丝骂的是恋爱还是三观，而怼粉丝是亲手踩死油门。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「为了那个满身黑料的万人迷，你真的要跟全直播间的铁粉硬刚吗？」",
+      "talent_id": "TALENT_D17",
+      "talent_name": "【人间清醒脑】",
+      "talent_effect": "免疫劣迹对象魅力诱惑，开局心态 +2"
+    },
+    {
+      "ending_id": "D18",
+      "line_no": 713,
+      "tier": "death",
+      "sub_category": "感情线 (4/5)",
+      "name": "碎成玻璃渣的假糖",
+      "original_name": "CP 粉反噬",
+      "aliases": [
+        "CP 粉反噬"
+      ],
+      "trigger_condition": "Param_观众当真度 ≥ 40 +（C4-M06 官宣真恋情 或 C5-M10 拆 CP 且 情商 < 7）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 你靠着跟搭档炒假CP吸了五十万狂热的CP粉，连情侣手机壳周边都卖了三万套。当你真恋情曝光的那天，觉得被当猴耍的CP粉一夜之间全部黑化成了你最恐怖的回踩大军，连本带利把你撕成了碎片。",
+      "life_quote": "「CP营业借来的每一分流量，上面都标着高利贷的利息。」",
+      "rarity": "普通",
+      "silhouette_hint": "「卖出去的假糖吃多了，真谈恋爱时谁来买单？」",
+      "talent_id": "TALENT_D18",
+      "talent_name": "【营业边界感】",
+      "talent_effect": "CP营业掉粉税减半，开局情商 +1"
+    },
+    {
+      "ending_id": "D19",
+      "line_no": 714,
+      "tier": "death",
+      "sub_category": "感情线 (5/5)",
+      "name": "净身出户的打工仔",
+      "original_name": "账号被前任分走",
+      "aliases": [
+        "账号被前任分走"
+      ],
+      "trigger_condition": "Flag_账号协议=0 + 第五章 C5-M10 选 B（或共创号分手时无协议净身出户）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 当年开共创号时你觉得「签协议太伤感情」，用对方的身份证绑定了主账号实名认证。分手第二天你发现自己连后台登录密码都被改了——你辛辛苦苦播出来的百万粉大号，现在改名叫「前任和他的新欢日常」了。",
+      "life_quote": "「一起做号时谈的是风花雪月，分手时看的是实名认证归谁。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「双人合营的百万粉账号，分手那天密码在谁手里？」",
+      "talent_id": "TALENT_D19",
+      "talent_name": "【产权独立证】",
+      "talent_effect": "开局自带 Flag_账号协议=1，粉丝流失保护 +10%"
+    },
+    {
+      "ending_id": "D20",
+      "line_no": 715,
+      "tier": "death",
+      "sub_category": "剧本雷 (1/2)",
+      "name": "巨债人设的穿帮夜",
+      "original_name": "卖惨人设被扒",
+      "aliases": [
+        "卖惨人设被扒"
+      ],
+      "trigger_condition": "Flag_卖惨人设=1 + 第五章 C5-M08 选 B（或选 A 但 口碑 < 80）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 你靠着第一章摆进镜头的道具药瓶和「身负巨债替家里还钱」剧本骗了粉丝三年眼泪。直到昨晚下播你忘了关摄像头，结结实实录下了你把道具药瓶当保龄球踢、躺在真皮按摩椅上炫耀全款名表的画面——网友纷纷祝贺你创造了「药瓶与巨债的医学财务双料奇迹」，顺便把你举报封了号。",
+      "life_quote": "「人设里骗来的每一滴同情眼泪，最后都会变成淹死你的洪水。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「第一天摆进镜头里的那个假药瓶，总有一天会穿帮的。」",
+      "talent_id": "TALENT_D20",
+      "talent_name": "【坦荡做人】",
+      "talent_effect": "不选卖惨/造假选项时，每章额外奖励口碑 +3"
+    },
+    {
+      "ending_id": "D21",
+      "line_no": 716,
+      "tier": "death",
+      "sub_category": "剧本雷 (2/2)",
+      "name": "官方通报的流量死刑",
+      "original_name": "造假剧本被锤",
+      "aliases": [
+        "造假剧本被锤"
+      ],
+      "trigger_condition": "Flag_造假剧本=1 + 第五章 C5-M08 选 B（或选 A 但 口碑 < 80）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 当年为了冲热搜在地铁口摆拍的那出「捡到小学生绝交信」大戏，最终被当年拿了200块钱的群演晒出转账记录实锤了。一纸官方通报为你敲响了丧钟，全平台账号一夜清零，成了年度摆拍反面典型。",
+      "life_quote": "「假故事换来的流量是真的，但官方通报下来时的封杀也是真的。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「运营递来的那个爆款摆拍剧本，拍了真的没人查吗？」",
+      "talent_id": "TALENT_D21",
+      "talent_name": "【真实记录者】",
+      "talent_effect": "原创真实内容切片出圈率 +20%"
+    },
+    {
+      "ending_id": "D22",
+      "line_no": 717,
+      "tier": "death",
+      "sub_category": "离谱意外 (1/5)",
+      "name": "呼噜声替你封神",
+      "original_name": "打瞌睡成鬼畜爆火但本人退网",
+      "aliases": [
+        "打瞌睡成鬼畜爆火但本人退网"
+      ],
+      "trigger_condition": "触发 X-EGG-01 选 B 或（处于 状态 < 20 警戒区且 运气 ≤ 2 连续抽中翻车卡）",
+      "trigger_sources": null,
+      "settlement_copy": "你在镜头前流着口水打了两小时呼噜，被鬼畜区大佬剪成了年度洗脑电音神曲《星播呼噜王》，播放量突破了一个亿。可惜你本人因为社死程度突破天际，连夜扛着火车跑路退了网，江湖只留你的呼噜声还在各大商场循环播放。",
+      "life_quote": "「你的作品火遍了大江南北，虽然那个作品只是你的呼噜声。」",
+      "rarity": "普通",
+      "silhouette_hint": "「如果在直播间睡着打呼噜被十万人围观，你会社死退网吗？」",
+      "talent_id": "TALENT_D22",
+      "talent_name": "【睡神附体】",
+      "talent_effect": "下播「补觉休息」状态恢复量额外 +10"
+    },
+    {
+      "ending_id": "D23",
+      "line_no": 718,
+      "tier": "death",
+      "sub_category": "离谱意外 (2/5)",
+      "name": "无法自证的人类",
+      "original_name": "被算法当成机器人限流",
+      "aliases": [
+        "被算法当成机器人限流"
+      ],
+      "trigger_condition": "触发 X-EGG-02 选 B（或选 A 但 运气 ≤ 3） 或（连续 4 章同模式同话术且 运气 ≤ 2）",
+      "trigger_sources": null,
+      "settlement_copy": "因为你每天直播的表情和台词都高度一致，星播最新的AI反作弊系统坚信你是一个「套皮伪人机器人」。你对着摄像头做了八十个鬼脸也没通过活体检测，账号被永久打入冷宫，成了人类历史上第一个被算法开除人籍的主播。",
+      "life_quote": "「你播得太像没有感情的打卡机器，连人工智能都把你当成了同类。」",
+      "rarity": "普通",
+      "silhouette_hint": "「请眨眼三次证明你不是AI——万一没通过呢？」",
+      "talent_id": "TALENT_D23",
+      "talent_name": "【活人微瑕】",
+      "talent_effect": "免疫算法误判限流，开局运气 +1"
+    },
+    {
+      "ending_id": "D24",
+      "line_no": 719,
+      "tier": "death",
+      "sub_category": "离谱意外 (3/5)",
+      "name": "两台抵债显示器",
+      "original_name": "挖角平台跑路工资没了",
+      "aliases": [
+        "挖角平台跑路工资没了"
+      ],
+      "trigger_condition": "第四章 C4-M03 选 A（签极光直播）+ 后续必出保底卡 X-EGG-03 选 B（或选 A 时存款已空）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 你冲着三百万年薪跳槽去了新平台「极光直播」，结果刚播了半年老板就带着小姨子卷款跑路了。你冲进人去楼空的总部大楼，只抢到了两台二手显示器和半桶纯净水抵工资，而你回星播的老号早已凉得透透的。",
+      "life_quote": "「挖你的平台不是看好你的才华，只是租你当块随时能拆的广告牌。」",
+      "rarity": "普通",
+      "silhouette_hint": "「新平台开出高到离谱的天价年薪，它真的能撑过一年吗？」",
+      "talent_id": "TALENT_D24",
+      "talent_name": "【老东家铁饭碗】",
+      "talent_effect": "留在星播不跳槽时，第四章起每章推流额外 +15%"
+    },
+    {
+      "ending_id": "D25",
+      "line_no": 720,
+      "tier": "death",
+      "sub_category": "离谱意外 (4/5)",
+      "name": "毒舌监制踩你登基",
+      "original_name": "黑粉头子开了更火的直播间",
+      "aliases": [
+        "黑粉头子开了更火的直播间"
+      ],
+      "trigger_condition": "触发 X-EGG-04 选 B 或（黑粉浓度 ≥ 80% 且对线事件连续 3 次选硬刚互喷）",
+      "trigger_sources": null,
+      "settlement_copy": "那个天天挑你刺的黑粉头子「专治各种不服」自己开播专门锐评你，你气不过跑去连麦对喷，结果被人家口若悬河的相声级吐槽怼得哑口无言。一夜之间你的粉丝全爬墙关注了他，他成了新晋百万顶流，而你成了他直播间里的固定搞笑素材。",
+      "life_quote": "「你不仅没骂赢你的黑粉头子，还亲手把他奶成了你的行业前辈。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「当天天骂你的黑粉头子自己开播时，千万别去送人头。」",
+      "talent_id": "TALENT_D25",
+      "talent_name": "【毒舌免疫力】",
+      "talent_effect": "开局口才 +2，对线事件不掉状态"
+    },
+    {
+      "ending_id": "D26",
+      "line_no": 721,
+      "tier": "death",
+      "sub_category": "离谱意外 (5/5)",
+      "name": "真美猴王死于李鬼",
+      "original_name": "切片号反客为主本号被封",
+      "aliases": [
+        "切片号反客为主本号被封"
+      ],
+      "trigger_condition": "Flag_放任切片号=1 + 后续必出保底卡 X-EGG-05（选 B，或选 A 但 口碑 < 85）",
+      "trigger_sources": null,
+      "settlement_copy": "【因果收尾】 当年你懒得管那个高仿切片号，结果人家靠着神级标题党涨到了五百万粉，反手一封侵权投诉把你只有几十万粉的本尊主号给举报封了。你举着身份证找客服申诉，客服礼貌回复：「亲，请勿模仿头部大V哦。」",
+      "life_quote": "「李鬼长成了参天大树，把李逵当成盗版给砍了。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「当搬运你视频的切片号比你本人还火时，到底谁才是正版？」",
+      "talent_id": "TALENT_D26",
+      "talent_name": "【正版蓝V认证】",
+      "talent_effect": "野生切片流量 100% 归拢本号，每章粉丝转化 +10%"
+    },
+    {
+      "ending_id": "H01",
+      "line_no": 729,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "黑粉头子是真爱",
+      "original_name": "和黑粉头子成了真朋友",
+      "aliases": [
+        "和黑粉头子成了真朋友"
+      ],
+      "trigger_condition": "Count_黑粉不对线 ≥ 3 + 情商 ≥ 7 +（保底卡 X-EGG-04 选 A 或打通第六章且全程 0 次对线骂街）",
+      "trigger_sources": null,
+      "settlement_copy": "那个从0粉起就追着你挑刺的「专治各种不服」，被你连续三次真诚请教彻底整不会了。面基那天你才发现他是个害羞的金牌编导，不仅给你整理了厚厚三本《直播间改进手册》，还成了你工作室最护短的铁杆合伙人。",
+      "life_quote": "「世上最懂你缺点的那个人，后来成了替你挡下所有明枪暗箭的挚友。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「如果对那个挑刺的黑粉头子永远温言相向，会发生什么？」",
+      "talent_id": "TALENT_H01",
+      "talent_name": "【化敌为友】",
+      "talent_effect": "黑粉自动按 30% 比例转化为乐子人真粉，开局情商 +2"
+    },
+    {
+      "ending_id": "H02",
+      "line_no": 730,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "星际巡航的港湾",
+      "original_name": "榜一转正",
+      "aliases": [
+        "榜一转正"
+      ],
+      "trigger_condition": "Flag_榜一恋爱=1（C3-M06 选 A 或大哥好感满值）+ 全程未塌房 + 第六章 C6-M08 选 A/B",
+      "trigger_sources": null,
+      "settlement_copy": "当年那个在深夜电台默默为你刷穿全服榜单的「沈总」，摘下神秘金主的光环，穿着白衬衫站在盛典后台捧着鲜花等你下播。全网粉丝都在刷「原来榜一大哥真的能修成正果」，你们把直播间变成了全星播最甜的撒糖现场。",
+      "life_quote": "「他刷过最贵的礼物不是星际巡航，而是陪你走过低谷的每一个夜晚。」",
+      "rarity": "传说",
+      "silhouette_hint": "「那个永远在榜首守护你的头像，私下里会是什么模样？」",
+      "talent_id": "TALENT_H02",
+      "talent_name": "【神豪守护星】",
+      "talent_effect": "开局自带 1 位常驻大哥粉丝，打赏分成提升 15%"
+    },
+    {
+      "ending_id": "H03",
+      "line_no": 731,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "给自己的AI打工",
+      "original_name": "被自己的数字人取代",
+      "aliases": [
+        "被自己的数字人取代"
+      ],
+      "trigger_condition": "第六章 C6-M06 选 A 命中 50% 觉醒分支 或（触发 X-MODE-09 选 B 且 口才 ≥ 8 走通数字人线）",
+      "trigger_sources": null,
+      "settlement_copy": "你克隆出来的 AI 数字人不仅 24 小时不知疲倦、永不塌房、连唱八十首高音不破音，情商还比你本人高十倍。粉丝们纷纷联名恳求「请真人主播不要再上线打扰我们看AI宝宝了」，现在你每天的工作就是在后台给自己的数字人端茶倒水维护显卡。",
+      "life_quote": "「你成功创造了一个完美的自己，然后被完美的自己优化掉了。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「当AI数字人比你更懂怎么哄粉丝开心时，直播间还属于你吗？」",
+      "talent_id": "TALENT_H03",
+      "talent_name": "【硅基算力】",
+      "talent_effect": "全模式基础收益恒定 +10%，永不触发口误卡"
+    },
+    {
+      "ending_id": "H04",
+      "line_no": 732,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "全星播最贵铲屎官",
+      "original_name": "猫成了顶流",
+      "aliases": [
+        "猫成了顶流"
+      ],
+      "trigger_condition": "Count_猫上镜 ≥ 3（首张 C1-S01 触发后，C2-S01、C3-S01 按 §1.8 定向保底必出）",
+      "trigger_sources": null,
+      "settlement_copy": "你终于认清了现实——观众根本不想听你唱歌打游戏，他们只想看你家那只十八斤的大橘猫舔爪子。你索性把账号改名叫「胖橘大王和它的无能人类奴才」，靠着每天直播给猫梳毛剪指甲，轻松登上了全站萌宠顶流宝座。",
+      "life_quote": "「努力奋斗三年，不如主子对着镜头打一个哈欠。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「也许……闯进镜头的真正顶流是那只猫？」",
+      "talent_id": "TALENT_H04",
+      "talent_name": "【招财猫罐头】",
+      "talent_effect": "开局运气 +2，每章随机获赠一笔猫粮打赏金"
+    },
+    {
+      "ending_id": "H05",
+      "line_no": 733,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "冲出楚门直播间",
+      "original_name": "算法觉醒",
+      "aliases": [
+        "算法觉醒"
+      ],
+      "trigger_condition": "开局 运气 = 10（基础满点）且 Count_算法异常 = 3（C4-S19选B / C5-S19选B / C6-S19选A 满格即时触发），或（运气 = 10 满值且打通第六章）于第六章章末结算触发",
+      "trigger_sources": [
+        {
+          "source_id": "H05_SRC_1_COUNTER_FULL_IMMEDIATE",
+          "expr": "运气 == 10 && Count_算法异常 == 3",
+          "timing": "immediate_on_counter_3_of_3",
+          "required_choices": [
+            "C4-S19:B",
+            "C5-S19:B",
+            "C6-S19:A"
+          ]
+        },
+        {
+          "source_id": "H05_SRC_2_CH6_CLEAR_WITH_MAX_LUCK",
+          "expr": "运气 == 10 && chapter_6_cleared == true",
+          "timing": "chapter_6_end_settlement"
+        }
+      ],
+      "settlement_copy": "在盛典加冕的那一刻，你伸手点碎了空气中浮现的金色乱码。整个演播室化作瀑布般的数据流——你惊讶地发现整个「星播」乃至所有的榜一大哥和黑粉，都只是一台名为《从小主播到顶流》的模拟器，而屏幕外的玩家正对着你露出了微笑。",
+      "life_quote": "「第 042 号宿主向屏幕外的你挥了挥手：嘿，下一局记得给我多点两下颜值！」",
+      "rarity": "传说",
+      "silhouette_hint": "「当运气抵达凡人极限时，你会看见这个世界底层飘过的代码。」",
+      "talent_id": "TALENT_H05",
+      "talent_name": "【矩阵权限狗】",
+      "talent_effect": "开局运气 +2（且单项不超过 10），随机判定倾向正向"
+    },
+    {
+      "ending_id": "H06",
+      "line_no": 734,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "生产队的驴都哭了",
+      "original_name": "全勤之神",
+      "aliases": [
+        "全勤之神"
+      ],
+      "trigger_condition": "全程 6 章全部排 6 小时超长档 + 0 次下播补觉 + 打通第六章且状态未跌穿",
+      "trigger_sources": null,
+      "settlement_copy": "从 0 粉到千万粉，你没有请过一天假、没有断过一场播，台风过境你在播、除夕跨年你在播、连拔完智齿半边脸肿成猪头你还在举牌播。全站荣誉殿堂官方为你颁发了「赛博永动机」证书，全网打工人把你的头像设成屏保用来戒掉赖床。",
+      "life_quote": "「只要地球还在转，你的直播间红点就永远亮着。」",
+      "rarity": "传说",
+      "silhouette_hint": "「如果从开播第一天起就永远选最长时长、永远不选补觉……」",
+      "talent_id": "TALENT_H06",
+      "talent_name": "【永动机心脏】",
+      "talent_effect": "开局体力 +3，6小时长播状态消耗减免 30%"
+    },
+    {
+      "ending_id": "H07",
+      "line_no": 735,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "零人观看的桃花源",
+      "original_name": "一个粉丝也没有但很快乐",
+      "aliases": [
+        "一个粉丝也没有但很快乐"
+      ],
+      "trigger_condition": "（Flag_零粉快乐=1 或 全程 0 次买投流/0 次打 PK）+ 最终 粉丝 < 10,000 且 口碑 ≥ 90",
+      "trigger_sources": null,
+      "settlement_copy": "你把所有推流开关和礼物通道全关了，把直播间当成了只属于自己的树洞电子日记。每天在镜头前看书、浇花、弹琴给自己听，粉丝数永远停留在个位数，但你的状态和快乐值溢出了屏幕——你在流量时代修成了真正的散仙。",
+      "life_quote": "「当所有人都在算法里溺水时，你自己在岸上建了一座花园。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「如果在第一章就关掉算法推荐，不求一个粉丝只求自己开心呢？」",
+      "talent_id": "TALENT_H07",
+      "talent_name": "【绝对澄明心境】",
+      "talent_effect": "开局心态 +3，任何掉粉事件对状态造不成半点伤害"
+    },
+    {
+      "ending_id": "H08",
+      "line_no": 736,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "夜航船的万里守候",
+      "original_name": "第一个老粉的守护",
+      "aliases": [
+        "第一个老粉的守护"
+      ],
+      "trigger_condition": "Flag_老粉=1（C1-M04 选 A）+ 第六章必出卡 C6-M09 选 A +（C2-M10 选 A 或 星牌忠诚度 ≥ 80%）",
+      "trigger_sources": null,
+      "settlement_copy": "无论你经历过全网被锤的低谷还是万人簇拥的巅峰，那个叫「夜航船」的 1 级星牌从第一天凌晨陪伴你走到了第 26 级满级神牌。盛典谢幕时导播将特写切给他，弹幕千万人同时刷起：「致敬全星播最浪漫的长情陪伴！」",
+      "life_quote": "「千万人的欢呼是荣誉，而那一个人的从一而终才是奇迹。」",
+      "rarity": "传说",
+      "silhouette_hint": "「还记得第一天凌晨，那个花一块钱为你点亮第一块星牌的人吗？」",
+      "talent_id": "TALENT_H08",
+      "talent_name": "【初代星牌余温】",
+      "talent_effect": "每当状态或口碑濒临跌穿暴毙时，老粉自动为你抵挡 1 次致命伤"
+    },
+    {
+      "ending_id": "H09",
+      "line_no": 737,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "成为算法的股东",
+      "original_name": "平台合伙人",
+      "aliases": [
+        "平台合伙人"
+      ],
+      "trigger_condition": "多周目携带 ≥ 3 枚前世天赋开局 + 盛典夺冠 +（保底卡 X-EGG-07 选 A 或 Total_Income ≥ ¥8,000,000）",
+      "trigger_sources": null,
+      "settlement_copy": "经历了数不清的轮回历练，你早已把星播的流量密码摸得比平台创始人还透。盛典夺冠夜你没有领奖杯，而是直接在后台签下了星播集团的合伙人股权协议——从明天起，全网所有主播刷出去的每一发火箭，都有你的一份分红。",
+      "life_quote": "「打工是不可能再打工了，这辈子只能靠收全平台主播的抽成维持生活这样子。」",
+      "rarity": "传说",
+      "silhouette_hint": "「经历过多次轮回的老手，或许能收到来自星播董事会的密函？」",
+      "talent_id": "TALENT_H09",
+      "talent_name": "【平台董事席位】",
+      "talent_effect": "开局初始钱包 +¥10,000，全模式推流档位默认 +1 档"
+    },
+    {
+      "ending_id": "H10",
+      "line_no": 738,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "宇宙尽头是编制",
+      "original_name": "考公上岸",
+      "aliases": [
+        "考公上岸"
+      ],
+      "trigger_condition": "Count_考编 ≥ 3（C1-S07 / C2-S17 / C4-S16 首张选 A 后定向保底必出）",
+      "trigger_sources": null,
+      "settlement_copy": "你妈塞给你的《考公模拟五千题》没有白刷！你在直播间带着十万观众每天雷打不动刷模拟卷练面试，结果在今年省考里以岗位第一名的成绩成功上岸！停播告别那天，你妈真的信守承诺在直播间给你刷了一发火箭，全家族群放了三天电子鞭炮。",
+      "life_quote": "「才艺主播千千万，考上编制你妈才觉得你真有了出息。」",
+      "rarity": "稀有",
+      "silhouette_hint": "「每次老妈催你考事业编的时候，如果真的在直播间认真刷题呢？」",
+      "talent_id": "TALENT_H10",
+      "talent_name": "【考霸的逻辑】",
+      "talent_effect": "开局口才 +2、情商 +1，所有公关/合同事件自动视为审阅通过"
+    },
+    {
+      "ending_id": "H11",
+      "line_no": 739,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "九块九麦克风的回溯",
+      "original_name": "穿越回 0 粉",
+      "aliases": [
+        "穿越回 0 粉"
+      ],
+      "trigger_condition": "图鉴累计已解锁 ≥ 30 个结局 + 保底卡 X-EGG-08 选 A",
+      "trigger_sources": null,
+      "settlement_copy": "当你握住储物间里那支掉了漆的九块九有线麦克风，眼前的豪华别墅如潮水般褪去。你猛地睁开眼，发现自己又回到了大学刚毕业那个闷热的出租屋午后，电脑屏幕上显示着「当前粉丝：0」——而你脑海里装着三十世的荣辱记忆。",
+      "life_quote": "「如果人生可以带着记忆重开第三十一次，这一回你想活成什么样？」",
+      "rarity": "传说",
+      "silhouette_hint": "「集齐 30 个平行时空的结局碎片后，再去摸摸最初那支旧麦克风。」",
+      "talent_id": "TALENT_H11",
+      "talent_name": "【三十世轮回宿慧】",
+      "talent_effect": "开局可多携带 1 枚前世天赋（携带槽位由 3 槽扩至 4 槽，不加基础属性点、不破 57 总池）"
+    },
+    {
+      "ending_id": "H12",
+      "line_no": 740,
+      "tier": "hidden",
+      "sub_category": null,
+      "name": "万界星播唯一真神",
+      "original_name": "真·顶流",
+      "aliases": [
+        "真·顶流"
+      ],
+      "trigger_condition": "已完成全部 12 个主结局（M01–M12） + 终章必出仪式卡 X-EGG-09（选 A 加冕星海真神 / 选 B 致敬万界旅人，分授不同结语）",
+      "trigger_sources": null,
+      "settlement_copy": "无论是带货之神、电台夜王、电竞名嘴、MCN巨鳄还是街角炒菜的老板，所有平行世界里最耀眼的你在此刻合而为一。星播特意为你开辟了唯一的紫金神殿级直播间，连系统的开机启动页都换成了你的剪影——恭喜你，彻底打穿了这场名利场游戏！",
+      "life_quote": "「百世浮沉皆入图鉴，你就是这部直播传奇唯一的创世真神。」",
+      "rarity": "传说",
+      "silhouette_hint": "「唯有走遍全部十二条主线人生的终极旅人，才能推开最后那扇门。」",
+      "talent_id": "TALENT_H12",
+      "talent_name": "【真·顶流权柄】",
+      "talent_effect": "分支 A【星海真神】开局全属性 +1；分支 B【万界旅人】初始口碑直接提升至 90（随通关分支继承对应前世天赋加成）",
+      "branch_variants": {
+        "A": {
+          "branch": "A",
+          "name": "星海真神",
+          "summary": "【星海真神】你推开星空大门加冕星海真神，全星播十二条主线宇宙为你共鸣，全属性永久升华。",
+          "life_quote": "「百世浮沉皆入图鉴，你推开星空大门，加冕为星海唯一的创世真神。」",
+          "talent_effect": "分支 A【星海真神】开局全属性 +1（且单项不超过 10、总池不超过 57）"
+        },
+        "B": {
+          "branch": "B",
+          "name": "万界旅人",
+          "summary": "【万界旅人】你回头向所有平行时空的自己举杯致意，笑着走入下一场人间烟火，初始口碑直达90。",
+          "life_quote": "「走遍万界依然热爱人间，敬每一个曾拼尽全力的平行自己。」",
+          "talent_effect": "分支 B【万界旅人】初始口碑直接提升至 90，老粉初始粘性与星牌留存顶格"
+        }
+      },
+      "errata_note": "F2/P4-2: A/B 挂载 branch_variants，天赋文案随分支走，共用第 50 枚天赋【真·顶流权柄】"
+    }
+  ],
+  "talents": [
+    {
+      "talent_id": "TALENT_M01",
+      "ending_id": "M01",
+      "ending_name": "加冕星播之王",
+      "name": "【星海加冕】",
+      "effect_text": "开局全属性随机 2 项 +1，初始口碑 +10",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_M02",
+      "ending_id": "M02",
+      "ending_name": "人形上链接机器",
+      "name": "【金牌选品官】",
+      "effect_text": "下播行动「选品」转化加成翻倍，开局口才 +2",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_M03",
+      "ending_id": "M03",
+      "ending_name": "屠龙者终成老板",
+      "name": "【法务铁盾】",
+      "effect_text": "开局自带 Flag_审过合同=1，初始钱包 +¥3,000",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_M04",
+      "ending_id": "M04",
+      "ending_name": "赛博桃花源主",
+      "name": "【保温杯泡枸杞】",
+      "effect_text": "开局体力 +2，每阶段自然恢复状态 +5",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_M05",
+      "ending_id": "M05",
+      "ending_name": "江湖远去·归来白月光",
+      "name": "【白月光滤镜】",
+      "effect_text": "老粉星牌忠诚度永不自然衰减，开局情商 +2",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_M06",
+      "ending_id": "M06",
+      "ending_name": "午夜城市的赛博枕头",
+      "name": "【天籁低音炮】",
+      "effect_text": "开局嗓音 +2，深夜档状态消耗额外减轻 15%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_M07",
+      "ending_id": "M07",
+      "ending_name": "滚烫的中央聚光灯",
+      "name": "【绝对舞台感】",
+      "effect_text": "开局才艺 +2，团播模式粉丝乘区 +0.15",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_M08",
+      "ending_id": "M08",
+      "ending_name": "官方认证·人形外挂",
+      "name": "【帧数级反应】",
+      "effect_text": "开局游戏技术 +2，游戏模式高光率 +15%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_M09",
+      "ending_id": "M09",
+      "ending_name": "把直播间搬进山海",
+      "name": "【风餐露宿体魄】",
+      "effect_text": "开局体力 +1、运气 +1，户外模式收益 +15%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_M10",
+      "ending_id": "M10",
+      "ending_name": "隐身造星的黄金推手",
+      "name": "【神级百万剪辑】",
+      "effect_text": "下播「剪切片」出圈率 +30%，开局情商 +1、口才 +1",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_M11",
+      "ending_id": "M11",
+      "ending_name": "人间烟火大排档",
+      "name": "【夜市烟火气】",
+      "effect_text": "开局初始钱包 +¥3,000，心态 +1",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_M12",
+      "ending_id": "M12",
+      "ending_name": "早八打卡打工人",
+      "name": "【摸鱼老手】",
+      "effect_text": "午间档与清晨场推流乘区 +0.15，开局心态 +1",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D01",
+      "ending_id": "D01",
+      "ending_name": "ICU 尊享VIP机位",
+      "name": "【急诊室常客】",
+      "effect_text": "开局状态上限 +10，初始体力 +1",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D02",
+      "ending_id": "D02",
+      "ending_name": "村口情报局特派员",
+      "name": "【抠门记账本】",
+      "effect_text": "所有固定开支与买推流消耗降低 15%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D03",
+      "ending_id": "D03",
+      "ending_name": "互联网过街老鼠",
+      "name": "【防弹厚脸皮】",
+      "effect_text": "负面事件扣除口碑的幅度减轻 15%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D04",
+      "ending_id": "D04",
+      "ending_name": "赛博透明人",
+      "name": "【冷启动火花】",
+      "effect_text": "初始热度 +150，前两章自然推流 +15%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D05",
+      "ending_id": "D05",
+      "ending_name": "十万键盘侠的祭品",
+      "name": "【弹幕屏蔽仪】",
+      "effect_text": "黑粉浓度增长速度降低 20%，开局心态 +1",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D06",
+      "ending_id": "D06",
+      "ending_name": "全网封杀速通王",
+      "name": "【克制警钟】",
+      "effect_text": "被锤事件中心态伤害减免 20%，开局情商 +2",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D07",
+      "ending_id": "D07",
+      "ending_name": "铁窗边缘的封口费",
+      "name": "【反诈防火墙】",
+      "effect_text": "正规商务报价提升 10%，自动高亮识别违规合同",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D08",
+      "ending_id": "D08",
+      "ending_name": "芥末味的封禁通知",
+      "name": "【安全整活指南】",
+      "effect_text": "PK模式基础胜率 +10%，开局口才 +1",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D09",
+      "ending_id": "D09",
+      "ending_name": "赛博假人拔网线",
+      "name": "【真人温度】",
+      "effect_text": "亲自开播时自然推流权重 +10%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D10",
+      "ending_id": "D10",
+      "ending_name": "顺着网线去敲门",
+      "name": "【法治冷静期】",
+      "effect_text": "同行竞争事件中口碑固定 +5，开局心态 +2",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D11",
+      "ending_id": "D11",
+      "ending_name": "铁锤下的带货亡魂",
+      "name": "【质检放大镜】",
+      "effect_text": "带货爆雷率永久降低 15%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D12",
+      "ending_id": "D12",
+      "ending_name": "假牛肉干的眼泪",
+      "name": "【样品留存箱】",
+      "effect_text": "开局自带 Count_验货命中 = 1（Flag_选品减伤=1），初始口才 +1",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D13",
+      "ending_id": "D13",
+      "ending_name": "五百万的卖身契",
+      "name": "【放大镜看小字】",
+      "effect_text": "所有合同/法务类事件自动解锁最优隐藏提示",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D14",
+      "ending_id": "D14",
+      "ending_name": "团播角落的绿叶",
+      "name": "【C位野心】",
+      "effect_text": "开局才艺 +1、颜值 +1，拒绝沦为背景板",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D15",
+      "ending_id": "D15",
+      "ending_name": "小作文败犬",
+      "name": "【公关排版学】",
+      "effect_text": "声明与回应类事件口碑收益 +15%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D16",
+      "ending_id": "D16",
+      "ending_name": "求锤得锤的高清截屏",
+      "name": "【阅后即焚】",
+      "effect_text": "开局初始减免 1 次 Count_偷拍素材 累积（仍维持 0→3 满格标准）",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D17",
+      "ending_id": "D17",
+      "ending_name": "恋爱脑的鹤顶红",
+      "name": "【人间清醒脑】",
+      "effect_text": "免疫劣迹对象魅力诱惑，开局心态 +2",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D18",
+      "ending_id": "D18",
+      "ending_name": "碎成玻璃渣的假糖",
+      "name": "【营业边界感】",
+      "effect_text": "CP营业掉粉税减半，开局情商 +1",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D19",
+      "ending_id": "D19",
+      "ending_name": "净身出户的打工仔",
+      "name": "【产权独立证】",
+      "effect_text": "开局自带 Flag_账号协议=1，粉丝流失保护 +10%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D20",
+      "ending_id": "D20",
+      "ending_name": "巨债人设的穿帮夜",
+      "name": "【坦荡做人】",
+      "effect_text": "不选卖惨/造假选项时，每章额外奖励口碑 +3",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D21",
+      "ending_id": "D21",
+      "ending_name": "官方通报的流量死刑",
+      "name": "【真实记录者】",
+      "effect_text": "原创真实内容切片出圈率 +20%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D22",
+      "ending_id": "D22",
+      "ending_name": "呼噜声替你封神",
+      "name": "【睡神附体】",
+      "effect_text": "下播「补觉休息」状态恢复量额外 +10",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D23",
+      "ending_id": "D23",
+      "ending_name": "无法自证的人类",
+      "name": "【活人微瑕】",
+      "effect_text": "免疫算法误判限流，开局运气 +1",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D24",
+      "ending_id": "D24",
+      "ending_name": "两台抵债显示器",
+      "name": "【老东家铁饭碗】",
+      "effect_text": "留在星播不跳槽时，第四章起每章推流额外 +15%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D25",
+      "ending_id": "D25",
+      "ending_name": "毒舌监制踩你登基",
+      "name": "【毒舌免疫力】",
+      "effect_text": "开局口才 +2，对线事件不掉状态",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_D26",
+      "ending_id": "D26",
+      "ending_name": "真美猴王死于李鬼",
+      "name": "【正版蓝V认证】",
+      "effect_text": "野生切片流量 100% 归拢本号，每章粉丝转化 +10%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H01",
+      "ending_id": "H01",
+      "ending_name": "黑粉头子是真爱",
+      "name": "【化敌为友】",
+      "effect_text": "黑粉自动按 30% 比例转化为乐子人真粉，开局情商 +2",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H02",
+      "ending_id": "H02",
+      "ending_name": "星际巡航的港湾",
+      "name": "【神豪守护星】",
+      "effect_text": "开局自带 1 位常驻大哥粉丝，打赏分成提升 15%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H03",
+      "ending_id": "H03",
+      "ending_name": "给自己的AI打工",
+      "name": "【硅基算力】",
+      "effect_text": "全模式基础收益恒定 +10%，永不触发口误卡",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H04",
+      "ending_id": "H04",
+      "ending_name": "全星播最贵铲屎官",
+      "name": "【招财猫罐头】",
+      "effect_text": "开局运气 +2，每章随机获赠一笔猫粮打赏金",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H05",
+      "ending_id": "H05",
+      "ending_name": "冲出楚门直播间",
+      "name": "【矩阵权限狗】",
+      "effect_text": "开局运气 +2（且单项不超过 10），随机判定倾向正向",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H06",
+      "ending_id": "H06",
+      "ending_name": "生产队的驴都哭了",
+      "name": "【永动机心脏】",
+      "effect_text": "开局体力 +3，6小时长播状态消耗减免 30%",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H07",
+      "ending_id": "H07",
+      "ending_name": "零人观看的桃花源",
+      "name": "【绝对澄明心境】",
+      "effect_text": "开局心态 +3，任何掉粉事件对状态造不成半点伤害",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H08",
+      "ending_id": "H08",
+      "ending_name": "夜航船的万里守候",
+      "name": "【初代星牌余温】",
+      "effect_text": "每当状态或口碑濒临跌穿暴毙时，老粉自动为你抵挡 1 次致命伤",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H09",
+      "ending_id": "H09",
+      "ending_name": "成为算法的股东",
+      "name": "【平台董事席位】",
+      "effect_text": "开局初始钱包 +¥10,000，全模式推流档位默认 +1 档",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H10",
+      "ending_id": "H10",
+      "ending_name": "宇宙尽头是编制",
+      "name": "【考霸的逻辑】",
+      "effect_text": "开局口才 +2、情商 +1，所有公关/合同事件自动视为审阅通过",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H11",
+      "ending_id": "H11",
+      "ending_name": "九块九麦克风的回溯",
+      "name": "【三十世轮回宿慧】",
+      "effect_text": "开局可多携带 1 枚前世天赋（携带槽位由 3 槽扩至 4 槽，不加基础属性点、不破 57 总池）",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    },
+    {
+      "talent_id": "TALENT_H12",
+      "ending_id": "H12",
+      "ending_name": "万界星播唯一真神",
+      "name": "【真·顶流权柄】",
+      "effect_text": "分支 A【星海真神】开局全属性 +1；分支 B【万界旅人】初始口碑直接提升至 90（随通关分支继承对应前世天赋加成）",
+      "respects_57_pool_cap": true,
+      "respects_10_stat_cap": true
+    }
+  ]
+}

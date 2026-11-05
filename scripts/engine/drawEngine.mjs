@@ -5,10 +5,10 @@ export class DrawEngine {
     this.drawRules = configData.draw_rules;
   }
 
-  // Draw 5 cards for the chapter
-  drawChapterCards(chapter, gameState) {
+  // Draw cards for chapter (default 5 cards, or 3 cards for overtime)
+  drawChapterCards(chapter, gameState, targetCount = 5) {
     const drawnIds = new Set(gameState.cardHistory);
-    const chosenMode = gameState.selectedSchedule.mode;
+    const chosenMode = gameState.selectedSchedule?.mode || '全模式';
     const stamina = gameState.fiveDim.stamina;
 
     // 1. Identify guaranteed candidates
@@ -59,26 +59,28 @@ export class DrawEngine {
       gameState.evalCondition(c.prereq_expr)
     );
 
-    // Pick guaranteed cards (at most 4)
+    // Pick guaranteed cards (at most maxGuaranteed: 4 for normal, 2 for overtime)
+    const maxGuaranteed = targetCount <= 3 ? 2 : 4;
     const selectedGuaranteed = [];
     for (const gId of guaranteedPool) {
-      if (selectedGuaranteed.length < 4 && !selectedGuaranteed.includes(gId)) {
+      if (selectedGuaranteed.length < maxGuaranteed && !selectedGuaranteed.includes(gId)) {
         const c = this.cards.find(x => x.card_id === gId);
         if (c) selectedGuaranteed.push(c);
       }
     }
 
     // Ensure milestone representation
+    const minMilestone = targetCount <= 3 ? 1 : 2;
     for (const m of chapterMilestones) {
-      if (selectedGuaranteed.length < 2) {
+      if (selectedGuaranteed.length < minMilestone) {
         if (!selectedGuaranteed.some(c => c.card_id === m.card_id)) {
           selectedGuaranteed.push(m);
         }
       }
     }
 
-    const guaranteedSlotsCount = Math.min(4, Math.max(2, selectedGuaranteed.length));
-    const randomSlotsCount = 5 - selectedGuaranteed.length;
+    const guaranteedSlotsCount = Math.min(maxGuaranteed, selectedGuaranteed.length);
+    const randomSlotsCount = Math.max(0, targetCount - selectedGuaranteed.length);
 
     // 2. Random Pool (Short cards & Cross-chapter cards)
     const eligibleRandomCards = this.cards.filter(c => {
@@ -144,7 +146,7 @@ export class DrawEngine {
       weightedPool.splice(chosenIdx, 1);
     }
 
-    const finalQueue = [...selectedGuaranteed, ...selectedRandom];
+    const finalQueue = [...selectedGuaranteed, ...selectedRandom].slice(0, targetCount);
     // Mark as drawn in history
     finalQueue.forEach(c => gameState.cardHistory.push(c.card_id));
 
