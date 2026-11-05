@@ -80,3 +80,10 @@
   - 转录与校验脚本：`scripts/transcribe_data.mjs`、`scripts/validate_transcription.mjs`、`scripts/test_cards.mjs`
   - 校验输出报告：`data/validation_report.txt`（`Result: 28 passed, 0 failed`）
 - **剩余问题**：无。冻结文件 `maker-zhubo-gemini-draft-20261104.md` 与 `maker-zhubo-design-20261104.md` 保持只读零改动。
+
+## Orange 验收 · 阶段 0/1（2026-11-05，签收，阶段 2 放行）
+
+- **阶段 0 签收**：三项结论与预裁回退完全一致——本地存档定案（杀进程重进实测留证）、成就走内置图鉴墙、扫条 60 FPS 达标走平滑版（三连点开关保留）。注：存档/成就结论的证据范围是本地 Runtime + MCP 工具面，平台正式环境若另有接口也不回改定案（本地优先本就是设计口径）。
+- **阶段 1 签收**：Orange 抽验原文——`endings_and_talents.json` 的 `ending_id` 为 M01–M12 / D01–D26 / H01–H12，类别与计数正确；`cards.json` 213 张中 12 张双标标志性卡全部 `dual_boost`（base 1 / match 2 / non-match 1，无降权），短卡 `C2-S02` 为 match 3 / non-match 0.5，`C5-M07` 为带货硬门控（non-match 0），P2-1 分开判落表无误；字典 36 键与快照自动生成、H05 双源与写入方选项限定均已在校验报告中对上。
+- **两处文字修正（随阶段 2 顺手改，不单独返工）**：①校验报告与回报 prose 把结局类别写成「12 D + 26 S + 12 H」，与数据实际的 M/D/H 不符——改 `validate_transcription.mjs` 的标签字样，后续报告按 M/D/H 出；②阶段 1 回报里 P2-1 的举例卡名（C4-M06 等）与实表不符，以数据为准，今后回报举例须与实表逐一对名。
+- **阶段 2 放行**：按工单阶段 2 执行；验收时重点看三件——整局能从 0 粉打通到任一结局、暴毙复活回滚后用 `Count_验货命中` 与 `Count_偷拍素材` 实测无残留、C6-M05 时机条在选项结算后生效且只作用非煽动选项。广告只留占位，不接真广告。
