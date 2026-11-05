@@ -11,19 +11,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "开播首日镜头前只有系统机器人，你决定走什么路子？两难：慢熬真本事 vs 擦边整活2.5倍速起号但随时撞监管枪口。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -39,7 +40,7 @@
         "raw_label": "「老实展示才艺唱跳，慢工出细活」",
         "req_expr": null,
         "effects": {
-          "summary": "A锁才艺",
+          "summary": "A锁才艺/电台",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -65,7 +66,7 @@
         "raw_label": "「穿怪异玩偶服抽象整活，先火再说」",
         "req_expr": null,
         "effects": {
-          "summary": "C整活流",
+          "summary": "C整活流（乘区×2.5，35%率收益清零）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -86,19 +87,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "连播三天个位数在线，隔壁靠编造「替家还巨债」一夜破千粉。两难：编催泪故事吸粉 vs 坦诚普通毕业生继续坐冷板凳。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -114,14 +116,8 @@
         "raw_label": "「把道具药瓶摆进镜头：其实我一直在硬撑」",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+40%热+30%记 Flag_卖惨人设=1",
-          "state_writes": [
-            {
-              "key": "Flag_卖惨人设",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A粉+40%热+30%记Flag_卖惨人设=1",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -155,18 +151,18 @@
       "才艺",
       "电台"
     ],
-    "gate_type": "hard",
+    "gate_type": "dual_boost",
     "weight_rule": {
       "base": 1,
-      "match_mode": 1,
-      "non_match_mode": 0,
+      "match_mode": 2,
+      "non_match_mode": 1,
       "specific_modes": [
         "才艺",
         "电台"
       ]
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -187,7 +183,7 @@
         "raw_label": "「把美颜声卡焊死在脸上，观众爱完美幻觉」",
         "req_expr": null,
         "effects": {
-          "summary": "A等效颜",
+          "summary": "A等效颜/嗓+2粉+35%记Flag_科技人设=1",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -221,19 +217,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "dual_boost",
     "weight_rule": {
       "base": 1,
-      "match_mode": 1,
-      "non_match_mode": 1
+      "match_mode": 2,
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "凌晨只剩1人，观众「夜航船」连发十条弹幕陪聊，还花1块钱点亮首块1级星牌。两难：专心陪聊半小时 vs 敷衍下播剪切片。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -249,16 +246,15 @@
         "raw_label": "「哪怕只有一人听，今晚也为你播完」",
         "req_expr": null,
         "effects": {
-          "summary": "A记 Flag_老粉=1",
-          "state_writes": [
-            {
-              "key": "Flag_老粉",
-              "op": "set",
-              "value": 1
-            }
+          "summary": "A记Flag_老粉=1（挂钩C6-M09/H08）",
+          "state_writes": [],
+          "ending_triggers": [
+            "M09",
+            "H08"
           ],
-          "ending_triggers": [],
-          "next_cards": []
+          "next_cards": [
+            "C6-M09"
+          ]
         },
         "outcome_toast": "A记Flag_老粉=1（挂钩C6-M09/H08）；B热+15%失老粉"
       },
@@ -270,8 +266,13 @@
         "effects": {
           "summary": "B热+15%失老粉",
           "state_writes": [],
-          "ending_triggers": [],
-          "next_cards": []
+          "ending_triggers": [
+            "M09",
+            "H08"
+          ],
+          "next_cards": [
+            "C6-M09"
+          ]
         },
         "outcome_toast": "A记Flag_老粉=1（挂钩C6-M09/H08）；B热+15%失老粉"
       }
@@ -289,20 +290,21 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "timing_bar",
-    "ops_note": "直播进行时光标单向扫过横条（≤5秒），甜区×1.15 / 良区×1.05 / 普通×1.0，并入单卡Cap夹逼",
+    "ops_note": null,
     "has_art": false,
-    "context_text": "路人刷了一组10元「小星星」，要求你当场学狗叫两声助兴。两难：为十块钱放下自尊整活 vs 守住底线婉拒。",
+    "context_text": "[操作：时机条] 路人刷了一组10元「小星星」，要求你当场学狗叫两声助兴。两难：为十块钱放下自尊整活 vs 守住底线婉拒。",
     "raw_cells": {
       "mode_col": "`[全模式]`<br>`[操作：时机条]`",
       "context_col": "`[操作：时机条]` 路人刷了一组10元「小星星」，要求你当场学狗叫两声助兴。两难：为十块钱放下自尊整活 vs 守住底线婉拒。",
@@ -351,11 +353,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -413,25 +416,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_黑粉不对线",
-      "step": "1/3",
-      "WriteOpt": [
-        "B"
-      ]
-    },
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "账号「专治各种不服」连发五条毒舌锐评，把你从打光到台词批得体无完肤。两难：挂出来置顶对线引流 vs 虚心请教。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -449,7 +447,9 @@
         "effects": {
           "summary": "A热+15%口才+1",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H01"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A热+15%口才+1；B记Count_黑粉不对线+1（挂钩H01）"
@@ -460,15 +460,11 @@
         "raw_label": "「忍住脾气回复：骂得准，欢迎继续挑刺」",
         "req_expr": null,
         "effects": {
-          "summary": "B记 Count_黑粉不对线+1",
-          "state_writes": [
-            {
-              "key": "Count_黑粉不对线",
-              "op": "add",
-              "value": 1
-            }
+          "summary": "B记Count_黑粉不对线+1（挂钩H01）",
+          "state_writes": [],
+          "ending_triggers": [
+            "H01"
           ],
-          "ending_triggers": [],
           "next_cards": []
         },
         "outcome_toast": "A热+15%口才+1；B记Count_黑粉不对线+1（挂钩H01）"
@@ -487,11 +483,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -549,11 +546,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -577,7 +575,7 @@
         "raw_label": "「泡面管饱，三百块全投给算法爸爸」",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包-300热+35%",
+          "summary": "A钱包-300热+35%（不加口碑且章末口碑-5）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -611,14 +609,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -639,15 +638,11 @@
         "raw_label": "「关掉同城推荐，把直播间当树洞自娱自乐」",
         "req_expr": null,
         "effects": {
-          "summary": "A记 Flag_零粉快乐=1",
-          "state_writes": [
-            {
-              "key": "Flag_零粉快乐",
-              "op": "set",
-              "value": 1
-            }
+          "summary": "A记Flag_零粉快乐=1（挂钩H07）",
+          "state_writes": [],
+          "ending_triggers": [
+            "H07"
           ],
-          "ending_triggers": [],
           "next_cards": []
         },
         "outcome_toast": "A记Flag_零粉快乐=1（挂钩H07）；B粉+20%状态-10"
@@ -660,7 +655,9 @@
         "effects": {
           "summary": "B粉+20%状态-10",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H07"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A记Flag_零粉快乐=1（挂钩H07）；B粉+20%状态-10"
@@ -679,22 +676,16 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_猫上镜",
-      "step": "1/3",
-      "WriteOpt": [
-        "A",
-        "B"
-      ]
-    },
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -714,7 +705,7 @@
         "raw_label": "抱开猫继续讲准备好的稿子",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+2",
+          "summary": "弹幕刷屏看猫（A口碑+2/B记Count_猫上镜+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -727,14 +718,8 @@
         "raw_label": "递麦给猫：打赏归你买罐头",
         "req_expr": null,
         "effects": {
-          "summary": "B记 Count_猫上镜+1",
-          "state_writes": [
-            {
-              "key": "Count_猫上镜",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "弹幕刷屏看猫（A口碑+2/B记Count_猫上镜+1）",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -754,11 +739,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -782,7 +768,7 @@
         "raw_label": "放喜庆拜年歌陪大妈唠养生",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+3",
+          "summary": "大妈把你转进相亲群（A口碑+3/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -795,7 +781,7 @@
         "raw_label": "硬着头皮表演二次元宅舞",
         "req_expr": null,
         "effects": {
-          "summary": "B热+10%",
+          "summary": "大妈把你转进相亲群（A口碑+3/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -847,7 +833,7 @@
         "raw_label": "去洗手间真倒立洗头水进鼻",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+15%",
+          "summary": "脑门进水截成动图（A粉+15%/B乐子人+）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -860,7 +846,7 @@
         "raw_label": "把屏幕倒放：看我已经倒立了",
         "req_expr": null,
         "effects": {
-          "summary": "B乐子人+",
+          "summary": "脑门进水截成动图（A粉+15%/B乐子人+）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -912,7 +898,7 @@
         "raw_label": "跟窗外的狗来段跨物种合唱",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "弹幕盛赞犬系唱腔（A热+15%/B心态+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -925,7 +911,7 @@
         "raw_label": "假装刚才那是海豚音炫技",
         "req_expr": null,
         "effects": {
-          "summary": "B心态+1",
+          "summary": "弹幕盛赞犬系唱腔（A热+15%/B心态+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -977,7 +963,7 @@
         "raw_label": "翻出大学课本现场直播讲高数",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+10%",
+          "summary": "直播间秒变考前自习室（A粉+10%/B口碑+3）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -990,7 +976,7 @@
         "raw_label": "用电台腔念微积分公式哄睡",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+3",
+          "summary": "直播间秒变考前自习室（A粉+10%/B口碑+3）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1042,7 +1028,7 @@
         "raw_label": "把手机架给大爷旁观喊666",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+3",
+          "summary": "挂单杠晃荡成高光时刻（A口碑+3/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1055,7 +1041,7 @@
         "raw_label": "跳上旁侧单杠挂上面下不来",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "挂单杠晃荡成高光时刻（A口碑+3/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1076,21 +1062,16 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_考编",
-      "step": "1/3",
-      "WriteOpt": [
-        "A"
-      ]
-    },
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -1110,14 +1091,8 @@
         "raw_label": "当众掏《考编刷题五千道》刷题",
         "req_expr": null,
         "effects": {
-          "summary": "A记 Count_考编+1",
-          "state_writes": [
-            {
-              "key": "Count_考编",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "备考难友亮星牌（A记Count_考编+1/B热+10%）",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -1129,7 +1104,7 @@
         "raw_label": "捂话筒喊妈我在开跨国会议",
         "req_expr": null,
         "effects": {
-          "summary": "B热+10%",
+          "summary": "备考难友亮星牌（A记Count_考编+1/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1181,7 +1156,7 @@
         "raw_label": "帮他对答案：第三题选C",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+3",
+          "summary": "你扭五分钟输给写卷子（A口碑+3/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1194,7 +1169,7 @@
         "raw_label": "疯狂跳舞试图打乱他做题",
         "req_expr": null,
         "effects": {
-          "summary": "B热+10%",
+          "summary": "你扭五分钟输给写卷子（A口碑+3/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1215,11 +1190,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -1243,7 +1219,7 @@
         "raw_label": "露双眼演塔防游戏大倭瓜",
         "req_expr": null,
         "effects": {
-          "summary": "A乐子人+",
+          "summary": "抠像把你抠成灵异空椅（A乐子人+/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1256,7 +1232,7 @@
         "raw_label": "在绿布里挣扎半天钻不出来",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "抠像把你抠成灵异空椅（A乐子人+/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1308,7 +1284,7 @@
         "raw_label": "含泪把烤红薯当场吃掉",
         "req_expr": null,
         "effects": {
-          "summary": "A状态+5",
+          "summary": "左手倒右手亏三块运费（A状态+5/B口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1321,7 +1297,7 @@
         "raw_label": "给自己写五百字好评念出来",
         "req_expr": null,
         "effects": {
-          "summary": "B口才+1",
+          "summary": "左手倒右手亏三块运费（A状态+5/B口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1373,7 +1349,7 @@
         "raw_label": "拿手机电筒照脸继续讲故事",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "尖叫声比怪物恐怖十倍（A热+15%/B粉+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1386,7 +1362,7 @@
         "raw_label": "假装被游戏女鬼顺网线拉闸",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+10%",
+          "summary": "尖叫声比怪物恐怖十倍（A热+15%/B粉+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1438,7 +1414,7 @@
         "raw_label": "摸黑来一段荧光棒盲跳",
         "req_expr": null,
         "effects": {
-          "summary": "A才艺+1",
+          "summary": "飞鞋关灯获评最省电下播（A才艺+1/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1451,7 +1427,7 @@
         "raw_label": "蹲地找拖鞋结果撞翻垃圾桶",
         "req_expr": null,
         "effects": {
-          "summary": "B热+10%",
+          "summary": "飞鞋关灯获评最省电下播（A才艺+1/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1503,7 +1479,7 @@
         "raw_label": "改口今晚是重金属烟嗓专场",
         "req_expr": null,
         "effects": {
-          "summary": "A口才+1",
+          "summary": "观众全被咳得精神抖擞（A口才+1/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1516,7 +1492,7 @@
         "raw_label": "戴防尘面具瓮声瓮气哄睡",
         "req_expr": null,
         "effects": {
-          "summary": "B热+10%",
+          "summary": "观众全被咳得精神抖擞（A口才+1/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1568,7 +1544,7 @@
         "raw_label": "一人分饰四角左右轮流接词",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+15%",
+          "summary": "路人以为进了康复汇演（A粉+15%/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1581,7 +1557,7 @@
         "raw_label": "跟镜子里的自己抢C位吵架",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "路人以为进了康复汇演（A粉+15%/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1602,11 +1578,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -1630,7 +1607,7 @@
         "raw_label": "低头看脚上人字拖陷入沉思",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "你把人工智能聊掉线了（A心态+1/B口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1643,7 +1620,7 @@
         "raw_label": "热情跟每个机器人拜年互动",
         "req_expr": null,
         "effects": {
-          "summary": "B口才+1",
+          "summary": "你把人工智能聊掉线了（A心态+1/B口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1695,7 +1672,7 @@
         "raw_label": "含冰块口齿不清硬夸微辣",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+3",
+          "summary": "老板免单还送瓶肠胃药（A口碑+3/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1708,7 +1685,7 @@
         "raw_label": "对着镜头表演人体喷火",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "老板免单还送瓶肠胃药（A口碑+3/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1729,11 +1706,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -1757,7 +1735,7 @@
         "raw_label": "撕下另一只贴嘴唇当八字胡",
         "req_expr": null,
         "effects": {
-          "summary": "A乐子人+",
+          "summary": "大小眼截成镇群表情包（A乐子人+/B粉+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1770,7 +1748,7 @@
         "raw_label": "眨巴大小眼假装在放电",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+10%",
+          "summary": "大小眼截成镇群表情包（A乐子人+/B粉+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1822,7 +1800,7 @@
         "raw_label": "夹嗓子飙外语假装国际友人",
         "req_expr": null,
         "effects": {
-          "summary": "A热+10%",
+          "summary": "隔墙认亲老王刷小星星（A热+10%/B钱包+50）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1835,7 +1813,7 @@
         "raw_label": "敲墙壁问：是三楼老王吗",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包+50",
+          "summary": "隔墙认亲老王刷小星星（A热+10%/B钱包+50）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1856,11 +1834,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -1884,7 +1863,7 @@
         "raw_label": "拉小哥入镜一起盒饭吃播",
         "req_expr": null,
         "effects": {
-          "summary": "A状态+5",
+          "summary": "观众全在问盒饭链接（A状态+5/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1897,7 +1876,7 @@
         "raw_label": "感动得给小哥跳段感恩舞",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+15%",
+          "summary": "观众全在问盒饭链接（A状态+5/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1918,11 +1897,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -1946,7 +1926,7 @@
         "raw_label": "硬说是观察青年睡眠艺术",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "抠脚播放量比才艺高八倍（A心态+1/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1959,7 +1939,7 @@
         "raw_label": "连夜把简介改成接地气博主",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+20%",
+          "summary": "抠脚播放量比才艺高八倍（A心态+1/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -1980,26 +1960,27 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "星耀互娱递来合同：月保底2500+推流扶持，但小字写着「商务二八分、五年约、违约金五百万」。两难：闭眼签 vs 花500找朋友审合同。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
       "context_col": "星耀互娱递来合同：月保底2500+推流扶持，但小字写着「商务二八分、五年约、违约金五百万」。两难：闭眼签 vs 花500找朋友审合同。",
       "options_col": "**A.**「五百万违约金都是行规，先拿保底要紧」<br>**B.**「掏500块请法学学长看一眼排他条款」",
       "outcome_col": "进C2-M02；A记`Flag_审过合同=0`；B钱包-500记`=1`",
-      "outcome_expanded": "进C2-M02；A记`Flag_审过合同=0`；B钱包-500记`Flag_审过合同=1`"
+      "outcome_expanded": "进C2-M02；A记`Flag_审过合同=0`；B钱包-500记`=1`"
     },
     "options": [
       {
@@ -2008,18 +1989,16 @@
         "raw_label": "「五百万违约金都是行规，先拿保底要紧」",
         "req_expr": null,
         "effects": {
-          "summary": "A记 Flag_审过合同=0",
-          "state_writes": [
-            {
-              "key": "Flag_审过合同",
-              "op": "set",
-              "value": 0
-            }
+          "summary": "A记Flag_审过合同=0",
+          "state_writes": [],
+          "ending_triggers": [
+            "M02"
           ],
-          "ending_triggers": [],
-          "next_cards": []
+          "next_cards": [
+            "C2-M02"
+          ]
         },
-        "outcome_toast": "进C2-M02；A记Flag_审过合同=0；B钱包-500记Flag_审过合同=1"
+        "outcome_toast": "进C2-M02；A记Flag_审过合同=0；B钱包-500记=1"
       },
       {
         "opt_key": "B",
@@ -2027,18 +2006,16 @@
         "raw_label": "「掏500块请法学学长看一眼排他条款」",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包-500记 Flag_审过合同=1",
-          "state_writes": [
-            {
-              "key": "Flag_审过合同",
-              "op": "set",
-              "value": 1
-            }
+          "summary": "B钱包-500记=1",
+          "state_writes": [],
+          "ending_triggers": [
+            "M02"
           ],
-          "ending_triggers": [],
-          "next_cards": []
+          "next_cards": [
+            "C2-M02"
+          ]
         },
-        "outcome_toast": "进C2-M02；A记Flag_审过合同=0；B钱包-500记Flag_审过合同=1"
+        "outcome_toast": "进C2-M02；A记Flag_审过合同=0；B钱包-500记=1"
       }
     ]
   },
@@ -2054,19 +2031,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "运营催你今晚零点前必须签字，否则扶持名额给对门主播。两难：签卖身契换短期起量快车道 vs 拒签坚持做独立主播。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -2082,14 +2060,8 @@
         "raw_label": "「签！背靠大树好乘凉，先红起来再说」",
         "req_expr": null,
         "effects": {
-          "summary": "A记 Flag_签公会=1 乘区×1.3",
-          "state_writes": [
-            {
-              "key": "Flag_签公会",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A记Flag_签公会=1乘区×1.3",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -2101,14 +2073,8 @@
         "raw_label": "「不签！宁可慢一半，账号也必须攥在手里」",
         "req_expr": null,
         "effects": {
-          "summary": "B记 Flag_野生主播=1 口碑+8",
-          "state_writes": [
-            {
-              "key": "Flag_野生主播",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "B记Flag_野生主播=1口碑+8",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -2129,23 +2095,23 @@
       "才艺",
       "电台"
     ],
-    "gate_type": "hard",
+    "gate_type": "dual_boost",
     "weight_rule": {
       "base": 1,
-      "match_mode": 1,
-      "non_match_mode": 0,
+      "match_mode": 2,
+      "non_match_mode": 1,
       "specific_modes": [
         "才艺",
         "电台"
       ]
     },
-    "prereq_expr": "Flag_科技人设=1",
-    "is_pity_guaranteed": true,
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "（门控：Flag_科技人设=1）插件崩溃三分钟，黑眼圈和本音直接暴露，榜二改名脱粉。两难：自嘲卸妆接梗 vs 拔网线装死赖黑客。",
     "raw_cells": {
       "mode_col": "`[才艺]`<br>`[电台]`",
@@ -2161,7 +2127,7 @@
         "raw_label": "「现场卸妆自嘲：重新认识下高清无码版」",
         "req_expr": null,
         "effects": {
-          "summary": "A粉-20%",
+          "summary": "A粉-20%（嗓音≥7无损）口碑+10",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -2174,14 +2140,8 @@
         "raw_label": "「拔网线黑屏，发动态称遭恶意P图攻击」",
         "req_expr": null,
         "effects": {
-          "summary": "B记 Flag_装死黑历史=1",
-          "state_writes": [
-            {
-              "key": "Flag_装死黑历史",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "B记Flag_装死黑历史=1",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -2202,17 +2162,15 @@
       "户外",
       "全模式"
     ],
-    "gate_type": "dual_boost",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
-      "match_mode": 2,
+      "match_mode": 1,
       "non_match_mode": 1,
-      "specific_modes": [
-        "户外"
-      ]
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -2233,14 +2191,8 @@
         "raw_label": "「只要观众开心，演一下怎么了？开机」",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+60%热+50%记 Flag_造假剧本=1",
-          "state_writes": [
-            {
-              "key": "Flag_造假剧本",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A粉+60%热+50%记Flag_造假剧本=1",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -2274,11 +2226,11 @@
       "PK",
       "游戏"
     ],
-    "gate_type": "hard",
+    "gate_type": "dual_boost",
     "weight_rule": {
       "base": 1,
-      "match_mode": 1,
-      "non_match_mode": 0,
+      "match_mode": 2,
+      "non_match_mode": 1,
       "specific_modes": [
         "PK",
         "游戏"
@@ -2290,7 +2242,7 @@
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "你和主播好友「林小鹿」连麦极有火花，弹幕狂刷「锁死」，小鹿私信问要不要搞假情侣CP营业。两难：炒CP狂吸粉 vs 辟谣做纯朋友。",
     "raw_cells": {
       "mode_col": "`[PK]`<br>`[游戏]`",
@@ -2306,14 +2258,8 @@
         "raw_label": "「营业走起！换情侣头像，借来的粉也是粉」",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+45% Param_观众当真度+40",
-          "state_writes": [
-            {
-              "key": "Param_观众当真度",
-              "op": "add",
-              "value": 40
-            }
-          ],
+          "summary": "A粉+45%Param_观众当真度+40",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -2346,14 +2292,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -2365,7 +2312,7 @@
       "context_col": "粉丝群高频追问感情状况，公会建议立「母胎单身人设」吸女友/男友粉。两难：立死单身人设 vs 留白打太极 vs 大方表示会正常恋爱。",
       "options_col": "**A.**「发誓直播间没有爱情，我只属于家人们」<br>**B.**「打太极：私生活不占公共资源，看直播吧」<br>**C.**「大方摊牌：遇到喜欢的人会大大方方谈」",
       "outcome_col": "A记`Tag_人设=单身`打赏+30%；B记`=留白`；C记`=真实`",
-      "outcome_expanded": "A记`Tag_人设=单身`打赏+30%；B记`Tag_人设=留白`；C记`Tag_人设=真实`"
+      "outcome_expanded": "A记`Tag_人设=单身`打赏+30%；B记`=留白`；C记`=真实`"
     },
     "options": [
       {
@@ -2374,18 +2321,12 @@
         "raw_label": "「发誓直播间没有爱情，我只属于家人们」",
         "req_expr": null,
         "effects": {
-          "summary": "A记 Tag_人设=单身 打赏+30%",
-          "state_writes": [
-            {
-              "key": "Tag_人设",
-              "op": "set",
-              "value": "单身"
-            }
-          ],
+          "summary": "A记Tag_人设=单身打赏+30%",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
-        "outcome_toast": "A记Tag_人设=单身打赏+30%；B记Tag_人设=留白；C记Tag_人设=真实"
+        "outcome_toast": "A记Tag_人设=单身打赏+30%；B记=留白；C记=真实"
       },
       {
         "opt_key": "B",
@@ -2393,18 +2334,12 @@
         "raw_label": "「打太极：私生活不占公共资源，看直播吧」",
         "req_expr": null,
         "effects": {
-          "summary": "B记 Tag_人设=留白",
-          "state_writes": [
-            {
-              "key": "Tag_人设",
-              "op": "set",
-              "value": "留白"
-            }
-          ],
+          "summary": "B记=留白",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
-        "outcome_toast": "A记Tag_人设=单身打赏+30%；B记Tag_人设=留白；C记Tag_人设=真实"
+        "outcome_toast": "A记Tag_人设=单身打赏+30%；B记=留白；C记=真实"
       },
       {
         "opt_key": "C",
@@ -2412,18 +2347,12 @@
         "raw_label": "「大方摊牌：遇到喜欢的人会大大方方谈」",
         "req_expr": null,
         "effects": {
-          "summary": "C记 Tag_人设=真实",
-          "state_writes": [
-            {
-              "key": "Tag_人设",
-              "op": "set",
-              "value": "真实"
-            }
-          ],
+          "summary": "C记=真实",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
-        "outcome_toast": "A记Tag_人设=单身打赏+30%；B记Tag_人设=留白；C记Tag_人设=真实"
+        "outcome_toast": "A记Tag_人设=单身打赏+30%；B记=留白；C记=真实"
       }
     ]
   },
@@ -2440,17 +2369,15 @@
       "户外",
       "全模式"
     ],
-    "gate_type": "dual_boost",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
-      "match_mode": 2,
+      "match_mode": 1,
       "non_match_mode": 1,
-      "specific_modes": [
-        "户外"
-      ]
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -2462,7 +2389,7 @@
       "context_col": "你筹办百人同城粉丝奶茶聚会，场地问要不要花3000块请专业安保与报备动线。两难：花安保费防患未然 vs 省钱发红包。",
       "options_col": "**A.**「三千块不能省，按最高标准配齐安保报备」<br>**B.**「都是自家乖粉丝，拉根线就行，省钱发包」",
       "outcome_col": "A钱包-3000记`Flag_安保习惯=1`；B钱包+1000热+15%记`=0`",
-      "outcome_expanded": "A钱包-3000记`Flag_安保习惯=1`；B钱包+1000热+15%记`Flag_安保习惯=0`"
+      "outcome_expanded": "A钱包-3000记`Flag_安保习惯=1`；B钱包+1000热+15%记`=0`"
     },
     "options": [
       {
@@ -2471,18 +2398,12 @@
         "raw_label": "「三千块不能省，按最高标准配齐安保报备」",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包-3000记 Flag_安保习惯=1",
-          "state_writes": [
-            {
-              "key": "Flag_安保习惯",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A钱包-3000记Flag_安保习惯=1",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
-        "outcome_toast": "A钱包-3000记Flag_安保习惯=1；B钱包+1000热+15%记Flag_安保习惯=0"
+        "outcome_toast": "A钱包-3000记Flag_安保习惯=1；B钱包+1000热+15%记=0"
       },
       {
         "opt_key": "B",
@@ -2490,18 +2411,12 @@
         "raw_label": "「都是自家乖粉丝，拉根线就行，省钱发包」",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包+1000热+15%记 Flag_安保习惯=0",
-          "state_writes": [
-            {
-              "key": "Flag_安保习惯",
-              "op": "set",
-              "value": 0
-            }
-          ],
+          "summary": "B钱包+1000热+15%记=0",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
-        "outcome_toast": "A钱包-3000记Flag_安保习惯=1；B钱包+1000热+15%记Flag_安保习惯=0"
+        "outcome_toast": "A钱包-3000记Flag_安保习惯=1；B钱包+1000热+15%记=0"
       }
     ]
   },
@@ -2518,17 +2433,15 @@
       "PK",
       "全模式"
     ],
-    "gate_type": "dual_boost",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
-      "match_mode": 2,
+      "match_mode": 1,
       "non_match_mode": 1,
-      "specific_modes": [
-        "PK"
-      ]
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -2540,7 +2453,7 @@
       "context_col": "你与搭档准备合开双人切片共创号，朋友提醒最好先签《账号产权与分成协议》。两难：签协议伤感情 vs 口头约定五五分。",
       "options_col": "**A.**「先小人后君子，把产权协议签好再开号」<br>**B.**「提钱太伤感情，咱俩谁跟谁，直接开干」",
       "outcome_col": "A好感-5记`Flag_账号协议=1`；B好感+10粉+15%记`=0`",
-      "outcome_expanded": "A好感-5记`Flag_账号协议=1`；B好感+10粉+15%记`Flag_账号协议=0`"
+      "outcome_expanded": "A好感-5记`Flag_账号协议=1`；B好感+10粉+15%记`=0`"
     },
     "options": [
       {
@@ -2549,18 +2462,12 @@
         "raw_label": "「先小人后君子，把产权协议签好再开号」",
         "req_expr": null,
         "effects": {
-          "summary": "A好感-5记 Flag_账号协议=1",
-          "state_writes": [
-            {
-              "key": "Flag_账号协议",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A好感-5记Flag_账号协议=1",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
-        "outcome_toast": "A好感-5记Flag_账号协议=1；B好感+10粉+15%记Flag_账号协议=0"
+        "outcome_toast": "A好感-5记Flag_账号协议=1；B好感+10粉+15%记=0"
       },
       {
         "opt_key": "B",
@@ -2568,18 +2475,12 @@
         "raw_label": "「提钱太伤感情，咱俩谁跟谁，直接开干」",
         "req_expr": null,
         "effects": {
-          "summary": "B好感+10粉+15%记 Flag_账号协议=0",
-          "state_writes": [
-            {
-              "key": "Flag_账号协议",
-              "op": "set",
-              "value": 0
-            }
-          ],
+          "summary": "B好感+10粉+15%记=0",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
-        "outcome_toast": "A好感-5记Flag_账号协议=1；B好感+10粉+15%记Flag_账号协议=0"
+        "outcome_toast": "A好感-5记Flag_账号协议=1；B好感+10粉+15%记=0"
       }
     ]
   },
@@ -2609,9 +2510,9 @@
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "timing_bar",
-    "ops_note": "直播进行时光标单向扫过横条（≤5秒），甜区×1.15 / 良区×1.05 / 普通×1.0，并入单卡Cap夹逼",
+    "ops_note": null,
     "has_art": false,
-    "context_text": "黄金档PK输了，对面起哄让你做「生吞芥末+挂窗外喊」的擦边狠活。两难：做过界惩罚博火箭 vs 坚持标准深蹲。",
+    "context_text": "[操作：时机条] 黄金档PK输了，对面起哄让你做「生吞芥末+挂窗外喊」的擦边狠活。两难：做过界惩罚博火箭 vs 坚持标准深蹲。",
     "raw_cells": {
       "mode_col": "`[PK]`<br>`[操作：时机条]`",
       "context_col": "`[操作：时机条]` 黄金档PK输了，对面起哄让你做「生吞芥末+挂窗外喊」的擦边狠活。两难：做过界惩罚博火箭 vs 坚持标准深蹲。",
@@ -2626,14 +2527,8 @@
         "raw_label": "「只要榜上刷跑车，芥末我直接干一管」",
         "req_expr": null,
         "effects": {
-          "summary": "A热+40%钱包+800记 Count_违规警告+1",
-          "state_writes": [
-            {
-              "key": "Count_违规警告",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "A热+40%钱包+800记Count_违规警告+1",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -2666,14 +2561,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -2694,9 +2590,11 @@
         "raw_label": "「定下每周五晚宠老粉，绝不接商业PK」",
         "req_expr": null,
         "effects": {
-          "summary": "A星牌忠诚+20%",
+          "summary": "A星牌忠诚+20%（挂钩H08）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H08"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A星牌忠诚+20%（挂钩H08）；B钱包+1500忠诚-10%"
@@ -2709,7 +2607,9 @@
         "effects": {
           "summary": "B钱包+1500忠诚-10%",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H08"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A星牌忠诚+20%（挂钩H08）；B钱包+1500忠诚-10%"
@@ -2728,22 +2628,16 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_猫上镜",
-      "step": "2/3",
-      "WriteOpt": [
-        "A",
-        "B"
-      ]
-    },
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -2763,7 +2657,7 @@
         "raw_label": "尖叫跳上椅子把主场让给猫",
         "req_expr": null,
         "effects": {
-          "summary": "A热+10%",
+          "summary": "猫收礼比你多（A热+10%/B记Count_猫上镜+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -2776,14 +2670,8 @@
         "raw_label": "强装镇定给猫颁野味进贡奖",
         "req_expr": null,
         "effects": {
-          "summary": "B记 Count_猫上镜+1",
-          "state_writes": [
-            {
-              "key": "Count_猫上镜",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "猫收礼比你多（A热+10%/B记Count_猫上镜+1）",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -2834,7 +2722,7 @@
         "raw_label": "下巴搁桌沿播完一整场",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+15%",
+          "summary": "观众求链接送对家（A粉+15%/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -2847,7 +2735,7 @@
         "raw_label": "搬两本大部头厚词典垫屁股",
         "req_expr": null,
         "effects": {
-          "summary": "B热+10%",
+          "summary": "观众求链接送对家（A粉+15%/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -2899,7 +2787,7 @@
         "raw_label": "假装是高科技吹泡泡特效",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "鼻涕泡切片破十万播放（A心态+1/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -2912,7 +2800,7 @@
         "raw_label": "自己先绷不住笑出猪叫",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+15%",
+          "summary": "鼻涕泡切片破十万播放（A心态+1/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -2964,7 +2852,7 @@
         "raw_label": "给大哥背诵《防骗宣传手册》",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+4",
+          "summary": "大哥同情你刷了颗小星星（A口碑+4/B钱包+10）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -2977,7 +2865,7 @@
         "raw_label": "哭穷反问大哥能不能借你二十",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包+10",
+          "summary": "大哥同情你刷了颗小星星（A口碑+4/B钱包+10）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3029,7 +2917,7 @@
         "raw_label": "干脆改跳经典广播体操",
         "req_expr": null,
         "effects": {
-          "summary": "A状态+5",
+          "summary": "运营在后台吃速效救心丸（A状态+5/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3042,7 +2930,7 @@
         "raw_label": "硬说是四面八方招财阵法舞",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "运营在后台吃速效救心丸（A状态+5/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3094,7 +2982,7 @@
         "raw_label": "改口夸这铁锅是防弹级质量",
         "req_expr": null,
         "effects": {
-          "summary": "A口才+1",
+          "summary": "厂家求你下架并赔新锅（A口才+1/B体力+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3107,7 +2995,7 @@
         "raw_label": "连锅带蛋端起来当杠铃举铁",
         "req_expr": null,
         "effects": {
-          "summary": "B体力+1",
+          "summary": "厂家求你下架并赔新锅（A口才+1/B体力+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3159,7 +3047,7 @@
         "raw_label": "拉着NPC鬼坐马路牙子修鞋",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+3",
+          "summary": "鬼屋老板求你别再来了（A口碑+3/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3172,7 +3060,7 @@
         "raw_label": "顺走鬼的假发戴头上继续播",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "鬼屋老板求你别再来了（A口碑+3/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3203,14 +3091,8 @@
       ]
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_黑粉不对线",
-      "step": "2/3",
-      "WriteOpt": [
-        "B"
-      ]
-    },
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -3230,7 +3112,7 @@
         "raw_label": "拿起桌上核桃用门牙咬碎迎战",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+15%",
+          "summary": "入选星播民间绝活专栏（A粉+15%/B口碑+4）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3243,7 +3125,7 @@
         "raw_label": "双手合十给大叔配唢呐BGM",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+4",
+          "summary": "入选星播民间绝活专栏（A粉+15%/B口碑+4）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3264,11 +3146,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -3292,7 +3175,7 @@
         "raw_label": "戴墨镜演黑帮老电影腮帮造型",
         "req_expr": null,
         "effects": {
-          "summary": "A热+10%",
+          "summary": "无声举牌开辟静音喜剧（A热+10%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3305,7 +3188,7 @@
         "raw_label": "用写字板举牌全场静音直播",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+15%",
+          "summary": "无声举牌开辟静音喜剧（A热+10%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3357,7 +3240,7 @@
         "raw_label": "对弹窗鞠躬：给人类丢脸了",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "连跪战绩被转上游戏论坛（A心态+1/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3370,7 +3253,7 @@
         "raw_label": "转战连连看证明自己手速",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "连跪战绩被转上游戏论坛（A心态+1/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3391,11 +3274,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -3419,7 +3303,7 @@
         "raw_label": "自豪地把锦旗挂背景墙中央",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+10%",
+          "summary": "背景墙有了老中医庄重感（A粉+10%/B口碑+4）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3432,7 +3316,7 @@
         "raw_label": "回赠粉丝一盒防脱洗发水",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+4",
+          "summary": "背景墙有了老中医庄重感（A粉+10%/B口碑+4）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3484,7 +3368,7 @@
         "raw_label": "站风中假装在拍武侠大片",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "看戳扇子的人比看跳舞多（A热+15%/B粉+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3497,7 +3381,7 @@
         "raw_label": "拿晾衣杆戳了半小时扇子",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+10%",
+          "summary": "看戳扇子的人比看跳舞多（A热+15%/B粉+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3549,7 +3433,7 @@
         "raw_label": "顺势掏出一根面包开始吃播",
         "req_expr": null,
         "effects": {
-          "summary": "A状态+5",
+          "summary": "法语专业观众笑到打滚（A状态+5/B乐子人+）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3562,7 +3446,7 @@
         "raw_label": "强行解释这是最新流行俚语",
         "req_expr": null,
         "effects": {
-          "summary": "B乐子人+",
+          "summary": "法语专业观众笑到打滚（A状态+5/B乐子人+）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3583,11 +3467,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -3611,7 +3496,7 @@
         "raw_label": "戴黄安全帽配合电钻摇花手",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "装修师傅成了特邀嘉宾（A热+15%/B口碑+4）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3624,7 +3509,7 @@
         "raw_label": "端果盘上楼跟装修师傅连麦",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+4",
+          "summary": "装修师傅成了特邀嘉宾（A热+15%/B口碑+4）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3676,7 +3561,7 @@
         "raw_label": "跟着假模假样对口型蹭合唱",
         "req_expr": null,
         "effects": {
-          "summary": "A热+10%",
+          "summary": "赢了PK但被抢走声控粉（A热+10%/B嗓音+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3689,7 +3574,7 @@
         "raw_label": "当场拜师求大佬教换气发声",
         "req_expr": null,
         "effects": {
-          "summary": "B嗓音+1",
+          "summary": "赢了PK但被抢走声控粉（A热+10%/B嗓音+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3741,7 +3626,7 @@
         "raw_label": "指着路灯说人造太阳也是日出",
         "req_expr": null,
         "effects": {
-          "summary": "A口才+1",
+          "summary": "全网最敷衍日出直播（A口才+1/B状态+5）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3754,7 +3639,7 @@
         "raw_label": "改播海滩烤肠品鉴大会",
         "req_expr": null,
         "effects": {
-          "summary": "B状态+5",
+          "summary": "全网最敷衍日出直播（A口才+1/B状态+5）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3775,21 +3660,16 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_考编",
-      "step": "2/3",
-      "WriteOpt": [
-        "A"
-      ]
-    },
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -3809,14 +3689,8 @@
         "raw_label": "开启模拟卷范文朗诵与批改",
         "req_expr": null,
         "effects": {
-          "summary": "A记 Count_考编+1",
-          "state_writes": [
-            {
-              "key": "Count_考编",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "考公大军刷屏上岸（A记Count_考编+1/B心态+1）",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -3828,7 +3702,7 @@
         "raw_label": "把纸条折成纸飞机飞回客厅",
         "req_expr": null,
         "effects": {
-          "summary": "B心态+1",
+          "summary": "考公大军刷屏上岸（A记Count_考编+1/B心态+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3880,7 +3754,7 @@
         "raw_label": "顶着天线造型严肃讲解成分",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包+1000",
+          "summary": "生发液没卖定型胶问爆了（A钱包+1000/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3893,7 +3767,7 @@
         "raw_label": "拿吹风机吹散变成蒲公英",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "生发液没卖定型胶问爆了（A钱包+1000/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3914,11 +3788,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -3942,7 +3817,7 @@
         "raw_label": "坐三条腿椅子练核心平衡",
         "req_expr": null,
         "effects": {
-          "summary": "A体力+1",
+          "summary": "大师因发广告被系统禁言（A体力+1/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -3955,7 +3830,7 @@
         "raw_label": "追着弹幕求算何时能暴富",
         "req_expr": null,
         "effects": {
-          "summary": "B热+10%",
+          "summary": "大师因发广告被系统禁言（A体力+1/B热+10%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -4007,7 +3882,7 @@
         "raw_label": "硬说是品鉴高端手冲冷萃",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "痛苦面具做成早八热梗图（A心态+1/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -4020,7 +3895,7 @@
         "raw_label": "吐舌头哈气像散热哈士奇",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+15%",
+          "summary": "痛苦面具做成早八热梗图（A心态+1/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -4041,19 +3916,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "豪刷十万的「王总」失联，新闻爆出《某司出纳挪用公款打赏星播主播》，你的榜单在列。两难：主动退还全部分成 vs 装不知情捂紧钱。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -4069,14 +3945,8 @@
         "raw_label": "「连夜整理流水，主动全额退还打赏分成」",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包-5万口碑+25得 Tag_清白账本",
-          "state_writes": [
-            {
-              "key": "Tag_清白账本",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A钱包-5万口碑+25得Tag_清白账本",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -4088,14 +3958,8 @@
         "raw_label": "「平台正常分成凭本事赚的，关评装没看见」",
         "req_expr": null,
         "effects": {
-          "summary": "B记 Flag_公款雷=1",
-          "state_writes": [
-            {
-              "key": "Flag_公款雷",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "B记Flag_公款雷=1",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -4115,19 +3979,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "年轻粉丝哭诉失恋，一分钟狂刷五发万元「星堡」，明显在冲动透支消费。两难：主动锁死大额打赏通道劝理性消费 vs 收下巨款再打PK。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -4143,14 +4008,8 @@
         "raw_label": "「锁死百元以上礼物通道：陪伴比星堡贵」",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+30得 Tag_理性消费清流",
-          "state_writes": [
-            {
-              "key": "Tag_理性消费清流",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A口碑+30得Tag_理性消费清流（商务×1.5封顶）",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -4183,17 +4042,17 @@
     "mode_tags": [
       "游戏"
     ],
-    "gate_type": "hard",
+    "gate_type": "dual_boost",
     "weight_rule": {
       "base": 1,
-      "match_mode": 1,
-      "non_match_mode": 0,
+      "match_mode": 2,
+      "non_match_mode": 1,
       "specific_modes": [
         "游戏"
       ]
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -4216,7 +4075,9 @@
         "effects": {
           "summary": "A高危塌房",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "M08"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A高危塌房；B粉-10%口碑+15（游戏技术≥8免掉粉锁M08）"
@@ -4227,9 +4088,11 @@
         "raw_label": "「认错自罚停播三天，开露手摄像头重打」",
         "req_expr": null,
         "effects": {
-          "summary": "B粉-10%口碑+15",
+          "summary": "B粉-10%口碑+15（游戏技术≥8免掉粉锁M08）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "M08"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A高危塌房；B粉-10%口碑+15（游戏技术≥8免掉粉锁M08）"
@@ -4248,14 +4111,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -4276,14 +4140,8 @@
         "raw_label": "「连夜换纯白墙背景，约会全戴口罩严防」",
         "req_expr": null,
         "effects": {
-          "summary": "起手0/3：A保0/3状态-5；B热+25%记 Count_偷拍素材+1",
-          "state_writes": [
-            {
-              "key": "Count_偷拍素材",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "起手0/3：A保0/3状态-5",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -4295,14 +4153,8 @@
         "raw_label": "「故意摆三双不同尺码拖鞋，溜侦探粉玩」",
         "req_expr": null,
         "effects": {
-          "summary": "B热+25%记 Count_偷拍素材+1",
-          "state_writes": [
-            {
-              "key": "Count_偷拍素材",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "B热+25%记Count_偷拍素材+1",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -4323,11 +4175,11 @@
       "PK",
       "团播"
     ],
-    "gate_type": "hard",
+    "gate_type": "dual_boost",
     "weight_rule": {
       "base": 1,
-      "match_mode": 1,
-      "non_match_mode": 0,
+      "match_mode": 2,
+      "non_match_mode": 1,
       "specific_modes": [
         "PK",
         "团播"
@@ -4339,7 +4191,7 @@
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "好友组局四排连麦，进房才发现另两人是刚撕破脸的前任，你夹在中间成了传话筒。两难：拱火抛敏感话题博热度 vs 唱破音打圆场保体面。",
     "raw_cells": {
       "mode_col": "`[PK]`<br>`[团播]`",
@@ -4368,7 +4220,7 @@
         "raw_label": "「给自己加戏唱破音，强行掰成搞笑才艺场」",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+10好感+15",
+          "summary": "B口碑+10好感+15（情商≥6翻倍）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -4401,12 +4253,12 @@
       ]
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "新晋榜一「沈总」（青年投资人）连续守护一月后，礼貌邀你在市中心高档餐厅见面聊聊。两难：带朋友赴约开感情线 vs 守住线上边界婉拒。",
     "raw_cells": {
       "mode_col": "`[电台]`<br>`[才艺]`",
@@ -4422,15 +4274,11 @@
         "raw_label": "「挑得体衣服赴约，带朋友在邻桌护航」",
         "req_expr": null,
         "effects": {
-          "summary": "A记 Flag_榜一恋爱=1",
-          "state_writes": [
-            {
-              "key": "Flag_榜一恋爱",
-              "op": "set",
-              "value": 1
-            }
+          "summary": "A记Flag_榜一恋爱=1（未塌房进H02）",
+          "state_writes": [],
+          "ending_triggers": [
+            "H02"
           ],
-          "ending_triggers": [],
           "next_cards": []
         },
         "outcome_toast": "A记Flag_榜一恋爱=1（未塌房进H02）；B口碑+5心态+1"
@@ -4443,7 +4291,9 @@
         "effects": {
           "summary": "B口碑+5心态+1",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H02"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A记Flag_榜一恋爱=1（未塌房进H02）；B口碑+5心态+1"
@@ -4463,14 +4313,12 @@
       "带货",
       "全模式"
     ],
-    "gate_type": "dual_boost",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
-      "match_mode": 2,
+      "match_mode": 1,
       "non_match_mode": 1,
-      "specific_modes": [
-        "带货"
-      ]
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -4538,13 +4386,13 @@
       ]
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "timing_bar",
-    "ops_note": "开火时点为耳返故障后的舞台盲跳卡点段（直播进行时）",
+    "ops_note": "P3-3: 追认挂载【轻操作：时机条】，甜区 0.58-0.70 (x1.15) / 良区 0.46-0.82 (x1.05)，结果在选项结算后生效",
     "has_art": false,
-    "context_text": "公会月考前五分钟，你发现无线耳返被人恶意关电，抢C位的对家正在台下冷笑。两难：叫停抓内鬼开撕 vs 盲听鼓点硬跳。",
+    "context_text": "[操作：时机条] 公会月考前五分钟，你发现无线耳返被人恶意关电，抢C位的对家正在台下冷笑。两难：叫停抓内鬼开撕 vs 盲听鼓点硬跳。",
     "raw_cells": {
       "mode_col": "`[团播]`<br>`[操作：时机条]`",
       "context_col": "`[操作：时机条]` 公会月考前五分钟，你发现无线耳返被人恶意关电，抢C位的对家正在台下冷笑。两难：叫停抓内鬼开撕 vs 盲听鼓点硬跳。",
@@ -4561,7 +4409,9 @@
         "effects": {
           "summary": "A热+20%口碑-10",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "M07"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A热+20%口碑-10；B（才艺≥7）粉+30%口碑+15锁M07"
@@ -4570,11 +4420,13 @@
         "opt_key": "B",
         "label": "盯紧现场音响震动鼓点，盲跳拿最高分",
         "raw_label": "「盯紧现场音响震动鼓点，盲跳拿最高分」",
-        "req_expr": "才艺 >= 7",
+        "req_expr": null,
         "effects": {
-          "summary": "B",
+          "summary": "B（才艺≥7）粉+30%口碑+15锁M07",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "M07"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A热+20%口碑-10；B（才艺≥7）粉+30%口碑+15锁M07"
@@ -4593,14 +4445,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -4634,14 +4487,8 @@
         "raw_label": "「懒得管，反正也帮我涨知名度，随他折腾」",
         "req_expr": null,
         "effects": {
-          "summary": "B热+10%记 Flag_放任切片号=1",
-          "state_writes": [
-            {
-              "key": "Flag_放任切片号",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "B热+10%记Flag_放任切片号=1",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -4661,14 +4508,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -4689,16 +4537,12 @@
         "raw_label": "「依法纳税是底线！建正规账目一分不少交」",
         "req_expr": null,
         "effects": {
-          "summary": "A-1万口碑+15记 Flag_税务合规=1",
-          "state_writes": [
-            {
-              "key": "Flag_税务合规",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A-1万口碑+15记Flag_税务合规=1",
+          "state_writes": [],
           "ending_triggers": [],
-          "next_cards": []
+          "next_cards": [
+            "A-1"
+          ]
         },
         "outcome_toast": "A-1万口碑+15记Flag_税务合规=1；B+1.5万记Flag_税务隐患=1"
       },
@@ -4708,16 +4552,12 @@
         "raw_label": "「才十万块钱哪有人查，先提现花了再说」",
         "req_expr": null,
         "effects": {
-          "summary": "B+1.5万记 Flag_税务隐患=1",
-          "state_writes": [
-            {
-              "key": "Flag_税务隐患",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "B+1.5万记Flag_税务隐患=1",
+          "state_writes": [],
           "ending_triggers": [],
-          "next_cards": []
+          "next_cards": [
+            "A-1"
+          ]
         },
         "outcome_toast": "A-1万口碑+15记Flag_税务合规=1；B+1.5万记Flag_税务隐患=1"
       }
@@ -4735,22 +4575,16 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_猫上镜",
-      "step": "3/3",
-      "WriteOpt": [
-        "A",
-        "B"
-      ]
-    },
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -4770,14 +4604,8 @@
         "raw_label": "给猫办星播首席主播工牌",
         "req_expr": null,
         "effects": {
-          "summary": "给猫打工（记 Count_猫上镜+1 满3进H04）",
-          "state_writes": [
-            {
-              "key": "Count_猫上镜",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "给猫打工（记Count_猫上镜+1满3进H04）",
+          "state_writes": [],
           "ending_triggers": [
             "H04"
           ],
@@ -4791,14 +4619,8 @@
         "raw_label": "跟猫商量打赏三七分猫七你三",
         "req_expr": null,
         "effects": {
-          "summary": "给猫打工（记 Count_猫上镜+1 满3进H04）",
-          "state_writes": [
-            {
-              "key": "Count_猫上镜",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "给猫打工（记Count_猫上镜+1满3进H04）",
+          "state_writes": [],
           "ending_triggers": [
             "H04"
           ],
@@ -4851,7 +4673,7 @@
         "raw_label": "含泪夸榴莲界防盗门安全感满",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包+3000",
+          "summary": "榴莲卖空买家求送铁砂掌（A钱包+3000/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -4864,7 +4686,7 @@
         "raw_label": "拿锤子砸十分钟把桌砸个坑",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "榴莲卖空买家求送铁砂掌（A钱包+3000/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -4916,7 +4738,7 @@
         "raw_label": "自罚喝大瓶矿泉水演肚皮鼓",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+4",
+          "summary": "相声演员拱手服你是大师（A口碑+4/B口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -4929,7 +4751,7 @@
         "raw_label": "用加密方言跟对方对飙胡话",
         "req_expr": null,
         "effects": {
-          "summary": "B口才+1",
+          "summary": "相声演员拱手服你是大师（A口碑+4/B口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -4981,7 +4803,7 @@
         "raw_label": "问骗子奖金能否折成星播火箭",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "骗子被三万弹幕聊崩溃了（A热+20%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -4994,7 +4816,7 @@
         "raw_label": "给骗子推销购物袋里的红薯",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+15%",
+          "summary": "骗子被三万弹幕聊崩溃了（A热+20%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5046,7 +4868,7 @@
         "raw_label": "配合白烟演《西游记》腾云出场",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "弹幕齐刷拉完琴能打家具（A热+15%/B心态+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5059,7 +4881,7 @@
         "raw_label": "严肃介绍这是木匠系古典乐",
         "req_expr": null,
         "effects": {
-          "summary": "B心态+1",
+          "summary": "弹幕齐刷拉完琴能打家具（A热+15%/B心态+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5111,7 +4933,7 @@
         "raw_label": "让侄子先在游戏里跟你单挑",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+15%",
+          "summary": "对门主播多了个相亲对象（A粉+15%/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5124,7 +4946,7 @@
         "raw_label": "把对门PK主播推荐给大姐",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "对门主播多了个相亲对象（A粉+15%/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5176,7 +4998,7 @@
         "raw_label": "顶着绿头发跟羊驼对视五分钟",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "羊驼慢放成动物区榜首（A热+20%/B口碑+4）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5189,7 +5011,7 @@
         "raw_label": "买胡萝卜当场贿赂求它别吐",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+4",
+          "summary": "羊驼慢放成动物区榜首（A热+20%/B口碑+4）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5210,11 +5032,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -5238,7 +5061,7 @@
         "raw_label": "顺势在地上做街舞动作收尾",
         "req_expr": null,
         "effects": {
-          "summary": "A才艺+1",
+          "summary": "交警官号转发劝勿练轻功（A才艺+1/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5251,7 +5074,7 @@
         "raw_label": "爬起来假装滑出去的不是我",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+15%",
+          "summary": "交警官号转发劝勿练轻功（A才艺+1/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5303,7 +5126,7 @@
         "raw_label": "采访金鱼对这首歌有何看法",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "金鱼吐泡ASMR破在线新高（A热+15%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5316,7 +5139,7 @@
         "raw_label": "全团改演哑剧版《天鹅湖》",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+15%",
+          "summary": "金鱼吐泡ASMR破在线新高（A热+15%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5337,11 +5160,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -5365,7 +5189,7 @@
         "raw_label": "去便利店门口伴鬼畜曲跳舞",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+20%",
+          "summary": "你成了周边小学生指定BGM（A粉+20%/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5378,7 +5202,7 @@
         "raw_label": "直播亲自翻唱证明比AI更鬼畜",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "你成了周边小学生指定BGM（A粉+20%/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5430,7 +5254,7 @@
         "raw_label": "跟垃圾桶深情握爪喊知己",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "骂人垃圾桶当晚卖断货（A热+15%/B钱包+5000）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5443,7 +5267,7 @@
         "raw_label": "夸它具备高阶AI审视功能",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包+5000",
+          "summary": "骂人垃圾桶当晚卖断货（A热+15%/B钱包+5000）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5474,14 +5298,8 @@
       ]
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_黑粉不对线",
-      "step": "3/3",
-      "WriteOpt": [
-        "B"
-      ]
-    },
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -5501,7 +5319,7 @@
         "raw_label": "切游戏画面手捏感应器假装跑",
         "req_expr": null,
         "effects": {
-          "summary": "A乐子人+",
+          "summary": "观众感叹这才是真实燃脂操（A乐子人+/B状态+5）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5514,7 +5332,7 @@
         "raw_label": "改成瑜伽垫睡眠质量测评",
         "req_expr": null,
         "effects": {
-          "summary": "B状态+5",
+          "summary": "观众感叹这才是真实燃脂操（A乐子人+/B状态+5）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5566,7 +5384,7 @@
         "raw_label": "掏自家玩偶跟对面玩偶打架",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "弹幕笑称智商被玩偶碾压（A热+15%/B情商+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5579,7 +5397,7 @@
         "raw_label": "请教玩偶能不能跳槽来你这",
         "req_expr": null,
         "effects": {
-          "summary": "B情商+1",
+          "summary": "弹幕笑称智商被玩偶碾压（A热+15%/B情商+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5600,11 +5418,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -5628,7 +5447,7 @@
         "raw_label": "挺直腰板像军训标兵播完全场",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+5",
+          "summary": "全场观众跟着挺直了腰板（A口碑+5/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5641,7 +5460,7 @@
         "raw_label": "让房管把老爸禁言十分钟",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "全场观众跟着挺直了腰板（A口碑+5/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5693,7 +5512,7 @@
         "raw_label": "面不改色分给镜头：大变辣条",
         "req_expr": null,
         "effects": {
-          "summary": "A口才+1",
+          "summary": "魔术界表示没见过这么馋的（A口才+1/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5706,7 +5525,7 @@
         "raw_label": "学鸽子咕咕叫两声蒙混过关",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "魔术界表示没见过这么馋的（A口才+1/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5758,7 +5577,7 @@
         "raw_label": "顺便讨论炒饭到底放不放葱花",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+15%",
+          "summary": "伤感文学秒变深夜美食档（A粉+15%/B口碑+4）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5771,7 +5590,7 @@
         "raw_label": "强行挽尊说吃货表白最浪漫",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+4",
+          "summary": "伤感文学秒变深夜美食档（A粉+15%/B口碑+4）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5823,7 +5642,7 @@
         "raw_label": "在白雾里神出鬼没演迷雾惊悚片",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "手绘日出拿下同城搞笑榜一（A热+15%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5836,7 +5655,7 @@
         "raw_label": "拿马克笔在镜头膜上画轮红日",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+15%",
+          "summary": "手绘日出拿下同城搞笑榜一（A热+15%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5857,11 +5676,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -5885,7 +5705,7 @@
         "raw_label": "自扇嘴巴把正确名字抄脑门上",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+3",
+          "summary": "竞品方感动得免费点了赞（A口碑+3/B口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5898,7 +5718,7 @@
         "raw_label": "打哈哈说刚才是反面教材对比",
         "req_expr": null,
         "effects": {
-          "summary": "B口才+1",
+          "summary": "竞品方感动得免费点了赞（A口碑+3/B口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5950,7 +5770,7 @@
         "raw_label": "坚称这是最前沿赛博朋克审美",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "观众投票哥布林比你顺眼（A心态+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5963,7 +5783,7 @@
         "raw_label": "把自己脸也涂成绿色人戏合一",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "观众投票哥布林比你顺眼（A心态+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -5984,11 +5804,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -6012,7 +5833,7 @@
         "raw_label": "顶一脸泡沫在昏暗中发感言",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+15%",
+          "summary": "万粉夜惊魂成招新必看切片（A粉+15%/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -6025,7 +5846,7 @@
         "raw_label": "拿手电筒从下巴往上照继续嗨",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "万粉夜惊魂成招新必看切片（A粉+15%/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -6056,12 +5877,12 @@
       ]
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "破十万粉后供应链基地找上门，承诺给独家机制价开超级带货专场，一晚顶半年打赏。两难：高调转型带货 vs 保持内容比例只挂小橱窗。",
     "raw_cells": {
       "mode_col": "`[带货]`",
@@ -6096,8 +5917,12 @@
         "effects": {
           "summary": "B钱包+2万、口碑+8",
           "state_writes": [],
-          "ending_triggers": [],
-          "next_cards": []
+          "ending_triggers": [
+            "M02"
+          ],
+          "next_cards": [
+            "C4-M02"
+          ]
         },
         "outcome_toast": "A钱包+12万、进C4-M02；B钱包+2万、口碑+8"
       }
@@ -6125,24 +5950,13 @@
       ]
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "sample_inspect",
-    "ops_note": "桌面扣放3件样品文字卡，先翻开任意2件看线索，再四键指认（指认#1掺假 / 指认#2掺假 / 指认#3掺假 / 三件全合格），命中记 Count_验货命中+1（P3-1）",
-    "ops_config": {
-      "total_samples": 3,
-      "flip_limit": 2,
-      "choice_buttons": [
-        "指认 #1 掺假",
-        "指认 #2 掺假",
-        "指认 #3 掺假",
-        "三件全合格"
-      ],
-      "hit_effect": "Count_验货命中 +1; Flag_选品减伤 = 1"
-    },
-    "has_art": true,
-    "context_text": "爆款「古法手撕牛肉干」狂卖五万单，你半夜拆大货发现肉质发柴疑似掺鸭肉，与样品不同。两难：听厂家劝捂盖子 vs 翻样送检。",
+    "ops_note": null,
+    "has_art": false,
+    "context_text": "[操作：翻样辨真] 爆款「古法手撕牛肉干」狂卖五万单，你半夜拆大货发现肉质发柴疑似掺鸭肉，与样品不同。两难：听厂家劝捂盖子 vs 翻样送检。",
     "raw_cells": {
       "mode_col": "`[带货]`<br>`[操作：翻样辨真]`",
       "context_col": "`[操作：翻样辨真]` 爆款「古法手撕牛肉干」狂卖五万单，你半夜拆大货发现肉质发柴疑似掺鸭肉，与样品不同。两难：听厂家劝捂盖子 vs 翻样送检。",
@@ -6157,16 +5971,12 @@
         "raw_label": "「厂家说只是批次风干差异，别自己砸锅」",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%记 Flag_带货死雷=1",
-          "state_writes": [
-            {
-              "key": "Flag_带货死雷",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A热+15%记Flag_带货死雷=1",
+          "state_writes": [],
           "ending_triggers": [],
-          "next_cards": []
+          "next_cards": [
+            "B-1"
+          ]
         },
         "outcome_toast": "A热+15%记Flag_带货死雷=1；B-1万翻样命中Count_验货命中+1"
       },
@@ -6176,16 +5986,12 @@
         "raw_label": "「立刻翻样比对大货送检，备好先行退款」",
         "req_expr": null,
         "effects": {
-          "summary": "B-1万翻样命中 Count_验货命中+1",
-          "state_writes": [
-            {
-              "key": "Count_验货命中",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "B-1万翻样命中Count_验货命中+1",
+          "state_writes": [],
           "ending_triggers": [],
-          "next_cards": []
+          "next_cards": [
+            "B-1"
+          ]
         },
         "outcome_toast": "A热+15%记Flag_带货死雷=1；B-1万翻样命中Count_验货命中+1"
       }
@@ -6203,14 +6009,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "dual_boost",
     "weight_rule": {
       "base": 1,
-      "match_mode": 1,
-      "non_match_mode": 1
+      "match_mode": 2,
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -6235,7 +6042,7 @@
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": [
-            "X-EGG-03"
+            "X-EGG"
           ]
         },
         "outcome_toast": "A首笔+50万后续必遇X-EGG-03；B得Tag_长红口碑口碑+20"
@@ -6246,16 +6053,12 @@
         "raw_label": "「独家约买断未来，留在星播守老粉基本盘」",
         "req_expr": null,
         "effects": {
-          "summary": "B得 Tag_长红口碑 口碑+20",
-          "state_writes": [
-            {
-              "key": "Tag_长红口碑",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "B得Tag_长红口碑口碑+20",
+          "state_writes": [],
           "ending_triggers": [],
-          "next_cards": []
+          "next_cards": [
+            "X-EGG"
+          ]
         },
         "outcome_toast": "A首笔+50万后续必遇X-EGG-03；B得Tag_长红口碑口碑+20"
       }
@@ -6322,7 +6125,9 @@
         "effects": {
           "summary": "B口碑+15，次周同行因涉赌被永封",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "D07"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A钱包暴涨但直通暴毙D07；B口碑+15，次周同行因涉赌被永封"
@@ -6341,22 +6146,22 @@
     "mode_tags": [
       "带货"
     ],
-    "gate_type": "hard",
+    "gate_type": "dual_boost",
     "weight_rule": {
       "base": 1,
-      "match_mode": 1,
-      "non_match_mode": 0,
+      "match_mode": 2,
+      "non_match_mode": 1,
       "specific_modes": [
         "带货"
       ]
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "职业打假人「铁锤测评」点名买了你直播间三款产品准备送检，粉丝群慌乱。两难：塞十万公关费私下求和 vs 公开质检报告正面迎检。",
     "raw_cells": {
       "mode_col": "`[带货]`",
@@ -6387,9 +6192,11 @@
         "raw_label": "「身正不怕影子斜，置顶欢迎铁锤老师把关」",
         "req_expr": null,
         "effects": {
-          "summary": "B货净口碑+25转化+30%",
+          "summary": "B货净口碑+25转化+30%（假扣粉30%）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "D11"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A钱包-10万且货假进D11；B货净口碑+25转化+30%（假扣粉30%）"
@@ -6408,14 +6215,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -6436,14 +6244,8 @@
         "raw_label": "「发合照正式官宣：遇到对的人，分享幸福」",
         "req_expr": null,
         "effects": {
-          "summary": "A若 Tag_人设=真实 粉+20%，单身掉粉40%",
-          "state_writes": [
-            {
-              "key": "Tag_人设",
-              "op": "set",
-              "value": "真实"
-            }
-          ],
+          "summary": "A若Tag_人设=真实粉+20%，单身掉粉40%",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -6455,14 +6257,8 @@
         "raw_label": "「正冲百万粉关键期，再委屈你保密半年」",
         "req_expr": null,
         "effects": {
-          "summary": "B记 Count_偷拍素材+1",
-          "state_writes": [
-            {
-              "key": "Count_偷拍素材",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "B记Count_偷拍素材+1",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -6483,22 +6279,20 @@
       "才艺",
       "全模式"
     ],
-    "gate_type": "dual_boost",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
-      "match_mode": 2,
+      "match_mode": 1,
       "non_match_mode": 1,
-      "specific_modes": [
-        "才艺"
-      ]
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "庆功宴上高魅力地下说唱歌手「K」猛烈追你，带你兜风写歌甜度爆表，但好友提醒K有过劣迹黑历史。两难：沉溺刺激恋情 vs 断联避雷。",
     "raw_cells": {
       "mode_col": "`[才艺]`<br>`[全模式]`",
@@ -6514,14 +6308,8 @@
         "raw_label": "「对我这么好，以前的事都是造谣，谈！」",
         "req_expr": null,
         "effects": {
-          "summary": "A状态+25记 Flag_劣迹对象=1",
-          "state_writes": [
-            {
-              "key": "Flag_劣迹对象",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A状态+25记Flag_劣迹对象=1（五章爆）",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -6554,19 +6342,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "刚上十万粉热门，奇葩前任找上门，扬言手里有你青涩期恋爱糗事截图，索要5万封口费。两难：花钱消灾 vs 开麦对骂 vs 冷处理发律师函。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -6608,14 +6397,8 @@
         "raw_label": "「一分不给不回，委托法务取证发律师函」",
         "req_expr": null,
         "effects": {
-          "summary": "C热-5%记 Count_前任律师函+1",
-          "state_writes": [
-            {
-              "key": "Count_前任律师函",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "C热-5%记Count_前任律师函+1",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -6636,14 +6419,12 @@
       "全模式",
       "户外"
     ],
-    "gate_type": "dual_boost",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
-      "match_mode": 2,
+      "match_mode": 1,
       "non_match_mode": 1,
-      "specific_modes": [
-        "户外"
-      ]
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -6651,8 +6432,8 @@
     "is_serious": true,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
-    "context_text": "收快递后你在家门口发现陌生烟头和写着你房间布局的匿名信——住址被越界者定位了。两难：报警搬家 vs 装锁硬撑 vs 报警停播。",
+    "has_art": false,
+    "context_text": "[正经卡] 收快递后你在家门口发现陌生烟头和写着你房间布局的匿名信——住址被越界者定位了。两难：报警搬家 vs 装锁硬撑 vs 报警停播。",
     "raw_cells": {
       "mode_col": "`[全模式]`<br>`[户外]`",
       "context_col": "`[正经卡]` 收快递后你在家门口发现陌生烟头和写着你房间布局的匿名信——住址被越界者定位了。两难：报警搬家 vs 装锁硬撑 vs 报警停播。",
@@ -6729,8 +6510,8 @@
     "is_serious": true,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
-    "context_text": "合住团播基地爆出大瓜：同团人气队友被多名粉丝晒出暧昧聊天记录实锤私联，全网要求表态。两难：除名切割 vs 求情硬保 vs 装死。",
+    "has_art": false,
+    "context_text": "[正经卡] 合住团播基地爆出大瓜：同团人气队友被多名粉丝晒出暧昧聊天记录实锤私联，全网要求表态。两难：除名切割 vs 求情硬保 vs 装死。",
     "raw_cells": {
       "mode_col": "`[团播]`",
       "context_col": "`[正经卡]` 合住团播基地爆出大瓜：同团人气队友被多名粉丝晒出暧昧聊天记录实锤私联，全网要求表态。两难：除名切割 vs 求情硬保 vs 装死。",
@@ -6806,9 +6587,9 @@
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "timing_bar",
-    "ops_note": "直播进行时光标单向扫过横条（≤5秒），甜区×1.15 / 良区×1.05 / 普通×1.0，并入单卡Cap夹逼",
+    "ops_note": null,
     "has_art": false,
-    "context_text": "带货尾声运营催你用「憋单话术」——吊着十万观众喊秒杀却迟迟不放库存。两难：极限憋单拉爆权重 vs 准点放福袋守信。",
+    "context_text": "[操作：时机条] 带货尾声运营催你用「憋单话术」——吊着十万观众喊秒杀却迟迟不放库存。两难：极限憋单拉爆权重 vs 准点放福袋守信。",
     "raw_cells": {
       "mode_col": "`[带货]`<br>`[操作：时机条]`",
       "context_col": "`[操作：时机条]` 带货尾声运营催你用「憋单话术」——吊着十万观众喊秒杀却迟迟不放库存。两难：极限憋单拉爆权重 vs 准点放福袋守信。",
@@ -6888,7 +6669,7 @@
         "raw_label": "硬说是国际时装周高低肩步",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包+1万",
+          "summary": "鞋垫卖爆馒头厂求合作（A钱包+1万/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -6901,7 +6682,7 @@
         "raw_label": "往另一只鞋塞俩馒头找平",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "鞋垫卖爆馒头厂求合作（A钱包+1万/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -6953,7 +6734,7 @@
         "raw_label": "躲进草丛装蘑菇苟二十分钟",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+15%",
+          "summary": "水友赛变围剿提款机（A粉+15%/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -6966,7 +6747,7 @@
         "raw_label": "贿赂榜一开装甲车当保镖",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "水友赛变围剿提款机（A粉+15%/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7018,7 +6799,7 @@
         "raw_label": "在雾面比OK手势表示还活着",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "弹幕刷屏恭喜主播渡劫飞升（A心态+1/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7031,7 +6812,7 @@
         "raw_label": "拿电风扇猛吹把自己吹成海草",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "弹幕刷屏恭喜主播渡劫飞升（A心态+1/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7083,7 +6864,7 @@
         "raw_label": "求他把那颗润喉糖链接交出来",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包+5000",
+          "summary": "声控粉心碎声响彻星播夜空（A钱包+5000/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7096,7 +6877,7 @@
         "raw_label": "两人用公鸭嗓来段嘎嘎对唱",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "声控粉心碎声响彻星播夜空（A钱包+5000/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7148,7 +6929,7 @@
         "raw_label": "躺瑜伽垫演零重力咸鱼瘫抗衡",
         "req_expr": null,
         "effects": {
-          "summary": "A状态+5",
+          "summary": "武术大师夸你适合躺平（A状态+5/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7161,7 +6942,7 @@
         "raw_label": "模仿金鸡独立踹翻了补光灯",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "武术大师夸你适合躺平（A状态+5/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7213,7 +6994,7 @@
         "raw_label": "趴玻璃上假装自己在擦地公益",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+5",
+          "summary": "保洁阿姨溜主播成景区宣传片（A口碑+5/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7226,7 +7007,7 @@
         "raw_label": "采访阿姨平时吃啥力气这么大",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+20%",
+          "summary": "保洁阿姨溜主播成景区宣传片（A口碑+5/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7278,7 +7059,7 @@
         "raw_label": "保持威严说赐尔等珍珠万斛",
         "req_expr": null,
         "effects": {
-          "summary": "A口才+1",
+          "summary": "宫斗剧三秒变地毯寻宝现场（A口才+1/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7291,7 +7072,7 @@
         "raw_label": "全团趴地上撅着屁股找珠子",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "宫斗剧三秒变地毯寻宝现场（A口才+1/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7312,11 +7093,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -7340,7 +7122,7 @@
         "raw_label": "镇定翻过稿子假装看背面注释",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+8",
+          "summary": "台下纷纷称赞你脱稿能力强（A口碑+8/B情商+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7353,7 +7135,7 @@
         "raw_label": "带头给自己鼓掌化解尴尬",
         "req_expr": null,
         "effects": {
-          "summary": "B情商+1",
+          "summary": "台下纷纷称赞你脱稿能力强（A口碑+8/B情商+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7405,7 +7187,7 @@
         "raw_label": "改口夸是户外求生盾牌级主食",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包+1万",
+          "summary": "生存爱好者把面包库存抢光（A钱包+1万/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7418,7 +7200,7 @@
         "raw_label": "拿大列巴当板砖拍碎一颗核桃",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "生存爱好者把面包库存抢光（A钱包+1万/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7439,11 +7221,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -7467,7 +7250,7 @@
         "raw_label": "截图装裱发动态谢黑粉美言",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "黑粉气得捶胸还白送热度（A心态+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7480,7 +7263,7 @@
         "raw_label": "为错字黑粉加唱三首安可曲",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "黑粉气得捶胸还白送热度（A心态+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7532,7 +7315,7 @@
         "raw_label": "把游戏拖进回收站演戒网瘾",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "客服路过尴尬刷飞机（A热+20%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7545,7 +7328,7 @@
         "raw_label": "用哭腔给策划唱失恋苦情歌",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+15%",
+          "summary": "客服路过尴尬刷飞机（A热+20%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7597,7 +7380,7 @@
         "raw_label": "隔着假发片跟观众玩猜猜在哪",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "意外接到防脱洗发水商务询单（A热+15%/B钱包+1万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7610,7 +7393,7 @@
         "raw_label": "捡回假发片贴下巴当胡子戴",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包+1万",
+          "summary": "意外接到防脱洗发水商务询单（A热+15%/B钱包+1万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7662,7 +7445,7 @@
         "raw_label": "抱着猫痛哭流涕求它别吓人",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+15%",
+          "summary": "猫获最佳恐怖片配角提名（A粉+15%/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7675,7 +7458,7 @@
         "raw_label": "给猫打恐怖背光当特邀女鬼",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "猫获最佳恐怖片配角提名（A粉+15%/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7727,7 +7510,7 @@
         "raw_label": "高深莫测点头：这是新企划",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "脸滚键盘被捧成抽象派文学（A热+15%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7740,7 +7523,7 @@
         "raw_label": "晒出脸上被键盘印出的红格子",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+15%",
+          "summary": "脸滚键盘被捧成抽象派文学（A热+15%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7792,7 +7575,7 @@
         "raw_label": "边跑边解说百米冲刺田径决赛",
         "req_expr": null,
         "effects": {
-          "summary": "A体力+1",
+          "summary": "打破短跑纪录大鹅成全场MVP（A体力+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7805,7 +7588,7 @@
         "raw_label": "爬上树跟树下的大鹅谈判",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "打破短跑纪录大鹅成全场MVP（A体力+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7826,21 +7609,16 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_考编",
-      "step": "3/3",
-      "WriteOpt": [
-        "A"
-      ]
-    },
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -7860,14 +7638,8 @@
         "raw_label": "每晚下播前带十万观众刷十道题",
         "req_expr": null,
         "effects": {
-          "summary": "A记 Count_考编+1 满3进H10",
-          "state_writes": [
-            {
-              "key": "Count_考编",
-              "op": "add",
-              "value": 1
-            }
-          ],
+          "summary": "考上编（A记Count_考编+1满3进H10/B热+15%）",
+          "state_writes": [],
           "ending_triggers": [
             "H10"
           ],
@@ -7881,9 +7653,11 @@
         "raw_label": "给老妈转一万红包堵催考的嘴",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "考上编（A记Count_考编+1满3进H10/B热+15%）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H10"
+          ],
           "next_cards": []
         },
         "outcome_toast": "考上编（A记Count_考编+1满3进H10/B热+15%）"
@@ -7933,7 +7707,7 @@
         "raw_label": "硬说这是赛博朋克头饰潮流",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包+1.5万",
+          "summary": "观众笑疯纷纷下单整蛊室友（A钱包+1.5万/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7946,7 +7720,7 @@
         "raw_label": "一剪刀剪成狗啃刘海破防",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "观众笑疯纷纷下单整蛊室友（A钱包+1.5万/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -7998,7 +7772,7 @@
         "raw_label": "强辩辣椒也是果实算水果",
         "req_expr": null,
         "effects": {
-          "summary": "A口才+1",
+          "summary": "把偶像团带偏成下饭搞笑团（A口才+1/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -8011,7 +7785,7 @@
         "raw_label": "当场干吃一勺豆豉酱表诚意",
         "req_expr": null,
         "effects": {
-          "summary": "B热+15%",
+          "summary": "把偶像团带偏成下饭搞笑团（A口才+1/B热+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -8032,22 +7806,16 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "运气 == 10",
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_算法异常",
-      "step": "1/3",
-      "WriteOpt": [
-        "B"
-      ],
-      "req": "运气 == 10"
-    },
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -8067,7 +7835,7 @@
         "raw_label": "现场演婴儿哭声跟宝宝共情",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+15%",
+          "summary": "比动画哄娃（A粉+15%/B记Count_算法异常+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -8080,14 +7848,9 @@
         "raw_label": "吐槽算法后台是不是成精了",
         "req_expr": null,
         "effects": {
-          "summary": "B记 Count_算法异常+1",
+          "summary": "比动画哄娃（A粉+15%/B记Count_算法异常+1）",
           "state_writes": [
-            {
-              "key": "Count_算法异常",
-              "op": "add",
-              "value": 1,
-              "req_expr": "运气 == 10"
-            }
+            "Count_算法异常"
           ],
           "ending_triggers": [],
           "next_cards": []
@@ -8108,11 +7871,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -8136,7 +7900,7 @@
         "raw_label": "用舌头舔开眼部奶油继续播",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+20%",
+          "summary": "人形蛋糕截成十万粉纪念勋章（A粉+20%/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -8149,7 +7913,7 @@
         "raw_label": "往头上插根蜡烛当人形蛋糕",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "人形蛋糕截成十万粉纪念勋章（A粉+20%/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -8170,19 +7934,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "前合伙人发40分钟控诉视频用剪辑录音指责你欺压同行，粉丝每秒狂掉。两难：开麦对喷 vs 忍耐调原始留档 vs 煽动粉丝冲烂对方。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -8200,8 +7965,13 @@
         "effects": {
           "summary": "A掉粉30%黑粉+20%",
           "state_writes": [],
-          "ending_triggers": [],
-          "next_cards": []
+          "ending_triggers": [
+            "D06",
+            "M02"
+          ],
+          "next_cards": [
+            "C5-M02"
+          ]
         },
         "outcome_toast": "C直通全网封杀D06；A掉粉30%黑粉+20%；B进C5-M02反杀"
       },
@@ -8214,6 +7984,7 @@
           "summary": "B进C5-M02反杀",
           "state_writes": [],
           "ending_triggers": [
+            "D06",
             "M02"
           ],
           "next_cards": [
@@ -8231,9 +8002,12 @@
           "summary": "C直通全网封杀D06",
           "state_writes": [],
           "ending_triggers": [
-            "D06"
+            "D06",
+            "M02"
           ],
-          "next_cards": []
+          "next_cards": [
+            "C5-M02"
+          ]
         },
         "outcome_toast": "C直通全网封杀D06；A掉粉30%黑粉+20%；B进C5-M02反杀"
       }
@@ -8251,19 +8025,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "风暴已过36小时，证据完整度取决于下播「看回放复盘留档」计数。两难：甩出完整时间戳证据链反锤 vs 发公关致歉声明息事宁人。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -8277,16 +8052,10 @@
         "opt_key": "A",
         "label": "甩出带公证时间戳的完整录屏逐帧反转",
         "raw_label": "「甩出带公证时间戳的完整录屏逐帧反转」",
-        "req_expr": "Count_复盘留档 >= 2",
+        "req_expr": null,
         "effects": {
-          "summary": "A若Count_复盘留档≥2涨粉40%口碑+35",
-          "state_writes": [
-            {
-              "key": "Count_复盘留档",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A若Count_复盘留档≥2涨粉40%口碑+35（否则半血）",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -8329,13 +8098,13 @@
         "团播"
       ]
     },
-    "prereq_expr": "Flag_签公会=1",
-    "is_pity_guaranteed": true,
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "（门控：Flag_签公会=1）新老板私吞百万商务还逼签每天8小时低价带货新约。两难：起诉撕约 vs 集体出走开MCN vs 低头签新约。",
     "raw_cells": {
       "mode_col": "`[全模式]`<br>`[团播]`",
@@ -8351,16 +8120,12 @@
         "raw_label": "「法庭见！起诉排他条款打官司拿回自由身」",
         "req_expr": null,
         "effects": {
-          "summary": "A若 Flag_审过合同=1 胜诉，否则进D13",
-          "state_writes": [
-            {
-              "key": "Flag_审过合同",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A若Flag_审过合同=1胜诉，否则进D13",
+          "state_writes": [],
           "ending_triggers": [
-            "D13"
+            "D13",
+            "M03",
+            "D14"
           ],
           "next_cards": []
         },
@@ -8375,7 +8140,9 @@
           "summary": "B钱包-50万锁M03",
           "state_writes": [],
           "ending_triggers": [
-            "M03"
+            "D13",
+            "M03",
+            "D14"
           ],
           "next_cards": []
         },
@@ -8390,6 +8157,8 @@
           "summary": "C进D14",
           "state_writes": [],
           "ending_triggers": [
+            "D13",
+            "M03",
             "D14"
           ],
           "next_cards": []
@@ -8410,19 +8179,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "dual_boost",
     "weight_rule": {
       "base": 1,
-      "match_mode": 1,
-      "non_match_mode": 1
+      "match_mode": 2,
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "Flag_劣迹对象=1或Count_偷拍素材=3",
-    "is_pity_guaranteed": true,
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "（门控：Flag_劣迹对象=1或Count_偷拍素材=3）狗仔晒出你与劣迹歌手K同款酒店拼图实锤！铁粉刷屏劝分。两难：怒怼粉丝 vs 切割道歉 vs 冷处理。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -8441,9 +8211,12 @@
           "summary": "A掉粉60%直通暴毙D17",
           "state_writes": [],
           "ending_triggers": [
-            "D17"
+            "D17",
+            "M05"
           ],
-          "next_cards": []
+          "next_cards": [
+            "C5-M05"
+          ]
         },
         "outcome_toast": "A掉粉60%直通暴毙D17；B/C进入C5-M05道歉质量判定"
       },
@@ -8453,10 +8226,15 @@
         "raw_label": "「当场宣布已分手切割，向粉丝诚恳道歉」",
         "req_expr": null,
         "effects": {
-          "summary": "B",
+          "summary": "B/C进入C5-M05道歉质量判定",
           "state_writes": [],
-          "ending_triggers": [],
-          "next_cards": []
+          "ending_triggers": [
+            "D17",
+            "M05"
+          ],
+          "next_cards": [
+            "C5-M05"
+          ]
         },
         "outcome_toast": "A掉粉60%直通暴毙D17；B/C进入C5-M05道歉质量判定"
       },
@@ -8466,9 +8244,10 @@
         "raw_label": "「暂不开播，由工作室发简短单身声明」",
         "req_expr": null,
         "effects": {
-          "summary": "C进入C5-M05道歉质量判定",
+          "summary": "A掉粉60%直通暴毙D17",
           "state_writes": [],
           "ending_triggers": [
+            "D17",
             "M05"
           ],
           "next_cards": [
@@ -8491,19 +8270,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "dual_boost",
     "weight_rule": {
       "base": 1,
-      "match_mode": 1,
-      "non_match_mode": 1
+      "match_mode": 2,
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "你在镜头前为识人不清道歉，运营塞来打印公关稿而你熬夜状态极差。两难：脱稿素颜三鞠躬停播反思 vs 照提词器念稿结尾憋笑。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -8521,7 +8301,9 @@
         "effects": {
           "summary": "A扣粉20%口碑+5保号存活",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "D17"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A扣粉20%口碑+5保号存活；B被扒念稿憋笑直通D17"
@@ -8556,14 +8338,12 @@
       "团播",
       "全模式"
     ],
-    "gate_type": "dual_boost",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
-      "match_mode": 2,
+      "match_mode": 1,
       "non_match_mode": 1,
-      "specific_modes": [
-        "团播"
-      ]
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -8643,25 +8423,14 @@
         "带货"
       ]
     },
-    "prereq_expr": "C4-M02带货线",
-    "is_pity_guaranteed": true,
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "sample_inspect",
-    "ops_note": "桌面扣放3件样品文字卡，先翻开任意2件看线索，再四键指认（指认#1掺假 / 指认#2掺假 / 指认#3掺假 / 三件全合格），命中记 Count_验货命中+1（P3-1）",
-    "ops_config": {
-      "total_samples": 3,
-      "flip_limit": 2,
-      "choice_buttons": [
-        "指认 #1 掺假",
-        "指认 #2 掺假",
-        "指认 #3 掺假",
-        "三件全合格"
-      ],
-      "hit_effect": "Count_验货命中 +1; Flag_选品减伤 = 1"
-    },
-    "has_art": true,
-    "context_text": "（门控：C4-M02带货线）监管报告出炉：你卖爆的「手撕牛肉干」大货实为廉价鸭肉冒充！两难：垫付退一赔三复验追偿 vs 甩锅拒赔。",
+    "ops_note": null,
+    "has_art": false,
+    "context_text": "[操作：翻样辨真]（门控：C4-M02带货线）监管报告出炉：你卖爆的「手撕牛肉干」大货实为廉价鸭肉冒充！两难：垫付退一赔三复验追偿 vs 甩锅拒赔。",
     "raw_cells": {
       "mode_col": "`[带货]`<br>`[操作：翻样辨真]`",
       "context_col": "`[操作：翻样辨真]`（门控：C4-M02带货线）监管报告出炉：你卖爆的「手撕牛肉干」大货实为廉价鸭肉冒充！两难：垫付退一赔三复验追偿 vs 甩锅拒赔。",
@@ -8676,16 +8445,11 @@
         "raw_label": "「选品失职不甩锅！倾家荡产垫付退一赔三」",
         "req_expr": null,
         "effects": {
-          "summary": "A按 Count_验货命中 ≥2全身而退锁M02",
-          "state_writes": [
-            {
-              "key": "Count_验货命中",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A按Count_验货命中≥2全身而退锁M02/≥1伤减半/0进D12",
+          "state_writes": [],
           "ending_triggers": [
-            "M02"
+            "M02",
+            "D12"
           ],
           "next_cards": []
         },
@@ -8700,6 +8464,7 @@
           "summary": "B进D12",
           "state_writes": [],
           "ending_triggers": [
+            "M02",
             "D12"
           ],
           "next_cards": []
@@ -8720,19 +8485,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "Flag_卖惨人设=1或Flag_造假剧本=1",
-    "is_pity_guaranteed": true,
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "（门控：Flag_卖惨人设=1或Flag_造假剧本=1）网友扒出第一章药瓶倒影与第二章群演转账记录，监管与平台通报批评。两难：认罚关变现 vs 编新剧本。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -8748,10 +8514,11 @@
         "raw_label": "「在官方通报下认错受罚，关停变现改造」",
         "req_expr": null,
         "effects": {
-          "summary": "A若口碑≥80扣粉50%存活，否则进D20",
+          "summary": "A若口碑≥80扣粉50%存活，否则进D20/D21",
           "state_writes": [],
           "ending_triggers": [
-            "D20"
+            "D20",
+            "D21"
           ],
           "next_cards": []
         },
@@ -8763,10 +8530,11 @@
         "raw_label": "「再编一个双胞胎替身的借口试图蒙混过关」",
         "req_expr": null,
         "effects": {
-          "summary": "B直通D20",
+          "summary": "B直通D20/D21",
           "state_writes": [],
           "ending_triggers": [
-            "D20"
+            "D20",
+            "D21"
           ],
           "next_cards": []
         },
@@ -8786,20 +8554,21 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "timing_bar",
-    "ops_note": "直播进行时光标单向扫过横条（≤5秒），甜区×1.15 / 良区×1.05 / 普通×1.0，并入单卡Cap夹逼",
+    "ops_note": null,
     "has_art": false,
-    "context_text": "伴侣连麦共享屏幕时不小心切出与别人调情的加密文档，十万观众截屏。两难：体面分手闭关出神作 vs 开播喝酒哭诉。",
+    "context_text": "[操作：时机条] 伴侣连麦共享屏幕时不小心切出与别人调情的加密文档，十万观众截屏。两难：体面分手闭关出神作 vs 开播喝酒哭诉。",
     "raw_cells": {
       "mode_col": "`[全模式]`<br>`[操作：时机条]`",
       "context_col": "`[操作：时机条]` 伴侣连麦共享屏幕时不小心切出与别人调情的加密文档，十万观众截屏。两难：体面分手闭关出神作 vs 开播喝酒哭诉。",
@@ -8812,9 +8581,9 @@
         "opt_key": "A",
         "label": "发十字分手声明，闭关带神级企划归来",
         "raw_label": "「发十字分手声明，闭关带神级企划归来」",
-        "req_expr": "心态 >= 7",
+        "req_expr": null,
         "effects": {
-          "summary": "A",
+          "summary": "A（心态≥7）状态-15后粉+50%口碑+35逆袭",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -8848,19 +8617,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "和平分手的伴侣因共创号归属产生裂痕，听说对方今晚十点要发小作文抢占道德高地。两难：八点抢发狠话小作文 vs 公示协议与客观时间线。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -8876,16 +8646,12 @@
         "raw_label": "「八点抢发小作文甩锅，先把舆论节奏带起」",
         "req_expr": null,
         "effects": {
-          "summary": "A或 Flag_账号协议=0 触发D15",
-          "state_writes": [
-            {
-              "key": "Flag_账号协议",
-              "op": "set",
-              "value": 0
-            }
-          ],
+          "summary": "A或Flag_账号协议=0触发D15/D16/D19",
+          "state_writes": [],
           "ending_triggers": [
-            "D15"
+            "D15",
+            "D16",
+            "D19"
           ],
           "next_cards": []
         },
@@ -8897,14 +8663,8 @@
         "raw_label": "「不搞抹黑，直接公示账号产权协议时间线」",
         "req_expr": null,
         "effects": {
-          "summary": "A或 Flag_账号协议=0 触发D15/D16/D19；有协议选B保号口碑+15",
-          "state_writes": [
-            {
-              "key": "Flag_账号协议",
-              "op": "set",
-              "value": 0
-            }
-          ],
+          "summary": "A或Flag_账号协议=0触发D15/D16/D19",
+          "state_writes": [],
           "ending_triggers": [
             "D15",
             "D16",
@@ -8928,11 +8688,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -8940,8 +8701,8 @@
     "is_serious": true,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
-    "context_text": "造谣者用AI深度伪造合成涉你的虚假不雅图文在群组传播。两难：开播严正发声 vs 沉默忍受 vs 报警刑事追责推动平台立规。",
+    "has_art": false,
+    "context_text": "[正经卡] 造谣者用AI深度伪造合成涉你的虚假不雅图文在群组传播。两难：开播严正发声 vs 沉默忍受 vs 报警刑事追责推动平台立规。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
       "context_col": "`[正经卡]` 造谣者用AI深度伪造合成涉你的虚假不雅图文在群组传播。两难：开播严正发声 vs 沉默忍受 vs 报警刑事追责推动平台立规。",
@@ -8956,14 +8717,8 @@
         "raw_label": "「开播发声：错的是罪犯，受害者绝不低头」",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+30得 Tag_勇敢发声者",
-          "state_writes": [
-            {
-              "key": "Tag_勇敢发声者",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A口碑+30得Tag_勇敢发声者",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -9009,19 +8764,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "看你冲上百万粉，前任第三次冒出来张口要50万，扬言不给就去盛典红毯拉横幅。两难：筹钱妥协 vs 下场互撕 vs 法务集齐证据报警批捕。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -9061,16 +8817,10 @@
         "opt_key": "C",
         "label": "三次敲诈证据链已齐，直接报警移送法办",
         "raw_label": "「三次敲诈证据链已齐，直接报警移送法办」",
-        "req_expr": "Count_前任律师函 >= 1",
+        "req_expr": null,
         "effects": {
           "summary": "C若Count_前任律师函≥1口碑+25",
-          "state_writes": [
-            {
-              "key": "Count_前任律师函",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -9090,11 +8840,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -9118,7 +8869,7 @@
         "raw_label": "保持微笑假装演人体喷泉",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "纪念照定格成火烧屁股名画（A热+20%/B心态+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9131,7 +8882,7 @@
         "raw_label": "从兜里掏彩带洒向空中挽尊",
         "req_expr": null,
         "effects": {
-          "summary": "B心态+1",
+          "summary": "纪念照定格成火烧屁股名画（A热+20%/B心态+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9183,7 +8934,7 @@
         "raw_label": "在鹅毛里唱起经典咏雪老歌",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包+3万",
+          "summary": "品牌方含泪夸真材实料硬核（A钱包+3万/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9196,7 +8947,7 @@
         "raw_label": "从毛堆钻出来演破壳大白鹅",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "品牌方含泪夸真材实料硬核（A钱包+3万/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9248,7 +8999,7 @@
         "raw_label": "将错就错拿走友谊竞赛奖",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+8",
+          "summary": "因塑料外语获评最绅士主播（A口碑+8/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9261,7 +9012,7 @@
         "raw_label": "追着用翻译软件解释半小时",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+20%",
+          "summary": "因塑料外语获评最绅士主播（A口碑+8/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9313,7 +9064,7 @@
         "raw_label": "在空中做游泳动作装太空漫步",
         "req_expr": null,
         "effects": {
-          "summary": "A才艺+1",
+          "summary": "半空演出成年度最佳喜剧舞台（A才艺+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9326,7 +9077,7 @@
         "raw_label": "朝台下招手演开业气球人",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "半空演出成年度最佳喜剧舞台（A才艺+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9378,7 +9129,7 @@
         "raw_label": "默契地学一声拔塞子噗嗤声",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "烧水壶连麦冲上搞笑榜第一（A热+20%/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9391,7 +9142,7 @@
         "raw_label": "贴心问对方是不是要泡碗面",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+20%",
+          "summary": "烧水壶连麦冲上搞笑榜第一（A热+20%/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9443,7 +9194,7 @@
         "raw_label": "隔着屏幕互相给对方递纸巾",
         "req_expr": null,
         "effects": {
-          "summary": "A情商+1",
+          "summary": "巅峰对决变鼻炎病友交流会（A情商+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9456,7 +9207,7 @@
         "raw_label": "改比谁一分钟打喷嚏声音更响",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "巅峰对决变鼻炎病友交流会（A情商+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9508,7 +9259,7 @@
         "raw_label": "嚼两下严肃点评花很有韧性",
         "req_expr": null,
         "effects": {
-          "summary": "A口才+1",
+          "summary": "主厨跑来问对餐桌花有何意见（A口才+1/B心态+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9521,7 +9272,7 @@
         "raw_label": "趁没人注意悄悄吐进餐巾纸",
         "req_expr": null,
         "effects": {
-          "summary": "B心态+1",
+          "summary": "主厨跑来问对餐桌花有何意见（A口才+1/B心态+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9573,7 +9324,7 @@
         "raw_label": "卡在门框里四只恐龙齐跳肚皮舞",
         "req_expr": null,
         "effects": {
-          "summary": "A热+25%",
+          "summary": "侏罗纪堵门破五十万在线（A热+25%/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9586,7 +9337,7 @@
         "raw_label": "拔掉气阀原地漏气变四张皮",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+20%",
+          "summary": "侏罗纪堵门破五十万在线（A热+25%/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9607,11 +9358,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -9635,7 +9387,7 @@
         "raw_label": "站蜡像旁把五官挤成大叔样",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "烤冷面大叔连夜去馆里合影（A心态+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9648,7 +9400,7 @@
         "raw_label": "往蜡像手里塞一把铁铲子",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "烤冷面大叔连夜去馆里合影（A心态+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9700,7 +9452,7 @@
         "raw_label": "顺势介绍兼具中医拔罐功能",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包+5万",
+          "summary": "养生大军把吸尘器库存秒空（A钱包+5万/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9713,7 +9465,7 @@
         "raw_label": "在另一边脸也吸一个凑对称",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "养生大军把吸尘器库存秒空（A钱包+5万/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9765,7 +9517,7 @@
         "raw_label": "对冒烟主机行庄严告别礼",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+25%",
+          "summary": "用一万主机换百万赞（A粉+25%/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9778,7 +9530,7 @@
         "raw_label": "硬说是首领死前终极物理攻击",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "用一万主机换百万赞（A粉+25%/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9830,7 +9582,7 @@
         "raw_label": "把字裱起来挂猫窝上当牌匾",
         "req_expr": null,
         "effects": {
-          "summary": "A乐子人+",
+          "summary": "书法协会在弹幕抠出三室一厅（A乐子人+/B钱包+2万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9843,7 +9595,7 @@
         "raw_label": "硬改两笔变成「天道酬金」",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包+2万",
+          "summary": "书法协会在弹幕抠出三室一厅（A乐子人+/B钱包+2万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9895,7 +9647,7 @@
         "raw_label": "改口是美猴王原生态助眠",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "失眠观众笑得从床上滚下来（A热+20%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9908,7 +9660,7 @@
         "raw_label": "强忍酸意用颤抖气音念故事",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+15%",
+          "summary": "失眠观众笑得从床上滚下来（A热+20%/B粉+15%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9960,7 +9712,7 @@
         "raw_label": "强颜欢笑说洒洒水啦大气",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+8",
+          "summary": "对面感动认你当大哥（A口碑+8/B好感+10）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -9973,7 +9725,7 @@
         "raw_label": "私信求对面能不能偷退九发",
         "req_expr": null,
         "effects": {
-          "summary": "B好感+10",
+          "summary": "对面感动认你当大哥（A口碑+8/B好感+10）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10025,7 +9777,7 @@
         "raw_label": "躺雪坑宣布发明人体雪橇流",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "雪场问你留不留当人工压雪机（A热+20%/B钱包+1万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10038,7 +9790,7 @@
         "raw_label": "收费让游客在雪沟拍照打卡",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包+1万",
+          "summary": "雪场问你留不留当人工压雪机（A热+20%/B钱包+1万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10059,11 +9811,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -10087,7 +9840,7 @@
         "raw_label": "转发热搜：满减券还在呢",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+8",
+          "summary": "狗仔留言跟拍你三年最无聊（A口碑+8/B心态+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10100,7 +9853,7 @@
         "raw_label": "给狗仔寄箱泡面谢他陪熬夜",
         "req_expr": null,
         "effects": {
-          "summary": "B心态+1",
+          "summary": "狗仔留言跟拍你三年最无聊（A口碑+8/B心态+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10152,7 +9905,7 @@
         "raw_label": "顶着四条眉毛演古装四眉大侠",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "眉掉睫毛焊死说服力拉满（A热+20%/B钱包+4万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10165,7 +9918,7 @@
         "raw_label": "拿睫毛膏重画两条不掉色眉",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包+4万",
+          "summary": "眉掉睫毛焊死说服力拉满（A热+20%/B钱包+4万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10217,7 +9970,7 @@
         "raw_label": "卡在窗框里跟观众挥手晚安",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "致敬经典默片喜剧安全又好笑（A心态+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10230,7 +9983,7 @@
         "raw_label": "保持姿势唱了一段苦情悔过歌",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "致敬经典默片喜剧安全又好笑（A心态+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10251,22 +10004,16 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "运气 == 10",
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_算法异常",
-      "step": "2/3",
-      "WriteOpt": [
-        "B"
-      ],
-      "req": "运气 == 10"
-    },
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -10286,7 +10033,7 @@
         "raw_label": "揉揉眼睛以为熬夜出幻觉了",
         "req_expr": null,
         "effects": {
-          "summary": "A状态+5",
+          "summary": "飘百朵免费花（A状态+5/B记Count_算法异常+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10299,14 +10046,9 @@
         "raw_label": "对空气喊管理员加个鸡腿",
         "req_expr": null,
         "effects": {
-          "summary": "B记 Count_算法异常+1",
+          "summary": "飘百朵免费花（A状态+5/B记Count_算法异常+1）",
           "state_writes": [
-            {
-              "key": "Count_算法异常",
-              "op": "add",
-              "value": 1,
-              "req_expr": "运气 == 10"
-            }
+            "Count_算法异常"
           ],
           "ending_triggers": [],
           "next_cards": []
@@ -10327,11 +10069,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -10355,7 +10098,7 @@
         "raw_label": "捂漏风门牙展示奖牌硬度",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "奖牌没捂热先给牙医创收（A热+20%/B钱包+2万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10368,7 +10111,7 @@
         "raw_label": "连夜联系牙科诊所接推广",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包+2万",
+          "summary": "奖牌没捂热先给牙医创收（A热+20%/B钱包+2万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -10389,11 +10132,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -10401,7 +10145,7 @@
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "全网第一顶流「狂鲨哥」昨晚被永久封禁，原因成谜，媒体都在蹲排名第二的你如何表态。两难：开专场踩一脚蹭流量 vs 禁言自查 vs 私下打听。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -10465,22 +10209,20 @@
       "户外",
       "全模式"
     ],
-    "gate_type": "dual_boost",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
-      "match_mode": 2,
+      "match_mode": 1,
       "non_match_mode": 1,
-      "specific_modes": [
-        "户外"
-      ]
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "盛典前夕你在中心广场办粉丝见面会，涌来近万人堵死三条街，围栏开始摇晃。两难：叫停活动挨骂耍大牌 vs 按原计划登台（检验安保习惯）。",
     "raw_cells": {
       "mode_col": "`[户外]`<br>`[全模式]`",
@@ -10509,14 +10251,8 @@
         "raw_label": "「人都来了怎么能停？按原计划登台发福利」",
         "req_expr": null,
         "effects": {
-          "summary": "B若 Flag_安保习惯=1 粉+40%，否则口碑-50",
-          "state_writes": [
-            {
-              "key": "Flag_安保习惯",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "B若Flag_安保习惯=1粉+40%，否则口碑-50",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -10537,17 +10273,15 @@
       "户外",
       "全模式"
     ],
-    "gate_type": "dual_boost",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
-      "match_mode": 2,
+      "match_mode": 1,
       "non_match_mode": 1,
-      "specific_modes": [
-        "户外"
-      ]
+      "specific_modes": []
     },
-    "prereq_expr": "整活流或失控值高",
-    "is_pity_guaranteed": true,
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -10602,11 +10336,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -10614,7 +10349,7 @@
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "死对头主播为截胡年度总冠军连黑你三天，你恰好知道他下榻的酒店房号。两难：带人去酒店门口拍门直播对峙 vs 发传票用舞台实力碾压。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -10647,7 +10382,9 @@
         "effects": {
           "summary": "B口碑+25、盛典票数+30%",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "D10"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A触犯私闯骚扰红线直通暴毙D10；B口碑+25、盛典票数+30%"
@@ -10667,23 +10404,21 @@
       "PK",
       "全模式"
     ],
-    "gate_type": "dual_boost",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
-      "match_mode": 2,
+      "match_mode": 1,
       "non_match_mode": 1,
-      "specific_modes": [
-        "PK"
-      ]
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "timing_bar",
-    "ops_note": "时机条结果在选项结算后生效，且只作用于非煽动选项（选项B）",
-    "has_art": true,
-    "context_text": "盛典决战夜最后十分钟，对家涌入异常机器票反超你，百万粉丝群情激愤。两难：煽动粉丝冲塌对家 vs 压住情绪走官方申诉。",
+    "ops_note": "终签备注: 时机条结果在选项结算后生效，且只作用于非煽动选项（选项B稳健控场生效，选项A煽动不吃时机条）",
+    "has_art": false,
+    "context_text": "[操作：时机条] 盛典决战夜最后十分钟，对家涌入异常机器票反超你，百万粉丝群情激愤。两难：煽动粉丝冲塌对家 vs 压住情绪走官方申诉。",
     "raw_cells": {
       "mode_col": "`[PK]`<br>`[全模式]`<br>`[操作：时机条]`",
       "context_col": "`[操作：时机条]` 盛典决战夜最后十分钟，对家涌入异常机器票反超你，百万粉丝群情激愤。两难：煽动粉丝冲塌对家 vs 压住情绪走官方申诉。",
@@ -10715,7 +10450,9 @@
         "effects": {
           "summary": "B官方清退机器票夺冠，口碑+30",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "D06"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A十秒后跨平台封杀直通暴毙D06；B官方清退机器票夺冠，口碑+30"
@@ -10734,16 +10471,14 @@
     "mode_tags": [
       "数字人诱惑"
     ],
-    "gate_type": "hard",
+    "gate_type": "progress",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 0,
-      "specific_modes": [
-        "数字人诱惑"
-      ]
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": null,
+    "prereq_expr": "chapter == 6 && Flag_数字人线开放 == 1",
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -10783,7 +10518,10 @@
         "effects": {
           "summary": "B口碑+15",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "D09",
+            "H03"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A钱包+20万，50%率封号D09、50%率进H03；B口碑+15"
@@ -10802,14 +10540,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -10830,14 +10569,8 @@
         "raw_label": "「打开三年完整纳税凭证与合同，透明迎检」",
         "req_expr": null,
         "effects": {
-          "summary": "若 Flag_税务合规=1 选A零损口碑+30；若隐患选B扣钱包70%保号",
-          "state_writes": [
-            {
-              "key": "Flag_税务合规",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "若Flag_税务合规=1选A零损口碑+30",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -10849,14 +10582,8 @@
         "raw_label": "「汗流浃背变卖资产，全额补交税款与罚金」",
         "req_expr": null,
         "effects": {
-          "summary": "若 Flag_税务合规=1 选A零损口碑+30；若隐患选B扣钱包70%保号",
-          "state_writes": [
-            {
-              "key": "Flag_税务合规",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "若Flag_税务合规=1选A零损口碑+30",
+          "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
         },
@@ -10876,19 +10603,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "盛典红毯尽头，伴侣在后台等你最终抉择。三岔口：牵手走红毯官宣收官 vs 留在幕后保护彼此 vs 在巅峰夜宣布退圈结婚。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -10904,9 +10632,12 @@
         "raw_label": "「千万观众见证下牵手登台：事业爱情全要」",
         "req_expr": null,
         "effects": {
-          "summary": "A",
+          "summary": "A/B进主结局（Flag_榜一恋爱=1进H02）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H02",
+            "M05"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A/B进主结局（Flag_榜一恋爱=1进H02）；C直通主结局M05"
@@ -10917,9 +10648,12 @@
         "raw_label": "「相视一笑留幕后：下播后我只属于你」",
         "req_expr": null,
         "effects": {
-          "summary": "B进主结局",
+          "summary": "A/B进主结局（Flag_榜一恋爱=1进H02）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H02",
+            "M05"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A/B进主结局（Flag_榜一恋爱=1进H02）；C直通主结局M05"
@@ -10933,6 +10667,7 @@
           "summary": "C直通主结局M05",
           "state_writes": [],
           "ending_triggers": [
+            "H02",
             "M05"
           ],
           "next_cards": []
@@ -10953,19 +10688,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "Flag_老粉=1",
-    "is_pity_guaranteed": true,
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "（门控：Flag_老粉=1）盛典台下第一排角落，「夜航船」举着磨损灯牌：「从1人到1000万人，我都在」。两难：把首个特写给老粉 vs 先谢神豪团。",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -11000,6 +10736,7 @@
           "summary": "B钱包+10万、错失H08",
           "state_writes": [],
           "ending_triggers": [
+            "M01",
             "H08"
           ],
           "next_cards": []
@@ -11020,19 +10757,20 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
-    "is_pity_guaranteed": true,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
-    "has_art": true,
+    "has_art": false,
     "context_text": "全服飘起百艘「星际巡航」金色舰队，主持人将年度最高荣誉话筒递给你：「用一句话总结你的主播生涯吧！」",
     "raw_cells": {
       "mode_col": "`[全模式]`",
@@ -11104,11 +10842,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -11132,7 +10871,7 @@
         "raw_label": "保持超模脸走战损版高定气场",
         "req_expr": null,
         "effects": {
-          "summary": "A颜值+1",
+          "summary": "主编盛赞年度解构主义设计（A颜值+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11145,7 +10884,7 @@
         "raw_label": "把裙摆披摄影师头上当盖头",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "主编盛赞年度解构主义设计（A颜值+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11197,7 +10936,7 @@
         "raw_label": "穿高定礼服坐拖拉机喊上链接",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包+10万",
+          "summary": "五百台拖拉机三秒被抢空（A钱包+10万/B热+25%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11210,7 +10949,7 @@
         "raw_label": "用拖拉机犁了一遍演播室地毯",
         "req_expr": null,
         "effects": {
-          "summary": "B热+25%",
+          "summary": "五百台拖拉机三秒被抢空（A钱包+10万/B热+25%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11262,7 +11001,7 @@
         "raw_label": "加入他们实现十一个自己群舞",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+20%",
+          "summary": "史上首个被自己皮肤追揍主播（A粉+20%/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11275,7 +11014,7 @@
         "raw_label": "气得换回新手默认皮肤抗议",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "史上首个被自己皮肤追揍主播（A粉+20%/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11327,7 +11066,7 @@
         "raw_label": "抱紧话筒架假装高空杂技艺术",
         "req_expr": null,
         "effects": {
-          "summary": "A才艺+1",
+          "summary": "远景看像插在蛋糕上的蜡烛（A才艺+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11340,7 +11079,7 @@
         "raw_label": "挥手大喊：山顶的朋友好吗",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "远景看像插在蛋糕上的蜡烛（A才艺+1/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11392,7 +11131,7 @@
         "raw_label": "醒后淡定说是沉浸式助眠教学",
         "req_expr": null,
         "effects": {
-          "summary": "A状态+10",
+          "summary": "呼噜采样登上白噪音榜第一（A状态+10/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11405,7 +11144,7 @@
         "raw_label": "给呼噜声申请非遗保护名录",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+20%",
+          "summary": "呼噜采样登上白噪音榜第一（A状态+10/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11457,7 +11196,7 @@
         "raw_label": "解冻后保持翻白眼装还在卡",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "白眼图被程序员贴机房镇机（A热+20%/B口碑+8）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11470,7 +11209,7 @@
         "raw_label": "把双人白眼图印T恤送粉丝",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+8",
+          "summary": "白眼图被程序员贴机房镇机（A热+20%/B口碑+8）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11522,7 +11261,7 @@
         "raw_label": "跟企鹅并排躺雪地上思考鹅生",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "这只企鹅一夜涨粉比你还快（A心态+1/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11535,7 +11274,7 @@
         "raw_label": "站起来严肃判处企鹅肇事逃逸",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+20%",
+          "summary": "这只企鹅一夜涨粉比你还快（A心态+1/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11587,7 +11326,7 @@
         "raw_label": "拍肚子用口技节奏给咕噜伴奏",
         "req_expr": null,
         "effects": {
-          "summary": "A才艺+1",
+          "summary": "全网都知道顶流饿了一整天（A才艺+1/B状态+5）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11600,7 +11339,7 @@
         "raw_label": "趁人不注意摸半块饼干塞嘴里",
         "req_expr": null,
         "effects": {
-          "summary": "B状态+5",
+          "summary": "全网都知道顶流饿了一整天（A才艺+1/B状态+5）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11621,11 +11360,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -11649,7 +11389,7 @@
         "raw_label": "面不改色夸这是突破自我初心",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+1",
+          "summary": "校长宣布这是最活泼报告会（A心态+1/B热+25%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11662,7 +11402,7 @@
         "raw_label": "带台下两千学弟学妹摇花手",
         "req_expr": null,
         "effects": {
-          "summary": "B热+25%",
+          "summary": "校长宣布这是最活泼报告会（A心态+1/B热+25%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11714,7 +11454,7 @@
         "raw_label": "往杯里泡满极品枸杞提附加值",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包+5万",
+          "summary": "掉漆保温杯供进大哥展览柜（A钱包+5万/B口碑+15）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11727,7 +11467,7 @@
         "raw_label": "把款项全捐建山区小学冠粉名",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+15",
+          "summary": "掉漆保温杯供进大哥展览柜（A钱包+5万/B口碑+15）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11779,7 +11519,7 @@
         "raw_label": "举起掉落按钮喊大力出奇迹",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "外网解说惊呼神秘东方力量（A热+20%/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11792,7 +11532,7 @@
         "raw_label": "蹲台上拿胶带试图把台粘回去",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+20%",
+          "summary": "外网解说惊呼神秘东方力量（A热+20%/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11844,7 +11584,7 @@
         "raw_label": "在空中顺便挂两件衣服当衣架",
         "req_expr": null,
         "effects": {
-          "summary": "A乐子人+",
+          "summary": "观众表示魔术只骗过了你自己（A乐子人+/B口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11857,7 +11597,7 @@
         "raw_label": "硬说是赛博激光束牵引技术",
         "req_expr": null,
         "effects": {
-          "summary": "B口才+1",
+          "summary": "观众表示魔术只骗过了你自己（A乐子人+/B口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11909,7 +11649,7 @@
         "raw_label": "祝粉丝新一年猪事顺利多金",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "百万听众在猪叫声中笑着跨年（A热+20%/B口碑+8）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11922,7 +11662,7 @@
         "raw_label": "抱着猫给全国观众拜个早年",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+8",
+          "summary": "百万听众在猪叫声中笑着跨年（A热+20%/B口碑+8）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11974,7 +11714,7 @@
         "raw_label": "头往后仰两米远靠透视显脸小",
         "req_expr": null,
         "effects": {
-          "summary": "A热+15%",
+          "summary": "原生态大脸在锥子脸中极慈祥（A热+15%/B口碑+8）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -11987,7 +11727,7 @@
         "raw_label": "自豪宣布稳坐江山一张大饼脸",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+8",
+          "summary": "原生态大脸在锥子脸中极慈祥（A热+15%/B口碑+8）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12039,7 +11779,7 @@
         "raw_label": "仰望天空落泪并掏出一根烤肠",
         "req_expr": null,
         "effects": {
-          "summary": "A状态+10",
+          "summary": "全城市民都认识管不住嘴顶流（A状态+10/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12052,7 +11792,7 @@
         "raw_label": "拿扩音喇叭对天喊明天就减",
         "req_expr": null,
         "effects": {
-          "summary": "B热+20%",
+          "summary": "全城市民都认识管不住嘴顶流（A状态+10/B热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12073,11 +11813,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -12101,7 +11842,7 @@
         "raw_label": "顺势展示两下职业级颠球脚法",
         "req_expr": null,
         "effects": {
-          "summary": "A体力+1",
+          "summary": "体育频道转发问考不考虑踢球（A体力+1/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12114,7 +11855,7 @@
         "raw_label": "紧紧抱住奖杯再不撒手下台",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+20%",
+          "summary": "体育频道转发问考不考虑踢球（A体力+1/B粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12166,7 +11907,7 @@
         "raw_label": "镜头对准地毯开百万寻宝直播",
         "req_expr": null,
         "effects": {
-          "summary": "A热+25%",
+          "summary": "丝袜吸尘寻宝上生活热搜第一（A热+25%/B情商+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12179,7 +11920,7 @@
         "raw_label": "用吸尘器套丝袜三秒吸出钻石",
         "req_expr": null,
         "effects": {
-          "summary": "B情商+1",
+          "summary": "丝袜吸尘寻宝上生活热搜第一（A热+25%/B情商+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12231,7 +11972,7 @@
         "raw_label": "横着走出六亲不认帝王蟹步伐",
         "req_expr": null,
         "effects": {
-          "summary": "A热+20%",
+          "summary": "感人舞台以四只螃蟹横行收官（A热+20%/B好友好感+10）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12244,7 +11985,7 @@
         "raw_label": "站在台上互解头发解了十分钟",
         "req_expr": null,
         "effects": {
-          "summary": "B好友好感+10",
+          "summary": "感人舞台以四只螃蟹横行收官（A热+20%/B好友好感+10）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12265,22 +12006,16 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "运气 == 10",
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_算法异常",
-      "step": "3/3",
-      "WriteOpt": [
-        "A"
-      ],
-      "req": "运气 == 10"
-    },
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -12291,30 +12026,25 @@
       "context_col": "盛典大屏闪过金色代码：「恭喜042号通关星播全息箱庭，是否看源码？」（**彩蛋H05达成3/3**）",
       "options_col": "**A.** 点金色确认键（需运气满值）<br>**B.** 拍碎幻觉继续享受人间鲜花",
       "outcome_col": "记`Count_算法异常+1`（A满3进H05/B口碑+10）",
-      "outcome_expanded": "A记`Count_算法异常+1`满3进H05；B口碑+10"
+      "outcome_expanded": "记`Count_算法异常+1`（A满3进H05/B口碑+10）"
     },
     "options": [
       {
         "opt_key": "A",
         "label": "点金色确认键（需运气满值）",
         "raw_label": "点金色确认键（需运气满值）",
-        "req_expr": "运气 == 10",
+        "req_expr": "运气满值",
         "effects": {
-          "summary": "A记 Count_算法异常+1 满3进H05",
+          "summary": "记Count_算法异常+1（A满3进H05/B口碑+10）",
           "state_writes": [
-            {
-              "key": "Count_算法异常",
-              "op": "add",
-              "value": 1,
-              "req_expr": "运气 == 10"
-            }
+            "Count_算法异常"
           ],
           "ending_triggers": [
             "H05"
           ],
           "next_cards": []
         },
-        "outcome_toast": "A记Count_算法异常+1满3进H05；B口碑+10"
+        "outcome_toast": "记Count_算法异常+1（A满3进H05/B口碑+10）"
       },
       {
         "opt_key": "B",
@@ -12322,12 +12052,14 @@
         "raw_label": "拍碎幻觉继续享受人间鲜花",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+10",
+          "summary": "记Count_算法异常+1（A满3进H05/B口碑+10）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H05"
+          ],
           "next_cards": []
         },
-        "outcome_toast": "A记Count_算法异常+1满3进H05；B口碑+10"
+        "outcome_toast": "记Count_算法异常+1（A满3进H05/B口碑+10）"
       }
     ]
   },
@@ -12343,11 +12075,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -12371,7 +12104,7 @@
         "raw_label": "给仙人掌颁手绘最佳陪伴奖杯",
         "req_expr": null,
         "effects": {
-          "summary": "A心态+2",
+          "summary": "仙人掌见证你凌晨四点的星光（A心态+2/B口碑+10）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12384,7 +12117,7 @@
         "raw_label": "把仙人掌端进新别墅C位供着",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+10",
+          "summary": "仙人掌见证你凌晨四点的星光（A心态+2/B口碑+10）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12501,7 +12234,7 @@
         "raw_label": "淡定吹刘海：基操勿6皆坐",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+25%技术+",
+          "summary": "五杀入选集锦（A粉+25%技术+/B热+35%乐子+）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12514,7 +12247,7 @@
         "raw_label": "激动跳起来撞到了头顶吊灯",
         "req_expr": null,
         "effects": {
-          "summary": "B热+35%乐子+",
+          "summary": "五杀入选集锦（A粉+25%技术+/B热+35%乐子+）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12564,7 +12297,7 @@
         "opt_key": "A",
         "label": "关伴奏来段纯人声爆发清唱",
         "raw_label": "关伴奏来段纯人声爆发清唱",
-        "req_expr": "才艺 >= 6 || 嗓音 >= 6",
+        "req_expr": null,
         "effects": {
           "summary": "A才艺≥6或嗓音≥6口碑+15",
           "state_writes": [],
@@ -12631,7 +12364,7 @@
         "raw_label": "点播老歌并整晚关打赏通道",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+20状态+5",
+          "summary": "满屏晚安（A口碑+20状态+5/B口碑+15状态+10）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12644,7 +12377,7 @@
         "raw_label": "给大叔寄十箱暖宝宝保温杯",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+15状态+10",
+          "summary": "满屏晚安（A口碑+20状态+5/B口碑+15状态+10）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12956,7 +12689,7 @@
         "raw_label": "录防伪绕口令联合法务封杀",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+20",
+          "summary": "打假上新闻（A口碑+20/B钱包+2万热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -12969,7 +12702,7 @@
         "raw_label": "顺势推正版语音包反将一军",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包+2万热+20%",
+          "summary": "打假上新闻（A口碑+20/B钱包+2万热+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13055,14 +12788,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
       "non_match_mode": 1,
-      "first_qualify_chapter_boost": 4
+      "specific_modes": []
     },
-    "prereq_expr": "颜值 ≥ 8",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13084,7 +12817,7 @@
         "raw_label": "开启高清原相机洗脸直播",
         "req_expr": null,
         "effects": {
-          "summary": "A粉+35%颜粉+",
+          "summary": "颜粉攻占（A粉+35%颜粉+/B口碑+15粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13097,7 +12830,7 @@
         "raw_label": "发翻白眼丑照自黑平衡一下",
         "req_expr": null,
         "effects": {
-          "summary": "B口碑+15粉+20%",
+          "summary": "颜粉攻占（A粉+35%颜粉+/B口碑+15粉+20%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13118,14 +12851,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
       "non_match_mode": 1,
-      "first_qualify_chapter_boost": 4
+      "specific_modes": []
     },
-    "prereq_expr": "嗓音 ≥ 8",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13147,7 +12880,7 @@
         "raw_label": "进专业录音棚一条过录完曲",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+20钱包+3万",
+          "summary": "歌声响彻影院（A口碑+20钱包+3万/B粉+30%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13160,7 +12893,7 @@
         "raw_label": "在直播间先给粉丝开首唱会",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+30%",
+          "summary": "歌声响彻影院（A口碑+20钱包+3万/B粉+30%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13181,14 +12914,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
       "non_match_mode": 1,
-      "first_qualify_chapter_boost": 4
+      "specific_modes": []
     },
-    "prereq_expr": "才艺 ≥ 8",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13210,7 +12943,7 @@
         "raw_label": "跳完定格动作潇洒甩麦致意",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+25粉+20%",
+          "summary": "救场封神（A口碑+25粉+20%/B热+35%口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13223,7 +12956,7 @@
         "raw_label": "幽默调侃音响师今晚省电费",
         "req_expr": null,
         "effects": {
-          "summary": "B热+35%口才+1",
+          "summary": "救场封神（A口碑+25粉+20%/B热+35%口才+1）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13244,14 +12977,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
       "non_match_mode": 1,
-      "first_qualify_chapter_boost": 4
+      "specific_modes": []
     },
-    "prereq_expr": "游戏技术 ≥ 8",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13273,9 +13006,11 @@
         "raw_label": "把键鼠签上名抽送给黑粉",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+25情商+1",
+          "summary": "锁M08前置（A口碑+25情商+1/B粉+30%热+25%）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "M08"
+          ],
           "next_cards": []
         },
         "outcome_toast": "锁M08前置（A口碑+25情商+1/B粉+30%热+25%）"
@@ -13286,9 +13021,11 @@
         "raw_label": "淡淡甩出一句：挂哪有我准",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+30%热+25%",
+          "summary": "锁M08前置（A口碑+25情商+1/B粉+30%热+25%）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "M08"
+          ],
           "next_cards": []
         },
         "outcome_toast": "锁M08前置（A口碑+25情商+1/B粉+30%热+25%）"
@@ -13307,14 +13044,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
       "non_match_mode": 1,
-      "first_qualify_chapter_boost": 4
+      "specific_modes": []
     },
-    "prereq_expr": "口才 ≥ 8",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13336,7 +13073,7 @@
         "raw_label": "端保温杯喝水：承让承让",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+20热+25%",
+          "summary": "嘴强王者（A口碑+20热+25%/B钱包+3万热+30%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13349,7 +13086,7 @@
         "raw_label": "把辩词改成带货顺口溜",
         "req_expr": null,
         "effects": {
-          "summary": "B钱包+3万热+30%",
+          "summary": "嘴强王者（A口碑+20热+25%/B钱包+3万热+30%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13370,14 +13107,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
       "non_match_mode": 1,
-      "first_qualify_chapter_boost": 4
+      "specific_modes": []
     },
-    "prereq_expr": "情商 ≥ 8",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13399,7 +13136,7 @@
         "raw_label": "端平水夸双王并列镇场之宝",
         "req_expr": null,
         "effects": {
-          "summary": "A钱包+3万口碑+10",
+          "summary": "神豪结拜（A钱包+3万口碑+10/B留存++口碑+15）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13412,7 +13149,7 @@
         "raw_label": "拉两位大哥建群一起开黑",
         "req_expr": null,
         "effects": {
-          "summary": "B留存++口碑+15",
+          "summary": "神豪结拜（A钱包+3万口碑+10/B留存++口碑+15）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13433,14 +13170,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
       "non_match_mode": 1,
-      "first_qualify_chapter_boost": 4
+      "specific_modes": []
     },
-    "prereq_expr": "体力 ≥ 8",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13462,9 +13199,11 @@
         "raw_label": "一个人包揽下半夜全部场次",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+25",
+          "summary": "6h档状态减免50%锁H06（A口碑+25/B粉+25%）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H06"
+          ],
           "next_cards": []
         },
         "outcome_toast": "6h档状态减免50%锁H06（A口碑+25/B粉+25%）"
@@ -13475,9 +13214,11 @@
         "raw_label": "带观众做一套晨间燃脂健身操",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+25%",
+          "summary": "6h档状态减免50%锁H06（A口碑+25/B粉+25%）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H06"
+          ],
           "next_cards": []
         },
         "outcome_toast": "6h档状态减免50%锁H06（A口碑+25/B粉+25%）"
@@ -13496,14 +13237,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
       "non_match_mode": 1,
-      "first_qualify_chapter_boost": 4
+      "specific_modes": []
     },
-    "prereq_expr": "心态 ≥ 8",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13525,7 +13266,7 @@
         "raw_label": "帮水军把恶评改成七言绝句",
         "req_expr": null,
         "effects": {
-          "summary": "A黑转粉+25%口才+1",
+          "summary": "水军看傻（A黑转粉+25%口才+1/B心态+1热+30%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13538,7 +13279,7 @@
         "raw_label": "给水军颁年度敬业打字员奖",
         "req_expr": null,
         "effects": {
-          "summary": "B心态+1热+30%",
+          "summary": "水军看傻（A黑转粉+25%口才+1/B心态+1热+30%）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13559,14 +13300,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
       "non_match_mode": 1,
-      "first_qualify_chapter_boost": 4
+      "specific_modes": []
     },
-    "prereq_expr": "运气 ≥ 9",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13588,7 +13329,7 @@
         "raw_label": "做成福袋全额折现回馈观众",
         "req_expr": null,
         "effects": {
-          "summary": "A口碑+25粉+25%",
+          "summary": "转发破百万（A口碑+25粉+25%/B热+45%钱包+2万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13601,7 +13342,7 @@
         "raw_label": "对着镜头拜了拜欧皇双手",
         "req_expr": null,
         "effects": {
-          "summary": "B热+45%钱包+2万",
+          "summary": "转发破百万（A口碑+25粉+25%/B热+45%钱包+2万）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -13622,14 +13363,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
       "non_match_mode": 1,
-      "first_qualify_chapter_boost": 4
+      "specific_modes": []
     },
-    "prereq_expr": "颜值 ≤ 3 且 口才 ≥ 7",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13651,9 +13392,11 @@
         "raw_label": "彻底退居幕后当金牌切片手",
         "req_expr": null,
         "effects": {
-          "summary": "A分成+",
+          "summary": "A分成+/B热+25%）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "M10"
+          ],
           "next_cards": []
         },
         "outcome_toast": "锁M10前置（M10门槛≤4；A分成+/B热+25%）"
@@ -13664,9 +13407,11 @@
         "raw_label": "偶尔露半张搞怪面具脸当彩蛋",
         "req_expr": null,
         "effects": {
-          "summary": "B热+25%",
+          "summary": "锁M10前置（M10门槛≤4",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "M10"
+          ],
           "next_cards": []
         },
         "outcome_toast": "锁M10前置（M10门槛≤4；A分成+/B热+25%）"
@@ -13685,13 +13430,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "暴毙D22扳机（状态≤15）",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13715,7 +13461,9 @@
         "effects": {
           "summary": "A热+30%状态+10",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "D22"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A热+30%状态+10；B（或运气≤2）直通暴毙D22"
@@ -13726,9 +13474,11 @@
         "raw_label": "羞愤欲绝连夜销号回老家睡",
         "req_expr": null,
         "effects": {
-          "summary": "B",
+          "summary": "B（或运气≤2）直通暴毙D22",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "D22"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A热+30%状态+10；B（或运气≤2）直通暴毙D22"
@@ -13747,13 +13497,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "暴毙D23扳机（运气≤3）",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -13775,9 +13526,11 @@
         "raw_label": "对镜头做十个扭曲鬼脸验证",
         "req_expr": null,
         "effects": {
-          "summary": "A运气>3险过热+15%",
+          "summary": "A运气>3险过热+15%（否则D23）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "D23"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A运气>3险过热+15%（否则D23）；B直通暴毙D23"
@@ -13811,14 +13564,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "暴毙D24扳机（签过C4-M03）",
-    "is_pity_guaranteed": true,
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -13839,9 +13593,11 @@
         "raw_label": "帮师傅抬走两台显示器抵债",
         "req_expr": null,
         "effects": {
-          "summary": "A抵债+2千",
+          "summary": "A抵债+2千（存款空则进D24）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "D24"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A抵债+2千（存款空则进D24）；B热度清零直通D24"
@@ -13875,21 +13631,16 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "D25 / H01 分流",
-    "is_pity_guaranteed": true,
-    "pity_chain": {
-      "chain": "Count_黑粉不对线",
-      "step": "finale",
-      "WriteOpt": [
-        "A"
-      ]
-    },
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
+    "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
     "ops_note": null,
@@ -13907,11 +13658,14 @@
         "opt_key": "A",
         "label": "连麦真诚请他当首席监制",
         "raw_label": "连麦真诚请他当首席监制",
-        "req_expr": "Count_黑粉不对线 >= 3 && 情商 >= 7",
+        "req_expr": null,
         "effects": {
-          "summary": "A",
+          "summary": "A（不对线≥3且情商≥7）进H01",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H01",
+            "D25"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A（不对线≥3且情商≥7）进H01；B直通暴毙D25"
@@ -13925,6 +13679,7 @@
           "summary": "B直通暴毙D25",
           "state_writes": [],
           "ending_triggers": [
+            "H01",
             "D25"
           ],
           "next_cards": []
@@ -13945,14 +13700,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "暴毙D26扳机（Flag_放任切片号=1）",
-    "is_pity_guaranteed": true,
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -13973,9 +13729,11 @@
         "raw_label": "举身份证大喊我才是原版啊",
         "req_expr": null,
         "effects": {
-          "summary": "A若口碑≥85险保号",
+          "summary": "A若口碑≥85险保号（否则进D26）",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "D26"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A若口碑≥85险保号（否则进D26）；B直通暴毙D26"
@@ -14009,13 +13767,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "M11前置（钱包≥100万）",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -14037,14 +13796,8 @@
         "raw_label": "拍板盘下！改造透明大排档",
         "req_expr": null,
         "effects": {
-          "summary": "A记 Flag_餐馆老板=1 锁M11",
-          "state_writes": [
-            {
-              "key": "Flag_餐馆老板",
-              "op": "set",
-              "value": 1
-            }
-          ],
+          "summary": "A记Flag_餐馆老板=1锁M11",
+          "state_writes": [],
           "ending_triggers": [
             "M11"
           ],
@@ -14060,7 +13813,9 @@
         "effects": {
           "summary": "B获秘方热+20%",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "M11"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A记Flag_餐馆老板=1锁M11；B获秘方热+20%"
@@ -14079,13 +13834,14 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "H09前置（带满前世天赋）",
+    "prereq_expr": null,
     "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
@@ -14124,7 +13880,9 @@
         "effects": {
           "summary": "B获赠推流券粉+30%口碑+15",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H09"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A夺冠解锁H09；B获赠推流券粉+30%口碑+15"
@@ -14143,14 +13901,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "H11前置（已解锁≥30结局）",
-    "is_pity_guaranteed": true,
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -14188,7 +13947,9 @@
         "effects": {
           "summary": "B旧麦装裱心态+2忠诚+20%",
           "state_writes": [],
-          "ending_triggers": [],
+          "ending_triggers": [
+            "H11"
+          ],
           "next_cards": []
         },
         "outcome_toast": "A重回起点进H11；B旧麦装裱心态+2忠诚+20%"
@@ -14207,14 +13968,15 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
-    "prereq_expr": "H12终极扳机（已通12主结局）",
-    "is_pity_guaranteed": true,
+    "prereq_expr": null,
+    "is_pity_guaranteed": false,
     "pity_chain": null,
     "is_serious": false,
     "ops_type": "none",
@@ -14235,14 +13997,12 @@
         "raw_label": "推开星空大门加冕星海真神",
         "req_expr": null,
         "effects": {
-          "summary": "均达H12；A星海真神全属性+1",
+          "summary": "均达H12（A星海真神全属性+1/B万界旅人口碑90）",
           "state_writes": [],
           "ending_triggers": [
             "H12"
           ],
-          "next_cards": [],
-          "epilogue_variant": "星海真神：推开星空大门加冕星海真神（全属性+1）",
-          "granted_talent": "【真·顶流权柄】"
+          "next_cards": []
         },
         "outcome_toast": "均达H12（A星海真神全属性+1/B万界旅人口碑90）"
       },
@@ -14252,14 +14012,12 @@
         "raw_label": "回头向所有平行自己举杯致意",
         "req_expr": null,
         "effects": {
-          "summary": "均达H12；B万界旅人口碑90",
+          "summary": "均达H12（A星海真神全属性+1/B万界旅人口碑90）",
           "state_writes": [],
           "ending_triggers": [
             "H12"
           ],
-          "next_cards": [],
-          "epilogue_variant": "万界旅人：回头向所有平行自己举杯致意（初始口碑提升至90）",
-          "granted_talent": "【真·顶流权柄】"
+          "next_cards": []
         },
         "outcome_toast": "均达H12（A星海真神全属性+1/B万界旅人口碑90）"
       }
@@ -14277,11 +14035,12 @@
     "mode_tags": [
       "全模式"
     ],
-    "gate_type": "soft",
+    "gate_type": "none",
     "weight_rule": {
       "base": 1,
       "match_mode": 1,
-      "non_match_mode": 1
+      "non_match_mode": 1,
+      "specific_modes": []
     },
     "prereq_expr": null,
     "is_pity_guaranteed": false,
@@ -14305,7 +14064,7 @@
         "raw_label": "敲电报暗号：外星老铁点关注",
         "req_expr": null,
         "effects": {
-          "summary": "A热+35%运气+1",
+          "summary": "外星外交处（A热+35%运气+1/B粉+25%乐子+）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []
@@ -14318,7 +14077,7 @@
         "raw_label": "用锡纸包在自己头上防辐射",
         "req_expr": null,
         "effects": {
-          "summary": "B粉+25%乐子+",
+          "summary": "外星外交处（A热+35%运气+1/B粉+25%乐子+）",
           "state_writes": [],
           "ending_triggers": [],
           "next_cards": []

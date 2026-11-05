@@ -1,128 +1,12 @@
 {
   "schema_version": "v0.2-transcribed",
-  "source_section": "maker-zhubo-gemini-draft-20261104.md §2.9 (auto-generated from table body)",
-  "errata_rulings": [
-    "P1-1: 36 keys auto-generated from §2.9 table body",
-    "P1-2 + fb6cb71: Count_算法异常 option qualifiers & H05 dual trigger"
-  ],
   "total_keys": 36,
-  "category_counts": {
+  "counts": {
     "Flag": 20,
     "Count": 9,
     "Tag": 5,
     "Param": 1,
     "Total": 1
-  },
-  "keys_by_category": {
-    "Flag": [
-      "Flag_卖惨人设",
-      "Flag_科技人设",
-      "Flag_老粉",
-      "Flag_零粉快乐",
-      "Flag_审过合同",
-      "Flag_签公会",
-      "Flag_野生主播",
-      "Flag_装死黑历史",
-      "Flag_造假剧本",
-      "Flag_安保习惯",
-      "Flag_账号协议",
-      "Flag_公款雷",
-      "Flag_榜一恋爱",
-      "Flag_放任切片号",
-      "Flag_税务合规",
-      "Flag_税务隐患",
-      "Flag_带货死雷",
-      "Flag_选品减伤",
-      "Flag_劣迹对象",
-      "Flag_餐馆老板"
-    ],
-    "Count": [
-      "Count_验货命中",
-      "Count_复盘留档",
-      "Count_偷拍素材",
-      "Count_违规警告",
-      "Count_黑粉不对线",
-      "Count_前任律师函",
-      "Count_猫上镜",
-      "Count_考编",
-      "Count_算法异常"
-    ],
-    "Tag": [
-      "Tag_人设",
-      "Tag_理性消费清流",
-      "Tag_清白账本",
-      "Tag_长红口碑",
-      "Tag_勇敢发声者"
-    ],
-    "Param": [
-      "Param_观众当真度"
-    ],
-    "Total": [
-      "Total_Income"
-    ]
-  },
-  "Snapshot_BeforeCard": {
-    "description": "整卡快照回滚字段清单（由 §2.9 表体自动生成，严禁手抄数字 · 勘误 P1-1）",
-    "five_dimensions": [
-      "Fans",
-      "Heat",
-      "Wallet",
-      "Rep",
-      "Stamina"
-    ],
-    "shadow_indicators": [
-      "Hater_Pct"
-    ],
-    "protagonist_attributes": [
-      "颜值",
-      "嗓音",
-      "才艺",
-      "游戏技术",
-      "口才",
-      "情商",
-      "体力",
-      "心态",
-      "运气"
-    ],
-    "state_dictionary_keys_count": 36,
-    "state_dictionary_keys": [
-      "Flag_卖惨人设",
-      "Flag_科技人设",
-      "Flag_老粉",
-      "Flag_零粉快乐",
-      "Flag_审过合同",
-      "Flag_签公会",
-      "Flag_野生主播",
-      "Flag_装死黑历史",
-      "Flag_造假剧本",
-      "Flag_安保习惯",
-      "Flag_账号协议",
-      "Flag_公款雷",
-      "Flag_榜一恋爱",
-      "Flag_放任切片号",
-      "Flag_税务合规",
-      "Flag_税务隐患",
-      "Flag_带货死雷",
-      "Flag_选品减伤",
-      "Flag_劣迹对象",
-      "Flag_餐馆老板",
-      "Count_验货命中",
-      "Count_复盘留档",
-      "Count_偷拍素材",
-      "Count_违规警告",
-      "Count_黑粉不对线",
-      "Count_前任律师函",
-      "Count_猫上镜",
-      "Count_考编",
-      "Count_算法异常",
-      "Tag_人设",
-      "Tag_理性消费清流",
-      "Tag_清白账本",
-      "Tag_长红口碑",
-      "Tag_勇敢发声者",
-      "Param_观众当真度",
-      "Total_Income"
-    ]
   },
   "variables": [
     {
@@ -434,9 +318,17 @@
           "req_expr": "运气 == 10"
         }
       ],
-      "errata_applied": [
-        "P1-2 (ec7ea5e: threshold = 3)",
-        "Addendum (fb6cb71: dual trigger + option qualifiers C4-S19:B / C5-S19:B / C6-S19:A)"
+      "consumers_qualified": [
+        {
+          "ending_id": "H05",
+          "trigger_mode": "immediate_on_full_3",
+          "expr": "Count_算法异常 == 3"
+        },
+        {
+          "ending_id": "H05",
+          "trigger_mode": "chapter_6_end_settlement",
+          "expr": "运气 == 10 && chapter_6_cleared"
+        }
       ]
     },
     {
@@ -509,5 +401,70 @@
       "writers_text": "每张卡结算当 $\\Delta \\text{Wallet}_{\\text{单卡}} > 0$ 时累加净入额",
       "consumers_text": "主结局 M02 人形上链接机器 触发条件（要求 Total_Income ≥ ¥5,000,000）"
     }
-  ]
+  ],
+  "Snapshot_BeforeCard": {
+    "source": "Auto-generated from §2.9 table body keys (Errata P1-1)",
+    "total_fields": 57,
+    "base_stats_count": 21,
+    "state_dictionary_keys_count": 36,
+    "fields": [
+      "颜值",
+      "嗓音",
+      "才艺",
+      "游戏技术",
+      "口才",
+      "情商",
+      "体力",
+      "心态",
+      "运气",
+      "Fans",
+      "Heat",
+      "Wallet",
+      "Rep",
+      "Stamina",
+      "Hater_Pct",
+      "Fans_Passerby_Pct",
+      "Fans_Lover_Pct",
+      "Fans_Iron_Pct",
+      "Fans_Troll_Pct",
+      "Fans_Pro_Pct",
+      "Fans_Rich_Pct",
+      "Flag_卖惨人设",
+      "Flag_科技人设",
+      "Flag_老粉",
+      "Flag_零粉快乐",
+      "Flag_审过合同",
+      "Flag_签公会",
+      "Flag_野生主播",
+      "Flag_装死黑历史",
+      "Flag_造假剧本",
+      "Flag_安保习惯",
+      "Flag_账号协议",
+      "Flag_公款雷",
+      "Flag_榜一恋爱",
+      "Flag_放任切片号",
+      "Flag_税务合规",
+      "Flag_税务隐患",
+      "Flag_带货死雷",
+      "Flag_选品减伤",
+      "Flag_劣迹对象",
+      "Flag_餐馆老板",
+      "Count_验货命中",
+      "Count_复盘留档",
+      "Count_偷拍素材",
+      "Count_违规警告",
+      "Count_黑粉不对线",
+      "Count_前任律师函",
+      "Count_猫上镜",
+      "Count_考编",
+      "Count_算法异常",
+      "Tag_人设",
+      "Tag_理性消费清流",
+      "Tag_清白账本",
+      "Tag_长红口碑",
+      "Tag_勇敢发声者",
+      "Param_观众当真度",
+      "Total_Income"
+    ]
+  }
 }

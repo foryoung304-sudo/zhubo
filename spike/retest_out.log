@@ -1,0 +1,165 @@
+[2026-11-05 12_17_10_740][0] INFO: DownloadManager initialized
+[2026-11-05 12_17_10_963][0] INFO: a couple of Subsystems registered finish.
+[2026-11-05 12_17_10_964][0] INFO: Engine construct finish.
+[2026-11-05 12_17_10_970][0] INFO: Opened log file E:/taptap/maker-demo-clone/.cli/logs/game/urhox_runtime-2026-11-05 12_17_10_969.log
+[2026-11-05 12_17_10_970][0] INFO: =======Git Info=======
+[2026-11-05 12_17_10_970][0] INFO: UrhoX: main, fefb855f4; BuildTime: 2026-10-30_18_55_40
+[2026-11-05 12_17_10_970][0] INFO: Engine-res tag: 1.36
+[2026-11-05 12_17_10_970][0] INFO: Binary version: 1036010
+[2026-11-05 12_17_10_970][0] INFO: ======================
+[2026-11-05 12_17_10_970][0] INFO: Engine initialize begin.
+[2026-11-05 12_17_10_970][0] INFO: Rendering pipeline: forward
+[2026-11-05 12_17_10_974][0] INFO: enable MSAA
+[2026-11-05 12_17_10_979][0] INFO: Created 7 worker threads
+[2026-11-05 12_17_10_980][0] INFO: Engine resourcePrefixPath: E:/taptap/maker-demo-clone/.cli/, resource: Res
+[2026-11-05 12_17_10_980][0] INFO: Added resource path E:/taptap/maker-demo-clone/.cli/Res/
+[2026-11-05 12_17_10_980][0] INFO: Now resource dir: 
+[2026-11-05 12_17_10_980][0] INFO: 0 - E:/taptap/maker-demo-clone/.cli/Res/
+[2026-11-05 12_17_10_980][0] INFO: AddPackageFile 'E:/taptap/maker-demo-clone/.cli/Autoload/CoreData.pak' to cache
+[2026-11-05 12_17_10_980][0] INFO: PackageFile::Open, E:/taptap/maker-demo-clone/.cli/Autoload/CoreData.pak, 0
+[2026-11-05 12_17_10_981][0] INFO: UZSD package opened: E:/taptap/maker-demo-clone/.cli/Autoload/CoreData.pak, 127 entries (126 unique blocks), decompressed 68979 -> 154483 bytes, dict 5788 bytes
+[2026-11-05 12_17_10_981][0] INFO: Added resource package CoreData
+[2026-11-05 12_17_10_981][0] INFO: AddPackageFile 'E:/taptap/maker-demo-clone/.cli/Autoload/Data.pak' to cache
+[2026-11-05 12_17_10_981][0] INFO: PackageFile::Open, E:/taptap/maker-demo-clone/.cli/Autoload/Data.pak, 0
+[2026-11-05 12_17_11_018][0] INFO: UZSD package opened: E:/taptap/maker-demo-clone/.cli/Autoload/Data.pak, 1468 entries (1383 unique blocks), decompressed 6938925 -> 17795142 bytes, dict 65536 bytes
+[2026-11-05 12_17_11_018][0] INFO: Added resource package Data
+[2026-11-05 12_17_11_018][0] INFO: AddPackageFile 'E:/taptap/maker-demo-clone/.cli/Autoload/Res.pak' to cache
+[2026-11-05 12_17_11_018][0] INFO: PackageFile::Open, E:/taptap/maker-demo-clone/.cli/Autoload/Res.pak, 0
+[2026-11-05 12_17_11_165][0] INFO: UZSD package opened: E:/taptap/maker-demo-clone/.cli/Autoload/Res.pak, 593 entries (586 unique blocks), decompressed 39986842 -> 75555497 bytes, dict 10516 bytes
+[2026-11-05 12_17_11_166][0] INFO: Added resource package Res
+[2026-11-05 12_17_11_929][0] INFO: computeShaderSupport 1,caps->supported:4,aps->supported & BGFX_CAPS_INDEX32:4096
+[2026-11-05 12_17_11_929][0] INFO: Detected 3 GPUs
+[2026-11-05 12_17_11_929][0] INFO: GPU 0 Name: NVIDIA GeForce RTX 4050 Laptop GPU
+[2026-11-05 12_17_11_929][0] INFO: GPU 1 Name: NVIDIA GeForce RTX 4050 Laptop GPU
+[2026-11-05 12_17_11_929][0] INFO: GPU 2 Name: Microsoft Basic Render Driver
+[2026-11-05 12_17_11_929][0] INFO: Selected GPU name: NVIDIA GeForce RTX 4050 Laptop GPU
+[2026-11-05 12_17_11_930][0] INFO: Renderer Type: Direct3D 11
+[2026-11-05 12_17_11_930][0] INFO: CheckFeatureSupport => CpuInstance=1, _R32I=1, _R32U=1, _R32F=1, _RGBA16F=1, _RGBA32F=1, MaxTextureSizeLimit=16384
+[2026-11-05 12_17_11_934][0] INFO: Graphics mode: 509x906 (logic=509x906, dpr=1) windowed resizable highDPI monitor 0
+[2026-11-05 12_17_11_940][0] INFO: Initialized input
+[2026-11-05 12_17_11_941][0] INFO: Initialized user interface
+[2026-11-05 12_17_11_949][0] INFO: Initialized renderer
+[2026-11-05 12_17_11_951][0] INFO: Initialized graphics & audio output.
+[2026-11-05 12_17_11_951][0] INFO: Initialized engine
+[2026-11-05 12_17_11_951][0] INFO: LogUploader: auto-upload disabled (no SLS URL), UploadLogPack still available on demand
+[2026-11-05 12_17_11_953][0] INFO: Device Max Storage Block Binding Range: 16
+[2026-11-05 12_17_11_958][0] WARNING: Directory[E:/taptap/maker-demo-clone/.cli/AgentProject] not exists.
+[2026-11-05 12_17_11_958][0] INFO: Added resource path E:/taptap/maker-demo-clone/assets/
+[2026-11-05 12_17_11_959][0] INFO: Now resource dir: 
+[2026-11-05 12_17_11_959][0] INFO: 0 - E:/taptap/maker-demo-clone/assets/
+[2026-11-05 12_17_11_959][0] INFO: 1 - E:/taptap/maker-demo-clone/.cli/Res/
+[2026-11-05 12_17_11_959][0] INFO: Added resource path E:/taptap/maker-demo-clone/scripts/
+[2026-11-05 12_17_11_959][0] INFO: Now resource dir: 
+[2026-11-05 12_17_11_959][0] INFO: 0 - E:/taptap/maker-demo-clone/scripts/
+[2026-11-05 12_17_11_959][0] INFO: 1 - E:/taptap/maker-demo-clone/assets/
+[2026-11-05 12_17_11_959][0] INFO: 2 - E:/taptap/maker-demo-clone/.cli/Res/
+[2026-11-05 12_17_11_959][0] INFO: PackageFile::Open, E:/taptap/maker-demo-clone/.cli/Res/shadercache_runtime/shadercache_dx11.pak, 0
+[2026-11-05 12_17_12_064][0] INFO: UZSD MemoryLess package opened: E:/taptap/maker-demo-clone/.cli/Res/shadercache_runtime/shadercache_dx11.pak, 56829 entries (16832 unique blocks), compressed 28483486 bytes, dict 65536 bytes
+[2026-11-05 12_17_12_064][0] INFO: Added resource package shadercache_runtime
+[2026-11-05 12_17_12_100][0] INFO: Loaded shader cache package: E:/taptap/maker-demo-clone/.cli/Res/shadercache_runtime/shadercache_dx11.pak
+[2026-11-05 12_17_12_100][0] INFO: Custom Lua require system installed (module cache active)
+[2026-11-05 12_17_12_110][0] INFO: Lua 5.4: Generational GC enabled.
+[2026-11-05 12_17_12_110][0] INFO: Lua official log file initialized: E:/taptap/maker-demo-clone/.cli/logs/lua/lua-2026-11-05 12_17_12_110.log
+[2026-11-05 12_17_12_110][0] INFO: Lua infinite loop detection enabled.
+[2026-11-05 12_17_12_110][0] INFO: LobbyBridge Lua API registered
+[2026-11-05 12_17_12_110][0] INFO: [Validate] Mode enabled: frames=2150, timeout=80s
+[2026-11-05 12_17_12_110][0] INFO: [Screenshot] enabled: frame=2100 -> E:\taptap\zhubo\spike\timing_bar_retest.png
+[2026-11-05 12_17_12_110][0] INFO: Localization: auto-selected 'zh_CN' from [en, zh_CN]
+[2026-11-05 12_17_12_110][0] INFO: BootstrapManager: Localization initialized, language=zh_CN
+[2026-11-05 12_17_12_111][0] INFO: LoadingUI::Show()
+[2026-11-05 12_17_12_112][0] INFO: BootstrapPipeline: starting with 1 steps, total weight 1.00
+[2026-11-05 12_17_12_112][0] INFO: BootstrapPipeline: executing step [1/1] 'Ready'
+[2026-11-05 12_17_12_112][0] INFO: [Bootstrap/Ready] Starting...
+[2026-11-05 12_17_12_112][0] INFO: [Bootstrap/Ready] No project_id (-game=), project-scoped Lobby requests will be rejected
+[2026-11-05 12_17_12_112][0] INFO: [Bootstrap/Ready] settings.json not found, single player mode assumed
+[2026-11-05 12_17_12_114][1] INFO: Shader::BeginLoad: /Shaders/BLGL/UI.glsl
+[2026-11-05 12_17_12_114][1] INFO: Shader::EndLoad
+[2026-11-05 12_17_12_114][1] INFO: Loaded vertex shader UI(DIFFMAP GAMMA_IN_SHADERING MIXCOLOR VERTEXCOLOR)
+[2026-11-05 12_17_12_114][1] INFO: Loaded pixel shader UI(DIFFMAP GAMMA_IN_SHADERING MIXCOLOR OPACITY VERTEXCOLOR)
+[2026-11-05 12_17_12_114][1] INFO: Loaded vertex shader UI(DIFFMAP)
+[2026-11-05 12_17_12_114][1] INFO: Loaded pixel shader UI(DIFFMAP OPACITY)
+[2026-11-05 12_17_12_115][1] INFO: BXLOG:C:\actions-runner\_work\urhox\urhox\engine\Source\ThirdParty\bgfx-all\bgfx\src\dxgi.cpp (492): LOG Display Width: 800, Height: 600, RefreshRate: 60/1
+
+[2026-11-05 12_17_12_115][2] INFO: [Bootstrap/Ready] Completed successfully (3 ms)
+[2026-11-05 12_17_12_115][2] INFO: BootstrapPipeline: step 'Ready' completed successfully
+[2026-11-05 12_17_12_131][3] INFO: BootstrapPipeline: completed successfully
+[2026-11-05 12_17_12_131][3] INFO: LoadingUI::Hide()
+[2026-11-05 12_17_12_131][3] INFO: BootstrapManager: pipeline completed successfully
+[2026-11-05 12_17_12_132][3] INFO: BootstrapManager: using provided scriptFileName: scripts/spike_timing_retest.lua
+[2026-11-05 12_17_12_132][3] WARNING: RuntimeRetargeterCache: Cannot load mapping table: uuid://F4ItQUiV0gmvAelLXpk5yrTs
+[2026-11-05 12_17_12_133][3] INFO: Loaded Lua script LuaScripts/Utilities/EnginePreview.lua
+[2026-11-05 12_17_12_133][3][Script] IsNetworkMode:    false
+[2026-11-05 12_17_12_134][3] WARNING: Could not load global fallback font Fonts/MiSans-Regular.ttf
+[2026-11-05 12_17_12_135][3] INFO: Loaded Lua script urhox-libs/Engine/init.lua
+[2026-11-05 12_17_12_135][3] INFO: Loaded Lua script urhox-libs/Engine/InputExtensions.lua
+[2026-11-05 12_17_12_136][3] INFO: Loaded Lua script urhox-libs/Engine/ResourceCacheExtensions.lua
+[2026-11-05 12_17_12_138][3] INFO: Loaded Lua script urhox-libs/Engine/i18n.lua
+[2026-11-05 12_17_12_138][3] INFO: [i18n] loadConfig: i18n.json not found, i18n disabled
+[2026-11-05 12_17_12_138][3] INFO: [i18n] GetLanguage: no language resolved
+[2026-11-05 12_17_12_138][3] INFO: [i18n] init: no config found, hooks NOT installed
+[2026-11-05 12_17_12_139][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/InputAdaptor.lua
+[2026-11-05 12_17_12_139][3][Script] [InputAdaptor] Loading input event adaptor...
+[2026-11-05 12_17_12_139][3][Script] [InputAdaptor] Hooked SubscribeToEvent for event mapping.
+[2026-11-05 12_17_12_139][3][Script] [InputAdaptor] Platform: Windows, isTouchPlatform: false
+[2026-11-05 12_17_12_139][3][Script] [InputAdaptor] Hooked Input methods for touch emulation fallback.
+[2026-11-05 12_17_12_139][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/Scene.lua
+[2026-11-05 12_17_12_140][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/SceneGuard.lua
+[2026-11-05 12_17_12_140][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/UIGuard.lua
+[2026-11-05 12_17_12_141][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/UserInfo.lua
+[2026-11-05 12_17_12_141][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/TextModeration.lua
+[2026-11-05 12_17_12_141][3][Script] Check Transition.lua SimpleGrid.lua
+[2026-11-05 12_17_12_142][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/Isolation_Client.lua
+[2026-11-05 12_17_12_142][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/Isolation_Common.lua
+[2026-11-05 12_17_12_143][3] INFO: Loaded Lua script LuaScripts/Utilities/Previews/UrlWhitelist.lua
+[2026-11-05 12_17_12_144][3] INFO: [Preview/Isolation_Client] Loaded client URL whitelist from LuaScripts/Utilities/Previews/ClientUrlWhitelist.json (0 urls, 2 domains)
+[2026-11-05 12_17_12_144][3] WARNING: GetProjectRoot failed, falling back to UserDocumentsDir
+[2026-11-05 12_17_12_145][3] WARNING: userId is 0, savedata will not be per-user isolated
+[2026-11-05 12_17_12_145][3] INFO: Executed Lua script LuaScripts/Utilities/EnginePreview.lua
+[2026-11-05 12_17_12_146][3] INFO: Loaded Lua script Validate/cloud_stub.lua
+[2026-11-05 12_17_12_146][3] INFO: Executed Lua script Validate/cloud_stub.lua
+[2026-11-05 12_17_12_146][3] INFO: Loaded Lua script Validate/servercloud_stub.lua
+[2026-11-05 12_17_12_146][3] INFO: Executed Lua script Validate/servercloud_stub.lua
+[2026-11-05 12_17_12_147][3] INFO: Loaded Lua script scripts/spike_timing_retest.lua
+[2026-11-05 12_17_12_147][3] INFO: Loaded Lua script cjson.lua
+[2026-11-05 12_17_12_147][3] INFO: Executed Lua script scripts/spike_timing_retest.lua
+[2026-11-05 12_17_12_148][3][Script] [TIMING_RETEST][INIT] Starting Timing Bar Retest (Target: >=2000 frames wall-clock + 20 input taps)
+[2026-11-05 12_17_12_158][3][Script] [TIMING_RETEST][FONT_LOAD] fontId=0.0 (using Windows system font fallback for testing)
+[2026-11-05 12_17_12_158][3] INFO: UrhoXRuntime: Game started successfully
+[2026-11-05 12_17_12_158][3] INFO: Shader::BeginLoad: /Shaders/BLGL/NanoVGFill.glsl
+[2026-11-05 12_17_12_158][3] INFO: Shader::EndLoad
+[2026-11-05 12_17_12_158][3] INFO: Loaded vertex shader NanoVGFill()
+[2026-11-05 12_17_12_158][3] INFO: Loaded pixel shader NanoVGFill(HIGH_PRECISION_OUTPUT=1)
+[2026-11-05 12_17_12_159][3] INFO: Loaded pixel shader NanoVGFill(GAUSSIAN_GLOW HIGH_PRECISION_OUTPUT=1)
+[2026-11-05 12_17_13_850][103][Script] [TIMING_RETEST][TAP_EVENT] tap=#01 frame=100 pos=0.5892 zone=GOOD mult=1.05 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_15_522][203][Script] [TIMING_RETEST][TAP_EVENT] tap=#02 frame=200 pos=0.8217 zone=GOOD mult=1.05 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_15_526][203][Script] [TIMING_RETEST][PROGRESS] frames=200 samples=150 avg_dt=16.74ms p95_dt=17.00ms max_dt=18.00ms fps=59.7 taps=2/20 avg_tap_lat=0.00us
+[2026-11-05 12_17_17_212][303][Script] [TIMING_RETEST][TAP_EVENT] tap=#03 frame=300 pos=0.2267 zone=NORMAL mult=1.00 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_18_891][403][Script] [TIMING_RETEST][TAP_EVENT] tap=#04 frame=400 pos=0.3625 zone=NORMAL mult=1.00 eval_latency=0.00us dispatch_latency=0.47us
+[2026-11-05 12_17_18_892][403][Script] [TIMING_RETEST][PROGRESS] frames=400 samples=350 avg_dt=16.80ms p95_dt=17.00ms max_dt=18.00ms fps=59.5 taps=4/20 avg_tap_lat=0.00us
+[2026-11-05 12_17_20_565][503][Script] [TIMING_RETEST][TAP_EVENT] tap=#05 frame=500 pos=0.9575 zone=NORMAL mult=1.00 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_22_249][603][Script] [TIMING_RETEST][TAP_EVENT] tap=#06 frame=600 pos=0.4533 zone=GOOD mult=1.05 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_22_249][603][Script] [TIMING_RETEST][PROGRESS] frames=600 samples=550 avg_dt=16.80ms p95_dt=18.00ms max_dt=18.00ms fps=59.5 taps=6/20 avg_tap_lat=0.00us
+[2026-11-05 12_17_23_926][703][Script] [TIMING_RETEST][TAP_EVENT] tap=#07 frame=700 pos=0.1358 zone=NORMAL mult=1.00 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_25_617][803][Script] [TIMING_RETEST][TAP_EVENT] tap=#08 frame=800 pos=0.7308 zone=SWEET mult=1.15 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_25_617][803][Script] [TIMING_RETEST][PROGRESS] frames=800 samples=750 avg_dt=16.81ms p95_dt=18.00ms max_dt=19.00ms fps=59.5 taps=8/20 avg_tap_lat=0.00us
+[2026-11-05 12_17_27_304][903][Script] [TIMING_RETEST][TAP_EVENT] tap=#09 frame=900 pos=0.6800 zone=SWEET mult=1.15 eval_latency=0.00us dispatch_latency=0.37us
+[2026-11-05 12_17_28_976][1003][Script] [TIMING_RETEST][TAP_EVENT] tap=#10 frame=1000 pos=0.0850 zone=NORMAL mult=1.00 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_28_977][1003][Script] [TIMING_RETEST][PROGRESS] frames=1000 samples=950 avg_dt=16.81ms p95_dt=18.00ms max_dt=19.00ms fps=59.5 taps=10/20 avg_tap_lat=0.00us
+[2026-11-05 12_17_30_651][1103][Script] [TIMING_RETEST][TAP_EVENT] tap=#11 frame=1100 pos=0.5042 zone=GOOD mult=1.05 eval_latency=0.00us dispatch_latency=0.24us
+[2026-11-05 12_17_32_345][1203][Script] [TIMING_RETEST][TAP_EVENT] tap=#12 frame=1200 pos=0.9067 zone=NORMAL mult=1.00 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_32_346][1203][Script] [TIMING_RETEST][PROGRESS] frames=1200 samples=1150 avg_dt=16.81ms p95_dt=18.00ms max_dt=19.00ms fps=59.5 taps=12/20 avg_tap_lat=0.00us
+[2026-11-05 12_17_34_029][1303][Script] [TIMING_RETEST][TAP_EVENT] tap=#13 frame=1300 pos=0.3117 zone=NORMAL mult=1.00 eval_latency=0.00us dispatch_latency=0.53us
+[2026-11-05 12_17_35_707][1403][Script] [TIMING_RETEST][TAP_EVENT] tap=#14 frame=1400 pos=0.2775 zone=NORMAL mult=1.00 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_35_709][1403][Script] [TIMING_RETEST][PROGRESS] frames=1400 samples=1350 avg_dt=16.81ms p95_dt=18.00ms max_dt=19.00ms fps=59.5 taps=14/20 avg_tap_lat=0.00us
+[2026-11-05 12_17_37_390][1503][Script] [TIMING_RETEST][TAP_EVENT] tap=#15 frame=1500 pos=0.8725 zone=NORMAL mult=1.00 eval_latency=0.00us dispatch_latency=0.47us
+[2026-11-05 12_17_39_075][1603][Script] [TIMING_RETEST][TAP_EVENT] tap=#16 frame=1600 pos=0.5383 zone=GOOD mult=1.05 eval_latency=0.00us dispatch_latency=0.46us
+[2026-11-05 12_17_39_076][1603][Script] [TIMING_RETEST][PROGRESS] frames=1600 samples=1550 avg_dt=16.82ms p95_dt=18.00ms max_dt=19.00ms fps=59.5 taps=16/20 avg_tap_lat=0.00us
+[2026-11-05 12_17_40_760][1703][Script] [TIMING_RETEST][TAP_EVENT] tap=#17 frame=1700 pos=0.0508 zone=NORMAL mult=1.00 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_42_449][1803][Script] [TIMING_RETEST][TAP_EVENT] tap=#18 frame=1800 pos=0.6458 zone=SWEET mult=1.15 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_42_450][1803][Script] [TIMING_RETEST][PROGRESS] frames=1800 samples=1750 avg_dt=16.82ms p95_dt=18.00ms max_dt=19.00ms fps=59.4 taps=18/20 avg_tap_lat=0.00us
+[2026-11-05 12_17_44_128][1903][Script] [TIMING_RETEST][TAP_EVENT] tap=#19 frame=1900 pos=0.7650 zone=GOOD mult=1.05 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_45_801][2003][Script] [TIMING_RETEST][TAP_EVENT] tap=#20 frame=2000 pos=0.1700 zone=NORMAL mult=1.00 eval_latency=0.00us dispatch_latency=0.00us
+[2026-11-05 12_17_45_803][2003][Script] [TIMING_RETEST][PROGRESS] frames=2000 samples=1950 avg_dt=16.82ms p95_dt=18.00ms max_dt=19.00ms fps=59.5 taps=20/20 avg_tap_lat=0.00us
+[2026-11-05 12_17_47_452][2100] INFO: [Screenshot] captured at frame 2100 -> E:\taptap\zhubo\spike\timing_bar_retest.png
+[2026-11-05 12_17_48_395][2153]INFO__VALIDATE_UPDATE__:false
+[2026-11-05 12_17_48_677][2153] INFO: DownloadManager: all tasks cancelled

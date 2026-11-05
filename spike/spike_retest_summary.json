@@ -1,0 +1,211 @@
+{
+  "wall_clock_perf": {
+    "total_frames": 2150,
+    "valid_wall_samples": 2100,
+    "p95_dt_ms": 18,
+    "avg_dt_ms": 16.9,
+    "est_fps": 59.1,
+    "max_dt_ms": 58.99,
+    "min_dt_ms": 11.99
+  },
+  "test": "Stage 0 Timing Bar Retest",
+  "input_event_taps": {
+    "total_taps": 20,
+    "zones_distribution": {
+      "SWEET": 3,
+      "NORMAL": 11,
+      "GOOD": 6
+    },
+    "latency_distribution_us": {
+      "max_us": 1000,
+      "avg_us": 100,
+      "p95_us": 1000
+    },
+    "tap_details": [
+      {
+        "zone": "GOOD",
+        "pos": 0.5891,
+        "tap_index": 1,
+        "eval_latency_us": 0,
+        "frame": 100,
+        "mult": 1.05,
+        "total_dispatch_us": 0
+      },
+      {
+        "zone": "GOOD",
+        "pos": 0.8216,
+        "tap_index": 2,
+        "eval_latency_us": 0,
+        "frame": 200,
+        "mult": 1.05,
+        "total_dispatch_us": 0.13
+      },
+      {
+        "zone": "NORMAL",
+        "pos": 0.2266,
+        "tap_index": 3,
+        "eval_latency_us": 1000,
+        "frame": 300,
+        "mult": 1,
+        "total_dispatch_us": 1000
+      },
+      {
+        "zone": "NORMAL",
+        "pos": 0.3624,
+        "tap_index": 4,
+        "eval_latency_us": 0,
+        "frame": 400,
+        "mult": 1,
+        "total_dispatch_us": 0.23
+      },
+      {
+        "zone": "NORMAL",
+        "pos": 0.9574,
+        "tap_index": 5,
+        "eval_latency_us": 0,
+        "frame": 500,
+        "mult": 1,
+        "total_dispatch_us": 0
+      },
+      {
+        "zone": "GOOD",
+        "pos": 0.4533,
+        "tap_index": 6,
+        "eval_latency_us": 0,
+        "frame": 600,
+        "mult": 1.05,
+        "total_dispatch_us": 0.35
+      },
+      {
+        "zone": "NORMAL",
+        "pos": 0.1358,
+        "tap_index": 7,
+        "eval_latency_us": 0,
+        "frame": 700,
+        "mult": 1,
+        "total_dispatch_us": 0
+      },
+      {
+        "zone": "SWEET",
+        "pos": 0.7308,
+        "tap_index": 8,
+        "eval_latency_us": 0,
+        "frame": 800,
+        "mult": 1.15,
+        "total_dispatch_us": 0.37
+      },
+      {
+        "zone": "SWEET",
+        "pos": 0.68,
+        "tap_index": 9,
+        "eval_latency_us": 0,
+        "frame": 900,
+        "mult": 1.15,
+        "total_dispatch_us": 0
+      },
+      {
+        "zone": "NORMAL",
+        "pos": 0.085,
+        "tap_index": 10,
+        "eval_latency_us": 0,
+        "frame": 1000,
+        "mult": 1,
+        "total_dispatch_us": 0.68
+      },
+      {
+        "zone": "GOOD",
+        "pos": 0.5041,
+        "tap_index": 11,
+        "eval_latency_us": 0,
+        "frame": 1100,
+        "mult": 1.05,
+        "total_dispatch_us": 0.35
+      },
+      {
+        "zone": "NORMAL",
+        "pos": 0.9066,
+        "tap_index": 12,
+        "eval_latency_us": 0,
+        "frame": 1200,
+        "mult": 1,
+        "total_dispatch_us": 0
+      },
+      {
+        "zone": "NORMAL",
+        "pos": 0.3116,
+        "tap_index": 13,
+        "eval_latency_us": 0,
+        "frame": 1300,
+        "mult": 1,
+        "total_dispatch_us": 999.54
+      },
+      {
+        "zone": "NORMAL",
+        "pos": 0.2774,
+        "tap_index": 14,
+        "eval_latency_us": 0,
+        "frame": 1400,
+        "mult": 1,
+        "total_dispatch_us": 0.65
+      },
+      {
+        "zone": "NORMAL",
+        "pos": 0.8724,
+        "tap_index": 15,
+        "eval_latency_us": 0,
+        "frame": 1500,
+        "mult": 1,
+        "total_dispatch_us": 0.67
+      },
+      {
+        "zone": "GOOD",
+        "pos": 0.5383,
+        "tap_index": 16,
+        "eval_latency_us": 1000,
+        "frame": 1600,
+        "mult": 1.05,
+        "total_dispatch_us": 1000.68
+      },
+      {
+        "zone": "NORMAL",
+        "pos": 0.0508,
+        "tap_index": 17,
+        "eval_latency_us": 0,
+        "frame": 1700,
+        "mult": 1,
+        "total_dispatch_us": 0.41
+      },
+      {
+        "zone": "SWEET",
+        "pos": 0.6458,
+        "tap_index": 18,
+        "eval_latency_us": 0,
+        "frame": 1800,
+        "mult": 1.15,
+        "total_dispatch_us": 1.52
+      },
+      {
+        "zone": "GOOD",
+        "pos": 0.765,
+        "tap_index": 19,
+        "eval_latency_us": 0,
+        "frame": 1900,
+        "mult": 1.05,
+        "total_dispatch_us": 0
+      },
+      {
+        "zone": "NORMAL",
+        "pos": 0.17,
+        "tap_index": 20,
+        "eval_latency_us": 0,
+        "frame": 2000,
+        "mult": 1,
+        "total_dispatch_us": 0.54
+      }
+    ]
+  },
+  "target_criteria": {
+    "min_taps": 20,
+    "min_frames": 2000
+  }
+}

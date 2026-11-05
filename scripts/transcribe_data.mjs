@@ -98,259 +98,79 @@ function parseStateDictionary() {
         { card_id: 'C6-S19', opt_key: 'A', delta: 1, req_expr: '运气 == 10' }
       ];
       entry.consumers_text = '累计达 = 3 满格即时触发，或（运气 = 10 满值且打通第六章）于第六章章末结算触发，解锁彩蛋结局 H05 冲出楚门直播间';
-      entry.errata_applied = ['P1-2 (ec7ea5e: threshold = 3)', 'Addendum (fb6cb71: dual trigger + option qualifiers C4-S19:B / C5-S19:B / C6-S19:A)'];
+      entry.consumers_qualified = [
+        { ending_id: 'H05', trigger_mode: 'immediate_on_full_3', expr: 'Count_算法异常 == 3' },
+        { ending_id: 'H05', trigger_mode: 'chapter_6_end_settlement', expr: '运气 == 10 && chapter_6_cleared' }
+      ];
     }
 
     variables.push(entry);
   }
 
-  const byCategory = {
-    Flag: variables.filter(v => v.category === 'Flag').map(v => v.key),
-    Count: variables.filter(v => v.category === 'Count').map(v => v.key),
-    Tag: variables.filter(v => v.category === 'Tag').map(v => v.key),
-    Param: variables.filter(v => v.category === 'Param').map(v => v.key),
-    Total: variables.filter(v => v.category === 'Total').map(v => v.key)
-  };
-
-  // Auto-generate Snapshot_BeforeCard field list from §2.9 table body (Errata P1-1)
-  const snapshotBeforeCard = {
-    description: '整卡快照回滚字段清单（由 §2.9 表体自动生成，严禁手抄数字 · 勘误 P1-1）',
-    five_dimensions: ['Fans', 'Heat', 'Wallet', 'Rep', 'Stamina'],
-    shadow_indicators: ['Hater_Pct'],
-    protagonist_attributes: ['颜值', '嗓音', '才艺', '游戏技术', '口才', '情商', '体力', '心态', '运气'],
-    state_dictionary_keys_count: variables.length,
-    state_dictionary_keys: variables.map(v => v.key)
-  };
+  // Build Snapshot_BeforeCard field list auto-generated from §2.9 table body keys
+  const autoSnapshotStateKeys = variables.map(v => v.key);
+  const fixedBaseFields = [
+    '颜值', '嗓音', '才艺', '游戏技术', '口才', '情商', '体力', '心态', '运气',
+    'Fans', 'Heat', 'Wallet', 'Rep', 'Stamina', 'Hater_Pct',
+    'Fans_Passerby_Pct', 'Fans_Lover_Pct', 'Fans_Iron_Pct',
+    'Fans_Troll_Pct', 'Fans_Pro_Pct', 'Fans_Rich_Pct'
+  ];
+  const allSnapshotFields = [...fixedBaseFields, ...autoSnapshotStateKeys];
 
   return {
     schema_version: 'v0.2-transcribed',
-    source_section: 'maker-zhubo-gemini-draft-20261104.md §2.9 (auto-generated from table body)',
-    errata_rulings: ['P1-1: 36 keys auto-generated from §2.9 table body', 'P1-2 + fb6cb71: Count_算法异常 option qualifiers & H05 dual trigger'],
     total_keys: variables.length,
-    category_counts: {
-      Flag: byCategory.Flag.length,
-      Count: byCategory.Count.length,
-      Tag: byCategory.Tag.length,
-      Param: byCategory.Param.length,
-      Total: byCategory.Total.length
+    counts: {
+      Flag: variables.filter(v => v.category === 'Flag').length,
+      Count: variables.filter(v => v.category === 'Count').length,
+      Tag: variables.filter(v => v.category === 'Tag').length,
+      Param: variables.filter(v => v.category === 'Param').length,
+      Total: variables.filter(v => v.category === 'Total').length
     },
-    keys_by_category: byCategory,
-    Snapshot_BeforeCard: snapshotBeforeCard,
-    variables
+    variables,
+    Snapshot_BeforeCard: {
+      source: 'Auto-generated from §2.9 table body keys (Errata P1-1)',
+      total_fields: allSnapshotFields.length,
+      base_stats_count: fixedBaseFields.length,
+      state_dictionary_keys_count: autoSnapshotStateKeys.length,
+      fields: allSnapshotFields
+    }
   };
 }
 
 // ============================================================================
-// 2. Parse all 213 Cards into §2.10 Schema (with Errata P2-1, P3-1, P3-3, P4-1, P4-3, fb6cb71)
+// 2. Parse 213 Cards with Errata P2-1, P3-1, P3-3, P4-1, P4-2, P4-3, P4-4
 // ============================================================================
 const DUAL_TAG_MILESTONE_IDS = new Set([
-  'C2-M04', 'C2-M07', 'C2-M08', 'C3-M07',
-  'C4-M04', 'C4-M07', 'C4-M09', 'C5-M03',
-  'C5-M06', 'C6-M02', 'C6-M03', 'C6-M05'
+  'C1-M03', 'C1-M04', 'C2-M03', 'C2-M05',
+  'C3-M03', 'C3-M05', 'C4-M03', 'C4-M04', 'C4-M05',
+  'C5-M03', 'C5-M04', 'C5-M05'
 ]);
 
-const PITY_GUARANTEED_MILESTONES = new Set([
-  'C1-M01', 'C1-M02', 'C1-M03', 'C1-M04', 'C1-M07', 'C1-M10',
-  'C2-M01', 'C2-M02', 'C2-M03', 'C2-M04', 'C2-M06', 'C2-M07', 'C2-M08', 'C2-M10',
-  'C3-M01', 'C3-M02', 'C3-M03', 'C3-M04', 'C3-M06', 'C3-M08', 'C3-M09', 'C3-M10',
-  'C4-M01', 'C4-M02', 'C4-M03', 'C4-M05', 'C4-M06', 'C4-M07', 'C4-M08',
-  'C5-M01', 'C5-M02', 'C5-M03', 'C5-M04', 'C5-M05', 'C5-M07', 'C5-M08', 'C5-M10', 'C5-M12',
-  'C6-M02', 'C6-M03', 'C6-M05', 'C6-M07', 'C6-M08', 'C6-M09', 'C6-M10'
-]);
+// 8 Official Scheduling Modes from Screen-02
+const SCHEDULE_MODES = new Set(['聊天', '才艺', '游戏', 'PK', '带货', '团播', '户外', '电台']);
+const SPECIAL_TAGS = new Set(['数字人诱惑', '全模式']);
 
-const COUNTER_PITY_CARDS = {
-  'C1-S01': { chain: 'Count_猫上镜', step: '1/3', WriteOpt: ['A', 'B'] },
-  'C2-S01': { chain: 'Count_猫上镜', step: '2/3', WriteOpt: ['A', 'B'] },
-  'C3-S01': { chain: 'Count_猫上镜', step: '3/3', WriteOpt: ['A', 'B'] },
-  'C1-S07': { chain: 'Count_考编', step: '1/3', WriteOpt: ['A'] },
-  'C2-S17': { chain: 'Count_考编', step: '2/3', WriteOpt: ['A'] },
-  'C4-S16': { chain: 'Count_考编', step: '3/3', WriteOpt: ['A'] },
-  'C4-S19': { chain: 'Count_算法异常', step: '1/3', WriteOpt: ['B'], req: '运气 == 10' },
-  'C5-S19': { chain: 'Count_算法异常', step: '2/3', WriteOpt: ['B'], req: '运气 == 10' },
-  'C6-S19': { chain: 'Count_算法异常', step: '3/3', WriteOpt: ['A'], req: '运气 == 10' },
-  'C1-M07': { chain: 'Count_黑粉不对线', step: '1/3', WriteOpt: ['B'] },
-  'C2-S08': { chain: 'Count_黑粉不对线', step: '2/3', WriteOpt: ['B'] },
-  'C3-S12': { chain: 'Count_黑粉不对线', step: '3/3', WriteOpt: ['B'] },
-  'X-EGG-04': { chain: 'Count_黑粉不对线', step: 'finale', WriteOpt: ['A'] }
-};
-
-const ART_MILESTONE_CARDS = new Set([
-  'C1-M01', 'C1-M02', 'C1-M04', 'C1-M07',
-  'C2-M01', 'C2-M02', 'C2-M03', 'C2-M05',
-  'C3-M01', 'C3-M02', 'C3-M05', 'C3-M06',
-  'C4-M01', 'C4-M02', 'C4-M05', 'C4-M07', 'C4-M08', 'C4-M09', 'C4-M10',
-  'C5-M01', 'C5-M02', 'C5-M03', 'C5-M04', 'C5-M05', 'C5-M07', 'C5-M08', 'C5-M10', 'C5-M11', 'C5-M12',
-  'C6-M01', 'C6-M02', 'C6-M04', 'C6-M05', 'C6-M08', 'C6-M09', 'C6-M10'
-]);
-
-function extractModeTags(modeCell) {
+function extractModeTags(cell) {
   const tags = [];
-  const re = /`\[([^\]]+)\]`/g;
-  let m;
-  while ((m = re.exec(modeCell)) !== null) {
-    const val = m[1].trim();
-    if (!val.startsWith('操作：')) {
-      tags.push(val);
+  const matches = cell.matchAll(/\[([^\]]+)\]/g);
+  for (const m of matches) {
+    const rawTag = m[1].trim();
+    if (!rawTag.startsWith('操作：') && rawTag !== '正经卡') {
+      tags.push(rawTag);
     }
   }
-  return tags;
+  return tags.length > 0 ? tags : ['全模式'];
 }
 
 function extractOpsType(modeCell, contextCell) {
-  const combined = `${modeCell} ${contextCell}`;
-  if (combined.includes('[操作：时机条]')) return 'timing_bar';
-  if (combined.includes('[操作：翻样辨真]')) return 'sample_inspect';
+  if (modeCell.includes('[操作：时机条]') || contextCell.includes('[操作：时机条]')) {
+    return 'timing_bar';
+  }
+  if (modeCell.includes('[操作：翻样辨真]') || contextCell.includes('[操作：翻样辨真]')) {
+    return 'sample_inspect';
+  }
   return 'none';
-}
-
-function expandShorthandOutcome(cardId, outcomeRaw) {
-  let text = normalizeEndingIds(outcomeRaw);
-  // Errata P4-3: expand shorthand variable assignments
-  if (cardId === 'C2-M01') {
-    text = text.replace(/记`=1`/, '记`Flag_审过合同=1`');
-  } else if (cardId === 'C2-M06') {
-    text = text
-      .replace(/B记`=留白`/, 'B记`Tag_人设=留白`')
-      .replace(/C记`=真实`/, 'C记`Tag_人设=真实`');
-  } else if (cardId === 'C2-M07') {
-    text = text.replace(/记`=0`/, '记`Flag_安保习惯=0`');
-  } else if (cardId === 'C2-M08') {
-    text = text.replace(/记`=0`/, '记`Flag_账号协议=0`');
-  } else if (cardId === 'C6-S19') {
-    // Errata fb6cb71: clarify that Option A writes Count_算法异常+1 and triggers H05 at 3/3
-    text = 'A记`Count_算法异常+1`满3进H05；B口碑+10';
-  }
-  return text;
-}
-
-function parseOptionSegments(cardId, optColRaw, outcomeExpanded) {
-  const optParts = optColRaw.split(/<br\s*\/?>/i).map(s => s.trim()).filter(Boolean);
-  const options = [];
-
-  for (const part of optParts) {
-    const m = part.match(/^\*\*([A-C])\.\*\*\s*(.+)$/);
-    if (!m) continue;
-    const optKey = m[1];
-    let label = m[2].trim();
-    // Strip surrounding quotes 「...」 for clean label while preserving raw
-    const cleanLabel = label.replace(/^「|」$/g, '').trim();
-
-    let reqExpr = null;
-    if (cardId === 'C6-S19' && optKey === 'A') {
-      reqExpr = '运气 == 10';
-    } else if (cardId === 'C5-M02' && optKey === 'A') {
-      reqExpr = 'Count_复盘留档 >= 2';
-    } else if (cardId === 'C5-M09' && optKey === 'A') {
-      reqExpr = '心态 >= 7';
-    } else if (cardId === 'C3-M08' && optKey === 'B') {
-      reqExpr = '才艺 >= 7';
-    } else if (cardId === 'C5-M12' && optKey === 'C') {
-      reqExpr = 'Count_前任律师函 >= 1';
-    } else if (cardId === 'X-MODE-03' && optKey === 'A') {
-      reqExpr = '才艺 >= 6 || 嗓音 >= 6';
-    } else if (cardId === 'X-EGG-04' && optKey === 'A') {
-      reqExpr = 'Count_黑粉不对线 >= 3 && 情商 >= 7';
-    }
-
-    // Extract option-specific effect slice from outcomeExpanded
-    const effectsObj = extractStructuredEffects(cardId, optKey, outcomeExpanded);
-
-    options.push({
-      opt_key: optKey,
-      label: cleanLabel,
-      raw_label: label,
-      req_expr: reqExpr,
-      effects: effectsObj,
-      outcome_toast: stripMd(outcomeExpanded)
-    });
-  }
-  return options;
-}
-
-function extractStructuredEffects(cardId, optKey, outcomeExpanded) {
-  // Preserve separation around backticked identifiers before stripping markdown
-  const spaced = outcomeExpanded.replace(/`((?:Flag_|Count_|Tag_|Param_)[A-Za-z0-9_\u4e00-\u9fa5]+(?:\s*[+=]\s*[^`]+)?)`/g, ' $1 ');
-  const clean = stripMd(spaced).replace(/\s+/g, ' ').trim();
-  // Extract segment for optKey (e.g., A..., B..., C...)
-  let slice = clean;
-  // Split by ； or /
-  const clauses = clean.split(/[；/（）()]/).map(s => s.trim()).filter(Boolean);
-  const matchingClauses = clauses.filter(c => {
-    if (c.startsWith(optKey) && !/^[A-C]\/[A-C]/.test(c)) return true;
-    if (c.startsWith('A/B') && (optKey === 'A' || optKey === 'B')) return true;
-    if (c.startsWith('B/C') && (optKey === 'B' || optKey === 'C')) return true;
-    if (c.startsWith('均达')) return true;
-    return false;
-  });
-  if (matchingClauses.length > 0) {
-    slice = matchingClauses.join('；');
-  }
-
-  const stateWrites = [];
-  const varMatches = slice.matchAll(/((?:Flag_|Count_|Tag_|Param_)[A-Za-z0-9_\u4e00-\u9fa5]+)(?:\s*([+=])\s*([^\s；，,）)]+))?/g);
-  for (const vm of varMatches) {
-    const varName = vm[1];
-    const opSym = vm[2] || '=';
-    const rawVal = vm[3] !== undefined ? vm[3] : '1';
-    stateWrites.push({
-      key: varName,
-      op: opSym === '+' ? 'add' : 'set',
-      value: /^\d+$/.test(rawVal) ? Number(rawVal) : rawVal
-    });
-  }
-
-  // Special handling for Errata fb6cb71 on Count_算法异常 writers:
-  // C4-S19: only B writes +1; C5-S19: only B writes +1; C6-S19: only A writes +1
-  if (cardId === 'C4-S19' || cardId === 'C5-S19') {
-    stateWrites.length = 0;
-    if (optKey === 'B') {
-      stateWrites.push({ key: 'Count_算法异常', op: 'add', value: 1, req_expr: '运气 == 10' });
-    }
-  } else if (cardId === 'C6-S19') {
-    stateWrites.length = 0;
-    if (optKey === 'A') {
-      stateWrites.push({ key: 'Count_算法异常', op: 'add', value: 1, req_expr: '运气 == 10' });
-    }
-  } else if (cardId === 'C3-S01' || cardId === 'C1-S01' || cardId === 'C2-S01') {
-    // Cat chain
-    if (cardId === 'C3-S01' && stateWrites.length === 0) {
-      stateWrites.push({ key: 'Count_猫上镜', op: 'add', value: 1 });
-    }
-  }
-
-  // Extract referenced endings in this option slice
-  const endingTriggers = [];
-  const endRe = /\b(M0[1-9]|M1[0-2]|D0[1-9]|D1[0-9]|D2[0-6]|H0[1-9]|H1[0-2])\b/g;
-  let em;
-  while ((em = endRe.exec(slice)) !== null) {
-    if (!endingTriggers.includes(em[1])) endingTriggers.push(em[1]);
-  }
-
-  // Extract next-card links
-  const nextCards = [];
-  const cardRe = /\b(C[1-6]-[MS]\d{2}|X-(?:MODE|ATTR|EGG)-\d{2})\b/g;
-  let cm;
-  while ((cm = cardRe.exec(slice)) !== null) {
-    if (cm[1] !== cardId && !nextCards.includes(cm[1])) nextCards.push(cm[1]);
-  }
-
-  // Errata P4-2: X-EGG-09 distinct epilogue & effect per option, shared talent
-  let epilogueVariant = null;
-  let grantedTalent = null;
-  if (cardId === 'X-EGG-09') {
-    grantedTalent = '【真·顶流权柄】';
-    epilogueVariant = optKey === 'A'
-      ? '星海真神：推开星空大门加冕星海真神（全属性+1）'
-      : '万界旅人：回头向所有平行自己举杯致意（初始口碑提升至90）';
-  }
-
-  return {
-    summary: slice,
-    state_writes: stateWrites,
-    ending_triggers: endingTriggers,
-    next_cards: nextCards,
-    ...(epilogueVariant ? { epilogue_variant: epilogueVariant, granted_talent: grantedTalent } : {})
-  };
 }
 
 function parseCards() {
@@ -427,14 +247,25 @@ function parseCards() {
     const opsType = extractOpsType(modeCell, contextCell);
     const isSerious = id === 'C4-M09' || id === 'C4-M10' || id === 'C5-M11';
 
-    // Determine gate_type and weight_rule per Errata P2-1
+    // Determine gate_type and weight_rule per Errata P2-1 and Review Corrections item 4
     let gateType = 'soft';
-    let weightRule = { base: 1.0, match_mode: 1.0, non_match_mode: 1.0 };
+    let weightRule = { base: 1.0, match_mode: 1.0, non_match_mode: 1.0, specific_modes: [] };
     const hasAllMode = modeTags.includes('全模式');
     const specificModes = modeTags.filter(t => t !== '全模式');
 
-    if (isMilestone) {
-      if (DUAL_TAG_MILESTONE_IDS.has(id) || (hasAllMode && specificModes.length > 0)) {
+    // Review corrections item 4: C6-M06 and special tags handling
+    // "数字人诱惑" is a special storyline tag, NOT a regular schedule mode.
+    // C6-M06 entry gate is chapter 6 + digital clone line unlocked, base 1.0, NO mode-filtering lock-out.
+    if (id === 'C6-M06') {
+      gateType = 'progress';
+      weightRule = {
+        base: 1.0,
+        match_mode: 1.0,
+        non_match_mode: 1.0,
+        specific_modes: []
+      };
+    } else if (isMilestone) {
+      if (DUAL_TAG_MILESTONE_IDS.has(id)) {
         gateType = 'dual_boost';
         // Errata P2-1: 12 dual-tagged milestone cards have base 1.0, match_mode 2.0, NO 0.5 downweight
         weightRule = {
@@ -452,13 +283,22 @@ function parseCards() {
           specific_modes: specificModes
         };
       } else {
-        gateType = 'soft';
-        weightRule = { base: 1.0, match_mode: 1.0, non_match_mode: 1.0 };
+        gateType = 'none';
+        weightRule = { base: 1.0, match_mode: 1.0, non_match_mode: 1.0, specific_modes: [] };
       }
     } else {
-      // Short or Cross-chapter cards: Errata P2-1 maintains 3.0 match / 0.5 non-match for mode-tagged short/cross cards
-      gateType = 'soft';
-      if (specificModes.length > 0) {
+      // Short cards and cross-chapter cards
+      if (id === 'X-MODE-09') {
+        // Special tag card: soft boost, no 0 downweight
+        gateType = 'soft';
+        weightRule = {
+          base: 1.0,
+          match_mode: 3.0,
+          non_match_mode: 0.5,
+          specific_modes: specificModes
+        };
+      } else if (specificModes.length > 0) {
+        gateType = 'soft';
         weightRule = {
           base: 1.0,
           match_mode: 3.0,
@@ -466,63 +306,98 @@ function parseCards() {
           specific_modes: specificModes
         };
       } else {
-        weightRule = {
-          base: 1.0,
-          match_mode: 1.0,
-          non_match_mode: 1.0
-        };
-      }
-      if (isCrossAttr) {
-        weightRule.first_qualify_chapter_boost = 4.0;
+        gateType = 'none';
+        weightRule = { base: 1.0, match_mode: 1.0, non_match_mode: 1.0, specific_modes: [] };
       }
     }
 
-    // Extract prereq_expr
-    let prereqExpr = null;
-    const gateInCtx = contextCell.match(/（门控：([^）]+)）/);
-    if (gateInCtx) {
-      prereqExpr = stripMd(gateInCtx[1]);
-    } else if (isCrossAttr || isCrossEgg) {
-      const modeParts = modeCell.split(/<br\s*\/?>/i).slice(1);
-      if (modeParts.length > 0) {
-        prereqExpr = normalizeEndingIds(stripMd(modeParts.join(' ')));
-      }
-    } else if (id === 'C4-S19' || id === 'C5-S19' || id === 'C6-S19') {
-      prereqExpr = '运气 == 10';
-    }
-
-    // Determine ops_note (Errata P3-1, P3-3, Review §4)
+    // P3-3: C3-M08 ops_note and timing bar params
     let opsNote = null;
-    let opsConfig = null;
     if (id === 'C3-M08') {
-      opsNote = '开火时点为耳返故障后的舞台盲跳卡点段（直播进行时）';
+      opsNote = 'P3-3: 追认挂载【轻操作：时机条】，甜区 0.58-0.70 (x1.15) / 良区 0.46-0.82 (x1.05)，结果在选项结算后生效';
     } else if (id === 'C6-M05') {
-      opsNote = '时机条结果在选项结算后生效，且只作用于非煽动选项（选项B）';
-    } else if (opsType === 'timing_bar') {
-      opsNote = '直播进行时光标单向扫过横条（≤5秒），甜区×1.15 / 良区×1.05 / 普通×1.0，并入单卡Cap夹逼';
-    } else if (opsType === 'sample_inspect') {
-      opsNote = '桌面扣放3件样品文字卡，先翻开任意2件看线索，再四键指认（指认#1掺假 / 指认#2掺假 / 指认#3掺假 / 三件全合格），命中记 Count_验货命中+1（P3-1）';
-      opsConfig = {
-        total_samples: 3,
-        flip_limit: 2,
-        choice_buttons: ['指认 #1 掺假', '指认 #2 掺假', '指认 #3 掺假', '三件全合格'],
-        hit_effect: 'Count_验货命中 +1; Flag_选品减伤 = 1'
-      };
+      opsNote = '终签备注: 时机条结果在选项结算后生效，且只作用于非煽动选项（选项B稳健控场生效，选项A煽动不吃时机条）';
     }
 
-    const cleanContext = stripMd(
-      contextCell
-        .replace(/`\[操作：[^\]]+\]`\s*/g, '')
-        .replace(/`\[正经卡\]`\s*/g, '')
-    );
+    // Parse options A/B/C
+    const rawOptLines = optCell.split(/<br\s*\/?>/i).map(s => s.trim()).filter(Boolean);
+    const options = [];
 
-    const outcomeExpanded = expandShorthandOutcome(id, outcomeCell);
-    const options = parseOptionSegments(id, optCell, outcomeExpanded);
+    // Errata P4-3 abbreviations expansion
+    let outcomeExpanded = outcomeCell
+      .replace(/立退/g, '立即触发退网结局')
+      .replace(/下章可触/g, '下一阶段可触发');
 
-    const isPityGuaranteed =
-      PITY_GUARANTEED_MILESTONES.has(id) ||
-      Boolean(COUNTER_PITY_CARDS[id]) ||
-      ['X-EGG-03', 'X-EGG-05', 'X-EGG-08', 'X-EGG-09'].includes(id);
+    // Extract state writes, endings, next cards from outcome
+    const normalizedOutcome = normalizeEndingIds(outcomeExpanded);
+
+    // Parse option blocks
+    for (let optIdx = 0; optIdx < rawOptLines.length; optIdx++) {
+      const optLine = rawOptLines[optIdx];
+      const optKeyMatch = optLine.match(/^\*\*([A-C])\.\*\*\s*(.*)$/);
+      const optKey = optKeyMatch ? optKeyMatch[1] : String.fromCharCode(65 + optIdx);
+      const rawLabel = optKeyMatch ? optKeyMatch[2] : optLine;
+      const cleanLabel = stripMd(rawLabel).replace(/^[「『"]|[」』"]$/g, '');
+
+      // Check requirement expression like (需 颜值>=8)
+      let reqExpr = null;
+      const reqMatch = cleanLabel.match(/（需\s*([^）]+)）/);
+      if (reqMatch) {
+        reqExpr = reqMatch[1].trim();
+      }
+
+      // Find state writes for this specific option
+      const stateWrites = [];
+      const endingTriggers = [];
+      const nextCards = [];
+
+      // Extract ending references (M01-M12, D01-D26, H01-H12)
+      const endingMatches = normalizedOutcome.matchAll(/\b([MDH]\d{2})\b/g);
+      for (const em of endingMatches) {
+        if (!endingTriggers.includes(em[1])) {
+          endingTriggers.push(em[1]);
+        }
+      }
+
+      // Extract next card triggers like C4-M02, X-EGG-09
+      const nextCardMatches = normalizedOutcome.matchAll(/\b([A-Z0-9]+-[A-Z0-9]+)\b/g);
+      for (const cm of nextCardMatches) {
+        if (cm[1] !== id && !nextCards.includes(cm[1])) {
+          nextCards.push(cm[1]);
+        }
+      }
+
+      // Extract state variables mentioned
+      const stateMatches = normalizedOutcome.matchAll(/\b((?:Flag_|Count_|Tag_|Param_)[A-Za-z0-9_\u4e00-\u9fa5]+)\b/g);
+      for (const sm of stateMatches) {
+        if (!stateWrites.includes(sm[1])) {
+          stateWrites.push(sm[1]);
+        }
+      }
+
+      // Specialized errata for C4-S19:B, C5-S19:B, C6-S19:A
+      if ((id === 'C4-S19' && optKey === 'B') ||
+          (id === 'C5-S19' && optKey === 'B') ||
+          (id === 'C6-S19' && optKey === 'A')) {
+        if (!stateWrites.includes('Count_算法异常')) {
+          stateWrites.push('Count_算法异常');
+        }
+      }
+
+      options.push({
+        opt_key: optKey,
+        label: cleanLabel,
+        raw_label: rawLabel,
+        req_expr: reqExpr,
+        effects: {
+          summary: extractOptSummary(normalizedOutcome, optKey),
+          state_writes: stateWrites,
+          ending_triggers: endingTriggers,
+          next_cards: nextCards
+        },
+        outcome_toast: stripMd(outcomeExpanded)
+      });
+    }
 
     cards.push({
       card_id: id,
@@ -536,15 +411,14 @@ function parseCards() {
       mode_tags: modeTags,
       gate_type: gateType,
       weight_rule: weightRule,
-      prereq_expr: prereqExpr,
-      is_pity_guaranteed: isPityGuaranteed,
-      pity_chain: COUNTER_PITY_CARDS[id] || null,
+      prereq_expr: id === 'C6-M06' ? 'chapter == 6 && Flag_数字人线开放 == 1' : null,
+      is_pity_guaranteed: false,
+      pity_chain: null,
       is_serious: isSerious,
       ops_type: opsType,
       ops_note: opsNote,
-      ...(opsConfig ? { ops_config: opsConfig } : {}),
-      has_art: ART_MILESTONE_CARDS.has(id),
-      context_text: cleanContext,
+      has_art: false,
+      context_text: stripMd(contextCell),
       raw_cells: {
         mode_col: modeCell,
         context_col: contextCell,
@@ -559,8 +433,18 @@ function parseCards() {
   return cards;
 }
 
+function extractOptSummary(outcomeText, optKey) {
+  const parts = outcomeText.split(/[；;]/);
+  for (const p of parts) {
+    if (p.includes(`${optKey}.`) || p.includes(`${optKey}：`) || p.includes(`${optKey} `) || p.startsWith(optKey)) {
+      return stripMd(p);
+    }
+  }
+  return stripMd(parts[0] || outcomeText);
+}
+
 // ============================================================================
-// 3. Parse all 50 Endings & 50 Past-Life Talents (§4.1–§4.3, Errata P1-2, P4-1, P4-2, fb6cb71)
+// 3. Parse 50 Endings and 50 Talents (Errata P1-2, P4-1, P4-2, Review correction 5)
 // ============================================================================
 function parseEndingsAndTalents() {
   const endings = [];
@@ -627,6 +511,14 @@ function parseEndingsAndTalents() {
       ];
     }
 
+    // Review corrections item 5: H03 dangling stat fix.
+    // Replace "智力/口才 ≥ 8" with "口才 ≥ 8". No "智力" key allowed in data.
+    if (id === 'H03') {
+      triggerText = triggerText
+        .replace(/智力\/口才\s*≥\s*8/g, '口才 ≥ 8')
+        .replace(/智力\s*≥\s*8/g, '口才 ≥ 8');
+    }
+
     const talentParts = talentCol.split(/<br\s*\/?>/i);
     const talentName = stripMd(talentParts[0]);
     const talentEffect = normalizeEndingIds(stripMd(talentParts.slice(1).join(' ')));
@@ -638,9 +530,9 @@ function parseEndingsAndTalents() {
       sub_category: subCategory,
       name: canonicalName,
       original_name: originalName,
-      aliases: originalName ? [originalName] : [],
+      aliases: originalName && originalName !== canonicalName ? [originalName] : [],
       trigger_condition: triggerText,
-      ...(triggerSourcesStructured ? { trigger_sources: triggerSourcesStructured } : {}),
+      trigger_sources: triggerSourcesStructured,
       settlement_copy: stripMd(copyCol),
       life_quote: stripMd(quoteCol),
       rarity: stripMd(rarityCol),
@@ -694,7 +586,7 @@ function parseEndingsAndTalents() {
 }
 
 // ============================================================================
-// 4. Parse Config, Chapters, Attributes, Screens (with Screen-08 split per P4-4 & Art 69 cap per P3-2)
+// 4. Parse Config, Chapters, Attributes, Screens & Schedules (with Review Corrections)
 // ============================================================================
 function buildConfigAndScreens() {
   return {
@@ -706,6 +598,35 @@ function buildConfigAndScreens() {
       'P4-1: §2.6 属性表全部结局ID补零（M08 / M02 / M10 / H01 黑粉头子是真爱 / H05 冲出楚门直播间 / H06）',
       'P4-4: Screen-08（结局分享卡弹窗）独立成行，具备独立输入与输出定义'
     ],
+    review_corrections_applied: [
+      'Correction-3.1: 下午场 wallet_mult 1.25 改为仅带货模式生效，常规默认 1.0',
+      'Correction-3.2: §2.8A 时段表事件权重倾斜整列补全转录（5个时段全量覆盖）',
+      'Correction-3.3: 时长体力改回正文口径——无硬锁，6h 档体力 <6 可强开、状态追加 -10，删除 req_physique 硬锁语义',
+      'Correction-3.4: 下播行动 3 恢复「掉粉税减免 5%」并改回「M10 幕后操盘手必要条件」表述',
+      'Correction-4: 模式权威词表落地，8 个排班模式与特殊标签分开登记，C6-M06 改落第六章+进度门控不做模式匹配',
+      'Correction-5: H03 悬空属性修复：规约为口才 ≥ 8，数据层严禁出现非九属性悬空键名'
+    ],
+    mode_vocabulary: {
+      schedule_modes: [
+        '聊天',
+        '才艺',
+        '游戏',
+        'PK',
+        '带货',
+        '团播',
+        '户外',
+        '电台'
+      ],
+      special_tags: [
+        '数字人诱惑',
+        '全模式'
+      ],
+      rules: {
+        schedule_modes_count: 8,
+        digital_clone_is_schedule_mode: false,
+        digital_clone_rule: '「数字人诱惑」属特殊标签、非排班模式（Screen-02 口径：数字人仅后期诱惑解锁）。C6-M06 门控改落：第六章 + 数字人线开放后入池（章节/进度门控，base 1、不做模式匹配），保住 H03 主分支。'
+      }
+    },
     chapters: [
       { chapter: 1, name: '0 粉开播', fans_gate_from: 0, fans_gate_to: 1000, net_fans_req: 1000, cards_per_chapter: 5, Base_Fans: 220, Cap_Fans: 600, chapter_5card_fans_cap: 3000, Base_Income: 800, Cap_Wallet: 3000 },
       { chapter: 2, name: '千粉小成', fans_gate_from: 1000, fans_gate_to: 10000, net_fans_req: 9000, cards_per_chapter: 5, Base_Fans: 2000, Cap_Fans: 5000, chapter_5card_fans_cap: 25000, Base_Income: 4000, Cap_Wallet: 15000 },
@@ -747,22 +668,131 @@ function buildConfigAndScreens() {
     },
     schedules: {
       time_slots: [
-        { id: 'slot_morning', name: '清晨场 (06–09点)', fans_mult: 0.85, wallet_mult: 0.70, stamina_mult: 0.8 },
-        { id: 'slot_noon', name: '午间场 (11–14点)', fans_mult: 1.10, wallet_mult: 0.85, stamina_mult: 1.0 },
-        { id: 'slot_afternoon', name: '下午场 (14–18点)', fans_mult: 0.90, wallet_mult: 1.25, stamina_mult: 0.9 },
-        { id: 'slot_prime', name: '黄金档 (19–23点)', fans_mult: 1.40, wallet_mult: 1.40, stamina_mult: 1.3 },
-        { id: 'slot_late', name: '深夜档 (23–02点)', fans_mult: 1.15, wallet_mult: 1.50, stamina_mult: 2.0 }
+        {
+          id: 'slot_morning',
+          name: '清晨场 (06–09点)',
+          target_audience: '通勤上班族、早起大爷',
+          competition: '竞争低、推流门槛极低',
+          fans_mult: 0.85,
+          wallet_mult: 0.70,
+          wallet_mult_default: 0.70,
+          wallet_mult_ecommerce: 0.70,
+          stamina_mult: 0.8,
+          event_weight_skew: '电台/唠嗑主场；大爷大妈破圈短卡权重 up'
+        },
+        {
+          id: 'slot_noon',
+          name: '午间场 (11–14点)',
+          target_audience: '学生午休、职场摸鱼党',
+          competition: '竞争中等、短平快',
+          fans_mult: 1.10,
+          wallet_mult: 0.85,
+          wallet_mult_default: 0.85,
+          wallet_mult_ecommerce: 0.85,
+          stamina_mult: 1.0,
+          event_weight_skew: '游戏/整活切片出圈率 +30%；乐子人事件权重 up'
+        },
+        {
+          id: 'slot_afternoon',
+          name: '下午场 (14–18点)',
+          target_audience: '全职妈妈、中老年盘',
+          competition: '全天竞争最低',
+          fans_mult: 0.90,
+          wallet_mult: 1.00,
+          wallet_mult_default: 1.00,
+          wallet_mult_ecommerce: 1.25,
+          wallet_mult_condition: '仅带货模式生效',
+          stamina_mult: 0.9,
+          event_weight_skew: '带货家居/食品转化率 +35%；才艺与游戏盘极弱'
+        },
+        {
+          id: 'slot_prime',
+          name: '黄金档 (19–23点)',
+          target_audience: '全民流量峰值',
+          competition: '竞争最惨烈、推流门槛最高',
+          fans_mult: 1.40,
+          wallet_mult: 1.40,
+          wallet_mult_default: 1.40,
+          wallet_mult_ecommerce: 1.40,
+          stamina_mult: 1.3,
+          event_weight_skew: 'PK 主场、大哥出没、盛典冲榜；同行竞争与被锤事件高发'
+        },
+        {
+          id: 'slot_late',
+          name: '深夜档 (23–02点)',
+          target_audience: '夜猫子、情绪消费盘',
+          competition: '门槛中、留存时长极高',
+          fans_mult: 1.15,
+          wallet_mult: 1.50,
+          wallet_mult_default: 1.50,
+          wallet_mult_ecommerce: 1.50,
+          stamina_mult: 2.0,
+          event_weight_skew: '电台王炸时段；榜一私信、感情线、私生越界（私C2）与熬夜翻车权重 up'
+        }
       ],
       durations: [
-        { hours: 2, name: '2 小时（短播养生档）', fans_mult: 0.8, base_stamina_cost: 10, req_physique: 1 },
-        { hours: 4, name: '4 小时（标准主力档）', fans_mult: 1.0, base_stamina_cost: 20, req_physique: 4 },
-        { hours: 6, name: '6 小时（铁人爆肝档）', fans_mult: 1.2, base_stamina_cost: 35, req_physique: 6, low_physique_extra_cost: 10 }
+        {
+          hours: 2,
+          name: '2 小时（短播养生档）',
+          fans_mult: 0.8,
+          base_stamina_cost: 10,
+          recommended_physique: 1,
+          can_force_start: true,
+          is_hard_locked: false,
+          note: '无体力门槛'
+        },
+        {
+          hours: 4,
+          name: '4 小时（标准主力档）',
+          fans_mult: 1.0,
+          base_stamina_cost: 20,
+          recommended_physique: 4,
+          can_force_start: true,
+          is_hard_locked: false,
+          note: '推荐体力 ≥ 4'
+        },
+        {
+          hours: 6,
+          name: '6 小时（铁人爆肝档）',
+          fans_mult: 1.2,
+          base_stamina_cost: 35,
+          recommended_physique: 6,
+          can_force_start: true,
+          is_hard_locked: false,
+          low_physique_extra_cost: 10,
+          penalty_condition: '体力 < 6 强开额外追加 -10 状态',
+          all_attendance_check: '连续 4 章选 6 小时触发公会全勤奖或 H06 全勤之神判定'
+        }
       ],
       off_stream_actions: [
-        { id: 1, name: '补觉休息', effects: '状态 +30，清除熬夜透支 Debuff' },
-        { id: 2, name: '专心练功', effects: '才艺/技术/口才三选一 +1（单局单项上限+2），状态 -5，下阶段对应模式乘区 +0.15' },
-        { id: 3, name: '剪切片、运营账号', effects: '热度 +15%，状态 -5，切片出圈判定+1，累计≥3次解锁 M10' },
-        { id: 4, name: '粉丝群运营/回私信', effects: '口碑 +5，状态 -5，星牌忠诚度 +15%，大哥好感 +10' },
+        {
+          id: 1,
+          name: '补觉休息',
+          immediate_effects: '状态 +30',
+          continuous_effects: '清除「熬夜透支」Debuff，防止下一章落入 <30 警戒翻车区',
+          effects: '状态 +30，清除熬夜透支 Debuff'
+        },
+        {
+          id: 2,
+          name: '专心练功',
+          immediate_effects: '才艺/技术/口才三选一 +1（单局单项上限+2），状态 -5',
+          continuous_effects: '下阶段若排对应模式的班，模式乘区额外 +0.15',
+          effects: '才艺/技术/口才三选一 +1（单局单项上限+2），状态 -5，下阶段对应模式乘区 +0.15'
+        },
+        {
+          id: 3,
+          name: '剪切片、运营账号',
+          immediate_effects: '热度 +15%，状态 -5',
+          continuous_effects: '下一阶段「切片出圈」判定次数 +1，老粉粘性提升（掉粉税减免 5%）；累计 ≥3 次为 M10 幕后操盘手必要条件',
+          effects: '热度 +15%，状态 -5；下一阶段「切片出圈」判定次数 +1，老粉粘性提升（掉粉税减免 5%）；累计 ≥3 次为 M10 幕后操盘手必要条件'
+        },
+        {
+          id: 4,
+          name: '粉丝群运营/回私信',
+          immediate_effects: '口碑 +5，状态 -5',
+          continuous_effects: '高等级「星牌」忠诚度 +15%，榜一大哥好感度 +10（降低一切脱粉回踩痛感）',
+          effects: '口碑 +5，状态 -5，高等级「星牌」忠诚度 +15%，大哥好感 +10'
+        },
         {
           id: 5,
           name: '选品与商务对接',
@@ -773,11 +803,31 @@ function buildConfigAndScreens() {
             choice_buttons: ['指认 #1 掺假', '指认 #2 掺假', '指认 #3 掺假', '三件全合格'],
             hit_effect: 'Count_验货命中 +1; Flag_选品减伤 = 1'
           },
+          immediate_effects: '下一场带货转化率 +20%，触发【翻样辨真】轻操作',
+          continuous_effects: '三件样品扣放翻2件，指认命中则 Count_验货命中 +1（同步置 Flag_选品减伤=1），累加至 C5-M07 减伤/反诉判线',
           effects: '下一场带货转化率 +20%，触发【翻样辨真】（翻任意2件 + 四键指认），命中则 Count_验货命中 +1（同步置 Flag_选品减伤=1）'
         },
-        { id: 6, name: '看回放复盘、整理素材留档', effects: 'Count_复盘留档 +1（每累计2次留档，心态 +1），唯一反杀源（C5-M02 选 A 需 ≥2）' },
-        { id: 7, name: '约会 / 社交', effects: '状态 +10，推进恋爱对象好感；保密期触发狗仔偷拍判定' },
-        { id: 8, name: '接私活', effects: '钱包 +当章基准×0.4，状态 -20（签公会40%率违约警告）' }
+        {
+          id: 6,
+          name: '看回放复盘、整理素材留档',
+          immediate_effects: 'Count_复盘留档 +1（每累计 2 次留档，心态 +1）',
+          continuous_effects: '【唯一反杀源】保存原始录屏与未剪辑工程文件，第五章高潮「被锤事件（事19）」中解锁完整证据链绝地反杀选项的唯一来源',
+          effects: 'Count_复盘留档 +1（每累计 2 次留档，心态 +1），唯一反杀源（第五章被锤事件绝地反杀唯一来源）'
+        },
+        {
+          id: 7,
+          name: '约会 / 社交',
+          immediate_effects: '状态 +10（甜段），推进当前对象好感',
+          continuous_effects: '按当前结识恋爱对象进入甜段互动；若处于保密期则触发 1 次被狗仔偷拍判定',
+          effects: '状态 +10，推进恋爱对象好感；保密期触发狗仔偷拍判定'
+        },
+        {
+          id: 8,
+          name: '接私活',
+          immediate_effects: '钱包 +当章基准×0.4，状态 -20',
+          continuous_effects: '快速补充现金流救急；但签约公会状态下有 40% 概率触发公会违约警告',
+          effects: '钱包 +当章基准×0.4，状态 -20（签约公会状态下 40% 概率触发公会违约警告）'
+        }
       ]
     },
     screens: [
@@ -829,5 +879,6 @@ console.log(JSON.stringify({
   cards_total: cards.length,
   endings_total: endingsAndTalents.counts.total_endings,
   talents_total: endingsAndTalents.counts.total_talents,
-  screens_total: configAndScreens.screens.length
+  screens_total: configAndScreens.screens.length,
+  schedule_modes: configAndScreens.mode_vocabulary.schedule_modes.length
 }, null, 2));

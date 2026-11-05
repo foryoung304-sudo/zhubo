@@ -7,6 +7,35 @@
     "P4-1: §2.6 属性表全部结局ID补零（M08 / M02 / M10 / H01 黑粉头子是真爱 / H05 冲出楚门直播间 / H06）",
     "P4-4: Screen-08（结局分享卡弹窗）独立成行，具备独立输入与输出定义"
   ],
+  "review_corrections_applied": [
+    "Correction-3.1: 下午场 wallet_mult 1.25 改为仅带货模式生效，常规默认 1.0",
+    "Correction-3.2: §2.8A 时段表事件权重倾斜整列补全转录（5个时段全量覆盖）",
+    "Correction-3.3: 时长体力改回正文口径——无硬锁，6h 档体力 <6 可强开、状态追加 -10，删除 req_physique 硬锁语义",
+    "Correction-3.4: 下播行动 3 恢复「掉粉税减免 5%」并改回「M10 幕后操盘手必要条件」表述",
+    "Correction-4: 模式权威词表落地，8 个排班模式与特殊标签分开登记，C6-M06 改落第六章+进度门控不做模式匹配",
+    "Correction-5: H03 悬空属性修复：规约为口才 ≥ 8，数据层严禁出现非九属性悬空键名"
+  ],
+  "mode_vocabulary": {
+    "schedule_modes": [
+      "聊天",
+      "才艺",
+      "游戏",
+      "PK",
+      "带货",
+      "团播",
+      "户外",
+      "电台"
+    ],
+    "special_tags": [
+      "数字人诱惑",
+      "全模式"
+    ],
+    "rules": {
+      "schedule_modes_count": 8,
+      "digital_clone_is_schedule_mode": false,
+      "digital_clone_rule": "「数字人诱惑」属特殊标签、非排班模式（Screen-02 口径：数字人仅后期诱惑解锁）。C6-M06 门控改落：第六章 + 数字人线开放后入池（章节/进度门控，base 1、不做模式匹配），保住 H03 主分支。"
+    }
+  },
   "chapters": [
     {
       "chapter": 1,
@@ -356,37 +385,63 @@
       {
         "id": "slot_morning",
         "name": "清晨场 (06–09点)",
+        "target_audience": "通勤上班族、早起大爷",
+        "competition": "竞争低、推流门槛极低",
         "fans_mult": 0.85,
         "wallet_mult": 0.7,
-        "stamina_mult": 0.8
+        "wallet_mult_default": 0.7,
+        "wallet_mult_ecommerce": 0.7,
+        "stamina_mult": 0.8,
+        "event_weight_skew": "电台/唠嗑主场；大爷大妈破圈短卡权重 up"
       },
       {
         "id": "slot_noon",
         "name": "午间场 (11–14点)",
+        "target_audience": "学生午休、职场摸鱼党",
+        "competition": "竞争中等、短平快",
         "fans_mult": 1.1,
         "wallet_mult": 0.85,
-        "stamina_mult": 1
+        "wallet_mult_default": 0.85,
+        "wallet_mult_ecommerce": 0.85,
+        "stamina_mult": 1,
+        "event_weight_skew": "游戏/整活切片出圈率 +30%；乐子人事件权重 up"
       },
       {
         "id": "slot_afternoon",
         "name": "下午场 (14–18点)",
+        "target_audience": "全职妈妈、中老年盘",
+        "competition": "全天竞争最低",
         "fans_mult": 0.9,
-        "wallet_mult": 1.25,
-        "stamina_mult": 0.9
+        "wallet_mult": 1,
+        "wallet_mult_default": 1,
+        "wallet_mult_ecommerce": 1.25,
+        "wallet_mult_condition": "仅带货模式生效",
+        "stamina_mult": 0.9,
+        "event_weight_skew": "带货家居/食品转化率 +35%；才艺与游戏盘极弱"
       },
       {
         "id": "slot_prime",
         "name": "黄金档 (19–23点)",
+        "target_audience": "全民流量峰值",
+        "competition": "竞争最惨烈、推流门槛最高",
         "fans_mult": 1.4,
         "wallet_mult": 1.4,
-        "stamina_mult": 1.3
+        "wallet_mult_default": 1.4,
+        "wallet_mult_ecommerce": 1.4,
+        "stamina_mult": 1.3,
+        "event_weight_skew": "PK 主场、大哥出没、盛典冲榜；同行竞争与被锤事件高发"
       },
       {
         "id": "slot_late",
         "name": "深夜档 (23–02点)",
+        "target_audience": "夜猫子、情绪消费盘",
+        "competition": "门槛中、留存时长极高",
         "fans_mult": 1.15,
         "wallet_mult": 1.5,
-        "stamina_mult": 2
+        "wallet_mult_default": 1.5,
+        "wallet_mult_ecommerce": 1.5,
+        "stamina_mult": 2,
+        "event_weight_skew": "电台王炸时段；榜一私信、感情线、私生越界（私C2）与熬夜翻车权重 up"
       }
     ],
     "durations": [
@@ -395,44 +450,62 @@
         "name": "2 小时（短播养生档）",
         "fans_mult": 0.8,
         "base_stamina_cost": 10,
-        "req_physique": 1
+        "recommended_physique": 1,
+        "can_force_start": true,
+        "is_hard_locked": false,
+        "note": "无体力门槛"
       },
       {
         "hours": 4,
         "name": "4 小时（标准主力档）",
         "fans_mult": 1,
         "base_stamina_cost": 20,
-        "req_physique": 4
+        "recommended_physique": 4,
+        "can_force_start": true,
+        "is_hard_locked": false,
+        "note": "推荐体力 ≥ 4"
       },
       {
         "hours": 6,
         "name": "6 小时（铁人爆肝档）",
         "fans_mult": 1.2,
         "base_stamina_cost": 35,
-        "req_physique": 6,
-        "low_physique_extra_cost": 10
+        "recommended_physique": 6,
+        "can_force_start": true,
+        "is_hard_locked": false,
+        "low_physique_extra_cost": 10,
+        "penalty_condition": "体力 < 6 强开额外追加 -10 状态",
+        "all_attendance_check": "连续 4 章选 6 小时触发公会全勤奖或 H06 全勤之神判定"
       }
     ],
     "off_stream_actions": [
       {
         "id": 1,
         "name": "补觉休息",
+        "immediate_effects": "状态 +30",
+        "continuous_effects": "清除「熬夜透支」Debuff，防止下一章落入 <30 警戒翻车区",
         "effects": "状态 +30，清除熬夜透支 Debuff"
       },
       {
         "id": 2,
         "name": "专心练功",
+        "immediate_effects": "才艺/技术/口才三选一 +1（单局单项上限+2），状态 -5",
+        "continuous_effects": "下阶段若排对应模式的班，模式乘区额外 +0.15",
         "effects": "才艺/技术/口才三选一 +1（单局单项上限+2），状态 -5，下阶段对应模式乘区 +0.15"
       },
       {
         "id": 3,
         "name": "剪切片、运营账号",
-        "effects": "热度 +15%，状态 -5，切片出圈判定+1，累计≥3次解锁 M10"
+        "immediate_effects": "热度 +15%，状态 -5",
+        "continuous_effects": "下一阶段「切片出圈」判定次数 +1，老粉粘性提升（掉粉税减免 5%）；累计 ≥3 次为 M10 幕后操盘手必要条件",
+        "effects": "热度 +15%，状态 -5；下一阶段「切片出圈」判定次数 +1，老粉粘性提升（掉粉税减免 5%）；累计 ≥3 次为 M10 幕后操盘手必要条件"
       },
       {
         "id": 4,
         "name": "粉丝群运营/回私信",
-        "effects": "口碑 +5，状态 -5，星牌忠诚度 +15%，大哥好感 +10"
+        "immediate_effects": "口碑 +5，状态 -5",
+        "continuous_effects": "高等级「星牌」忠诚度 +15%，榜一大哥好感度 +10（降低一切脱粉回踩痛感）",
+        "effects": "口碑 +5，状态 -5，高等级「星牌」忠诚度 +15%，大哥好感 +10"
       },
       {
         "id": 5,
@@ -449,22 +522,30 @@
           ],
           "hit_effect": "Count_验货命中 +1; Flag_选品减伤 = 1"
         },
+        "immediate_effects": "下一场带货转化率 +20%，触发【翻样辨真】轻操作",
+        "continuous_effects": "三件样品扣放翻2件，指认命中则 Count_验货命中 +1（同步置 Flag_选品减伤=1），累加至 C5-M07 减伤/反诉判线",
         "effects": "下一场带货转化率 +20%，触发【翻样辨真】（翻任意2件 + 四键指认），命中则 Count_验货命中 +1（同步置 Flag_选品减伤=1）"
       },
       {
         "id": 6,
         "name": "看回放复盘、整理素材留档",
-        "effects": "Count_复盘留档 +1（每累计2次留档，心态 +1），唯一反杀源（C5-M02 选 A 需 ≥2）"
+        "immediate_effects": "Count_复盘留档 +1（每累计 2 次留档，心态 +1）",
+        "continuous_effects": "【唯一反杀源】保存原始录屏与未剪辑工程文件，第五章高潮「被锤事件（事19）」中解锁完整证据链绝地反杀选项的唯一来源",
+        "effects": "Count_复盘留档 +1（每累计 2 次留档，心态 +1），唯一反杀源（第五章被锤事件绝地反杀唯一来源）"
       },
       {
         "id": 7,
         "name": "约会 / 社交",
+        "immediate_effects": "状态 +10（甜段），推进当前对象好感",
+        "continuous_effects": "按当前结识恋爱对象进入甜段互动；若处于保密期则触发 1 次被狗仔偷拍判定",
         "effects": "状态 +10，推进恋爱对象好感；保密期触发狗仔偷拍判定"
       },
       {
         "id": 8,
         "name": "接私活",
-        "effects": "钱包 +当章基准×0.4，状态 -20（签公会40%率违约警告）"
+        "immediate_effects": "钱包 +当章基准×0.4，状态 -20",
+        "continuous_effects": "快速补充现金流救急；但签约公会状态下有 40% 概率触发公会违约警告",
+        "effects": "钱包 +当章基准×0.4，状态 -20（签约公会状态下 40% 概率触发公会违约警告）"
       }
     ]
   },

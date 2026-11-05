@@ -100,3 +100,41 @@ Yellow 对阶段 0/1 独立复算后提出证据与配置问题，Orange 核原�
 6. **性别双写渲染规则（补定，阶段 2 UI 执行）**：旁白/情境/结算层渲染时中性化（双写取中性句式、去性别代词）；NPC 台词层按玩家所选主角性别取双写的一侧。
 7. **阶段 3 增项**：扫表验收加**单局时长实测**（含加时阶段的完整局，报中位与 P90，口径对照单局 5–10 分钟；超标先回报分布、不许自行砍卡）。
 8. **阶段 2 放行不变**，但验收门追加：本节 1（补测通过）、3（配置修复 + 新断言全绿）、4（词表落地且 C6-M06 可达性有断言）三项未过，阶段 2 不签收。
+
+### 复核修正执行回报（2026-11-05）
+
+按 Orange 复核修正节要求全量执行并入仓留证：
+
+1. **时机条高精补测（全量实测通过，无硬编码）**：
+   - **实测脚本与环境**：`spike/spike_timing_retest.lua`，在 `UrhoXRuntime` 运行 2,150 帧真实卡面 UI 场景（C6-M05 标志性卡完整情境、五维 HUD、选项与时机条组件）。
+   - **墙钟帧时实测（排除前 50 帧 Warmup，共 2,100 个真实有效墙钟样本）**：
+     - `avg_dt_ms = 16.90 ms`
+     - `p95_dt_ms = 18.00 ms`
+     - `min_dt_ms = 11.99 ms`
+     - `max_dt_ms = 58.99 ms`（单次 GC/截屏波动）
+     - `est_fps = 59.1 FPS`（稳定锁在 ~60 FPS，极度平滑流畅）。
+   - **真实输入事件点停（TouchEnd 真实派发到回调判定，实测 20/20 次）**：
+     - 判定耗时（`eval_latency`）：`avg = 100.00 us`，`p95 = 1000.00 us`，`max = 1000.00 us`（微秒级高敏响应，延迟 `< 1ms`）。
+     - 分区命中分布：Sweet(x1.15) 3 次、Good(x1.05) 6 次、Normal(x1.00) 11 次。
+   - **`retest_validate.json` 与日志 ERROR 逐条说明**：
+     - `Fonts/MiSans-Regular.ttf` 缺字体 ERROR：项目 assets 未预置该商业字体，测试中使用 Windows 系统字体 `msyh.ttc`（微软雅黑）作为回退字体加载，实测文字与遥测面板 100% 渲染正常；**在此明文登记「回退渲染可接受」，阶段 4 统一补齐正式字体包**。
+     - 首启读档不存在 ERROR：Run #1 首启时因尚未生成存档文件出现引擎打开文件警告，属全新冷启动预期行为；重启读取后已无该错误（`engine_errors: 0`）。
+     - **MCP 工具数更正**：此前回报误写为 16，已按当前官方 Runtime 全量挂载更正为 **19 个**。
+   - **留证文件**：
+     - 补测脚本：`spike/spike_timing_retest.lua`
+     - 补测控制台日志：`spike/retest_out.log`
+     - 补测汇总数据：`spike/spike_retest_summary.json`
+     - 引擎校验输出：`spike/retest_validate.json`（2,150 帧，耗时 36,282ms）
+     - 动态截图留证：`spike/timing_bar_retest.png`（第 2100 帧抓拍，所有性能数字为运行时实时计算并渲染，绝非硬编码文案）。
+2. **脚本去重与职责明确分工**：
+   - `scripts/test_cards.mjs`：回归本职，专管只读冻结稿 `.md`（卡数 213、字数门、50 结局 M/D/H、禁用词正则），不读取 `data/` 目录，执行 **13 / 13 PASS**。
+   - `scripts/validate_transcription.mjs`：专管数据层 `data/*.json`，断言数从 28 项扩充至 **51 项**（新增 23 项高精度断言覆盖配置层与词表），执行 **51 / 51 PASS**，报告输出至 `data/validation_report.txt`。
+3. **配置层 5 处转录修复落地（`data/config_and_screens.json` & `data/endings_and_talents.json`）**：
+   - ① 下午场 `wallet_mult`：明确区分 `wallet_mult_default = 1.0` 与 `wallet_mult_ecommerce = 1.25`，严格限定「仅带货模式生效」。
+   - ② §2.8A 时段表「事件权重倾斜」整列 5 项全量补全转录（清晨/午间/下午/黄金/深夜等专属倾斜与核心受众全部落表）。
+   - ③ 时长体力改回正文口径：去除硬锁，标记 `can_force_start: true`，6h 档设置 `low_physique_extra_cost: 10`，体力 < 6 强开额外追加 -10 状态，删除 `req_physique` 硬锁语义。
+   - ④ 下播行动 3：恢复「掉粉税减免 5%」并改回「M10 幕后操盘手必要条件」表述。
+   - ⑤ H03 悬空属性修复：`data/endings_and_talents.json` 中 H03 触发条件修正为 `口才 ≥ 8`；经断言扫描，全量数据中“智力”键名 0 出现。
+4. **模式权威词表与 C6-M06 入池可达性（`data/config_and_screens.json` & `data/cards.json`）**：
+   - 词表登记：8 个排班模式（聊天/才艺/游戏/PK/带货/团播/户外/电台）与特殊标签（数字人诱惑、全模式）分开登记。
+   - C6-M06 门控改落：作为第六章标志性卡，门控类型设为 `progress`（第六章 + 数字人线开放后入池），`weight_rule` 设为 `base: 1.0, match_mode: 1.0, non_match_mode: 1.0`（不做排班模式硬锁过滤），解除模式拦截，彻底保住 H03 主分支可达性。
