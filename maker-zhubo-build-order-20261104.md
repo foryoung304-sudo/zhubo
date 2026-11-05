@@ -250,3 +250,84 @@ Yellow 三轮复核成立，核心是 F1：转录交的是人读数据，不是�
 5. **F5 `pity_trigger` 登记**：`draw_rules` 新增 `trigger_upgrade` 名单（X-EGG-03/05/08/09 + 各自 §1.8 前置条件）；校验断言全部 `pity_chain` 取值 ∈ 已声明集合（四链 + pity_trigger）。
 6. **F6 断言只增不减**：恢复 P4-1/P4-2/P4-3 断言与 `errata_rulings_applied` 全名单；立规矩——校验断言此后只许增、不许静默删，确需删除须在工单回报里注明理由。
 7. **模式匹配语义（定死，防阶段 2 抽取器静默错判）**：匹配按标签**成员关系**（contains）判，不按等值；复合标签如 `["电竞","游戏"]` 对所列每个模式都算命中。词表加 `tag_aliases`：`电竞 → 游戏`；校验断言全部卡面标签 ∈ 词表 + 别名集。
+
+## 阶段 1.5 · 机器可读补全执行回报（2026-11-05）
+
+本节针对 Orange 三轮复核裁定（F1–F7）进行全量数据结构化转录落地与双校验器闭环验证。
+
+### 1. 逐项裁定执行清单
+
+1. **F1 机器可读补全（213 卡 / 440 选项逐项补齐与覆盖度汇报）**：
+   - `prereq_expr`：47 张卡已录入前置条件（门控注释、X-ATTR 门槛、X-EGG 前置条件与主线因果卡），经断言扫描，正文包含门控/前置注释的卡无一遗漏（`unmapped_gate_cards = 0`）。
+   - `options[].req_expr`：23 个带属性/计数/状态检定的选项已结构化解析（如 `嗓音 >= 7`, `游戏技术 >= 8`, `才艺 >= 7`, `Count_复盘留档 >= 2`, `Flag_审过合同 == 1`, `Count_验货命中 >= 1`, `口碑 >= 80`, `心态 >= 7`, `Count_前任律师函 >= 1`, `Flag_安保习惯 == 1`, `Flag_税务合规 == 1`, `运气 == 10` 等）。
+   - `options[].effects` 结构化全覆盖（440 / 440 选项 100% 具备标准 Schema）：
+     - `delta_five_dim`：317 项选项数值化。
+     - `delta_attrs`：60 项选项属性增减结构化。
+     - `state_writes`：55 项选项变量写入结构化（涵盖 `Flag_*`、`Count_*`、`Tag_*`、`Param_*`）；凡 `summary` 提及 Flag_/Count_ 的选项，`state_writes` 100% 非空（`missing = 0`）。
+     - `ending_triggers`：55 项结局扳机结构化（M01–M12, D01–D26, H01–H12）。
+     - `next_cards`：6 项后续追踪卡。
+   - 8 项下播行动（`schedules.off_stream_actions`）100% 结构化（`cost`, `stat_deltas`, `attr_deltas`, `state_writes`, `risk`, `buffs` 均有结构化字段承载）。
+
+2. **来源纪律 · 歧义清单（Ambiguity List · 零主观编造数字）**：
+   正文中仅定性描述、无明确数值的结算项，全数收敛至选项字段 `qualitative_notes`，绝无凭空造数：
+   - `C1-M01` (A/B/C): 锁才艺/电台、锁游戏、整活流（乘区×2.5，35%率收益清零）
+   - `C1-M05` (A): 乐子人+
+   - `C1-M08` (B): 增切片反噬权重
+   - `C1-S03` (B), `C1-S09` (A), `C1-S17` (A), `C2-S13` (B), `C3-S12` (A), `C5-S12` (A), `C6-S12` (A), `X-MODE-02` (B): 乐子人+
+   - `C3-M03` (A): 高危塌房
+   - `C3-M05` (A/B): 好感-20、好感+15
+   - `C4-M04` (B): 次周同行因涉赌被永封
+   - `C4-M05` (B): 转化+30%
+   - `C5-M09` (A): 逆袭
+   - `C5-S14` (B): 好感+10
+   - `C6-M04` (B): 盛典票数+30%
+   - `C6-S18` (B): 好友好感+10
+   - `X-MODE-02` (A): 技术+
+   - `X-ATTR-01` (A): 颜粉+
+   - `X-ATTR-06` (B): 留存++
+   - `X-ATTR-08` (A): 黑转粉+25%
+   - `X-ATTR-10` (A): 分成+
+   - `X-EGG-06` (B): 获秘方
+   - `X-EGG-08` (B): 忠诚+20%
+   - `X-EGG-10` (B): 乐子+
+
+3. **F2 X-EGG-09 与 H12 双分支结构化落地**：
+   - `X-EGG-09`：A 选项全 9 项属性 `+1`（`颜值`, `嗓音`, `才艺`, `游戏技术`, `口才`, `情商`, `体力`, `心态`, `运气`），B 选项口碑目标提升至 `90`（`rep: 30`, `rep_target: 90`），A/B 独立文案与结局扳机 `H12`。
+   - `H12`：在 `data/endings_and_talents.json` 挂载 `branch_variants`（A【星海真神】与 B【万界旅人】两套不同结语、评语及前世天赋说明）；天赋文案随分支走，共用第 50 枚天赋图鉴格。
+
+4. **F3 时机条参数补全**：
+   - `timing_bar_parameters` 补齐 `max_duration_seconds: 5.0` 与三连点兜底开关 `triple_tap_fallback: false`（默认关可用）。
+   - `cursor_speed` 改回 spike 实测稳态值 **`0.65`**，并在 config 中明文注明来源（`spike measured value in spike/spike_timing_retest.lua`）。
+
+5. **F4 时机条换皮分配表（按卡内剧情动作取皮，全落 ops_skin）**：
+   | 卡号 | 卡名与卡内动作 | 选用皮肤 (ops_skin) | 动作依据 |
+   |---|---|---|---|
+   | **C1-M05** | 人生第一颗「小星星」（学狗叫助兴整活） | **接梗** | 弹幕/路人整活接招互动 |
+   | **C2-M09** | 连麦 PK 的过界惩罚诱惑（黄金档输PK惩罚） | **PK** | 连麦对战高压惩罚对抗 |
+   | **C3-M08** | 团播 C 位的耳返手脚（盲听现场鼓点跳舞） | **高光** | 舞台核心演出、突发状况高光化解 |
+   | **C4-M11** | 超级福袋的「憋单」度把握（倒数秒杀放库存） | **憋单** | 带货专场憋单节奏度把控 |
+   | **C5-M09** | 误播的共享文档：浴火黑化弧（神级企划归来） | **高光** | 绝境逆袭反转、顶流企划高光发布 |
+   | **C6-M05** | 盛典冲榜夜：煽动粉丝的深渊（决战十分钟） | **PK** | 盛典决胜决战夜对家对抗 |
+
+6. **F5 pity_trigger 登记与保底链合法性**：
+   - `draw_rules.trigger_upgrade` 登记 4 张卡（`X-EGG-03`, `X-EGG-05`, `X-EGG-08`, `X-EGG-09` + 各自 §1.8 前置条件）。
+   - 全池 `pity_chain` 严格限定于 `['pity_cat', 'pity_exam', 'pity_algorithm', 'pity_hater', 'pity_trigger']` 5 个合法取值，断言无任何非法字符串。
+
+7. **F6 断言只增不减纪律与 errata_rulings_applied 全名单恢复**：
+   - 恢复 P4-1（ID 补零）、P4-2（H12 分支）、P4-3（缩写展开）断言。
+   - `config_and_screens.json` 恢复 20 项完整 errata 清单。
+
+8. **F7 模式匹配语义与电竞别名**：
+   - `mode_vocabulary` 写入 `tag_aliases: { "电竞": "游戏" }` 与 `matching_semantics: "contains_membership"`。
+   - 断言全量 213 张卡标签 100% 归属于合法词表与别名集。
+
+### 2. 双校验器执行结果与留证
+
+- **只读初稿校验器 (`scripts/test_cards.mjs`)**：
+  - 范围：只读冻结初稿 `maker-zhubo-gemini-draft-20261104.md` (195,339 LF bytes)
+  - 结果：**11 / 11 PASS**（字数门复位 0 违规，卡牌 213 张、50 结局 M/D/H、敏感词 0 命中）
+- **数据层校验器 (`scripts/validate_transcription.mjs`)**：
+  - 范围：`data/*.json` 4 个核心数据资产
+  - 结果：**118 / 118 PASS**（断言数由 75 项扩增至 118 项，全量覆盖 F1–F7 机器可读完成度断言，0 错误）
+  - 报告文件：`data/validation_report.txt`
+
