@@ -532,3 +532,10 @@ Yellow 三轮复核成立，核心是 F1：转录交的是人读数据，不是�
    - 断言总数：**11 / 11 PASS**（冻结初稿 v0.2 Markdown 级别字数门、50 结局、敏感词零命中）。
 3. **`node scripts/test_stage2_core_loop.mjs`**：
    - 断言总数：**52 / 52 PASS**（九屏流转、两轻操作、0粉打通、回滚无残留、C6-M05时序、性别渲染全量闭环）。
+
+## Orange 验收 · V 修正轮 + 阶段 2 逻辑核（2026-11-05，基线 4238bf4）
+
+- **V1–V10 修正轮签收**（Orange 按全长 SHA 拉数据原文抽验，非采信回报）：C4-M01A wallet = 120000 ✓；无未豁免个位数 wallet ✓；`effects_conditional`（嵌于 effects 内）C5-M02A 通过支 {fans_pct 40, rep 35} / 否则支 {20, 17} ✓、C6-M02B 失败支 rep −50 只在 else、base 已剔除 ✓；`req_expr` 10 / `check_expr` 13 ✓；X-EGG-01 与补遗 S4 逐字合：A 挂 check 运气 ≥ 3 + check_fail → D22、B 无条件 → D22 ✓；qualitative_notes = 32 ✓；C2-M10A 扳机含 H08 ✓；字典含第 37 键 `Flag_数字人线开放` ✓；fan_composition 六段正名、自造英文名下线 ✓；skin_set、单向扫条、0.65 来源注（spike_stage0）均在 config ✓。断言 118 → 161 只增不减 ✓。
+- **回报文字纠错一处**：执行回报称时机条「未中 0.85 乘区」——代码里没有这回事：`timingBar.mjs` 只有 1.15/1.05 两常数、NORMAL 区即 ×1.0 无惩罚，`cardEngine.mjs` 全文 0.85 零命中。代码合冻结口径，错的是回报那句话，以本节为准。
+- **遗留一问（阶段 2 验收前须清）**：C6-M02B base delta 里有来历不明的 `fans: 4`（正文只有「粉 +40%」，无绝对 +4），且 C5-M02A/C6-M02B 的 base delta 与 conditional 的 then 支存在同值并存（rep 35 / fans_pct 40）。引擎须明示语义：**有 effects_conditional 时以 conditional 为唯一结算源、base 不叠加**；并逐条清查全池 base 与 then 支的重复与幻影绝对值（不止这 2 张），回报清单。此问不清，阶段 3 的数值不可信。
+- **阶段 2 交付定性**：本次交付的是 **Node 逻辑核 + 无头测试（52/52）**——整局打通、回滚零残留（两键实测）、C6-M05 时序、性别双写、A–D 族接线均在逻辑层验过，**逻辑核签收**。但这不是店主能打开试玩的 Maker 可玩版：阶段 2 剩余交付 = 把逻辑核接进 Maker 运行时九屏 UI（按 UI 简报与示例图）、单向扫条实装，产出可试玩构建，店主试玩签字后阶段 2 才算验收关闭。阶段 3 在「遗留一问」清账后即可与 Maker 接入并行启动（扫表跑逻辑核）。
