@@ -1,17 +1,17 @@
 ================================================================================
 《从小主播到顶流》阶段 1.5 · 机器可读补全与全量裁定校验报告 (validate_transcription.mjs)
-生成时间: 2026-11-05T09:06:36.190Z
+生成时间: 2026-11-05T11:00:03.661Z
 数据基线: E:\taptap\zhubo\data (4 JSON files: state_dictionary, cards, endings_and_talents, config_and_screens)
 gate_type 分布: {"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
 7 模式匹配卡数: 游戏:20, 才艺:17, 电台:16, 团播:15, PK:18, 带货:21, 户外:18
-字段覆盖统计: {"prereq_expr_cards":47,"req_expr_options":23,"delta_five_dim_options":317,"delta_attrs_options":60,"state_writes_options":55,"ending_triggers_options":55,"next_cards_options":6,"qualitative_notes_options":32}
+字段覆盖统计: {"prereq_expr_cards":47,"req_expr_options":10,"delta_five_dim_options":319,"delta_attrs_options":60,"state_writes_options":56,"ending_triggers_options":51,"next_cards_options":6,"qualitative_notes_options":32}
 ================================================================================
 
 [PASS] 1. Card count === 213: total=213 (milestone=63, short=120, cross=30)
 [PASS] 2. Card IDs unique & distribution 63/120/30: unique=213
 [PASS] 3. Card schema completeness (§2.10 required fields present): missing_fields=0
-[PASS] 4. State dictionary auto-generated from §2.9 === 36 keys: keys=36
-[PASS] 5. Snapshot_BeforeCard total fields === 57 (21 base stats/five_dim/fans + 36 state keys = 57): total_fields=57
+[PASS] 4. State dictionary auto-generated from §2.9 + Errata S5 === 37 keys: keys=37
+[PASS] 5. Snapshot_BeforeCard total fields === 58 (21 base stats/five_dim/fans + 37 state keys = 58): total_fields=58
 [PASS] 6. Zero dangling state references across all 213 cards: dangling=[]
 [PASS] 7. Zero dangling ending references in card options: dangling=[]
 [PASS] 8. Endings count === 50 (12 M + 26 D + 12 H): M=12, D=26, H=12
@@ -97,8 +97,8 @@ gate_type 分布: {"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
 [PASS] 88. F1-3 Every option mentioning Flag_/Count_ in summary has non-empty state_writes (0 missing): missing=0
 [PASS] 89. F1-4 Off-stream actions count === 8: count=8
 [PASS] 90. F1-4 All 8 off-stream actions structured with cost/stat_deltas/attr_deltas/state_writes (8/8): structured=8
-[PASS] 91. F1-5 delta_five_dim coverage > 300 options: count=317
-[PASS] 92. F1-5 state_writes coverage >= 50 options: count=55
+[PASS] 91. F1-5 delta_five_dim coverage > 300 options: count=319
+[PASS] 92. F1-5 state_writes coverage >= 50 options: count=56
 [PASS] 93. F2: X-EGG-09 has Option A and Option B
 [PASS] 94. F2: X-EGG-09 Option A gives all 9 attributes +1
 [PASS] 95. F2: X-EGG-09 Option B targets rep 90: target=90
@@ -106,7 +106,7 @@ gate_type 分布: {"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
 [PASS] 97. F3: timing_bar max_duration_seconds === 5.0: max_duration=5
 [PASS] 98. F3: timing_bar triple_tap_fallback toggle available (default false): fallback=false
 [PASS] 99. F3: timing_bar cursor_speed reverted to spike measured 0.65: speed=0.65
-[PASS] 100. F3: timing_bar cursor_speed source annotated in config
+[PASS] 100. F3/V8: timing_bar cursor_speed source annotated in config (spike/spike_stage0.lua:14)
 [PASS] 101. F4: Timing card C1-M05 has legal ops_skin from ['接梗', '憋单', 'PK', '高光']: ops_skin=接梗
 [PASS] 102. F4: Timing card C2-M09 has legal ops_skin from ['接梗', '憋单', 'PK', '高光']: ops_skin=PK
 [PASS] 103. F4: Timing card C3-M08 has legal ops_skin from ['接梗', '憋单', 'PK', '高光']: ops_skin=高光
@@ -125,6 +125,49 @@ gate_type 分布: {"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
 [PASS] 116. F7: mode_vocabulary tag_aliases maps 电竞 -> 游戏
 [PASS] 117. F7: mode_vocabulary defines contains matching semantics
 [PASS] 118. F7: All card mode tags belong strictly to vocabulary + aliases (0 illegal tags): illegal=[]
+[PASS] 119. V1: C4-M01A 钱包 === 120000 (12万): actual=120000
+[PASS] 120. V1: C4-M05A 钱包 === -100000 (-10万): actual=-100000
+[PASS] 121. V1: C4-S17A 钱包 === 15000 (1.5万): actual=15000
+[PASS] 122. V1: C3-M07B 钱包 === 5000 (5千): actual=5000
+[PASS] 123. V1: C5-M03B 钱包 === -500000 (-50万): actual=-500000
+[PASS] 124. V1: C5-M12A 钱包 === -500000 (-50万): actual=-500000
+[PASS] 125. V1: C6-M06A 钱包 === 200000 (20万): actual=200000
+[PASS] 126. V1: C6-M09B 钱包 === 100000 (10万): actual=100000
+[PASS] 127. V1: C6-S02A 钱包 === 100000 (10万): actual=100000
+[PASS] 128. V1: C3-M09A 钱包 === -5000 (-5千): actual=-5000
+[PASS] 129. V1: X-MODE-06B 钱包 === 3000 (3千): actual=3000
+[PASS] 130. V1: Zero unexempted single-digit wallets across all cards: found=[]
+[PASS] 131. V2: C5-M02A has effects_conditional
+[PASS] 132. V2: C5-M02A through branch fans_pct === 40
+[PASS] 133. V2: C5-M02A else branch fans_pct === 20 (halved integer)
+[PASS] 134. V2: C6-M02B has effects_conditional
+[PASS] 135. V2: C6-M02B failure branch rep -50 in else
+[PASS] 136. V2: C6-M02B base effects does NOT duplicate failure branch rep -50
+[PASS] 137. V3: req_expr strictly reserved for selectable gates (count === 10): count=10
+[PASS] 138. V3: check_expr covers pass/fail checks (count >= 12): count=13
+[PASS] 139. V3: X-EGG-01 Option B is unconditionally selectable and leads directly to D22
+[PASS] 140. V3: X-EGG-01 Option A has check_expr 运气 >= 3 with failure branch D22
+[PASS] 141. V4: fan_composition exists in config_and_screens.json
+[PASS] 142. V4: fan_composition.segments strictly matches §2.7: [颜粉, 声控粉, 技术粉, 乐子人, 大哥, 学生粉]: segments=["颜粉","声控粉","技术粉","乐子人","大哥","学生粉"]
+[PASS] 143. V4: exclusive_pool_threshold_pct === 35
+[PASS] 144. V4: Snapshot_BeforeCard contains exact §2.7 fan segment fields Fans_颜粉_Pct etc.
+[PASS] 145. V4: Zero old English placeholder fan fields in Snapshot_BeforeCard
+[PASS] 146. V5: Flag_数字人线开放 exists in state_dictionary.json
+[PASS] 147. V5: Snapshot_BeforeCard includes Flag_数字人线开放
+[PASS] 148. V5: C6-M06 prereq_expr consumes Flag_数字人线开放
+[PASS] 149. V5: X-MODE-09 Option B writes Flag_数字人线开放
+[PASS] 150. V6: global_rules exists in config_and_screens.json
+[PASS] 151. V6: global_rules total_multiplier_clamp === [0.4, 3.0]
+[PASS] 152. V6: global_rules circus_style multiplier === 2.5 and zero_revenue_rate === 0.35
+[PASS] 153. V6: global_rules commercial_multiplier sources_stack_rule === take_highest_no_stack and rep_max_cap === 1.5
+[PASS] 154. V7: C2-M10A ending_triggers includes H08 (contribution condition)
+[PASS] 155. V7: Qualitative notes total across all cards strictly === 32: total=32
+[PASS] 156. V8: timing_bar cursor_speed_source references spike/spike_stage0.lua:14
+[PASS] 157. V8: timing_bar sweep_direction === unidirectional
+[PASS] 158. V8: timing_bar sweet_window_seconds === 0.23
+[PASS] 159. V10: skin_set exists in config_and_screens.json
+[PASS] 160. V10: skin_set.canonical_names matches [接梗, 憋单放福袋, 最后一波拉票, 关键操作]
+[PASS] 161. V10: skin_set.data_mapping aligns data skins with canonical skins
 
 --------------------------------------------------------------------------------
-Result: All 118 passed, 0 failed
+Result: All 161 passed, 0 failed

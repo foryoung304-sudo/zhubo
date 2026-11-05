@@ -1,8 +1,8 @@
 {
   "schema_version": "v0.2-transcribed",
-  "total_keys": 36,
+  "total_keys": 37,
   "counts": {
-    "Flag": 20,
+    "Flag": 21,
     "Count": 9,
     "Tag": 5,
     "Param": 1,
@@ -400,13 +400,23 @@
       "range_or_cap": "¥0 ～ ¥99,999,999",
       "writers_text": "每张卡结算当 $\\Delta \\text{Wallet}_{\\text{单卡}} > 0$ 时累加净入额",
       "consumers_text": "主结局 M02 人形上链接机器 触发条件（要求 Total_Income ≥ ¥5,000,000）"
+    },
+    {
+      "line_no": 0,
+      "key": "Flag_数字人线开放",
+      "category": "Flag",
+      "type": "Boolean",
+      "initial_value": 0,
+      "range_or_cap": "0 | 1",
+      "writers_text": "X-MODE-09 与数字人线相关卡既定结算",
+      "consumers_text": "C6-M06 前置表达式、H03 主分支"
     }
   ],
   "Snapshot_BeforeCard": {
     "source": "Auto-generated from §2.9 table body keys (Errata P1-1)",
-    "total_fields": 57,
+    "total_fields": 58,
     "base_stats_count": 21,
-    "state_dictionary_keys_count": 36,
+    "state_dictionary_keys_count": 37,
     "fields": [
       "颜值",
       "嗓音",
@@ -423,12 +433,12 @@
       "Rep",
       "Stamina",
       "Hater_Pct",
-      "Fans_Passerby_Pct",
-      "Fans_Lover_Pct",
-      "Fans_Iron_Pct",
-      "Fans_Troll_Pct",
-      "Fans_Pro_Pct",
-      "Fans_Rich_Pct",
+      "Fans_颜粉_Pct",
+      "Fans_声控粉_Pct",
+      "Fans_技术粉_Pct",
+      "Fans_乐子人_Pct",
+      "Fans_大哥_Pct",
+      "Fans_学生粉_Pct",
       "Flag_卖惨人设",
       "Flag_科技人设",
       "Flag_老粉",
@@ -464,7 +474,8 @@
       "Tag_长红口碑",
       "Tag_勇敢发声者",
       "Param_观众当真度",
-      "Total_Income"
+      "Total_Income",
+      "Flag_数字人线开放"
     ]
   }
 }

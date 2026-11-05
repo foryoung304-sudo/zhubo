@@ -40,6 +40,8 @@
         "label": "老实展示才艺唱跳，慢工出细活",
         "raw_label": "「老实展示才艺唱跳，慢工出细活」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "锁才艺/电台",
           "delta_five_dim": {},
@@ -56,6 +58,8 @@
         "label": "死磕高难游戏操作，用技术说话",
         "raw_label": "「死磕高难游戏操作，用技术说话」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "锁游戏",
           "delta_five_dim": {},
@@ -72,6 +76,8 @@
         "label": "穿怪异玩偶服抽象整活，先火再说",
         "raw_label": "「穿怪异玩偶服抽象整活，先火再说」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "整活流（乘区×2.5，35%率收益清零）",
           "delta_five_dim": {},
@@ -128,6 +134,8 @@
         "label": "把道具药瓶摆进镜头：其实我一直在硬撑",
         "raw_label": "「把道具药瓶摆进镜头：其实我一直在硬撑」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+40%热+30%记Flag_卖惨人设=1",
           "delta_five_dim": {
@@ -150,6 +158,8 @@
         "label": "把药瓶扔掉：穷是真的，但不拿惨当饭吃",
         "raw_label": "「把药瓶扔掉：穷是真的，但不拿惨当饭吃」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+5",
           "delta_five_dim": {
@@ -210,6 +220,8 @@
         "label": "把美颜声卡焊死在脸上，观众爱完美幻觉",
         "raw_label": "「把美颜声卡焊死在脸上，观众爱完美幻觉」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "等效颜/嗓+2粉+35%记Flag_科技人设=1",
           "delta_five_dim": {
@@ -231,6 +243,8 @@
         "label": "关掉夸张特效，素颜原声不怕以后掉滤镜",
         "raw_label": "「关掉夸张特效，素颜原声不怕以后掉滤镜」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+5心态+1",
           "delta_five_dim": {
@@ -289,6 +303,8 @@
         "label": "哪怕只有一人听，今晚也为你播完",
         "raw_label": "「哪怕只有一人听，今晚也为你播完」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Flag_老粉=1（挂钩C6-M09/H08）",
           "delta_five_dim": {},
@@ -312,6 +328,8 @@
         "label": "礼貌道谢，赶紧下播去研究热门标签",
         "raw_label": "「礼貌道谢，赶紧下播去研究热门标签」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%失老粉",
           "delta_five_dim": {
@@ -370,6 +388,8 @@
         "label": "十块钱也是大哥！汪汪两声逗乐全场",
         "raw_label": "「十块钱也是大哥！汪汪两声逗乐全场」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+10、乐子人+、口碑-3",
           "delta_five_dim": {
@@ -391,6 +411,8 @@
         "label": "感谢礼物，才艺可以点，学叫就算啦",
         "raw_label": "「感谢礼物，才艺可以点，学叫就算啦」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+4、状态+5",
           "delta_five_dim": {
@@ -448,6 +470,8 @@
         "label": "把麦凑近门板直播吵架博同情",
         "raw_label": "「把麦凑近门板直播吵架博同情」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+25%、黑粉浓度+5%",
           "delta_five_dim": {
@@ -467,6 +491,8 @@
         "label": "赔笑脸贴隔音棉，回镜头前比划手语",
         "raw_label": "「赔笑脸贴隔音棉，回镜头前比划手语」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态-5、口碑+4",
           "delta_five_dim": {
@@ -524,6 +550,8 @@
         "label": "截图发视频怼回去：你行你上啊键盘侠",
         "raw_label": "「截图发视频怼回去：你行你上啊键盘侠」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%口才+1",
           "delta_five_dim": {
@@ -544,6 +572,8 @@
         "label": "忍住脾气回复：骂得准，欢迎继续挑刺",
         "raw_label": "「忍住脾气回复：骂得准，欢迎继续挑刺」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Count_黑粉不对线+1（挂钩H01）",
           "delta_five_dim": {},
@@ -602,6 +632,8 @@
         "label": "直接举报侵权，绝不让人白嫖我的糗样",
         "raw_label": "「直接举报侵权，绝不让人白嫖我的糗样」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "删片口碑+5状态+5",
           "delta_five_dim": {
@@ -621,6 +653,8 @@
         "label": "去热评第一条认领：摔断尾椎的就是本人",
         "raw_label": "「去热评第一条认领：摔断尾椎的就是本人」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+25%增切片反噬权重",
           "delta_five_dim": {
@@ -680,6 +714,8 @@
         "label": "泡面管饱，三百块全投给算法爸爸",
         "raw_label": "「泡面管饱，三百块全投给算法爸爸」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包-300热+35%（不加口碑且章末口碑-5）",
           "delta_five_dim": {
@@ -700,6 +736,8 @@
         "label": "留钱吃顿好的，没体力怎么熬夜播",
         "raw_label": "「留钱吃顿好的，没体力怎么熬夜播」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+15",
           "delta_five_dim": {
@@ -756,6 +794,8 @@
         "label": "关掉同城推荐，把直播间当树洞自娱自乐",
         "raw_label": "「关掉同城推荐，把直播间当树洞自娱自乐」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Flag_零粉快乐=1（挂钩H07）",
           "delta_five_dim": {},
@@ -776,6 +816,8 @@
         "label": "猛灌冰美式，打开榜单前十逐帧抄作业",
         "raw_label": "「猛灌冰美式，打开榜单前十逐帧抄作业」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%状态-10",
           "delta_five_dim": {
@@ -834,6 +876,8 @@
         "label": "抱开猫继续讲准备好的稿子",
         "raw_label": "抱开猫继续讲准备好的稿子",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+2",
           "delta_five_dim": {
@@ -854,6 +898,8 @@
         "label": "递麦给猫：打赏归你买罐头",
         "raw_label": "递麦给猫：打赏归你买罐头",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Count_猫上镜+1",
           "delta_five_dim": {},
@@ -910,6 +956,8 @@
         "label": "放喜庆拜年歌陪大妈唠养生",
         "raw_label": "放喜庆拜年歌陪大妈唠养生",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+3",
           "delta_five_dim": {
@@ -928,6 +976,8 @@
         "label": "硬着头皮表演二次元宅舞",
         "raw_label": "硬着头皮表演二次元宅舞",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%",
           "delta_five_dim": {
@@ -986,6 +1036,8 @@
         "label": "去洗手间真倒立洗头水进鼻",
         "raw_label": "去洗手间真倒立洗头水进鼻",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -1005,6 +1057,8 @@
         "label": "把屏幕倒放：看我已经倒立了",
         "raw_label": "把屏幕倒放：看我已经倒立了",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "乐子人+",
           "delta_five_dim": {},
@@ -1063,6 +1117,8 @@
         "label": "跟窗外的狗来段跨物种合唱",
         "raw_label": "跟窗外的狗来段跨物种合唱",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -1081,6 +1137,8 @@
         "label": "假装刚才那是海豚音炫技",
         "raw_label": "假装刚才那是海豚音炫技",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -1139,6 +1197,8 @@
         "label": "翻出大学课本现场直播讲高数",
         "raw_label": "翻出大学课本现场直播讲高数",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+10%",
           "delta_five_dim": {
@@ -1158,6 +1218,8 @@
         "label": "用电台腔念微积分公式哄睡",
         "raw_label": "用电台腔念微积分公式哄睡",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+3",
           "delta_five_dim": {
@@ -1216,6 +1278,8 @@
         "label": "把手机架给大爷旁观喊666",
         "raw_label": "把手机架给大爷旁观喊666",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+3",
           "delta_five_dim": {
@@ -1234,6 +1298,8 @@
         "label": "跳上旁侧单杠挂上面下不来",
         "raw_label": "跳上旁侧单杠挂上面下不来",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -1290,6 +1356,8 @@
         "label": "当众掏《考编刷题五千道》刷题",
         "raw_label": "当众掏《考编刷题五千道》刷题",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Count_考编+1",
           "delta_five_dim": {},
@@ -1308,6 +1376,8 @@
         "label": "捂话筒喊妈我在开跨国会议",
         "raw_label": "捂话筒喊妈我在开跨国会议",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%",
           "delta_five_dim": {
@@ -1366,6 +1436,8 @@
         "label": "帮他对答案：第三题选C",
         "raw_label": "帮他对答案：第三题选C",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+3",
           "delta_five_dim": {
@@ -1384,6 +1456,8 @@
         "label": "疯狂跳舞试图打乱他做题",
         "raw_label": "疯狂跳舞试图打乱他做题",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%",
           "delta_five_dim": {
@@ -1440,6 +1514,8 @@
         "label": "露双眼演塔防游戏大倭瓜",
         "raw_label": "露双眼演塔防游戏大倭瓜",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "乐子人+",
           "delta_five_dim": {},
@@ -1458,6 +1534,8 @@
         "label": "在绿布里挣扎半天钻不出来",
         "raw_label": "在绿布里挣扎半天钻不出来",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -1516,6 +1594,8 @@
         "label": "含泪把烤红薯当场吃掉",
         "raw_label": "含泪把烤红薯当场吃掉",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+5",
           "delta_five_dim": {
@@ -1534,6 +1614,8 @@
         "label": "给自己写五百字好评念出来",
         "raw_label": "给自己写五百字好评念出来",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -1592,6 +1674,8 @@
         "label": "拿手机电筒照脸继续讲故事",
         "raw_label": "拿手机电筒照脸继续讲故事",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -1610,6 +1694,8 @@
         "label": "假装被游戏女鬼顺网线拉闸",
         "raw_label": "假装被游戏女鬼顺网线拉闸",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+10%",
           "delta_five_dim": {
@@ -1669,6 +1755,8 @@
         "label": "摸黑来一段荧光棒盲跳",
         "raw_label": "摸黑来一段荧光棒盲跳",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "才艺+1",
           "delta_five_dim": {},
@@ -1687,6 +1775,8 @@
         "label": "蹲地找拖鞋结果撞翻垃圾桶",
         "raw_label": "蹲地找拖鞋结果撞翻垃圾桶",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%",
           "delta_five_dim": {
@@ -1745,6 +1835,8 @@
         "label": "改口今晚是重金属烟嗓专场",
         "raw_label": "改口今晚是重金属烟嗓专场",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -1763,6 +1855,8 @@
         "label": "戴防尘面具瓮声瓮气哄睡",
         "raw_label": "戴防尘面具瓮声瓮气哄睡",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%",
           "delta_five_dim": {
@@ -1821,6 +1915,8 @@
         "label": "一人分饰四角左右轮流接词",
         "raw_label": "一人分饰四角左右轮流接词",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -1840,6 +1936,8 @@
         "label": "跟镜子里的自己抢C位吵架",
         "raw_label": "跟镜子里的自己抢C位吵架",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -1896,6 +1994,8 @@
         "label": "低头看脚上人字拖陷入沉思",
         "raw_label": "低头看脚上人字拖陷入沉思",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -1914,6 +2014,8 @@
         "label": "热情跟每个机器人拜年互动",
         "raw_label": "热情跟每个机器人拜年互动",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -1972,6 +2074,8 @@
         "label": "含冰块口齿不清硬夸微辣",
         "raw_label": "含冰块口齿不清硬夸微辣",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+3",
           "delta_five_dim": {
@@ -1990,6 +2094,8 @@
         "label": "对着镜头表演人体喷火",
         "raw_label": "对着镜头表演人体喷火",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -2046,6 +2152,8 @@
         "label": "撕下另一只贴嘴唇当八字胡",
         "raw_label": "撕下另一只贴嘴唇当八字胡",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "乐子人+",
           "delta_five_dim": {},
@@ -2064,6 +2172,8 @@
         "label": "眨巴大小眼假装在放电",
         "raw_label": "眨巴大小眼假装在放电",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+10%",
           "delta_five_dim": {
@@ -2123,6 +2233,8 @@
         "label": "夹嗓子飙外语假装国际友人",
         "raw_label": "夹嗓子飙外语假装国际友人",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%",
           "delta_five_dim": {
@@ -2141,6 +2253,8 @@
         "label": "敲墙壁问：是三楼老王吗",
         "raw_label": "敲墙壁问：是三楼老王吗",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+50",
           "delta_five_dim": {
@@ -2197,6 +2311,8 @@
         "label": "拉小哥入镜一起盒饭吃播",
         "raw_label": "拉小哥入镜一起盒饭吃播",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+5",
           "delta_five_dim": {
@@ -2215,6 +2331,8 @@
         "label": "感动得给小哥跳段感恩舞",
         "raw_label": "感动得给小哥跳段感恩舞",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -2272,6 +2390,8 @@
         "label": "硬说是观察青年睡眠艺术",
         "raw_label": "硬说是观察青年睡眠艺术",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -2290,6 +2410,8 @@
         "label": "连夜把简介改成接地气博主",
         "raw_label": "连夜把简介改成接地气博主",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -2347,6 +2469,8 @@
         "label": "五百万违约金都是行规，先拿保底要紧",
         "raw_label": "「五百万违约金都是行规，先拿保底要紧」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Flag_审过合同=0",
           "delta_five_dim": {},
@@ -2365,6 +2489,8 @@
         "label": "掏500块请法学学长看一眼排他条款",
         "raw_label": "「掏500块请法学学长看一眼排他条款」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包-500记=1",
           "delta_five_dim": {
@@ -2421,6 +2547,8 @@
         "label": "签！背靠大树好乘凉，先红起来再说",
         "raw_label": "「签！背靠大树好乘凉，先红起来再说」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Flag_签公会=1乘区×1.3",
           "delta_five_dim": {},
@@ -2439,6 +2567,8 @@
         "label": "不签！宁可慢一半，账号也必须攥在手里",
         "raw_label": "「不签！宁可慢一半，账号也必须攥在手里」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Flag_野生主播=1口碑+8",
           "delta_five_dim": {
@@ -2500,7 +2630,13 @@
         "opt_key": "A",
         "label": "现场卸妆自嘲：重新认识下高清无码版",
         "raw_label": "「现场卸妆自嘲：重新认识下高清无码版」",
-        "req_expr": "嗓音 >= 7",
+        "req_expr": null,
+        "check_expr": "嗓音 >= 7",
+        "check_fail": {
+          "delta_five_dim": {
+            "fans_pct": -20
+          }
+        },
         "effects": {
           "summary": "粉-20%（嗓音≥7无损）口碑+10",
           "delta_five_dim": {
@@ -2520,6 +2656,8 @@
         "label": "拔网线黑屏，发动态称遭恶意P图攻击",
         "raw_label": "「拔网线黑屏，发动态称遭恶意P图攻击」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Flag_装死黑历史=1",
           "delta_five_dim": {},
@@ -2577,6 +2715,8 @@
         "label": "只要观众开心，演一下怎么了？开机",
         "raw_label": "「只要观众开心，演一下怎么了？开机」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+60%热+50%记Flag_造假剧本=1",
           "delta_five_dim": {
@@ -2599,6 +2739,8 @@
         "label": "摆拍一旦被扒就是死棋，这剧本我不接",
         "raw_label": "「摆拍一旦被扒就是死棋，这剧本我不接」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+6心态+1",
           "delta_five_dim": {
@@ -2661,6 +2803,8 @@
         "label": "营业走起！换情侣头像，借来的粉也是粉",
         "raw_label": "「营业走起！换情侣头像，借来的粉也是粉」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+45%Param_观众当真度+40",
           "delta_five_dim": {
@@ -2682,6 +2826,8 @@
         "label": "直播间正式辟谣：纯铁磁，大家别磕歪了",
         "raw_label": "「直播间正式辟谣：纯铁磁，大家别磕歪了」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+5好友好感+10",
           "delta_five_dim": {
@@ -2740,6 +2886,8 @@
         "label": "发誓直播间没有爱情，我只属于家人们",
         "raw_label": "「发誓直播间没有爱情，我只属于家人们」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Tag_人设=单身打赏+30%",
           "delta_five_dim": {},
@@ -2758,6 +2906,8 @@
         "label": "打太极：私生活不占公共资源，看直播吧",
         "raw_label": "「打太极：私生活不占公共资源，看直播吧」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记=留白",
           "delta_five_dim": {},
@@ -2774,6 +2924,8 @@
         "label": "大方摊牌：遇到喜欢的人会大大方方谈",
         "raw_label": "「大方摊牌：遇到喜欢的人会大大方方谈」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记=真实",
           "delta_five_dim": {},
@@ -2829,6 +2981,8 @@
         "label": "三千块不能省，按最高标准配齐安保报备",
         "raw_label": "「三千块不能省，按最高标准配齐安保报备」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包-3000记Flag_安保习惯=1",
           "delta_five_dim": {
@@ -2849,6 +3003,8 @@
         "label": "都是自家乖粉丝，拉根线就行，省钱发包",
         "raw_label": "「都是自家乖粉丝，拉根线就行，省钱发包」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+1000热+15%记=0",
           "delta_five_dim": {
@@ -2907,6 +3063,8 @@
         "label": "先小人后君子，把产权协议签好再开号",
         "raw_label": "「先小人后君子，把产权协议签好再开号」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "好感-5记Flag_账号协议=1",
           "delta_five_dim": {},
@@ -2925,6 +3083,8 @@
         "label": "提钱太伤感情，咱俩谁跟谁，直接开干",
         "raw_label": "「提钱太伤感情，咱俩谁跟谁，直接开干」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "好感+10粉+15%记=0",
           "delta_five_dim": {
@@ -2986,6 +3146,8 @@
         "label": "只要榜上刷跑车，芥末我直接干一管",
         "raw_label": "「只要榜上刷跑车，芥末我直接干一管」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+40%钱包+800记Count_违规警告+1",
           "delta_five_dim": {
@@ -3007,6 +3169,8 @@
         "label": "伤身违规的不搞，改做五十个标准深蹲",
         "raw_label": "「伤身违规的不搞，改做五十个标准深蹲」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态-5口碑+5",
           "delta_five_dim": {
@@ -3064,6 +3228,8 @@
         "label": "定下每周五晚宠老粉，绝不接商业PK",
         "raw_label": "「定下每周五晚宠老粉，绝不接商业PK」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "星牌忠诚+20%（挂钩H08）",
           "delta_five_dim": {},
@@ -3084,6 +3250,8 @@
         "label": "口头答应看时间，排班照样塞满黄金PK",
         "raw_label": "「口头答应看时间，排班照样塞满黄金PK」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+1500忠诚-10%",
           "delta_five_dim": {
@@ -3140,6 +3308,8 @@
         "label": "尖叫跳上椅子把主场让给猫",
         "raw_label": "尖叫跳上椅子把主场让给猫",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%",
           "delta_five_dim": {
@@ -3160,6 +3330,8 @@
         "label": "强装镇定给猫颁野味进贡奖",
         "raw_label": "强装镇定给猫颁野味进贡奖",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Count_猫上镜+1",
           "delta_five_dim": {},
@@ -3218,6 +3390,8 @@
         "label": "下巴搁桌沿播完一整场",
         "raw_label": "下巴搁桌沿播完一整场",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -3237,6 +3411,8 @@
         "label": "搬两本大部头厚词典垫屁股",
         "raw_label": "搬两本大部头厚词典垫屁股",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%",
           "delta_five_dim": {
@@ -3295,6 +3471,8 @@
         "label": "假装是高科技吹泡泡特效",
         "raw_label": "假装是高科技吹泡泡特效",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -3313,6 +3491,8 @@
         "label": "自己先绷不住笑出猪叫",
         "raw_label": "自己先绷不住笑出猪叫",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -3372,6 +3552,8 @@
         "label": "给大哥背诵《防骗宣传手册》",
         "raw_label": "给大哥背诵《防骗宣传手册》",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+4",
           "delta_five_dim": {
@@ -3390,6 +3572,8 @@
         "label": "哭穷反问大哥能不能借你二十",
         "raw_label": "哭穷反问大哥能不能借你二十",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+10",
           "delta_five_dim": {
@@ -3448,6 +3632,8 @@
         "label": "干脆改跳经典广播体操",
         "raw_label": "干脆改跳经典广播体操",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+5",
           "delta_five_dim": {
@@ -3466,6 +3652,8 @@
         "label": "硬说是四面八方招财阵法舞",
         "raw_label": "硬说是四面八方招财阵法舞",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -3524,6 +3712,8 @@
         "label": "改口夸这铁锅是防弹级质量",
         "raw_label": "改口夸这铁锅是防弹级质量",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -3542,6 +3732,8 @@
         "label": "连锅带蛋端起来当杠铃举铁",
         "raw_label": "连锅带蛋端起来当杠铃举铁",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "体力+1",
           "delta_five_dim": {},
@@ -3600,6 +3792,8 @@
         "label": "拉着NPC鬼坐马路牙子修鞋",
         "raw_label": "拉着NPC鬼坐马路牙子修鞋",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+3",
           "delta_five_dim": {
@@ -3618,6 +3812,8 @@
         "label": "顺走鬼的假发戴头上继续播",
         "raw_label": "顺走鬼的假发戴头上继续播",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -3676,6 +3872,8 @@
         "label": "拿起桌上核桃用门牙咬碎迎战",
         "raw_label": "拿起桌上核桃用门牙咬碎迎战",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -3695,6 +3893,8 @@
         "label": "双手合十给大叔配唢呐BGM",
         "raw_label": "双手合十给大叔配唢呐BGM",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+4",
           "delta_five_dim": {
@@ -3753,6 +3953,8 @@
         "label": "戴墨镜演黑帮老电影腮帮造型",
         "raw_label": "戴墨镜演黑帮老电影腮帮造型",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%",
           "delta_five_dim": {
@@ -3771,6 +3973,8 @@
         "label": "用写字板举牌全场静音直播",
         "raw_label": "用写字板举牌全场静音直播",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -3830,6 +4034,8 @@
         "label": "对弹窗鞠躬：给人类丢脸了",
         "raw_label": "对弹窗鞠躬：给人类丢脸了",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -3848,6 +4054,8 @@
         "label": "转战连连看证明自己手速",
         "raw_label": "转战连连看证明自己手速",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -3904,6 +4112,8 @@
         "label": "自豪地把锦旗挂背景墙中央",
         "raw_label": "自豪地把锦旗挂背景墙中央",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+10%",
           "delta_five_dim": {
@@ -3923,6 +4133,8 @@
         "label": "回赠粉丝一盒防脱洗发水",
         "raw_label": "回赠粉丝一盒防脱洗发水",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+4",
           "delta_five_dim": {
@@ -3981,6 +4193,8 @@
         "label": "站风中假装在拍武侠大片",
         "raw_label": "站风中假装在拍武侠大片",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -3999,6 +4213,8 @@
         "label": "拿晾衣杆戳了半小时扇子",
         "raw_label": "拿晾衣杆戳了半小时扇子",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+10%",
           "delta_five_dim": {
@@ -4058,6 +4274,8 @@
         "label": "顺势掏出一根面包开始吃播",
         "raw_label": "顺势掏出一根面包开始吃播",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+5",
           "delta_five_dim": {
@@ -4076,6 +4294,8 @@
         "label": "强行解释这是最新流行俚语",
         "raw_label": "强行解释这是最新流行俚语",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "乐子人+",
           "delta_five_dim": {},
@@ -4132,6 +4352,8 @@
         "label": "戴黄安全帽配合电钻摇花手",
         "raw_label": "戴黄安全帽配合电钻摇花手",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -4150,6 +4372,8 @@
         "label": "端果盘上楼跟装修师傅连麦",
         "raw_label": "端果盘上楼跟装修师傅连麦",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+4",
           "delta_five_dim": {
@@ -4208,6 +4432,8 @@
         "label": "跟着假模假样对口型蹭合唱",
         "raw_label": "跟着假模假样对口型蹭合唱",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%",
           "delta_five_dim": {
@@ -4226,6 +4452,8 @@
         "label": "当场拜师求大佬教换气发声",
         "raw_label": "当场拜师求大佬教换气发声",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "嗓音+1",
           "delta_five_dim": {},
@@ -4284,6 +4512,8 @@
         "label": "指着路灯说人造太阳也是日出",
         "raw_label": "指着路灯说人造太阳也是日出",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -4302,6 +4532,8 @@
         "label": "改播海滩烤肠品鉴大会",
         "raw_label": "改播海滩烤肠品鉴大会",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+5",
           "delta_five_dim": {
@@ -4358,6 +4590,8 @@
         "label": "开启模拟卷范文朗诵与批改",
         "raw_label": "开启模拟卷范文朗诵与批改",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Count_考编+1",
           "delta_five_dim": {},
@@ -4376,6 +4610,8 @@
         "label": "把纸条折成纸飞机飞回客厅",
         "raw_label": "把纸条折成纸飞机飞回客厅",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -4434,6 +4670,8 @@
         "label": "顶着天线造型严肃讲解成分",
         "raw_label": "顶着天线造型严肃讲解成分",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+1000",
           "delta_five_dim": {
@@ -4452,6 +4690,8 @@
         "label": "拿吹风机吹散变成蒲公英",
         "raw_label": "拿吹风机吹散变成蒲公英",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -4508,6 +4748,8 @@
         "label": "坐三条腿椅子练核心平衡",
         "raw_label": "坐三条腿椅子练核心平衡",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "体力+1",
           "delta_five_dim": {},
@@ -4526,6 +4768,8 @@
         "label": "追着弹幕求算何时能暴富",
         "raw_label": "追着弹幕求算何时能暴富",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%",
           "delta_five_dim": {
@@ -4584,6 +4828,8 @@
         "label": "硬说是品鉴高端手冲冷萃",
         "raw_label": "硬说是品鉴高端手冲冷萃",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -4602,6 +4848,8 @@
         "label": "吐舌头哈气像散热哈士奇",
         "raw_label": "吐舌头哈气像散热哈士奇",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -4659,6 +4907,8 @@
         "label": "连夜整理流水，主动全额退还打赏分成",
         "raw_label": "「连夜整理流水，主动全额退还打赏分成」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包-5万口碑+25得Tag_清白账本",
           "delta_five_dim": {
@@ -4680,6 +4930,8 @@
         "label": "平台正常分成凭本事赚的，关评装没看见",
         "raw_label": "「平台正常分成凭本事赚的，关评装没看见」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Flag_公款雷=1",
           "delta_five_dim": {},
@@ -4736,6 +4988,8 @@
         "label": "锁死百元以上礼物通道：陪伴比星堡贵",
         "raw_label": "「锁死百元以上礼物通道：陪伴比星堡贵」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+30得Tag_理性消费清流（商务×1.5封顶）",
           "delta_five_dim": {
@@ -4756,6 +5010,8 @@
         "label": "连喊十声感谢老板大气，趁热再打波PK",
         "raw_label": "「连喊十声感谢老板大气，趁热再打波PK」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+1万口碑-20",
           "delta_five_dim": {
@@ -4815,6 +5071,8 @@
         "label": "嘴硬到底：全是肌肉记忆，质疑都是眼红",
         "raw_label": "「嘴硬到底：全是肌肉记忆，质疑都是眼红」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "高危塌房",
           "delta_five_dim": {},
@@ -4832,7 +5090,13 @@
         "opt_key": "B",
         "label": "认错自罚停播三天，开露手摄像头重打",
         "raw_label": "「认错自罚停播三天，开露手摄像头重打」",
-        "req_expr": "游戏技术 >= 8",
+        "req_expr": null,
+        "check_expr": "游戏技术 >= 8",
+        "check_fail": {
+          "delta_five_dim": {
+            "fans_pct": -10
+          }
+        },
         "effects": {
           "summary": "粉-10%口碑+15（游戏技术≥8免掉粉锁M08）",
           "delta_five_dim": {
@@ -4892,6 +5156,8 @@
         "label": "连夜换纯白墙背景，约会全戴口罩严防",
         "raw_label": "「连夜换纯白墙背景，约会全戴口罩严防」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "起手0/3：保0/3状态-5",
           "delta_five_dim": {
@@ -4910,6 +5176,8 @@
         "label": "故意摆三双不同尺码拖鞋，溜侦探粉玩",
         "raw_label": "「故意摆三双不同尺码拖鞋，溜侦探粉玩」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+25%记Count_偷拍素材+1",
           "delta_five_dim": {
@@ -4972,6 +5240,8 @@
         "label": "坏笑拱火：玩真心话，说说上一段咋分的",
         "raw_label": "「坏笑拱火：玩真心话，说说上一段咋分的」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+40%好感-20黑粉+15%",
           "delta_five_dim": {
@@ -4994,7 +5264,14 @@
         "opt_key": "B",
         "label": "给自己加戏唱破音，强行掰成搞笑才艺场",
         "raw_label": "「给自己加戏唱破音，强行掰成搞笑才艺场」",
-        "req_expr": "情商 >= 6",
+        "req_expr": null,
+        "check_expr": "情商 >= 6",
+        "check_fail": {
+          "delta_five_dim": {
+            "rep": 10,
+            "npc_affinity_delta": 15
+          }
+        },
         "effects": {
           "summary": "口碑+10好感+15（情商≥6翻倍）",
           "delta_five_dim": {
@@ -5057,6 +5334,8 @@
         "label": "挑得体衣服赴约，带朋友在邻桌护航",
         "raw_label": "「挑得体衣服赴约，带朋友在邻桌护航」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Flag_榜一恋爱=1（未塌房进H02）",
           "delta_five_dim": {},
@@ -5077,6 +5356,8 @@
         "label": "礼貌婉拒：距离产生美，直播间见最好",
         "raw_label": "「礼貌婉拒：距离产生美，直播间见最好」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+5心态+1",
           "delta_five_dim": {
@@ -5136,6 +5417,8 @@
         "label": "五万顶半年房租，话术谨慎点不包疗效",
         "raw_label": "「五万顶半年房租，话术谨慎点不包疗效」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+5万口碑-15爆雷率+30%",
           "delta_five_dim": {
@@ -5155,10 +5438,12 @@
         "label": "量子美白纯智商税，老实接五千块国货",
         "raw_label": "「量子美白纯智商税，老实接五千块国货」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+5千口碑+10",
           "delta_five_dim": {
-            "wallet": 5,
+            "wallet": 5000,
             "rep": 10
           },
           "delta_attrs": {},
@@ -5214,6 +5499,8 @@
         "label": "把耳返摔台上：谁关的耳返？当场查监控",
         "raw_label": "「把耳返摔台上：谁关的耳返？当场查监控」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%口碑-10",
           "delta_five_dim": {
@@ -5233,6 +5520,8 @@
         "label": "盯紧现场音响震动鼓点，盲跳拿最高分",
         "raw_label": "「盯紧现场音响震动鼓点，盲跳拿最高分」",
         "req_expr": "才艺 >= 7",
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "（才艺≥7）粉+30%口碑+15锁M07",
           "delta_five_dim": {
@@ -5293,10 +5582,12 @@
         "label": "签正规授权分三成，必须挂主号跳转链接",
         "raw_label": "「签正规授权分三成，必须挂主号跳转链接」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包-5千转化+20%",
           "delta_five_dim": {
-            "wallet": -5
+            "wallet": -5000
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -5311,6 +5602,8 @@
         "label": "懒得管，反正也帮我涨知名度，随他折腾",
         "raw_label": "「懒得管，反正也帮我涨知名度，随他折腾」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+10%记Flag_放任切片号=1",
           "delta_five_dim": {
@@ -5369,6 +5662,8 @@
         "label": "依法纳税是底线！建正规账目一分不少交",
         "raw_label": "「依法纳税是底线！建正规账目一分不少交」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "-1万口碑+15记Flag_税务合规=1",
           "delta_five_dim": {
@@ -5389,6 +5684,8 @@
         "label": "才十万块钱哪有人查，先提现花了再说",
         "raw_label": "「才十万块钱哪有人查，先提现花了再说」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "+1.5万记Flag_税务隐患=1",
           "delta_five_dim": {},
@@ -5445,6 +5742,8 @@
         "label": "给猫办星播首席主播工牌",
         "raw_label": "给猫办星播首席主播工牌",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "给猫打工（记Count_猫上镜+1满3进H04）",
           "delta_five_dim": {},
@@ -5465,6 +5764,8 @@
         "label": "跟猫商量打赏三七分猫七你三",
         "raw_label": "跟猫商量打赏三七分猫七你三",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "给猫打工（记Count_猫上镜+1满3进H04）",
           "delta_five_dim": {},
@@ -5525,6 +5826,8 @@
         "label": "含泪夸榴莲界防盗门安全感满",
         "raw_label": "含泪夸榴莲界防盗门安全感满",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+3000",
           "delta_five_dim": {
@@ -5543,6 +5846,8 @@
         "label": "拿锤子砸十分钟把桌砸个坑",
         "raw_label": "拿锤子砸十分钟把桌砸个坑",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -5601,6 +5906,8 @@
         "label": "自罚喝大瓶矿泉水演肚皮鼓",
         "raw_label": "自罚喝大瓶矿泉水演肚皮鼓",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+4",
           "delta_five_dim": {
@@ -5619,6 +5926,8 @@
         "label": "用加密方言跟对方对飙胡话",
         "raw_label": "用加密方言跟对方对飙胡话",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -5677,6 +5986,8 @@
         "label": "问骗子奖金能否折成星播火箭",
         "raw_label": "问骗子奖金能否折成星播火箭",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -5695,6 +6006,8 @@
         "label": "给骗子推销购物袋里的红薯",
         "raw_label": "给骗子推销购物袋里的红薯",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -5754,6 +6067,8 @@
         "label": "配合白烟演《西游记》腾云出场",
         "raw_label": "配合白烟演《西游记》腾云出场",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -5772,6 +6087,8 @@
         "label": "严肃介绍这是木匠系古典乐",
         "raw_label": "严肃介绍这是木匠系古典乐",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -5830,6 +6147,8 @@
         "label": "让侄子先在游戏里跟你单挑",
         "raw_label": "让侄子先在游戏里跟你单挑",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -5849,6 +6168,8 @@
         "label": "把对门PK主播推荐给大姐",
         "raw_label": "把对门PK主播推荐给大姐",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -5907,6 +6228,8 @@
         "label": "顶着绿头发跟羊驼对视五分钟",
         "raw_label": "顶着绿头发跟羊驼对视五分钟",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -5925,6 +6248,8 @@
         "label": "买胡萝卜当场贿赂求它别吐",
         "raw_label": "买胡萝卜当场贿赂求它别吐",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+4",
           "delta_five_dim": {
@@ -5981,6 +6306,8 @@
         "label": "顺势在地上做街舞动作收尾",
         "raw_label": "顺势在地上做街舞动作收尾",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "才艺+1",
           "delta_five_dim": {},
@@ -5999,6 +6326,8 @@
         "label": "爬起来假装滑出去的不是我",
         "raw_label": "爬起来假装滑出去的不是我",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -6058,6 +6387,8 @@
         "label": "采访金鱼对这首歌有何看法",
         "raw_label": "采访金鱼对这首歌有何看法",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -6076,6 +6407,8 @@
         "label": "全团改演哑剧版《天鹅湖》",
         "raw_label": "全团改演哑剧版《天鹅湖》",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -6133,6 +6466,8 @@
         "label": "去便利店门口伴鬼畜曲跳舞",
         "raw_label": "去便利店门口伴鬼畜曲跳舞",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -6152,6 +6487,8 @@
         "label": "直播亲自翻唱证明比AI更鬼畜",
         "raw_label": "直播亲自翻唱证明比AI更鬼畜",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -6210,6 +6547,8 @@
         "label": "跟垃圾桶深情握爪喊知己",
         "raw_label": "跟垃圾桶深情握爪喊知己",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -6228,6 +6567,8 @@
         "label": "夸它具备高阶AI审视功能",
         "raw_label": "夸它具备高阶AI审视功能",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+5000",
           "delta_five_dim": {
@@ -6286,6 +6627,8 @@
         "label": "切游戏画面手捏感应器假装跑",
         "raw_label": "切游戏画面手捏感应器假装跑",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "乐子人+",
           "delta_five_dim": {},
@@ -6304,6 +6647,8 @@
         "label": "改成瑜伽垫睡眠质量测评",
         "raw_label": "改成瑜伽垫睡眠质量测评",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+5",
           "delta_five_dim": {
@@ -6364,6 +6709,8 @@
         "label": "掏自家玩偶跟对面玩偶打架",
         "raw_label": "掏自家玩偶跟对面玩偶打架",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -6382,6 +6729,8 @@
         "label": "请教玩偶能不能跳槽来你这",
         "raw_label": "请教玩偶能不能跳槽来你这",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "情商+1",
           "delta_five_dim": {},
@@ -6438,6 +6787,8 @@
         "label": "挺直腰板像军训标兵播完全场",
         "raw_label": "挺直腰板像军训标兵播完全场",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+5",
           "delta_five_dim": {
@@ -6456,6 +6807,8 @@
         "label": "让房管把老爸禁言十分钟",
         "raw_label": "让房管把老爸禁言十分钟",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -6514,6 +6867,8 @@
         "label": "面不改色分给镜头：大变辣条",
         "raw_label": "面不改色分给镜头：大变辣条",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -6532,6 +6887,8 @@
         "label": "学鸽子咕咕叫两声蒙混过关",
         "raw_label": "学鸽子咕咕叫两声蒙混过关",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -6590,6 +6947,8 @@
         "label": "顺便讨论炒饭到底放不放葱花",
         "raw_label": "顺便讨论炒饭到底放不放葱花",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -6609,6 +6968,8 @@
         "label": "强行挽尊说吃货表白最浪漫",
         "raw_label": "强行挽尊说吃货表白最浪漫",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+4",
           "delta_five_dim": {
@@ -6667,6 +7028,8 @@
         "label": "在白雾里神出鬼没演迷雾惊悚片",
         "raw_label": "在白雾里神出鬼没演迷雾惊悚片",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -6685,6 +7048,8 @@
         "label": "拿马克笔在镜头膜上画轮红日",
         "raw_label": "拿马克笔在镜头膜上画轮红日",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -6742,6 +7107,8 @@
         "label": "自扇嘴巴把正确名字抄脑门上",
         "raw_label": "自扇嘴巴把正确名字抄脑门上",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+3",
           "delta_five_dim": {
@@ -6760,6 +7127,8 @@
         "label": "打哈哈说刚才是反面教材对比",
         "raw_label": "打哈哈说刚才是反面教材对比",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -6818,6 +7187,8 @@
         "label": "坚称这是最前沿赛博朋克审美",
         "raw_label": "坚称这是最前沿赛博朋克审美",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -6836,6 +7207,8 @@
         "label": "把自己脸也涂成绿色人戏合一",
         "raw_label": "把自己脸也涂成绿色人戏合一",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -6892,6 +7265,8 @@
         "label": "顶一脸泡沫在昏暗中发感言",
         "raw_label": "顶一脸泡沫在昏暗中发感言",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -6911,6 +7286,8 @@
         "label": "拿手电筒从下巴往上照继续嗨",
         "raw_label": "拿手电筒从下巴往上照继续嗨",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -6969,10 +7346,12 @@
         "label": "全员备战带货夜！挂满年货节福利链接",
         "raw_label": "「全员备战带货夜！挂满年货节福利链接」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+12万、进C4-M02",
           "delta_five_dim": {
-            "wallet": 1
+            "wallet": 120000
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -6991,6 +7370,8 @@
         "label": "带货一周最多一场，绝不天天割粉丝韭菜",
         "raw_label": "「带货一周最多一场，绝不天天割粉丝韭菜」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+2万、口碑+8",
           "delta_five_dim": {
@@ -7050,6 +7431,8 @@
         "label": "厂家说只是批次风干差异，别自己砸锅",
         "raw_label": "「厂家说只是批次风干差异，别自己砸锅」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%记Flag_带货死雷=1",
           "delta_five_dim": {
@@ -7070,6 +7453,8 @@
         "label": "立刻翻样比对大货送检，备好先行退款",
         "raw_label": "「立刻翻样比对大货送检，备好先行退款」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "-1万翻样命中Count_验货命中+1",
           "delta_five_dim": {},
@@ -7127,6 +7512,8 @@
         "label": "首笔五十万先落袋，平台明年塌了也赚到",
         "raw_label": "「首笔五十万先落袋，平台明年塌了也赚到」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "首笔+50万后续必遇X-EGG-03",
           "delta_five_dim": {},
@@ -7145,6 +7532,8 @@
         "label": "独家约买断未来，留在星播守老粉基本盘",
         "raw_label": "「独家约买断未来，留在星播守老粉基本盘」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "得Tag_长红口碑口碑+20",
           "delta_five_dim": {
@@ -7206,6 +7595,8 @@
         "label": "只演示网页小游戏又不逼充钱，干票收手",
         "raw_label": "「只演示网页小游戏又不逼充钱，干票收手」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包暴涨但直通暴毙D07",
           "delta_five_dim": {},
@@ -7224,6 +7615,8 @@
         "label": "涉赌红线封口费！拉黑商务一分烂钱不碰",
         "raw_label": "「涉赌红线封口费！拉黑商务一分烂钱不碰」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+15，次周同行因涉赌被永封",
           "delta_five_dim": {
@@ -7282,10 +7675,12 @@
         "label": "托中间人塞十万公关费，求他别发视频",
         "raw_label": "「托中间人塞十万公关费，求他别发视频」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包-10万且货假进D11",
           "delta_five_dim": {
-            "wallet": -1
+            "wallet": -100000
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -7302,9 +7697,12 @@
         "label": "身正不怕影子斜，置顶欢迎铁锤老师把关",
         "raw_label": "「身正不怕影子斜，置顶欢迎铁锤老师把关」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "货净口碑+25转化+30%（假扣粉30%）",
           "delta_five_dim": {
+            "fans_pct": -30,
             "rep": 25
           },
           "delta_attrs": {},
@@ -7357,7 +7755,9 @@
         "opt_key": "A",
         "label": "发合照正式官宣：遇到对的人，分享幸福",
         "raw_label": "「发合照正式官宣：遇到对的人，分享幸福」",
-        "req_expr": "Tag_人设 == '真实'",
+        "req_expr": null,
+        "check_expr": "Tag_人设 == '真实'",
+        "check_fail": null,
         "effects": {
           "summary": "若Tag_人设=真实粉+20%，单身掉粉40%",
           "delta_five_dim": {
@@ -7370,7 +7770,22 @@
           ],
           "ending_triggers": [],
           "next_cards": [],
-          "qualitative_notes": []
+          "qualitative_notes": [],
+          "effects_conditional": {
+            "if": "Tag_人设 == '真实'",
+            "then": {
+              "delta_five_dim": {
+                "fans_pct": 20
+              },
+              "description": "真实人设官宣涨粉 20%"
+            },
+            "else": {
+              "delta_five_dim": {
+                "fans_pct": -40
+              },
+              "description": "非真实人设塌房掉粉 40%"
+            }
+          }
         },
         "outcome_toast": "若Tag_人设=真实粉+20%，单身掉粉40%"
       },
@@ -7379,6 +7794,8 @@
         "label": "正冲百万粉关键期，再委屈你保密半年",
         "raw_label": "「正冲百万粉关键期，再委屈你保密半年」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Count_偷拍素材+1",
           "delta_five_dim": {},
@@ -7436,6 +7853,8 @@
         "label": "对我这么好，以前的事都是造谣，谈！",
         "raw_label": "「对我这么好，以前的事都是造谣，谈！」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+25记Flag_劣迹对象=1（五章爆）",
           "delta_five_dim": {
@@ -7456,6 +7875,8 @@
         "label": "再迷人也是定时炸弹，立刻拉黑保事业",
         "raw_label": "「再迷人也是定时炸弹，立刻拉黑保事业」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态-5心态+2",
           "delta_five_dim": {
@@ -7514,6 +7935,8 @@
         "label": "给五万买清静，签收条别再烦我",
         "raw_label": "「给五万买清静，签收条别再烦我」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包-5万",
           "delta_five_dim": {
@@ -7532,6 +7955,8 @@
         "label": "开专场直播把前任骂个狗血淋头",
         "raw_label": "「开专场直播把前任骂个狗血淋头」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%口碑-15",
           "delta_five_dim": {
@@ -7551,6 +7976,8 @@
         "label": "一分不给不回，委托法务取证发律师函",
         "raw_label": "「一分不给不回，委托法务取证发律师函」",
         "req_expr": "口才 >= 7",
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热-5%记Count_前任律师函+1",
           "delta_five_dim": {
@@ -7610,6 +8037,8 @@
         "label": "安全第一！报警立案并连夜搬进安保公寓",
         "raw_label": "「安全第一！报警立案并连夜搬进安保公寓」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包-3万状态+10除患",
           "delta_five_dim": {
@@ -7629,6 +8058,8 @@
         "label": "不耽误排班，门口多装监控硬着头皮播",
         "raw_label": "「不耽误排班，门口多装监控硬着头皮播」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "每场状态-15",
           "delta_five_dim": {
@@ -7647,6 +8078,8 @@
         "label": "报警并公告停播两周，切断跟踪定位线索",
         "raw_label": "「报警并公告停播两周，切断跟踪定位线索」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热-20%状态+15口碑+10",
           "delta_five_dim": {
@@ -7707,6 +8140,8 @@
         "label": "职业边界不能破！连夜宣布将该队友除名",
         "raw_label": "「职业边界不能破！连夜宣布将该队友除名」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热-10%口碑+10保主线",
           "delta_five_dim": {
@@ -7726,6 +8161,8 @@
         "label": "住一起这么久，发动态帮他求情说太热情",
         "raw_label": "「住一起这么久，发动态帮他求情说太热情」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "连带塌房口碑-30",
           "delta_five_dim": {
@@ -7744,6 +8181,8 @@
         "label": "全员禁言装不知情，等风头过去再说",
         "raw_label": "「全员禁言装不知情，等风头过去再说」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "被扒口碑-25",
           "delta_five_dim": {
@@ -7802,13 +8241,14 @@
         "label": "憋住！再拉扯二十分钟把权重顶上全站一",
         "raw_label": "「憋住！再拉扯二十分钟把权重顶上全站一」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+40%热+35%口碑-18黑粉+15%",
           "delta_five_dim": {
             "fans_pct": 15,
             "fans": 1,
             "heat_pct": 35,
-            "wallet": 4,
             "wallet_pct": 40,
             "rep": -18,
             "hater_pct": 15
@@ -7826,10 +8266,11 @@
         "label": "说到做到，倒计时十秒准时放链接不溜粉",
         "raw_label": "「说到做到，倒计时十秒准时放链接不溜粉」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+15%口碑+10",
           "delta_five_dim": {
-            "wallet": 1,
             "wallet_pct": 15,
             "rep": 10
           },
@@ -7886,6 +8327,8 @@
         "label": "硬说是国际时装周高低肩步",
         "raw_label": "硬说是国际时装周高低肩步",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+1万",
           "delta_five_dim": {
@@ -7904,6 +8347,8 @@
         "label": "往另一只鞋塞俩馒头找平",
         "raw_label": "往另一只鞋塞俩馒头找平",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -7962,6 +8407,8 @@
         "label": "躲进草丛装蘑菇苟二十分钟",
         "raw_label": "躲进草丛装蘑菇苟二十分钟",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -7981,6 +8428,8 @@
         "label": "贿赂榜一开装甲车当保镖",
         "raw_label": "贿赂榜一开装甲车当保镖",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -8039,6 +8488,8 @@
         "label": "在雾面比OK手势表示还活着",
         "raw_label": "在雾面比OK手势表示还活着",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -8057,6 +8508,8 @@
         "label": "拿电风扇猛吹把自己吹成海草",
         "raw_label": "拿电风扇猛吹把自己吹成海草",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -8115,6 +8568,8 @@
         "label": "求他把那颗润喉糖链接交出来",
         "raw_label": "求他把那颗润喉糖链接交出来",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+5000",
           "delta_five_dim": {
@@ -8133,6 +8588,8 @@
         "label": "两人用公鸭嗓来段嘎嘎对唱",
         "raw_label": "两人用公鸭嗓来段嘎嘎对唱",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -8191,6 +8648,8 @@
         "label": "躺瑜伽垫演零重力咸鱼瘫抗衡",
         "raw_label": "躺瑜伽垫演零重力咸鱼瘫抗衡",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+5",
           "delta_five_dim": {
@@ -8209,6 +8668,8 @@
         "label": "模仿金鸡独立踹翻了补光灯",
         "raw_label": "模仿金鸡独立踹翻了补光灯",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -8267,6 +8728,8 @@
         "label": "趴玻璃上假装自己在擦地公益",
         "raw_label": "趴玻璃上假装自己在擦地公益",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+5",
           "delta_five_dim": {
@@ -8285,6 +8748,8 @@
         "label": "采访阿姨平时吃啥力气这么大",
         "raw_label": "采访阿姨平时吃啥力气这么大",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -8344,6 +8809,8 @@
         "label": "保持威严说赐尔等珍珠万斛",
         "raw_label": "保持威严说赐尔等珍珠万斛",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -8362,6 +8829,8 @@
         "label": "全团趴地上撅着屁股找珠子",
         "raw_label": "全团趴地上撅着屁股找珠子",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -8418,6 +8887,8 @@
         "label": "镇定翻过稿子假装看背面注释",
         "raw_label": "镇定翻过稿子假装看背面注释",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+8",
           "delta_five_dim": {
@@ -8436,6 +8907,8 @@
         "label": "带头给自己鼓掌化解尴尬",
         "raw_label": "带头给自己鼓掌化解尴尬",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "情商+1",
           "delta_five_dim": {},
@@ -8494,6 +8967,8 @@
         "label": "改口夸是户外求生盾牌级主食",
         "raw_label": "改口夸是户外求生盾牌级主食",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+1万",
           "delta_five_dim": {
@@ -8512,6 +8987,8 @@
         "label": "拿大列巴当板砖拍碎一颗核桃",
         "raw_label": "拿大列巴当板砖拍碎一颗核桃",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -8568,6 +9045,8 @@
         "label": "截图装裱发动态谢黑粉美言",
         "raw_label": "截图装裱发动态谢黑粉美言",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -8586,6 +9065,8 @@
         "label": "为错字黑粉加唱三首安可曲",
         "raw_label": "为错字黑粉加唱三首安可曲",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -8644,6 +9125,8 @@
         "label": "把游戏拖进回收站演戒网瘾",
         "raw_label": "把游戏拖进回收站演戒网瘾",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -8662,6 +9145,8 @@
         "label": "用哭腔给策划唱失恋苦情歌",
         "raw_label": "用哭腔给策划唱失恋苦情歌",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -8721,6 +9206,8 @@
         "label": "隔着假发片跟观众玩猜猜在哪",
         "raw_label": "隔着假发片跟观众玩猜猜在哪",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -8739,6 +9226,8 @@
         "label": "捡回假发片贴下巴当胡子戴",
         "raw_label": "捡回假发片贴下巴当胡子戴",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+1万",
           "delta_five_dim": {
@@ -8797,6 +9286,8 @@
         "label": "抱着猫痛哭流涕求它别吓人",
         "raw_label": "抱着猫痛哭流涕求它别吓人",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -8816,6 +9307,8 @@
         "label": "给猫打恐怖背光当特邀女鬼",
         "raw_label": "给猫打恐怖背光当特邀女鬼",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -8874,6 +9367,8 @@
         "label": "高深莫测点头：这是新企划",
         "raw_label": "高深莫测点头：这是新企划",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -8892,6 +9387,8 @@
         "label": "晒出脸上被键盘印出的红格子",
         "raw_label": "晒出脸上被键盘印出的红格子",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -8951,6 +9448,8 @@
         "label": "边跑边解说百米冲刺田径决赛",
         "raw_label": "边跑边解说百米冲刺田径决赛",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "体力+1",
           "delta_five_dim": {},
@@ -8969,6 +9468,8 @@
         "label": "爬上树跟树下的大鹅谈判",
         "raw_label": "爬上树跟树下的大鹅谈判",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -9025,6 +9526,8 @@
         "label": "每晚下播前带十万观众刷十道题",
         "raw_label": "每晚下播前带十万观众刷十道题",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Count_考编+1满3进H10",
           "delta_five_dim": {},
@@ -9045,6 +9548,8 @@
         "label": "给老妈转一万红包堵催考的嘴",
         "raw_label": "给老妈转一万红包堵催考的嘴",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -9103,10 +9608,12 @@
         "label": "硬说这是赛博朋克头饰潮流",
         "raw_label": "硬说这是赛博朋克头饰潮流",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+1.5万",
           "delta_five_dim": {
-            "wallet": 1
+            "wallet": 15000
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -9121,6 +9628,8 @@
         "label": "一剪刀剪成狗啃刘海破防",
         "raw_label": "一剪刀剪成狗啃刘海破防",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -9179,6 +9688,8 @@
         "label": "强辩辣椒也是果实算水果",
         "raw_label": "强辩辣椒也是果实算水果",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -9197,6 +9708,8 @@
         "label": "当场干吃一勺豆豉酱表诚意",
         "raw_label": "当场干吃一勺豆豉酱表诚意",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -9253,6 +9766,8 @@
         "label": "现场演婴儿哭声跟宝宝共情",
         "raw_label": "现场演婴儿哭声跟宝宝共情",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -9272,6 +9787,8 @@
         "label": "吐槽算法后台是不是成精了",
         "raw_label": "吐槽算法后台是不是成精了",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Count_算法异常+1",
           "delta_five_dim": {},
@@ -9328,6 +9845,8 @@
         "label": "用舌头舔开眼部奶油继续播",
         "raw_label": "用舌头舔开眼部奶油继续播",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -9347,6 +9866,8 @@
         "label": "往头上插根蜡烛当人形蛋糕",
         "raw_label": "往头上插根蜡烛当人形蛋糕",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -9403,6 +9924,8 @@
         "label": "气炸了！立刻开播哭诉跟他对喷三百回合",
         "raw_label": "「气炸了！立刻开播哭诉跟他对喷三百回合」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "掉粉30%黑粉+20%",
           "delta_five_dim": {
@@ -9423,6 +9946,8 @@
         "label": "忍住不开麦！调取当年原始录屏工程文件",
         "raw_label": "「忍住不开麦！调取当年原始录屏工程文件」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "进C5-M02反杀",
           "delta_five_dim": {},
@@ -9443,6 +9968,8 @@
         "label": "【红线】振臂高呼：家人们去把他号冲烂",
         "raw_label": "「【红线】振臂高呼：家人们去把他号冲烂」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "直通全网封杀D06",
           "delta_five_dim": {},
@@ -9498,7 +10025,9 @@
         "opt_key": "A",
         "label": "甩出带公证时间戳的完整录屏逐帧反转",
         "raw_label": "「甩出带公证时间戳的完整录屏逐帧反转」",
-        "req_expr": "Count_复盘留档 >= 2",
+        "req_expr": null,
+        "check_expr": "Count_复盘留档 >= 2",
+        "check_fail": null,
         "effects": {
           "summary": "若Count_复盘留档≥2涨粉40%口碑+35（否则半血）",
           "delta_five_dim": {
@@ -9510,7 +10039,24 @@
           ],
           "ending_triggers": [],
           "next_cards": [],
-          "qualitative_notes": []
+          "qualitative_notes": [],
+          "effects_conditional": {
+            "if": "Count_复盘留档 >= 2",
+            "then": {
+              "delta_five_dim": {
+                "fans_pct": 40,
+                "rep": 35
+              },
+              "description": "通过支：完整证据链绝地反击，涨粉 40%、口碑 +35"
+            },
+            "else": {
+              "delta_five_dim": {
+                "fans_pct": 20,
+                "rep": 17
+              },
+              "description": "否则支（半血）：增量减半取整，涨粉 20%、口碑 +17"
+            }
+          }
         },
         "outcome_toast": "若Count_复盘留档≥2涨粉40%口碑+35（否则半血）"
       },
@@ -9519,6 +10065,8 @@
         "label": "发声明表示沟通误会，各自安好息事宁人",
         "raw_label": "「发声明表示沟通误会，各自安好息事宁人」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉-25%",
           "delta_five_dim": {
@@ -9577,7 +10125,13 @@
         "opt_key": "A",
         "label": "法庭见！起诉排他条款打官司拿回自由身",
         "raw_label": "「法庭见！起诉排他条款打官司拿回自由身」",
-        "req_expr": "Flag_审过合同 == 1",
+        "req_expr": null,
+        "check_expr": "Flag_审过合同 == 1",
+        "check_fail": {
+          "ending_triggers": [
+            "D13"
+          ]
+        },
         "effects": {
           "summary": "若Flag_审过合同=1胜诉，否则进D13",
           "delta_five_dim": {},
@@ -9585,9 +10139,7 @@
           "state_writes": [
             "Flag_审过合同 = 1"
           ],
-          "ending_triggers": [
-            "D13"
-          ],
+          "ending_triggers": [],
           "next_cards": [],
           "qualitative_notes": []
         },
@@ -9598,10 +10150,12 @@
         "label": "联合核心伙伴付和解金出走，自立门户",
         "raw_label": "「联合核心伙伴付和解金出走，自立门户」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包-50万锁M03",
           "delta_five_dim": {
-            "wallet": -5
+            "wallet": -500000
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -9618,6 +10172,8 @@
         "label": "违约金太吓人，低头签字按公会安排带货",
         "raw_label": "「违约金太吓人，低头签字按公会安排带货」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "进D14",
           "delta_five_dim": {},
@@ -9674,9 +10230,13 @@
         "label": "【高危】拍桌怒吼：我谈恋爱关你们屁事",
         "raw_label": "「【高危】拍桌怒吼：我谈恋爱关你们屁事」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "掉粉60%直通暴毙D17",
-          "delta_five_dim": {},
+          "delta_five_dim": {
+            "fans_pct": -60
+          },
           "delta_attrs": {},
           "state_writes": [],
           "ending_triggers": [
@@ -9692,6 +10252,8 @@
         "label": "当场宣布已分手切割，向粉丝诚恳道歉",
         "raw_label": "「当场宣布已分手切割，向粉丝诚恳道歉」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "进入C5-M05道歉质量判定",
           "delta_five_dim": {},
@@ -9712,6 +10274,8 @@
         "label": "暂不开播，由工作室发简短单身声明",
         "raw_label": "「暂不开播，由工作室发简短单身声明」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "进入C5-M05道歉质量判定",
           "delta_five_dim": {},
@@ -9770,9 +10334,12 @@
         "label": "关提词器素颜鞠躬三次，停播半月反思",
         "raw_label": "「关提词器素颜鞠躬三次，停播半月反思」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "扣粉20%口碑+5保号存活",
           "delta_five_dim": {
+            "fans_pct": -20,
             "rep": 5
           },
           "delta_attrs": {},
@@ -9788,6 +10355,8 @@
         "label": "机械念完公关稿，下播前露出一丝微笑",
         "raw_label": "「机械念完公关稿，下播前露出一丝微笑」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "被扒念稿憋笑直通D17",
           "delta_five_dim": {},
@@ -9845,6 +10414,8 @@
         "label": "发声明踢出师门，坚称当时没看清消息",
         "raw_label": "「发声明踢出师门，坚称当时没看清消息」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "好感清零",
           "delta_five_dim": {},
@@ -9861,6 +10432,8 @@
         "label": "自己带的人自己扛，辩解只是朋友送礼",
         "raw_label": "「自己带的人自己扛，辩解只是朋友送礼」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "连带封禁口碑-35",
           "delta_five_dim": {
@@ -9879,6 +10452,8 @@
         "label": "申请停播一周，配合平台合规部独立调查",
         "raw_label": "「申请停播一周，配合平台合规部独立调查」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热-25%证实曾勒令退还口碑+20",
           "delta_five_dim": {
@@ -9937,7 +10512,13 @@
         "opt_key": "A",
         "label": "选品失职不甩锅！倾家荡产垫付退一赔三",
         "raw_label": "「选品失职不甩锅！倾家荡产垫付退一赔三」",
-        "req_expr": "Count_验货命中 >= 1",
+        "req_expr": null,
+        "check_expr": "Count_验货命中 >= 1",
+        "check_fail": {
+          "ending_triggers": [
+            "D12"
+          ]
+        },
         "effects": {
           "summary": "按Count_验货命中≥2全身而退锁M02/≥1伤减半/0进D12",
           "delta_five_dim": {},
@@ -9946,8 +10527,7 @@
             "Count_验货命中 += 1"
           ],
           "ending_triggers": [
-            "M02",
-            "D12"
+            "M02"
           ],
           "next_cards": [],
           "qualitative_notes": []
@@ -9959,6 +10539,8 @@
         "label": "我也是受害者，让消费者自己找厂家维权",
         "raw_label": "「我也是受害者，让消费者自己找厂家维权」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "进D12",
           "delta_five_dim": {},
@@ -10014,16 +10596,22 @@
         "opt_key": "A",
         "label": "在官方通报下认错受罚，关停变现改造",
         "raw_label": "「在官方通报下认错受罚，关停变现改造」",
-        "req_expr": "口碑 >= 80",
-        "effects": {
-          "summary": "若口碑≥80扣粉50%存活，否则进D20/D21",
-          "delta_five_dim": {},
-          "delta_attrs": {},
-          "state_writes": [],
+        "req_expr": null,
+        "check_expr": "口碑 >= 80",
+        "check_fail": {
           "ending_triggers": [
             "D20",
             "D21"
-          ],
+          ]
+        },
+        "effects": {
+          "summary": "若口碑≥80扣粉50%存活，否则进D20/D21",
+          "delta_five_dim": {
+            "fans_pct": -50
+          },
+          "delta_attrs": {},
+          "state_writes": [],
+          "ending_triggers": [],
           "next_cards": [],
           "qualitative_notes": []
         },
@@ -10034,6 +10622,8 @@
         "label": "再编一个双胞胎替身的借口试图蒙混过关",
         "raw_label": "「再编一个双胞胎替身的借口试图蒙混过关」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "直通D20/D21",
           "delta_five_dim": {},
@@ -10090,7 +10680,14 @@
         "opt_key": "A",
         "label": "发十字分手声明，闭关带神级企划归来",
         "raw_label": "「发十字分手声明，闭关带神级企划归来」",
-        "req_expr": "心态 >= 7",
+        "req_expr": null,
+        "check_expr": "心态 >= 7",
+        "check_fail": {
+          "delta_five_dim": {
+            "stamina": -30,
+            "rep": -10
+          }
+        },
         "effects": {
           "summary": "（心态≥7）状态-15后粉+50%口碑+35逆袭",
           "delta_five_dim": {
@@ -10114,6 +10711,8 @@
         "label": "天天开播喝酒哭诉，把直播间变苦情剧场",
         "raw_label": "「天天开播喝酒哭诉，把直播间变苦情剧场」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态-30口碑-10",
           "delta_five_dim": {
@@ -10171,6 +10770,8 @@
         "label": "八点抢发小作文甩锅，先把舆论节奏带起",
         "raw_label": "「八点抢发小作文甩锅，先把舆论节奏带起」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "A或Flag_账号协议=0触发D15/D16/D19",
           "delta_five_dim": {},
@@ -10193,6 +10794,8 @@
         "label": "不搞抹黑，直接公示账号产权协议时间线",
         "raw_label": "「不搞抹黑，直接公示账号产权协议时间线」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "有协议选B保号口碑+15",
           "delta_five_dim": {
@@ -10249,6 +10852,8 @@
         "label": "开播发声：错的是罪犯，受害者绝不低头",
         "raw_label": "「开播发声：错的是罪犯，受害者绝不低头」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+30得Tag_勇敢发声者",
           "delta_five_dim": {
@@ -10269,6 +10874,8 @@
         "label": "怕越描越黑不敢回应，关掉私信独自承受",
         "raw_label": "「怕越描越黑不敢回应，关掉私信独自承受」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态-25",
           "delta_five_dim": {
@@ -10287,6 +10894,8 @@
         "label": "报警刑事立案+联合平台取证上线维权池",
         "raw_label": "「报警刑事立案+联合平台取证上线维权池」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "罪犯获刑口碑+40",
           "delta_five_dim": {
@@ -10343,10 +10952,12 @@
         "label": "怕耽误盛典，咬牙再转五十万最后一次",
         "raw_label": "「怕耽误盛典，咬牙再转五十万最后一次」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包-50万仍被爆",
           "delta_five_dim": {
-            "wallet": -5
+            "wallet": -500000
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -10361,6 +10972,8 @@
         "label": "忍无可忍，开播跟前任彻底撕破脸皮互爆",
         "raw_label": "「忍无可忍，开播跟前任彻底撕破脸皮互爆」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑-20",
           "delta_five_dim": {
@@ -10379,6 +10992,8 @@
         "label": "三次敲诈证据链已齐，直接报警移送法办",
         "raw_label": "「三次敲诈证据链已齐，直接报警移送法办」",
         "req_expr": "Count_前任律师函 >= 1",
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "若Count_前任律师函≥1口碑+25",
           "delta_five_dim": {
@@ -10437,6 +11052,8 @@
         "label": "保持微笑假装演人体喷泉",
         "raw_label": "保持微笑假装演人体喷泉",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -10455,6 +11072,8 @@
         "label": "从兜里掏彩带洒向空中挽尊",
         "raw_label": "从兜里掏彩带洒向空中挽尊",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -10513,6 +11132,8 @@
         "label": "在鹅毛里唱起经典咏雪老歌",
         "raw_label": "在鹅毛里唱起经典咏雪老歌",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+3万",
           "delta_five_dim": {
@@ -10531,6 +11152,8 @@
         "label": "从毛堆钻出来演破壳大白鹅",
         "raw_label": "从毛堆钻出来演破壳大白鹅",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -10589,6 +11212,8 @@
         "label": "将错就错拿走友谊竞赛奖",
         "raw_label": "将错就错拿走友谊竞赛奖",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+8",
           "delta_five_dim": {
@@ -10607,6 +11232,8 @@
         "label": "追着用翻译软件解释半小时",
         "raw_label": "追着用翻译软件解释半小时",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -10666,6 +11293,8 @@
         "label": "在空中做游泳动作装太空漫步",
         "raw_label": "在空中做游泳动作装太空漫步",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "才艺+1",
           "delta_five_dim": {},
@@ -10684,6 +11313,8 @@
         "label": "朝台下招手演开业气球人",
         "raw_label": "朝台下招手演开业气球人",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -10742,6 +11373,8 @@
         "label": "默契地学一声拔塞子噗嗤声",
         "raw_label": "默契地学一声拔塞子噗嗤声",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -10760,6 +11393,8 @@
         "label": "贴心问对方是不是要泡碗面",
         "raw_label": "贴心问对方是不是要泡碗面",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -10819,6 +11454,8 @@
         "label": "隔着屏幕互相给对方递纸巾",
         "raw_label": "隔着屏幕互相给对方递纸巾",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "情商+1",
           "delta_five_dim": {},
@@ -10837,6 +11474,8 @@
         "label": "改比谁一分钟打喷嚏声音更响",
         "raw_label": "改比谁一分钟打喷嚏声音更响",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -10895,6 +11534,8 @@
         "label": "嚼两下严肃点评花很有韧性",
         "raw_label": "嚼两下严肃点评花很有韧性",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -10913,6 +11554,8 @@
         "label": "趁没人注意悄悄吐进餐巾纸",
         "raw_label": "趁没人注意悄悄吐进餐巾纸",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -10971,6 +11614,8 @@
         "label": "卡在门框里四只恐龙齐跳肚皮舞",
         "raw_label": "卡在门框里四只恐龙齐跳肚皮舞",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+25%",
           "delta_five_dim": {
@@ -10989,6 +11634,8 @@
         "label": "拔掉气阀原地漏气变四张皮",
         "raw_label": "拔掉气阀原地漏气变四张皮",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -11046,6 +11693,8 @@
         "label": "站蜡像旁把五官挤成大叔样",
         "raw_label": "站蜡像旁把五官挤成大叔样",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -11064,6 +11713,8 @@
         "label": "往蜡像手里塞一把铁铲子",
         "raw_label": "往蜡像手里塞一把铁铲子",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -11122,6 +11773,8 @@
         "label": "顺势介绍兼具中医拔罐功能",
         "raw_label": "顺势介绍兼具中医拔罐功能",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+5万",
           "delta_five_dim": {
@@ -11140,6 +11793,8 @@
         "label": "在另一边脸也吸一个凑对称",
         "raw_label": "在另一边脸也吸一个凑对称",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -11198,6 +11853,8 @@
         "label": "对冒烟主机行庄严告别礼",
         "raw_label": "对冒烟主机行庄严告别礼",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+25%",
           "delta_five_dim": {
@@ -11217,6 +11874,8 @@
         "label": "硬说是首领死前终极物理攻击",
         "raw_label": "硬说是首领死前终极物理攻击",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -11275,6 +11934,8 @@
         "label": "把字裱起来挂猫窝上当牌匾",
         "raw_label": "把字裱起来挂猫窝上当牌匾",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "乐子人+",
           "delta_five_dim": {},
@@ -11293,6 +11954,8 @@
         "label": "硬改两笔变成「天道酬金",
         "raw_label": "硬改两笔变成「天道酬金」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+2万",
           "delta_five_dim": {
@@ -11351,6 +12014,8 @@
         "label": "改口是美猴王原生态助眠",
         "raw_label": "改口是美猴王原生态助眠",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -11369,6 +12034,8 @@
         "label": "强忍酸意用颤抖气音念故事",
         "raw_label": "强忍酸意用颤抖气音念故事",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+15%",
           "delta_five_dim": {
@@ -11428,6 +12095,8 @@
         "label": "强颜欢笑说洒洒水啦大气",
         "raw_label": "强颜欢笑说洒洒水啦大气",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+8",
           "delta_five_dim": {
@@ -11446,6 +12115,8 @@
         "label": "私信求对面能不能偷退九发",
         "raw_label": "私信求对面能不能偷退九发",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "好感+10",
           "delta_five_dim": {},
@@ -11504,6 +12175,8 @@
         "label": "躺雪坑宣布发明人体雪橇流",
         "raw_label": "躺雪坑宣布发明人体雪橇流",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -11522,6 +12195,8 @@
         "label": "收费让游客在雪沟拍照打卡",
         "raw_label": "收费让游客在雪沟拍照打卡",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+1万",
           "delta_five_dim": {
@@ -11578,6 +12253,8 @@
         "label": "转发热搜：满减券还在呢",
         "raw_label": "转发热搜：满减券还在呢",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+8",
           "delta_five_dim": {
@@ -11596,6 +12273,8 @@
         "label": "给狗仔寄箱泡面谢他陪熬夜",
         "raw_label": "给狗仔寄箱泡面谢他陪熬夜",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -11654,6 +12333,8 @@
         "label": "顶着四条眉毛演古装四眉大侠",
         "raw_label": "顶着四条眉毛演古装四眉大侠",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -11672,6 +12353,8 @@
         "label": "拿睫毛膏重画两条不掉色眉",
         "raw_label": "拿睫毛膏重画两条不掉色眉",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+4万",
           "delta_five_dim": {
@@ -11730,6 +12413,8 @@
         "label": "卡在窗框里跟观众挥手晚安",
         "raw_label": "卡在窗框里跟观众挥手晚安",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -11748,6 +12433,8 @@
         "label": "保持姿势唱了一段苦情悔过歌",
         "raw_label": "保持姿势唱了一段苦情悔过歌",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -11804,6 +12491,8 @@
         "label": "揉揉眼睛以为熬夜出幻觉了",
         "raw_label": "揉揉眼睛以为熬夜出幻觉了",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+5",
           "delta_five_dim": {
@@ -11822,6 +12511,8 @@
         "label": "对空气喊管理员加个鸡腿",
         "raw_label": "对空气喊管理员加个鸡腿",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Count_算法异常+1",
           "delta_five_dim": {},
@@ -11878,6 +12569,8 @@
         "label": "捂漏风门牙展示奖牌硬度",
         "raw_label": "捂漏风门牙展示奖牌硬度",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -11896,6 +12589,8 @@
         "label": "连夜联系牙科诊所接推广",
         "raw_label": "连夜联系牙科诊所接推广",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+2万",
           "delta_five_dim": {
@@ -11952,6 +12647,8 @@
         "label": "开播内涵他早该封了，全盘接收他的流量",
         "raw_label": "「开播内涵他早该封了，全盘接收他的流量」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+50%、口碑-25",
           "delta_five_dim": {
@@ -11971,6 +12668,8 @@
         "label": "全团禁言不蹭黑流量，连夜自查三年合规",
         "raw_label": "「全团禁言不蹭黑流量，连夜自查三年合规」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+20、稳固顶流根基",
           "delta_five_dim": {
@@ -11989,6 +12688,8 @@
         "label": "私下找高管打听原因，直播间照常按计划",
         "raw_label": "「私下找高管打听原因，直播间照常按计划」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+2、热度+10%",
           "delta_five_dim": {
@@ -12048,6 +12749,8 @@
         "label": "安全第一！宁挨骂耍大牌也立刻广播疏散",
         "raw_label": "「安全第一！宁挨骂耍大牌也立刻广播疏散」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热-15%口碑+5",
           "delta_five_dim": {
@@ -12066,13 +12769,14 @@
         "opt_key": "B",
         "label": "人都来了怎么能停？按原计划登台发福利",
         "raw_label": "「人都来了怎么能停？按原计划登台发福利」",
-        "req_expr": "Flag_安保习惯 == 1",
+        "req_expr": null,
+        "check_expr": "Flag_安保习惯 == 1",
+        "check_fail": null,
         "effects": {
           "summary": "若Flag_安保习惯=1粉+40%，否则口碑-50",
           "delta_five_dim": {
             "fans_pct": 40,
-            "fans": 4,
-            "rep": -50
+            "fans": 4
           },
           "delta_attrs": {},
           "state_writes": [
@@ -12080,7 +12784,22 @@
           ],
           "ending_triggers": [],
           "next_cards": [],
-          "qualitative_notes": []
+          "qualitative_notes": [],
+          "effects_conditional": {
+            "if": "Flag_安保习惯 == 1",
+            "then": {
+              "delta_five_dim": {
+                "fans_pct": 40
+              },
+              "description": "通过支：安保得力现场有序，涨粉 40%"
+            },
+            "else": {
+              "delta_five_dim": {
+                "rep": -50
+              },
+              "description": "否则支：安保缺失现场失控，口碑 -50"
+            }
+          }
         },
         "outcome_toast": "若Flag_安保习惯=1粉+40%，否则口碑-50"
       }
@@ -12128,6 +12847,8 @@
         "label": "关播配合调查，发长文严厉谴责恶意报警",
         "raw_label": "「关播配合调查，发长文严厉谴责恶意报警」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "停播7天热-20%、获同情分口碑+20洗白",
           "delta_five_dim": {
@@ -12147,6 +12868,8 @@
         "label": "把手机藏袖子里偷播盘查：家人们太刺激",
         "raw_label": "「把手机藏袖子里偷播盘查：家人们太刺激」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "扰乱公共秩序口碑-60封禁",
           "delta_five_dim": {
@@ -12203,6 +12926,8 @@
         "label": "【红线】杀到酒店门口开直播拍门对峙",
         "raw_label": "「【红线】杀到酒店门口开直播拍门对峙」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "触犯私闯骚扰红线直通暴毙D10",
           "delta_five_dim": {},
@@ -12221,6 +12946,8 @@
         "label": "找真人输光路人缘！发传票，舞台见真章",
         "raw_label": "「找真人输光路人缘！发传票，舞台见真章」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+25、盛典票数+30%",
           "delta_five_dim": {
@@ -12280,6 +13007,8 @@
         "label": "【红线】全体都有，去把对面直播间冲塌",
         "raw_label": "「【红线】全体都有，去把对面直播间冲塌」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "十秒后跨平台封杀直通暴毙D06",
           "delta_five_dim": {},
@@ -12298,6 +13027,8 @@
         "label": "谁也不许去骂，把异常数据截图交仲裁",
         "raw_label": "「谁也不许去骂，把异常数据截图交仲裁」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "官方清退机器票夺冠，口碑+30",
           "delta_five_dim": {
@@ -12354,10 +13085,12 @@
         "label": "把直播间全交AI数字人，我去环游世界",
         "raw_label": "「把直播间全交AI数字人，我去环游世界」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+20万，50%率封号D09、50%率进H03",
           "delta_five_dim": {
-            "wallet": 2
+            "wallet": 200000
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -12375,6 +13108,8 @@
         "label": "观众看的是活生生的人，拒绝无人直播",
         "raw_label": "「观众看的是活生生的人，拒绝无人直播」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+15",
           "delta_five_dim": {
@@ -12431,6 +13166,8 @@
         "label": "打开三年完整纳税凭证与合同，透明迎检",
         "raw_label": "「打开三年完整纳税凭证与合同，透明迎检」",
         "req_expr": "Flag_税务合规 == 1",
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "若Flag_税务合规=1选A零损口碑+30",
           "delta_five_dim": {
@@ -12451,6 +13188,8 @@
         "label": "汗流浃背变卖资产，全额补交税款与罚金",
         "raw_label": "「汗流浃背变卖资产，全额补交税款与罚金」",
         "req_expr": "Flag_税务隐患 == 1",
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "若隐患选B扣钱包70%保号",
           "delta_five_dim": {
@@ -12507,6 +13246,8 @@
         "label": "千万观众见证下牵手登台：事业爱情全要",
         "raw_label": "「千万观众见证下牵手登台：事业爱情全要」",
         "req_expr": "Flag_榜一恋爱 == 1",
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "进主结局（Flag_榜一恋爱=1进H02）",
           "delta_five_dim": {},
@@ -12527,6 +13268,8 @@
         "label": "相视一笑留幕后：下播后我只属于你",
         "raw_label": "「相视一笑留幕后：下播后我只属于你」",
         "req_expr": "Flag_榜一恋爱 == 1",
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "进主结局（Flag_榜一恋爱=1进H02）",
           "delta_five_dim": {},
@@ -12547,6 +13290,8 @@
         "label": "在最绚烂烟火下告别：今晚退圈结婚",
         "raw_label": "「在最绚烂烟火下告别：今晚退圈结婚」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "直通主结局M05",
           "delta_five_dim": {},
@@ -12603,6 +13348,8 @@
         "label": "把特写给夜航船：没当年的1就没今天",
         "raw_label": "「把特写给夜航船：没当年的1就没今天」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+30，达成M01前置并解锁彩蛋H08",
           "delta_five_dim": {
@@ -12624,10 +13371,12 @@
         "label": "先鞠躬感谢前排公会老板和榜一神豪团",
         "raw_label": "「先鞠躬感谢前排公会老板和榜一神豪团」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+10万、错失H08",
           "delta_five_dim": {
-            "wallet": 1
+            "wallet": 100000
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -12682,6 +13431,8 @@
         "label": "只要麦克风还亮着，我会一直陪大家播",
         "raw_label": "「只要麦克风还亮着，我会一直陪大家播」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "终局扳机：按五维、主修模式与Flag结算进入M01–M12或对应隐藏彩蛋",
           "delta_five_dim": {},
@@ -12701,6 +13452,8 @@
         "label": "三二一，最后一次上人生链接，顶峰相见",
         "raw_label": "「三二一，最后一次上人生链接，顶峰相见」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "终局扳机：按五维、主修模式与Flag结算进入M01–M12或对应隐藏彩蛋",
           "delta_five_dim": {},
@@ -12720,6 +13473,8 @@
         "label": "我想退居幕后或开家小店，谢谢大家圆梦",
         "raw_label": "「我想退居幕后或开家小店，谢谢大家圆梦」",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "终局扳机：按五维、主修模式与Flag结算进入M01–M12或对应隐藏彩蛋",
           "delta_five_dim": {},
@@ -12777,6 +13532,8 @@
         "label": "保持超模脸走战损版高定气场",
         "raw_label": "保持超模脸走战损版高定气场",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "颜值+1",
           "delta_five_dim": {},
@@ -12795,6 +13552,8 @@
         "label": "把裙摆披摄影师头上当盖头",
         "raw_label": "把裙摆披摄影师头上当盖头",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -12853,10 +13612,12 @@
         "label": "穿高定礼服坐拖拉机喊上链接",
         "raw_label": "穿高定礼服坐拖拉机喊上链接",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+10万",
           "delta_five_dim": {
-            "wallet": 1
+            "wallet": 100000
           },
           "delta_attrs": {},
           "state_writes": [],
@@ -12871,6 +13632,8 @@
         "label": "用拖拉机犁了一遍演播室地毯",
         "raw_label": "用拖拉机犁了一遍演播室地毯",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+25%",
           "delta_five_dim": {
@@ -12929,6 +13692,8 @@
         "label": "加入他们实现十一个自己群舞",
         "raw_label": "加入他们实现十一个自己群舞",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -12948,6 +13713,8 @@
         "label": "气得换回新手默认皮肤抗议",
         "raw_label": "气得换回新手默认皮肤抗议",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -13006,6 +13773,8 @@
         "label": "抱紧话筒架假装高空杂技艺术",
         "raw_label": "抱紧话筒架假装高空杂技艺术",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "才艺+1",
           "delta_five_dim": {},
@@ -13024,6 +13793,8 @@
         "label": "挥手大喊：山顶的朋友好吗",
         "raw_label": "挥手大喊：山顶的朋友好吗",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -13082,6 +13853,8 @@
         "label": "醒后淡定说是沉浸式助眠教学",
         "raw_label": "醒后淡定说是沉浸式助眠教学",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+10",
           "delta_five_dim": {
@@ -13100,6 +13873,8 @@
         "label": "给呼噜声申请非遗保护名录",
         "raw_label": "给呼噜声申请非遗保护名录",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -13159,6 +13934,8 @@
         "label": "解冻后保持翻白眼装还在卡",
         "raw_label": "解冻后保持翻白眼装还在卡",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -13177,6 +13954,8 @@
         "label": "把双人白眼图印T恤送粉丝",
         "raw_label": "把双人白眼图印T恤送粉丝",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+8",
           "delta_five_dim": {
@@ -13235,6 +14014,8 @@
         "label": "跟企鹅并排躺雪地上思考鹅生",
         "raw_label": "跟企鹅并排躺雪地上思考鹅生",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -13253,6 +14034,8 @@
         "label": "站起来严肃判处企鹅肇事逃逸",
         "raw_label": "站起来严肃判处企鹅肇事逃逸",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -13312,6 +14095,8 @@
         "label": "拍肚子用口技节奏给咕噜伴奏",
         "raw_label": "拍肚子用口技节奏给咕噜伴奏",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "才艺+1",
           "delta_five_dim": {},
@@ -13330,6 +14115,8 @@
         "label": "趁人不注意摸半块饼干塞嘴里",
         "raw_label": "趁人不注意摸半块饼干塞嘴里",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+5",
           "delta_five_dim": {
@@ -13386,6 +14173,8 @@
         "label": "面不改色夸这是突破自我初心",
         "raw_label": "面不改色夸这是突破自我初心",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1",
           "delta_five_dim": {},
@@ -13404,6 +14193,8 @@
         "label": "带台下两千学弟学妹摇花手",
         "raw_label": "带台下两千学弟学妹摇花手",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+25%",
           "delta_five_dim": {
@@ -13462,6 +14253,8 @@
         "label": "往杯里泡满极品枸杞提附加值",
         "raw_label": "往杯里泡满极品枸杞提附加值",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+5万",
           "delta_five_dim": {
@@ -13480,6 +14273,8 @@
         "label": "把款项全捐建山区小学冠粉名",
         "raw_label": "把款项全捐建山区小学冠粉名",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+15",
           "delta_five_dim": {
@@ -13538,6 +14333,8 @@
         "label": "举起掉落按钮喊大力出奇迹",
         "raw_label": "举起掉落按钮喊大力出奇迹",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -13556,6 +14353,8 @@
         "label": "蹲台上拿胶带试图把台粘回去",
         "raw_label": "蹲台上拿胶带试图把台粘回去",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -13615,6 +14414,8 @@
         "label": "在空中顺便挂两件衣服当衣架",
         "raw_label": "在空中顺便挂两件衣服当衣架",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "乐子人+",
           "delta_five_dim": {},
@@ -13633,6 +14434,8 @@
         "label": "硬说是赛博激光束牵引技术",
         "raw_label": "硬说是赛博激光束牵引技术",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口才+1",
           "delta_five_dim": {},
@@ -13691,6 +14494,8 @@
         "label": "祝粉丝新一年猪事顺利多金",
         "raw_label": "祝粉丝新一年猪事顺利多金",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -13709,6 +14514,8 @@
         "label": "抱着猫给全国观众拜个早年",
         "raw_label": "抱着猫给全国观众拜个早年",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+8",
           "delta_five_dim": {
@@ -13767,6 +14574,8 @@
         "label": "头往后仰两米远靠透视显脸小",
         "raw_label": "头往后仰两米远靠透视显脸小",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+15%",
           "delta_five_dim": {
@@ -13785,6 +14594,8 @@
         "label": "自豪宣布稳坐江山一张大饼脸",
         "raw_label": "自豪宣布稳坐江山一张大饼脸",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+8",
           "delta_five_dim": {
@@ -13843,6 +14654,8 @@
         "label": "仰望天空落泪并掏出一根烤肠",
         "raw_label": "仰望天空落泪并掏出一根烤肠",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "状态+10",
           "delta_five_dim": {
@@ -13861,6 +14674,8 @@
         "label": "拿扩音喇叭对天喊明天就减",
         "raw_label": "拿扩音喇叭对天喊明天就减",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -13917,6 +14732,8 @@
         "label": "顺势展示两下职业级颠球脚法",
         "raw_label": "顺势展示两下职业级颠球脚法",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "体力+1",
           "delta_five_dim": {},
@@ -13935,6 +14752,8 @@
         "label": "紧紧抱住奖杯再不撒手下台",
         "raw_label": "紧紧抱住奖杯再不撒手下台",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+20%",
           "delta_five_dim": {
@@ -13994,6 +14813,8 @@
         "label": "镜头对准地毯开百万寻宝直播",
         "raw_label": "镜头对准地毯开百万寻宝直播",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+25%",
           "delta_five_dim": {
@@ -14012,6 +14833,8 @@
         "label": "用吸尘器套丝袜三秒吸出钻石",
         "raw_label": "用吸尘器套丝袜三秒吸出钻石",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "情商+1",
           "delta_five_dim": {},
@@ -14070,6 +14893,8 @@
         "label": "横着走出六亲不认帝王蟹步伐",
         "raw_label": "横着走出六亲不认帝王蟹步伐",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%",
           "delta_five_dim": {
@@ -14088,6 +14913,8 @@
         "label": "站在台上互解头发解了十分钟",
         "raw_label": "站在台上互解头发解了十分钟",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "好友好感+10",
           "delta_five_dim": {},
@@ -14144,6 +14971,8 @@
         "label": "点金色确认键（需运气满值）",
         "raw_label": "点金色确认键（需运气满值）",
         "req_expr": "运气 == 10",
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "满3进H05",
           "delta_five_dim": {},
@@ -14164,6 +14993,8 @@
         "label": "拍碎幻觉继续享受人间鲜花",
         "raw_label": "拍碎幻觉继续享受人间鲜花",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+10",
           "delta_five_dim": {
@@ -14220,6 +15051,8 @@
         "label": "给仙人掌颁手绘最佳陪伴奖杯",
         "raw_label": "给仙人掌颁手绘最佳陪伴奖杯",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+2",
           "delta_five_dim": {},
@@ -14238,6 +15071,8 @@
         "label": "把仙人掌端进新别墅C位供着",
         "raw_label": "把仙人掌端进新别墅C位供着",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+10",
           "delta_five_dim": {
@@ -14296,6 +15131,8 @@
         "label": "拉黑举报：开挂是电竞死罪",
         "raw_label": "拉黑举报：开挂是电竞死罪",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "技术+1口碑+8",
           "delta_five_dim": {
@@ -14316,6 +15153,8 @@
         "label": "买来只在娱乐局偷用造人设",
         "raw_label": "买来只在娱乐局偷用造人设",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+40%埋封号高危隐患",
           "delta_five_dim": {
@@ -14375,6 +15214,8 @@
         "label": "淡定吹刘海：基操勿6皆坐",
         "raw_label": "淡定吹刘海：基操勿6皆坐",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+25%技术+",
           "delta_five_dim": {
@@ -14396,6 +15237,8 @@
         "label": "激动跳起来撞到了头顶吊灯",
         "raw_label": "激动跳起来撞到了头顶吊灯",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+35%乐子+",
           "delta_five_dim": {
@@ -14456,6 +15299,8 @@
         "label": "关伴奏来段纯人声爆发清唱",
         "raw_label": "关伴奏来段纯人声爆发清唱",
         "req_expr": "才艺 >= 6 || 嗓音 >= 6",
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "才艺≥6或嗓音≥6口碑+15",
           "delta_five_dim": {
@@ -14474,6 +15319,8 @@
         "label": "假装麦坏了只张嘴演双簧",
         "raw_label": "假装麦坏了只张嘴演双簧",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "乐子人+20%",
           "delta_five_dim": {},
@@ -14532,6 +15379,8 @@
         "label": "点播老歌并整晚关打赏通道",
         "raw_label": "点播老歌并整晚关打赏通道",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+20状态+5",
           "delta_five_dim": {
@@ -14551,6 +15400,8 @@
         "label": "给大叔寄十箱暖宝宝保温杯",
         "raw_label": "给大叔寄十箱暖宝宝保温杯",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+15状态+10",
           "delta_five_dim": {
@@ -14610,6 +15461,8 @@
         "label": "下场主动让出副歌双人共舞",
         "raw_label": "下场主动让出副歌双人共舞",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "好友好感+20口碑+10",
           "delta_five_dim": {
@@ -14628,6 +15481,8 @@
         "label": "假装没看见C位凭本事抢的",
         "raw_label": "假装没看见C位凭本事抢的",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%埋背刺隐患",
           "delta_five_dim": {
@@ -14686,6 +15541,8 @@
         "label": "先让分认输，下播核实真伪",
         "raw_label": "先让分认输，下播核实真伪",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "核实骗局辟谣口碑+15",
           "delta_five_dim": {
@@ -14704,10 +15561,12 @@
         "label": "铁面无私照常打：实力说话",
         "raw_label": "铁面无私照常打：实力说话",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "赢PK钱包+3千口碑-3",
           "delta_five_dim": {
-            "wallet": 3,
+            "wallet": 3000,
             "rep": -3
           },
           "delta_attrs": {},
@@ -14763,6 +15622,8 @@
         "label": "拍板按承诺发货佣金补一半",
         "raw_label": "拍板按承诺发货佣金补一半",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包-2万口碑+30转化+15%",
           "delta_five_dim": {
@@ -14782,6 +15643,8 @@
         "label": "帮品牌说话劝粉丝撤单退款",
         "raw_label": "帮品牌说话劝粉丝撤单退款",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "省钱口碑-15",
           "delta_five_dim": {
@@ -14840,6 +15703,8 @@
         "label": "关掉直播镜头陪老人等民警",
         "raw_label": "关掉直播镜头陪老人等民警",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "警方发动态表扬口碑+25",
           "delta_five_dim": {
@@ -14858,6 +15723,8 @@
         "label": "开着镜头直播送老人博流量",
         "raw_label": "开着镜头直播送老人博流量",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+20%被疑作秀口碑-5",
           "delta_five_dim": {
@@ -14917,6 +15784,8 @@
         "label": "录防伪绕口令联合法务封杀",
         "raw_label": "录防伪绕口令联合法务封杀",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+20",
           "delta_five_dim": {
@@ -14935,6 +15804,8 @@
         "label": "顺势推正版语音包反将一军",
         "raw_label": "顺势推正版语音包反将一军",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+2万热+20%",
           "delta_five_dim": {
@@ -14942,7 +15813,9 @@
             "wallet": 20000
           },
           "delta_attrs": {},
-          "state_writes": [],
+          "state_writes": [
+            "Flag_数字人线开放 = 1"
+          ],
           "ending_triggers": [],
           "next_cards": [],
           "qualitative_notes": []
@@ -14994,6 +15867,8 @@
         "label": "私信劝大哥别中对面拉消费计",
         "raw_label": "私信劝大哥别中对面拉消费计",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "大哥续约情商+1",
           "delta_five_dim": {},
@@ -15012,6 +15887,8 @@
         "label": "拿喇叭站椅子狂喊大哥威武",
         "raw_label": "拿喇叭站椅子狂喊大哥威武",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+5万但大哥次日退网",
           "delta_five_dim": {
@@ -15068,6 +15945,8 @@
         "label": "开启高清原相机洗脸直播",
         "raw_label": "开启高清原相机洗脸直播",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+35%颜粉+",
           "delta_five_dim": {
@@ -15089,6 +15968,8 @@
         "label": "发翻白眼丑照自黑平衡一下",
         "raw_label": "发翻白眼丑照自黑平衡一下",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+15粉+20%",
           "delta_five_dim": {
@@ -15147,6 +16028,8 @@
         "label": "进专业录音棚一条过录完曲",
         "raw_label": "进专业录音棚一条过录完曲",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+20钱包+3万",
           "delta_five_dim": {
@@ -15166,6 +16049,8 @@
         "label": "在直播间先给粉丝开首唱会",
         "raw_label": "在直播间先给粉丝开首唱会",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+30%",
           "delta_five_dim": {
@@ -15223,6 +16108,8 @@
         "label": "跳完定格动作潇洒甩麦致意",
         "raw_label": "跳完定格动作潇洒甩麦致意",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+25粉+20%",
           "delta_five_dim": {
@@ -15243,6 +16130,8 @@
         "label": "幽默调侃音响师今晚省电费",
         "raw_label": "幽默调侃音响师今晚省电费",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+35%口才+1",
           "delta_five_dim": {
@@ -15301,6 +16190,8 @@
         "label": "把键鼠签上名抽送给黑粉",
         "raw_label": "把键鼠签上名抽送给黑粉",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+25情商+1",
           "delta_five_dim": {
@@ -15321,6 +16212,8 @@
         "label": "淡淡甩出一句：挂哪有我准",
         "raw_label": "淡淡甩出一句：挂哪有我准",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+30%热+25%",
           "delta_five_dim": {
@@ -15379,6 +16272,8 @@
         "label": "端保温杯喝水：承让承让",
         "raw_label": "端保温杯喝水：承让承让",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+20热+25%",
           "delta_five_dim": {
@@ -15398,6 +16293,8 @@
         "label": "把辩词改成带货顺口溜",
         "raw_label": "把辩词改成带货顺口溜",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+3万热+30%",
           "delta_five_dim": {
@@ -15455,6 +16352,8 @@
         "label": "端平水夸双王并列镇场之宝",
         "raw_label": "端平水夸双王并列镇场之宝",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "钱包+3万口碑+10",
           "delta_five_dim": {
@@ -15474,6 +16373,8 @@
         "label": "拉两位大哥建群一起开黑",
         "raw_label": "拉两位大哥建群一起开黑",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "留存++口碑+15",
           "delta_five_dim": {
@@ -15532,6 +16433,8 @@
         "label": "一个人包揽下半夜全部场次",
         "raw_label": "一个人包揽下半夜全部场次",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+25",
           "delta_five_dim": {
@@ -15550,6 +16453,8 @@
         "label": "带观众做一套晨间燃脂健身操",
         "raw_label": "带观众做一套晨间燃脂健身操",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+25%",
           "delta_five_dim": {
@@ -15607,6 +16512,8 @@
         "label": "帮水军把恶评改成七言绝句",
         "raw_label": "帮水军把恶评改成七言绝句",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "黑转粉+25%口才+1",
           "delta_five_dim": {
@@ -15630,6 +16537,8 @@
         "label": "给水军颁年度敬业打字员奖",
         "raw_label": "给水军颁年度敬业打字员奖",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "心态+1热+30%",
           "delta_five_dim": {
@@ -15688,6 +16597,8 @@
         "label": "做成福袋全额折现回馈观众",
         "raw_label": "做成福袋全额折现回馈观众",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "口碑+25粉+25%",
           "delta_five_dim": {
@@ -15708,6 +16619,8 @@
         "label": "对着镜头拜了拜欧皇双手",
         "raw_label": "对着镜头拜了拜欧皇双手",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+45%钱包+2万",
           "delta_five_dim": {
@@ -15765,6 +16678,8 @@
         "label": "彻底退居幕后当金牌切片手",
         "raw_label": "彻底退居幕后当金牌切片手",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "锁M10前置（分成+）",
           "delta_five_dim": {},
@@ -15785,6 +16700,8 @@
         "label": "偶尔露半张搞怪面具脸当彩蛋",
         "raw_label": "偶尔露半张搞怪面具脸当彩蛋",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "锁M10前置（热+25%）",
           "delta_five_dim": {
@@ -15843,6 +16760,12 @@
         "label": "惊醒后顺势自嘲呼噜电音王",
         "raw_label": "惊醒后顺势自嘲呼噜电音王",
         "req_expr": null,
+        "check_expr": "运气 >= 3",
+        "check_fail": {
+          "ending_triggers": [
+            "D22"
+          ]
+        },
         "effects": {
           "summary": "热+30%状态+10",
           "delta_five_dim": {
@@ -15861,7 +16784,9 @@
         "opt_key": "B",
         "label": "羞愤欲绝连夜销号回老家睡",
         "raw_label": "羞愤欲绝连夜销号回老家睡",
-        "req_expr": "运气 <= 2",
+        "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "（或运气≤2）直通暴毙D22",
           "delta_five_dim": {},
@@ -15917,7 +16842,13 @@
         "opt_key": "A",
         "label": "对镜头做十个扭曲鬼脸验证",
         "raw_label": "对镜头做十个扭曲鬼脸验证",
-        "req_expr": "运气 > 3",
+        "req_expr": null,
+        "check_expr": "运气 > 3",
+        "check_fail": {
+          "ending_triggers": [
+            "D23"
+          ]
+        },
         "effects": {
           "summary": "运气>3险过热+15%（否则D23）",
           "delta_five_dim": {
@@ -15925,9 +16856,7 @@
           },
           "delta_attrs": {},
           "state_writes": [],
-          "ending_triggers": [
-            "D23"
-          ],
+          "ending_triggers": [],
           "next_cards": [],
           "qualitative_notes": []
         },
@@ -15938,6 +16867,8 @@
         "label": "怒骂系统眼瞎并狂按刷新键",
         "raw_label": "怒骂系统眼瞎并狂按刷新键",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "直通暴毙D23",
           "delta_five_dim": {},
@@ -15994,6 +16925,8 @@
         "label": "帮师傅抬走两台显示器抵债",
         "raw_label": "帮师傅抬走两台显示器抵债",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "抵债+2千（存款空则进D24）",
           "delta_five_dim": {
@@ -16014,6 +16947,8 @@
         "label": "灰溜溜回星播发现老号凉透",
         "raw_label": "灰溜溜回星播发现老号凉透",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热度清零直通D24",
           "delta_five_dim": {
@@ -16072,6 +17007,8 @@
         "label": "连麦真诚请他当首席监制",
         "raw_label": "连麦真诚请他当首席监制",
         "req_expr": "Count_黑粉不对线 >= 3 && 情商 >= 7",
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "（不对线≥3且情商≥7）进H01",
           "delta_five_dim": {},
@@ -16090,6 +17027,8 @@
         "label": "跑去他直播间对骂反帮引流",
         "raw_label": "跑去他直播间对骂反帮引流",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "直通暴毙D25",
           "delta_five_dim": {},
@@ -16145,15 +17084,19 @@
         "opt_key": "A",
         "label": "举身份证大喊我才是原版啊",
         "raw_label": "举身份证大喊我才是原版啊",
-        "req_expr": "口碑 >= 85",
+        "req_expr": null,
+        "check_expr": "口碑 >= 85",
+        "check_fail": {
+          "ending_triggers": [
+            "D26"
+          ]
+        },
         "effects": {
           "summary": "若口碑≥85险保号（否则进D26）",
           "delta_five_dim": {},
           "delta_attrs": {},
           "state_writes": [],
-          "ending_triggers": [
-            "D26"
-          ],
+          "ending_triggers": [],
           "next_cards": [],
           "qualitative_notes": []
         },
@@ -16164,6 +17107,8 @@
         "label": "去切片号底下打工求赏饭吃",
         "raw_label": "去切片号底下打工求赏饭吃",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "直通暴毙D26",
           "delta_five_dim": {},
@@ -16220,6 +17165,8 @@
         "label": "拍板盘下！改造透明大排档",
         "raw_label": "拍板盘下！改造透明大排档",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "记Flag_餐馆老板=1锁M11",
           "delta_five_dim": {},
@@ -16240,6 +17187,8 @@
         "label": "婉拒老板，留在演播室冲顶",
         "raw_label": "婉拒老板，留在演播室冲顶",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "获秘方热+20%",
           "delta_five_dim": {
@@ -16298,6 +17247,8 @@
         "label": "签下期权协议剑指盛典夺冠",
         "raw_label": "签下期权协议剑指盛典夺冠",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "夺冠解锁H09",
           "delta_five_dim": {},
@@ -16316,6 +17267,8 @@
         "label": "婉拒股份，只爱镜头前整活",
         "raw_label": "婉拒股份，只爱镜头前整活",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "获赠推流券粉+30%口碑+15",
           "delta_five_dim": {
@@ -16374,6 +17327,8 @@
         "label": "握紧旧麦喊：喂请问有人吗",
         "raw_label": "握紧旧麦喊：喂请问有人吗",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "重回起点进H11",
           "delta_five_dim": {},
@@ -16392,6 +17347,8 @@
         "label": "拔掉插头留在百万粉豪宅里",
         "raw_label": "拔掉插头留在百万粉豪宅里",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "旧麦装裱心态+2忠诚+20%",
           "delta_five_dim": {},
@@ -16450,6 +17407,8 @@
         "label": "推开星空大门加冕星海真神",
         "raw_label": "推开星空大门加冕星海真神",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "达H12星海真神，全属性+1",
           "delta_five_dim": {},
@@ -16478,6 +17437,8 @@
         "label": "回头向所有平行自己举杯致意",
         "raw_label": "回头向所有平行自己举杯致意",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "达H12万界旅人，口碑90",
           "delta_five_dim": {
@@ -16537,6 +17498,8 @@
         "label": "敲电报暗号：外星老铁点关注",
         "raw_label": "敲电报暗号：外星老铁点关注",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "热+35%运气+1",
           "delta_five_dim": {
@@ -16557,6 +17520,8 @@
         "label": "用锡纸包在自己头上防辐射",
         "raw_label": "用锡纸包在自己头上防辐射",
         "req_expr": null,
+        "check_expr": null,
+        "check_fail": null,
         "effects": {
           "summary": "粉+25%乐子+",
           "delta_five_dim": {

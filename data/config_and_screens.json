@@ -207,7 +207,9 @@
     "sweet_width": 0.15,
     "good_width": 0.4,
     "cursor_speed": 0.65,
-    "cursor_speed_source": "spike measured value in spike/spike_timing_retest.lua (59.1 FPS steady state)",
+    "cursor_speed_source": "spike/spike_stage0.lua:14",
+    "sweep_direction": "unidirectional",
+    "sweet_window_seconds": 0.23,
     "max_duration_seconds": 5,
     "triple_tap_fallback": false,
     "center_selection": "random_per_card_instance",
@@ -236,7 +238,54 @@
       "C5-M09": "高光",
       "C6-M05": "PK"
     },
-    "ruling": "F3/F4/S3: 甜区宽0.15、良区宽0.40，5秒超时上限，三连点兜底开关默认关，cursor_speed=0.65，六卡各挂动作皮肤"
+    "ruling": "F3/F4/S3/V8: 甜区宽0.15、良区宽0.40，单向扫条甜区窗口约0.23秒，5秒超时上限，三连点兜底开关默认关，cursor_speed=0.65源自spike_stage0.lua:14"
+  },
+  "skin_set": {
+    "canonical_names": [
+      "接梗",
+      "憋单放福袋",
+      "最后一波拉票",
+      "关键操作"
+    ],
+    "data_mapping": {
+      "接梗": "接梗",
+      "憋单": "憋单放福袋",
+      "PK": "最后一波拉票",
+      "高光": "关键操作"
+    }
+  },
+  "fan_composition": {
+    "segments": [
+      "颜粉",
+      "声控粉",
+      "技术粉",
+      "乐子人",
+      "大哥",
+      "学生粉"
+    ],
+    "exclusive_pool_threshold_pct": 35,
+    "normalize_sum_pct": 100,
+    "revenue_modifier_range": [
+      0.6,
+      1.8
+    ],
+    "description": "正本 §2.7 粉丝构成 6 类阶段结算矩阵"
+  },
+  "global_rules": {
+    "total_multiplier_clamp": [
+      0.4,
+      3
+    ],
+    "circus_style": {
+      "multiplier": 2.5,
+      "zero_revenue_rate": 0.35,
+      "description": "整活流乘区 ×2.5，35% 概率收益清零"
+    },
+    "commercial_multiplier": {
+      "sources_stack_rule": "take_highest_no_stack",
+      "rep_max_cap": 1.5,
+      "description": "商务乘区两来源取最高不叠加，口碑侧上限 1.5"
+    }
   },
   "chapters": [
     {

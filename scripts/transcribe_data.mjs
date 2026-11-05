@@ -107,12 +107,27 @@ function parseStateDictionary() {
     variables.push(entry);
   }
 
+  // Errata S5 (Round-4 Ruling V5): Add Flag_数字人线开放 (36 -> 37 keys)
+  if (!variables.some(v => v.key === 'Flag_数字人线开放')) {
+    variables.push({
+      line_no: 0,
+      key: 'Flag_数字人线开放',
+      category: 'Flag',
+      type: 'Boolean',
+      initial_value: 0,
+      range_or_cap: '0 | 1',
+      writers_text: 'X-MODE-09 与数字人线相关卡既定结算',
+      consumers_text: 'C6-M06 前置表达式、H03 主分支'
+    });
+  }
+
   const autoSnapshotStateKeys = variables.map(v => v.key);
+  // Round-4 Ruling V4: §2.7 Fan composition 6 segments replacing previous English placeholder names
   const fixedBaseFields = [
     '颜值', '嗓音', '才艺', '游戏技术', '口才', '情商', '体力', '心态', '运气',
     'Fans', 'Heat', 'Wallet', 'Rep', 'Stamina', 'Hater_Pct',
-    'Fans_Passerby_Pct', 'Fans_Lover_Pct', 'Fans_Iron_Pct',
-    'Fans_Troll_Pct', 'Fans_Pro_Pct', 'Fans_Rich_Pct'
+    'Fans_颜粉_Pct', 'Fans_声控粉_Pct', 'Fans_技术粉_Pct',
+    'Fans_乐子人_Pct', 'Fans_大哥_Pct', 'Fans_学生粉_Pct'
   ];
   const allSnapshotFields = [...fixedBaseFields, ...autoSnapshotStateKeys];
 
@@ -230,31 +245,102 @@ const CARD_PREREQS = {
   'X-EGG-09': 'cleared_main_endings_count == 12'
 };
 
-// Map of option-level req_expr (F1)
+// Map of option-level req_expr (S4 / Round-4 Ruling V3: 纯可选门，不满足不可选)
 const OPTION_REQS = {
-  'C2-M03:A': '嗓音 >= 7',
-  'C3-M03:B': '游戏技术 >= 8',
-  'C3-M05:B': '情商 >= 6',
   'C3-M08:B': '才艺 >= 7',
-  'C4-M06:A': "Tag_人设 == '真实'",
   'C4-M08:C': '口才 >= 7',
-  'C5-M02:A': 'Count_复盘留档 >= 2',
-  'C5-M03:A': 'Flag_审过合同 == 1',
-  'C5-M07:A': 'Count_验货命中 >= 1',
-  'C5-M08:A': '口碑 >= 80',
-  'C5-M09:A': '心态 >= 7',
   'C5-M12:C': 'Count_前任律师函 >= 1',
-  'C6-M02:B': 'Flag_安保习惯 == 1',
   'C6-M07:A': 'Flag_税务合规 == 1',
   'C6-M07:B': 'Flag_税务隐患 == 1',
   'C6-M08:A': 'Flag_榜一恋爱 == 1',
   'C6-M08:B': 'Flag_榜一恋爱 == 1',
   'C6-S19:A': '运气 == 10',
   'X-MODE-03:A': '才艺 >= 6 || 嗓音 >= 6',
-  'X-EGG-01:B': '运气 <= 2',
-  'X-EGG-02:A': '运气 > 3',
-  'X-EGG-04:A': 'Count_黑粉不对线 >= 3 && 情商 >= 7',
-  'X-EGG-05:A': '口碑 >= 85'
+  'X-EGG-04:A': 'Count_黑粉不对线 >= 3 && 情商 >= 7'
+};
+
+// Map of option checks (S4 / Round-4 Ruling V2/V3: 成败/生死检定走 check_expr + check_fail 与 effects_conditional)
+const OPTION_CHECKS = {
+  'C2-M03:A': {
+    check_expr: '嗓音 >= 7',
+    check_fail: { delta_five_dim: { fans_pct: -20 } },
+    description: '嗓音 < 7 掉粉 20%，嗓音 >= 7 无损'
+  },
+  'C3-M03:B': {
+    check_expr: '游戏技术 >= 8',
+    check_fail: { delta_five_dim: { fans_pct: -10 } },
+    description: '游戏技术 >= 8 免掉粉锁 M08'
+  },
+  'C3-M05:B': {
+    check_expr: '情商 >= 6',
+    check_fail: { delta_five_dim: { rep: 10, npc_affinity_delta: 15 } },
+    description: '情商 >= 6 翻倍'
+  },
+  'C4-M06:A': {
+    check_expr: "Tag_人设 == '真实'",
+    effects_conditional: {
+      if: "Tag_人设 == '真实'",
+      then: { delta_five_dim: { fans_pct: 20 }, description: '真实人设官宣涨粉 20%' },
+      else: { delta_five_dim: { fans_pct: -40 }, description: '非真实人设塌房掉粉 40%' }
+    }
+  },
+  'C5-M02:A': {
+    check_expr: 'Count_复盘留档 >= 2',
+    effects_conditional: {
+      if: 'Count_复盘留档 >= 2',
+      then: {
+        delta_five_dim: { fans_pct: 40, rep: 35 },
+        description: '通过支：完整证据链绝地反击，涨粉 40%、口碑 +35'
+      },
+      else: {
+        delta_five_dim: { fans_pct: 20, rep: 17 },
+        description: '否则支（半血）：增量减半取整，涨粉 20%、口碑 +17'
+      }
+    }
+  },
+  'C5-M03:A': {
+    check_expr: 'Flag_审过合同 == 1',
+    check_fail: { ending_triggers: ['D13'] },
+    description: '若审过合同胜诉自由身，否则违约金五百万进 D13'
+  },
+  'C5-M07:A': {
+    check_expr: 'Count_验货命中 >= 1',
+    check_fail: { ending_triggers: ['D12'] },
+    description: 'Count_验货命中 >= 2 全身而退锁 M02，>= 1 伤减半，0 进 D12'
+  },
+  'C5-M08:A': {
+    check_expr: '口碑 >= 80',
+    check_fail: { ending_triggers: ['D20', 'D21'] },
+    description: '若口碑 >= 80 扣粉 50% 存活，否则进 D20/D21'
+  },
+  'C5-M09:A': {
+    check_expr: '心态 >= 7',
+    check_fail: { delta_five_dim: { stamina: -30, rep: -10 } },
+    description: '心态 >= 7 逆袭，否则状态 -30、口碑 -10'
+  },
+  'C6-M02:B': {
+    check_expr: 'Flag_安保习惯 == 1',
+    effects_conditional: {
+      if: 'Flag_安保习惯 == 1',
+      then: { delta_five_dim: { fans_pct: 40 }, description: '通过支：安保得力现场有序，涨粉 40%' },
+      else: { delta_five_dim: { rep: -50 }, description: '否则支：安保缺失现场失控，口碑 -50' }
+    }
+  },
+  'X-EGG-01:A': {
+    check_expr: '运气 >= 3',
+    check_fail: { ending_triggers: ['D22'] },
+    description: '运气 >= 3 顺势自嘲，运气 <= 2 直通暴毙 D22'
+  },
+  'X-EGG-02:A': {
+    check_expr: '运气 > 3',
+    check_fail: { ending_triggers: ['D23'] },
+    description: '运气 > 3 险过热度 +15%，否则直通暴毙 D23'
+  },
+  'X-EGG-05:A': {
+    check_expr: '口碑 >= 85',
+    check_fail: { ending_triggers: ['D26'] },
+    description: '若口碑 >= 85 险保号，否则进 D26'
+  }
 };
 
 // Timing card skins (F4: assigned by in-card action, not mode tag)
@@ -394,8 +480,8 @@ function parseDeltas(text, cardId, optKey) {
   // Fans
   const fansPct = text.match(/(?:粉|涨粉)\+([0-9.]+)%/);
   if (fansPct) five_dim.fans_pct = Number(fansPct[1]);
-  const fansPctMinus = text.match(/(?:粉|掉粉|扣粉)-([0-9.]+)%/);
-  if (fansPctMinus) five_dim.fans_pct = -Number(fansPctMinus[1]);
+  const fansPctMinus = text.match(/(?:掉粉|掉|扣粉|粉-)-?([0-9.]+)%/);
+  if (fansPctMinus && !fansPct) five_dim.fans_pct = -Number(fansPctMinus[1]);
   const fansPlus = text.match(/粉\+([0-9]+)(?!%)/);
   if (fansPlus) five_dim.fans = Number(fansPlus[1]);
 
@@ -406,21 +492,28 @@ function parseDeltas(text, cardId, optKey) {
   if (heatPctMinus) five_dim.heat_pct = -Number(heatPctMinus[1]);
   if (text.includes('热度清零')) five_dim.heat_target = 0;
 
-  // Wallet
+  // Wallet (Round-4 Ruling V1: 万 -> * 10000, 千 -> * 1000, 修复正则回溯导致的个位数值)
   const walletPlusWan = text.match(/钱包\+([0-9.]+)万/);
-  if (walletPlusWan) five_dim.wallet = Number(walletPlusWan[1]) * 10000;
+  if (walletPlusWan) five_dim.wallet = Math.round(Number(walletPlusWan[1]) * 10000);
   const walletMinusWan = text.match(/钱包-([0-9.]+)万/);
-  if (walletMinusWan) five_dim.wallet = -Number(walletMinusWan[1]) * 10000;
-  const walletPlus = text.match(/钱包\+([0-9]+)(?!万|%)/);
-  if (walletPlus) five_dim.wallet = Number(walletPlus[1]);
-  const walletMinus = text.match(/钱包-([0-9]+)(?!万|%)/);
-  if (walletMinus) five_dim.wallet = -Number(walletMinus[1]);
+  if (walletMinusWan) five_dim.wallet = -Math.round(Number(walletMinusWan[1]) * 10000);
+
+  const walletPlusQian = text.match(/(?:钱包|抵债|赢PK钱包)\+([0-9.]+)千/);
+  if (walletPlusQian) five_dim.wallet = Math.round(Number(walletPlusQian[1]) * 1000);
+  const walletMinusQian = text.match(/钱包-([0-9.]+)千/);
+  if (walletMinusQian) five_dim.wallet = -Math.round(Number(walletMinusQian[1]) * 1000);
+
   const walletPctPlus = text.match(/钱包\+([0-9.]+)%/);
   if (walletPctPlus) five_dim.wallet_pct = Number(walletPctPlus[1]);
   const walletPctMinus = text.match(/(?:钱包-|扣钱包)([0-9.]+)%/);
   if (walletPctMinus) five_dim.wallet_pct = -Number(walletPctMinus[1]);
-  const daiZhai = text.match(/抵债\+([0-9.]+)千/);
-  if (daiZhai) five_dim.wallet = Number(daiZhai[1]) * 1000;
+
+  if (five_dim.wallet === undefined && !walletPctPlus && !walletPctMinus) {
+    const walletPlus = text.match(/钱包\+([0-9]+)(?![0-9.万千%])/);
+    if (walletPlus) five_dim.wallet = Number(walletPlus[1]);
+    const walletMinus = text.match(/钱包-([0-9]+)(?![0-9.万千%])/);
+    if (walletMinus) five_dim.wallet = -Number(walletMinus[1]);
+  }
 
   // Rep
   const repPlus = text.match(/口碑\+([0-9]+)/);
@@ -469,6 +562,11 @@ function parseDeltas(text, cardId, optKey) {
   if (text.includes('黑转粉+25%')) qualitative.push('黑转粉+25%');
   if (text.includes('获秘方')) qualitative.push('获秘方');
   if (text.includes('忠诚+20%')) qualitative.push('忠诚+20%');
+
+  // Round-4 Ruling V2: C6-M02B 失败支的口碑 -50 移入 else、不得与通过支并列
+  if (cardId === 'C6-M02' && optKey === 'B') {
+    delete five_dim.rep;
+  }
 
   return { five_dim, attrs, qualitative };
 }
@@ -521,6 +619,11 @@ function parseStateWrites(summaryText, fullOutcomeText, cardId, optKey) {
   }
   if (cardId === 'C5-M07' && optKey === 'A') {
     if (!writes.some(w => w.includes('Count_验货命中'))) writes.push('Count_验货命中 += 1');
+  }
+
+  // Round-4 Ruling V5 (Errata S5): Flag_数字人线开放 written by X-MODE-09
+  if (cardId === 'X-MODE-09' && optKey === 'B') {
+    if (!writes.some(w => w.includes('Flag_数字人线开放'))) writes.push('Flag_数字人线开放 = 1');
   }
 
   return writes;
@@ -730,8 +833,17 @@ function parseCards() {
       // F1: Parse state writes
       const stateWrites = parseStateWrites(optSummary, outcomeExpanded, id, optKey);
 
-      // F1: Parse ending triggers
-      const endingTriggers = parseEndingTriggers(optSummary, id, optKey);
+      // S4 / Round-4 Ruling V2 & V3: check_expr, check_fail, effects_conditional
+      const checkInfo = OPTION_CHECKS[optKeyCompound] || null;
+      const checkExpr = checkInfo ? (checkInfo.check_expr || null) : null;
+      const checkFail = checkInfo ? (checkInfo.check_fail || null) : null;
+      const effectsConditional = checkInfo ? (checkInfo.effects_conditional || null) : null;
+
+      // F1: Parse ending triggers (failure endings in check_fail belong to check_fail branch)
+      let endingTriggers = parseEndingTriggers(optSummary, id, optKey);
+      if (checkFail && Array.isArray(checkFail.ending_triggers)) {
+        endingTriggers = endingTriggers.filter(et => !checkFail.ending_triggers.includes(et));
+      }
 
       // F1: Parse next cards
       const nextCards = parseNextCards(optSummary, id, optKey);
@@ -740,20 +852,27 @@ function parseCards() {
       let outcomeToast = stripMd(optSummary);
       if (!outcomeToast) outcomeToast = stripMd(outcomeExpanded);
 
+      const effectsObj = {
+        summary: stripMd(optSummary),
+        delta_five_dim: deltas.five_dim,
+        delta_attrs: deltas.attrs,
+        state_writes: stateWrites,
+        ending_triggers: endingTriggers,
+        next_cards: nextCards,
+        qualitative_notes: deltas.qualitative
+      };
+      if (effectsConditional) {
+        effectsObj.effects_conditional = effectsConditional;
+      }
+
       options.push({
         opt_key: optKey,
         label: optItem.label,
         raw_label: optItem.raw_label,
         req_expr: reqExpr,
-        effects: {
-          summary: stripMd(optSummary),
-          delta_five_dim: deltas.five_dim,
-          delta_attrs: deltas.attrs,
-          state_writes: stateWrites,
-          ending_triggers: endingTriggers,
-          next_cards: nextCards,
-          qualitative_notes: deltas.qualitative
-        },
+        check_expr: checkExpr,
+        check_fail: checkFail,
+        effects: effectsObj,
         outcome_toast: outcomeToast
       });
     }
@@ -1126,7 +1245,9 @@ function buildConfigAndScreens() {
       sweet_width: 0.15,
       good_width: 0.40,
       cursor_speed: 0.65,
-      cursor_speed_source: 'spike measured value in spike/spike_timing_retest.lua (59.1 FPS steady state)',
+      cursor_speed_source: 'spike/spike_stage0.lua:14',
+      sweep_direction: 'unidirectional',
+      sweet_window_seconds: 0.23,
       max_duration_seconds: 5.0,
       triple_tap_fallback: false,
       center_selection: 'random_per_card_instance',
@@ -1145,7 +1266,36 @@ function buildConfigAndScreens() {
         'C5-M09': '高光',
         'C6-M05': 'PK'
       },
-      ruling: 'F3/F4/S3: 甜区宽0.15、良区宽0.40，5秒超时上限，三连点兜底开关默认关，cursor_speed=0.65，六卡各挂动作皮肤'
+      ruling: 'F3/F4/S3/V8: 甜区宽0.15、良区宽0.40，单向扫条甜区窗口约0.23秒，5秒超时上限，三连点兜底开关默认关，cursor_speed=0.65源自spike_stage0.lua:14'
+    },
+    skin_set: {
+      canonical_names: ['接梗', '憋单放福袋', '最后一波拉票', '关键操作'],
+      data_mapping: {
+        '接梗': '接梗',
+        '憋单': '憋单放福袋',
+        'PK': '最后一波拉票',
+        '高光': '关键操作'
+      }
+    },
+    fan_composition: {
+      segments: ['颜粉', '声控粉', '技术粉', '乐子人', '大哥', '学生粉'],
+      exclusive_pool_threshold_pct: 35,
+      normalize_sum_pct: 100,
+      revenue_modifier_range: [0.6, 1.8],
+      description: '正本 §2.7 粉丝构成 6 类阶段结算矩阵'
+    },
+    global_rules: {
+      total_multiplier_clamp: [0.4, 3.0],
+      circus_style: {
+        multiplier: 2.5,
+        zero_revenue_rate: 0.35,
+        description: '整活流乘区 ×2.5，35% 概率收益清零'
+      },
+      commercial_multiplier: {
+        sources_stack_rule: 'take_highest_no_stack',
+        rep_max_cap: 1.5,
+        description: '商务乘区两来源取最高不叠加，口碑侧上限 1.5'
+      }
     },
     chapters: [
       { chapter: 1, name: '0 粉开播', fans_gate_from: 0, fans_gate_to: 1000, net_fans_req: 1000, cards_per_chapter: 5, Base_Fans: 220, Cap_Fans: 600, chapter_5card_fans_cap: 3000, Base_Income: 800, Cap_Wallet: 3000 },

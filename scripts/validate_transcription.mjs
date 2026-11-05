@@ -71,13 +71,13 @@ for (const c of cards) {
 }
 assert(schemaMissingCount === 0, 'Card schema completeness (§2.10 required fields present)', `missing_fields=${schemaMissingCount}`);
 
-// 4. State dictionary auto-generated from §2.9 === 36 keys
+// 4. State dictionary auto-generated from §2.9 + Errata S5 === 37 keys
 const validStateKeys = new Set(stateDict.variables.map(v => v.key));
-assert(validStateKeys.size === 36, 'State dictionary auto-generated from §2.9 === 36 keys', `keys=${validStateKeys.size}`);
+assert(validStateKeys.size === 37, 'State dictionary auto-generated from §2.9 + Errata S5 === 37 keys', `keys=${validStateKeys.size}`);
 
-// 5. Snapshot_BeforeCard total fields === 57
-assert(stateDict.Snapshot_BeforeCard.total_fields === 57,
-  'Snapshot_BeforeCard total fields === 57 (21 base stats/five_dim/fans + 36 state keys = 57)',
+// 5. Snapshot_BeforeCard total fields === 58
+assert(stateDict.Snapshot_BeforeCard.total_fields === 58,
+  'Snapshot_BeforeCard total fields === 58 (21 base stats/five_dim/fans + 37 state keys = 58)',
   `total_fields=${stateDict.Snapshot_BeforeCard.total_fields}`);
 
 // 6. Zero dangling state references across cards
@@ -444,7 +444,7 @@ assert(!h12.talent_effect.startsWith('初始口碑直接提升至 90') && h12.ta
 assert(tbParams.max_duration_seconds === 5.0, 'F3: timing_bar max_duration_seconds === 5.0', `max_duration=${tbParams.max_duration_seconds}`);
 assert(tbParams.triple_tap_fallback === false, 'F3: timing_bar triple_tap_fallback toggle available (default false)', `fallback=${tbParams.triple_tap_fallback}`);
 assert(tbParams.cursor_speed === 0.65, 'F3: timing_bar cursor_speed reverted to spike measured 0.65', `speed=${tbParams.cursor_speed}`);
-assert(tbParams.cursor_speed_source.includes('spike_timing_retest.lua'), 'F3: timing_bar cursor_speed source annotated in config');
+assert(tbParams.cursor_speed_source.includes('spike/spike_stage0.lua:14'), 'F3/V8: timing_bar cursor_speed source annotated in config (spike/spike_stage0.lua:14)');
 
 // 88. F4: 6 timing cards have ops_skin populated from ['接梗', '憋单', 'PK', '高光']
 const legalSkins = new Set(['接梗', '憋单', 'PK', '高光']);
@@ -498,6 +498,118 @@ for (const c of cards) {
 assert(illegalCardTags.length === 0,
   'F7: All card mode tags belong strictly to vocabulary + aliases (0 illegal tags)',
   `illegal=[${illegalCardTags.join(', ')}]`);
+
+// ============================================================================
+// Round-4 Rulings Assertions (V1 - V10)
+// ============================================================================
+
+// V1. 钱包对账与 9 条点名断言 + 无未豁免个位数钱包
+const findCard = id => cards.find(c => c.card_id === id);
+const getWallet = (id, optKey) => findCard(id)?.options.find(o => o.opt_key === optKey)?.effects.delta_five_dim.wallet;
+
+assert(getWallet('C4-M01', 'A') === 120000, 'V1: C4-M01A 钱包 === 120000 (12万)', `actual=${getWallet('C4-M01', 'A')}`);
+assert(getWallet('C4-M05', 'A') === -100000, 'V1: C4-M05A 钱包 === -100000 (-10万)', `actual=${getWallet('C4-M05', 'A')}`);
+assert(getWallet('C4-S17', 'A') === 15000, 'V1: C4-S17A 钱包 === 15000 (1.5万)', `actual=${getWallet('C4-S17', 'A')}`);
+assert(getWallet('C3-M07', 'B') === 5000, 'V1: C3-M07B 钱包 === 5000 (5千)', `actual=${getWallet('C3-M07', 'B')}`);
+assert(getWallet('C5-M03', 'B') === -500000, 'V1: C5-M03B 钱包 === -500000 (-50万)', `actual=${getWallet('C5-M03', 'B')}`);
+assert(getWallet('C5-M12', 'A') === -500000, 'V1: C5-M12A 钱包 === -500000 (-50万)', `actual=${getWallet('C5-M12', 'A')}`);
+assert(getWallet('C6-M06', 'A') === 200000, 'V1: C6-M06A 钱包 === 200000 (20万)', `actual=${getWallet('C6-M06', 'A')}`);
+assert(getWallet('C6-M09', 'B') === 100000, 'V1: C6-M09B 钱包 === 100000 (10万)', `actual=${getWallet('C6-M09', 'B')}`);
+assert(getWallet('C6-S02', 'A') === 100000, 'V1: C6-S02A 钱包 === 100000 (10万)', `actual=${getWallet('C6-S02', 'A')}`);
+assert(getWallet('C3-M09', 'A') === -5000, 'V1: C3-M09A 钱包 === -5000 (-5千)', `actual=${getWallet('C3-M09', 'A')}`);
+assert(getWallet('X-MODE-06', 'B') === 3000, 'V1: X-MODE-06B 钱包 === 3000 (3千)', `actual=${getWallet('X-MODE-06', 'B')}`);
+
+// V1. 无未经对账豁免的个位数 wallet
+const walletExemptions = new Set(['C1-M05:A', 'C2-S04:B']);
+let unexemptedSmallWallets = [];
+for (const c of cards) {
+  for (const o of c.options) {
+    const w = o.effects.delta_five_dim.wallet;
+    if (w !== undefined && Math.abs(w) > 0 && Math.abs(w) < 10) {
+      const key = `${c.card_id}:${o.opt_key}`;
+      if (!walletExemptions.has(key)) {
+        unexemptedSmallWallets.push(`${key} (wallet=${w})`);
+      }
+    }
+  }
+}
+assert(unexemptedSmallWallets.length === 0, 'V1: Zero unexempted single-digit wallets across all cards', `found=[${unexemptedSmallWallets.join(', ')}]`);
+
+// V2. 条件两支 effects_conditional
+const c5m02A = findCard('C5-M02')?.options.find(o => o.opt_key === 'A');
+assert(Boolean(c5m02A?.effects.effects_conditional), 'V2: C5-M02A has effects_conditional');
+assert(c5m02A?.effects.effects_conditional?.then?.delta_five_dim?.fans_pct === 40, 'V2: C5-M02A through branch fans_pct === 40');
+assert(c5m02A?.effects.effects_conditional?.else?.delta_five_dim?.fans_pct === 20, 'V2: C5-M02A else branch fans_pct === 20 (halved integer)');
+
+const c6m02B = findCard('C6-M02')?.options.find(o => o.opt_key === 'B');
+assert(Boolean(c6m02B?.effects.effects_conditional), 'V2: C6-M02B has effects_conditional');
+assert(c6m02B?.effects.effects_conditional?.else?.delta_five_dim?.rep === -50, 'V2: C6-M02B failure branch rep -50 in else');
+assert(c6m02B?.effects.delta_five_dim.rep === undefined, 'V2: C6-M02B base effects does NOT duplicate failure branch rep -50');
+
+// V3. req_expr 语义拆分与 check_expr
+const allOptions = cards.flatMap(c => c.options);
+const trueReqOptions = allOptions.filter(o => o.req_expr !== null);
+assert(trueReqOptions.length === 10, 'V3: req_expr strictly reserved for selectable gates (count === 10)', `count=${trueReqOptions.length}`);
+
+const checkOptions = allOptions.filter(o => o.check_expr !== null);
+assert(checkOptions.length >= 12, 'V3: check_expr covers pass/fail checks (count >= 12)', `count=${checkOptions.length}`);
+
+const xegg01A = findCard('X-EGG-01')?.options.find(o => o.opt_key === 'A');
+const xegg01B = findCard('X-EGG-01')?.options.find(o => o.opt_key === 'B');
+assert(xegg01B?.req_expr === null && xegg01B?.effects.ending_triggers.includes('D22'), 'V3: X-EGG-01 Option B is unconditionally selectable and leads directly to D22');
+assert(xegg01A?.check_expr === '运气 >= 3' && xegg01A?.check_fail?.ending_triggers?.includes('D22'), 'V3: X-EGG-01 Option A has check_expr 运气 >= 3 with failure branch D22');
+
+// V4. 粉丝构成入库与快照字段
+const fanComp = configData.fan_composition;
+assert(Boolean(fanComp), 'V4: fan_composition exists in config_and_screens.json');
+const expectedFanSegments = ['颜粉', '声控粉', '技术粉', '乐子人', '大哥', '学生粉'];
+assert(JSON.stringify(fanComp.segments) === JSON.stringify(expectedFanSegments),
+  'V4: fan_composition.segments strictly matches §2.7: [颜粉, 声控粉, 技术粉, 乐子人, 大哥, 学生粉]',
+  `segments=${JSON.stringify(fanComp.segments)}`);
+assert(fanComp.exclusive_pool_threshold_pct === 35, 'V4: exclusive_pool_threshold_pct === 35');
+const snapshotFields = stateDict.Snapshot_BeforeCard.fields;
+const hasAllZhFanSegments = expectedFanSegments.every(s => snapshotFields.includes(`Fans_${s}_Pct`));
+assert(hasAllZhFanSegments, 'V4: Snapshot_BeforeCard contains exact §2.7 fan segment fields Fans_颜粉_Pct etc.');
+const hasOldEnglishFanFields = ['Fans_Passerby_Pct', 'Fans_Lover_Pct', 'Fans_Iron_Pct', 'Fans_Troll_Pct', 'Fans_Pro_Pct', 'Fans_Rich_Pct'].some(f => snapshotFields.includes(f));
+assert(!hasOldEnglishFanFields, 'V4: Zero old English placeholder fan fields in Snapshot_BeforeCard');
+
+// V5. 数字人字典补键 Flag_数字人线开放
+const digitKey = stateDict.variables.find(v => v.key === 'Flag_数字人线开放');
+assert(Boolean(digitKey), 'V5: Flag_数字人线开放 exists in state_dictionary.json');
+assert(snapshotFields.includes('Flag_数字人线开放'), 'V5: Snapshot_BeforeCard includes Flag_数字人线开放');
+assert(findCard('C6-M06')?.prereq_expr?.includes('Flag_数字人线开放'), 'V5: C6-M06 prereq_expr consumes Flag_数字人线开放');
+const xmode09B = findCard('X-MODE-09')?.options.find(o => o.opt_key === 'B');
+assert(xmode09B?.effects.state_writes.some(w => w.includes('Flag_数字人线开放')), 'V5: X-MODE-09 Option B writes Flag_数字人线开放');
+
+// V6. 全局结算规则入库 global_rules
+const globalRules = configData.global_rules;
+assert(Boolean(globalRules), 'V6: global_rules exists in config_and_screens.json');
+assert(globalRules.total_multiplier_clamp[0] === 0.4 && globalRules.total_multiplier_clamp[1] === 3.0,
+  'V6: global_rules total_multiplier_clamp === [0.4, 3.0]');
+assert(globalRules.circus_style.multiplier === 2.5 && globalRules.circus_style.zero_revenue_rate === 0.35,
+  'V6: global_rules circus_style multiplier === 2.5 and zero_revenue_rate === 0.35');
+assert(globalRules.commercial_multiplier.sources_stack_rule === 'take_highest_no_stack' && globalRules.commercial_multiplier.rep_max_cap === 1.5,
+  'V6: global_rules commercial_multiplier sources_stack_rule === take_highest_no_stack and rep_max_cap === 1.5');
+
+// V7. 歧义清单与贡献条件
+const c2m10A = findCard('C2-M10')?.options.find(o => o.opt_key === 'A');
+assert(c2m10A?.effects.ending_triggers.includes('H08'), 'V7: C2-M10A ending_triggers includes H08 (contribution condition)');
+const totalQualNotes = allOptions.reduce((acc, o) => acc + (o.effects.qualitative_notes?.length || 0), 0);
+assert(totalQualNotes === 32, 'V7: Qualitative notes total across all cards strictly === 32', `total=${totalQualNotes}`);
+
+// V8. 时机条来源注与单向扫条
+assert(tbParams.cursor_speed_source && tbParams.cursor_speed_source.includes('spike/spike_stage0.lua:14'),
+  'V8: timing_bar cursor_speed_source references spike/spike_stage0.lua:14');
+assert(tbParams.sweep_direction === 'unidirectional', 'V8: timing_bar sweep_direction === unidirectional');
+assert(tbParams.sweet_window_seconds === 0.23, 'V8: timing_bar sweet_window_seconds === 0.23');
+
+// V10. 换皮皮名对齐 skin_set
+const skinSet = configData.skin_set;
+assert(Boolean(skinSet), 'V10: skin_set exists in config_and_screens.json');
+assert(skinSet.canonical_names.length === 4 && skinSet.canonical_names.includes('憋单放福袋'),
+  'V10: skin_set.canonical_names matches [接梗, 憋单放福袋, 最后一波拉票, 关键操作]');
+assert(skinSet.data_mapping['高光'] === '关键操作' && skinSet.data_mapping['PK'] === '最后一波拉票',
+  'V10: skin_set.data_mapping aligns data skins with canonical skins');
 
 // ============================================================================
 // Write validation report
