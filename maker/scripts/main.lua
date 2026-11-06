@@ -511,7 +511,9 @@ local function selectCardOption(optKey)
     if tonumber(gameState.variables["Flag_签公会"]) == 1 then
         mMode = mMode + 0.2 -- §2.3: 公会推流加成 M_模式 +0.2
     end
-    if gameState.nextModeMultBonus and gameState.nextModeMultBonusMode == scheduledMode then
+    if gameState.practiceBuff and gameState.practiceBuff.targetChapter == gameState.currentChapter and gameState.practiceBuff.mode == scheduledMode then
+        mMode = mMode + gameState.practiceBuff.bonus -- §2.8C & Z2: 练功加成 +0.15 (仅下一阶段对应模式生效)
+    elseif gameState.nextModeMultBonus and gameState.nextModeMultBonusMode == scheduledMode then
         mMode = mMode + gameState.nextModeMultBonus -- §2.8C: 练功加成 +0.15
     end
     mMode = math.max(0.8, math.min(1.5, mMode))
@@ -636,9 +638,15 @@ local function selectCardOption(optKey)
                 rMode = slotObj.wallet_mult
             end
 
-            -- R_粉丝构成 ∈ [0.6, 1.8] (Y1.①: 废止学生粉)
-            local bigSpender = (gameState.fanComposition and gameState.fanComposition["大哥"]) or 15
-            local rFanComp = 1.0 + (bigSpender - 15) * 0.02
+            -- R_粉丝构成 ∈ [0.6, 1.8] (Z1: 正本缺口裁定采用公式 R = clamp(1 + 0.02 * (S - S0), 0.6, 1.8))
+            -- S = 大哥% + 颜粉% - 技术粉%; S0 = 15 (新局中性基准 15 + 20 - 20)
+            local comp = gameState.fanComposition or {}
+            local bigSpender = comp["大哥"] or 15
+            local beautyFans = comp["颜粉"] or 20
+            local techFans = comp["技术粉"] or 20
+            local S = bigSpender + beautyFans - techFans
+            local S0 = 15
+            local rFanComp = 1.0 + 0.02 * (S - S0)
             rFanComp = math.max(0.6, math.min(1.8, rFanComp))
 
             -- R_分成 (野生 0.5 / 公会 0.35)
@@ -815,14 +823,37 @@ local function settleCurrentChapter(useAdDouble)
     gameState.fiveDim.fans = gameState.fiveDim.fans + netFans
     gameState.fiveDim.wallet = gameState.fiveDim.wallet + netWallet
 
-    -- 3. 粉丝构成漂移
-    local attrs = gameState.attributes
-    local w顏 = attrs["颜值"] + attrs["才艺"]
-    local w聲 = attrs["嗓音"] * 2
-    local w技 = attrs["游戏技术"] * 2
-    local w樂 = attrs["口才"] + attrs["运气"]
-    local w哥 = attrs["情商"] + attrs["颜值"]
-    local w學 = attrs["游戏技术"] + attrs["口才"]
+    -- 3. 粉丝构成漂移 (§2.7 & Z4 漂移输入补全)
+    local attrs = gameState.attributes or {}
+    local sched = gameState.schedule or gameState.selectedSchedule or {}
+    local mode = sched.mode or "全模式"
+    local slotId = sched.timeSlot or "slot_prime"
+    local isCircus = (gameState.variables and gameState.variables["Tag_流派"] == "整活")
+
+    local m_yan = (mode == "才艺" or mode == "团播") and 1.5 or 1.0
+    local s_yan = (slotId == "slot_prime") and 1.5 or 1.0
+
+    local m_sheng = (mode == "电台" or mode == "才艺") and 1.5 or 1.0
+    local s_sheng = (slotId == "slot_morning" or slotId == "slot_late") and 1.5 or 1.0
+
+    local m_ji = (mode == "游戏") and 1.5 or 1.0
+    local s_ji = (slotId == "slot_noon" or slotId == "slot_prime") and 1.5 or 1.0
+
+    local m_le = (mode == "PK" or mode == "户外" or isCircus) and 1.5 or 1.0
+    local s_le = (slotId == "slot_noon") and 1.5 or 1.0
+
+    local m_da = (mode == "PK" or mode == "电台") and 1.5 or 1.0
+    local s_da = (slotId == "slot_prime" or slotId == "slot_late") and 1.5 or 1.0
+
+    local m_xue = (mode == "游戏" or mode == "团播") and 1.5 or 1.0
+    local s_xue = (slotId == "slot_noon" or slotId == "slot_weekend") and 1.5 or 1.0
+
+    local w顏 = ((attrs["颜值"] or 5) + (attrs["才艺"] or 5)) * m_yan * s_yan
+    local w聲 = ((attrs["嗓音"] or 5) * 2) * m_sheng * s_sheng
+    local w技 = ((attrs["游戏技术"] or 5) * 2) * m_ji * s_ji
+    local w樂 = ((attrs["口才"] or 5) + (attrs["运气"] or 5)) * m_le * s_le
+    local w哥 = ((attrs["情商"] or 5) + (attrs["颜值"] or 5)) * m_da * s_da
+    local w學 = ((attrs["游戏技术"] or 5) + (attrs["口才"] or 5)) * m_xue * s_xue
     local totalW = math.max(1, w顏 + w聲 + w技 + w樂 + w哥 + w學)
 
     local newComp = {
@@ -881,6 +912,11 @@ local function settleCurrentChapter(useAdDouble)
             end
             unlockEnding(gameState.triggeredEnding)
         end
+    end
+
+    -- Z2: 练功 buff 仅在紧接的下一阶段内生效，该阶段结算时无论用未用一律清零
+    if gameState.practiceBuff and (gameState.practiceBuff.targetChapter or 0) <= ch then
+        gameState.practiceBuff = nil
     end
 
     gameState.settleResult = {
@@ -1248,7 +1284,15 @@ local function renderScreen04()
             settleCurrentChapter(false)
         end },
         { id = "act_2", name = "2. 练功精进", desc = "才艺/口才/技术 +1 点 (依主模式)", fn = function()
-            gameState.attributes["才艺"] = math.min(10, gameState.attributes["才艺"] + 1)
+            local targetAttr = "才艺"
+            local curMode = (gameState.schedule and gameState.schedule.mode) or "才艺"
+            if curMode == "游戏" then targetAttr = "游戏技术"
+            elseif curMode == "PK" or curMode == "带货" then targetAttr = "口才" end
+            gameState.attributes[targetAttr] = math.min(10, (gameState.attributes[targetAttr] or 5) + 1)
+            local attrToMode = { ["才艺"] = "才艺", ["游戏技术"] = "游戏", ["口才"] = "PK" }
+            local targetMode = attrToMode[targetAttr] or "才艺"
+            local targetChapter = (gameState.currentChapter or 1) + 1
+            gameState.practiceBuff = { targetChapter = targetChapter, mode = targetMode, bonus = 0.15 }
             settleCurrentChapter(false)
         end },
         { id = "act_3", name = "3. 连麦维护", desc = "情商 +1，公会口碑 +5", fn = function()
@@ -1399,6 +1443,9 @@ local function renderScreen05()
         drawText(30, 305, "✓ 恭喜！顺利跨过章节晋升闸门，开启下一章进阶之路！", 20, 16, 185, 129, 255)
         if gameState.currentChapter < 6 then
             drawButton("btn_next_chapter", 40, 430, 460, 52, "进入第 " .. tostring(gameState.currentChapter + 1) .. " 章排班", nvgRGBA(236, 72, 153, 255), nvgRGBA(255, 255, 255, 255), function()
+                if gameState.practiceBuff and (gameState.practiceBuff.targetChapter or 0) <= gameState.currentChapter then
+                    gameState.practiceBuff = nil
+                end
                 gameState.currentChapter = gameState.currentChapter + 1
                 gameState.chapterFansGained = 0
                 gameState.overtimeActive = false

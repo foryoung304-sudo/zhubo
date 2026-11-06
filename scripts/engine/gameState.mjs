@@ -88,9 +88,16 @@ export class GameState {
     this.fanTilt = {}; // Ambiguity A: { segmentName: +5 }
     this.fanRetentionBuff = 0; // Ambiguity A: 10% fan loss reduction
     this.currentCardMultiplier = 1.0;
-    this.nextModeMultBonus = 0; // §2.8C 下播练功增益 +0.15
-    this.nextModeMultBonusMode = null;
+    this.practiceBuff = null; // §2.8C & Z2: { targetChapter: number, mode: string, bonus: number }
     this.cardHistory = [];
+  }
+
+  // Z2 练功 buff 生命周期兼容访问器: 仅在紧接下一阶段内生效
+  get nextModeMultBonus() {
+    return (this.practiceBuff && this.practiceBuff.targetChapter === this.currentChapter) ? this.practiceBuff.bonus : 0;
+  }
+  get nextModeMultBonusMode() {
+    return (this.practiceBuff && this.practiceBuff.targetChapter === this.currentChapter) ? this.practiceBuff.mode : null;
   }
 
   // Allocate attribute points

@@ -160,6 +160,39 @@ assert(sumFanSegments === 100, '29. Screen-05: 6-segment fan composition sums st
 const segmentsPresent = ['颜粉', '声控粉', '技术粉', '乐子人', '大哥', '学生粉'].every(s => settleRes.fanComposition[s] !== undefined);
 assert(segmentsPresent, '30. Screen-05: All 6 fan segments from §2.7 present in drift result');
 
+// Z4 断言: §2.7 时段亲和与整活流派亲和漂移验证
+const sZ4SlotPrime = new GameState(configData, stateDict, endingsData);
+sZ4SlotPrime.currentChapter = 1;
+sZ4SlotPrime.selectedSchedule.mode = '才艺';
+sZ4SlotPrime.selectedSchedule.timeSlot = 'slot_prime'; // 黄金档: 颜粉/技术粉/大哥 亲和 ×1.5
+const resSlotPrime = stageSettlement.settleChapter(sZ4SlotPrime);
+
+const sZ4SlotMorning = new GameState(configData, stateDict, endingsData);
+sZ4SlotMorning.currentChapter = 1;
+sZ4SlotMorning.selectedSchedule.mode = '才艺';
+sZ4SlotMorning.selectedSchedule.timeSlot = 'slot_morning'; // 清晨档: 声控粉 亲和 ×1.5
+const resSlotMorning = stageSettlement.settleChapter(sZ4SlotMorning);
+
+assert(resSlotPrime.fanComposition['颜粉'] > resSlotMorning.fanComposition['颜粉'] &&
+       resSlotMorning.fanComposition['声控粉'] > resSlotPrime.fanComposition['声控粉'],
+  '30.1. Z4: §2.7 Time-slot affinity drift correctly shifts weight between prime and morning slots');
+
+const sZ4Circus = new GameState(configData, stateDict, endingsData);
+sZ4Circus.currentChapter = 1;
+sZ4Circus.selectedSchedule.mode = '才艺'; // 非 PK/户外
+sZ4Circus.selectedSchedule.timeSlot = 'slot_noon';
+sZ4Circus.variables['Tag_流派'] = '整活'; // 整活流派触发乐子人亲和
+const resCircus = stageSettlement.settleChapter(sZ4Circus);
+
+const sZ4Normal = new GameState(configData, stateDict, endingsData);
+sZ4Normal.currentChapter = 1;
+sZ4Normal.selectedSchedule.mode = '才艺';
+sZ4Normal.selectedSchedule.timeSlot = 'slot_noon';
+const resNormal = stageSettlement.settleChapter(sZ4Normal);
+
+assert(resCircus.fanComposition['乐子人'] > resNormal.fanComposition['乐子人'],
+  '30.2. Z4: Tag_流派===整活 correctly triggers leziren drift affinity even outside PK/outdoor modes');
+
 // -----------------------------------------------------------------------------
 // Test 10: 完整一局通关 (0 粉打通到盛典顶流结局 M01/M05)
 // -----------------------------------------------------------------------------
@@ -631,16 +664,95 @@ sClampNail.variables['Tag_流派'] = '整活';
 cardEngine.selectOption(cardModeGame, 'A', sClampNail, { circusRoll: 0.99 });
 assert(sClampNail.fiveDim.fans === 220, '78.2. Y0 Nailing: Low business (clamped to 0.4) * circus (2.5) yields 1.0x (220 fans), NOT 0.544x (119 fans)');
 
-// X2.③ & Y1: 钱包三条 R 乘区行为断言
-// R_粉丝构成: 大哥 35 -> 1.40 (Y1.①: 废止学生粉)
+// Z2: 练功 buff 生命周期验证 (N 阶段所挣 buff 仅在 N+1 对应模式生效，N+1 结算后无论用未用一律清零，绝不影响 N+2)
+const sBuffLife = new GameState(configData, stateDict, endingsData);
+sBuffLife.currentChapter = 1;
+// 阶段 1 下播练功: targetAttr = '才艺' -> 绑定 Chapter 2 模式 '才艺' +0.15
+offStreamActions.executeAction(2, sBuffLife, '才艺');
+assert(sBuffLife.practiceBuff !== null && sBuffLife.practiceBuff.targetChapter === 2 && sBuffLife.practiceBuff.mode === '才艺',
+  '78.3a. Z2: Practice action in stage 1 sets practiceBuff targeted strictly at stage 2 for talent mode');
+
+// 进入阶段 2 (N+1)
+sBuffLife.currentChapter = 2;
+sBuffLife.selectedSchedule.mode = '才艺';
+sBuffLife.selectedSchedule.timeSlot = 'slot_prime';
+sBuffLife.selectedSchedule.duration = 4;
+// 在阶段 2 选卡测试模式乘区: 基准 1.0 + 练功 0.15 = 1.15
+const cardTalentTest = { card_id: 'C-TALENT', mode_tags: ['才艺'], pool_type: 'milestone', ops_type: 'none', options: [{ opt_key: 'A', effects: { delta_five_dim: { fans_pct: 10 } } }] };
+const fansBeforeB2 = sBuffLife.fiveDim.fans;
+cardEngine.selectOption(cardTalentTest, 'A', sBuffLife);
+// Base_Fans(2) = 2000, M_经营 = 1.15 * 1.4 * 1.0 * 1.05 * 1.0 = 1.6905; delta = floor(2000 * 1.6905 * 1.1) = 3719 (无buff为 3234)
+assert(sBuffLife.fiveDim.fans - fansBeforeB2 === 3719, '78.3b. Z2: Stage 2 matches talent mode and enjoys +0.15 practice buff (3719 fans vs 3234)');
+
+// 阶段 2 结算
+stageSettlement.settleChapter(sBuffLife);
+assert(sBuffLife.practiceBuff === null, '78.3c. Z2: Practice buff expires and clears upon stage 2 settlement');
+
+// 进入阶段 3 (N+2)
+sBuffLife.currentChapter = 3;
+sBuffLife.selectedSchedule.mode = '才艺';
+assert(sBuffLife.nextModeMultBonus === 0, '78.3. Z2: Practice buff gained in stage N does NOT affect stage N+2 settlement');
+
+// 78.4: 练功 buff 未用清零测试 (N+1 阶段未排对应模式，结算后依然清零，不延滞到 N+2)
+const sBuffUnused = new GameState(configData, stateDict, endingsData);
+sBuffUnused.currentChapter = 1;
+offStreamActions.executeAction(2, sBuffUnused, '才艺'); // 绑定 Chapter 2 '才艺'
+sBuffUnused.currentChapter = 2;
+sBuffUnused.selectedSchedule.mode = '游戏'; // 阶段 2 排游戏，未用才艺 buff
+stageSettlement.settleChapter(sBuffUnused);
+assert(sBuffUnused.practiceBuff === null, '78.4a. Z2: Unused practice buff is cleared on stage 2 settlement');
+sBuffUnused.currentChapter = 3;
+sBuffUnused.selectedSchedule.mode = '才艺';
+assert(sBuffUnused.nextModeMultBonus === 0, '78.4. Z2: Unused practice buff does NOT carry over to stage 3');
+
+// X2.③ & Y1 & Z1: 钱包三条 R 乘区行为断言
+// R_粉丝构成: S = 大哥% + 颜粉% - 技术粉%; S0 = 15 (新局中性基准 15 + 20 - 20)
+// R = clamp(1 + 0.02 * (S - S0), 0.6, 1.8)
+// 79: 大哥 35, 颜粉 20, 技术 20 -> S = 35 -> S - S0 = 20 -> R = 1.40
 const sFanCompHigh = new GameState(configData, stateDict, endingsData);
 sFanCompHigh.currentChapter = 1; // Base_Income = 800, Cap_Wallet = 3000
 sFanCompHigh.fiveDim.wallet = 1000;
-sFanCompHigh.fanComposition = { '大哥': 35 };
+sFanCompHigh.fanComposition = { '大哥': 35, '颜粉': 20, '技术粉': 20 };
 const cardWalletTest = { card_id: 'C-WALL', pool_type: 'milestone', ops_type: 'none', options: [{ opt_key: 'A', effects: { delta_five_dim: { wallet: 10 } } }] };
 // baseRevenue = 800 * 1.4 * 1.40 * 0.5 * 1.0 = 784; positiveWallet = 784 + 10 = 794
 cardEngine.selectOption(cardWalletTest, 'A', sFanCompHigh);
-assert(sFanCompHigh.fiveDim.wallet === 1000 + 794, '79. X2.③: R_粉丝构成 high big spender increases revenue by 1.40x (794)');
+assert(sFanCompHigh.fiveDim.wallet === 1000 + 794, '79. X2.③ & Z1: R_粉丝构成 high big spender increases revenue by 1.40x (794)');
+
+// 79.1: 颜粉侧驱动 (大哥 15, 颜粉 35, 技术 20 -> S = 30 -> S - S0 = 15 -> R = 1.30)
+const sFanCompBeauty = new GameState(configData, stateDict, endingsData);
+sFanCompBeauty.currentChapter = 1;
+sFanCompBeauty.fiveDim.wallet = 1000;
+sFanCompBeauty.fanComposition = { '大哥': 15, '颜粉': 35, '技术粉': 20 };
+// baseRevenue = 800 * 1.4 * 1.30 * 0.5 * 1.0 = 728; positiveWallet = 728 + 10 = 738
+cardEngine.selectOption(cardWalletTest, 'A', sFanCompBeauty);
+assert(sFanCompBeauty.fiveDim.wallet === 1000 + 738, '79.1. Z1: R_粉丝构成 high beauty fans increases revenue by 1.30x (738)');
+
+// 79.2: 技术粉侧负向驱动 (大哥 15, 颜粉 20, 技术 40 -> S = -5 -> S - S0 = -20 -> R = 0.60)
+const sFanCompTech = new GameState(configData, stateDict, endingsData);
+sFanCompTech.currentChapter = 1;
+sFanCompTech.fiveDim.wallet = 1000;
+sFanCompTech.fanComposition = { '大哥': 15, '颜粉': 20, '技术粉': 40 };
+// baseRevenue = 800 * 1.4 * 0.60 * 0.5 * 1.0 = 336; positiveWallet = 336 + 10 = 346
+cardEngine.selectOption(cardWalletTest, 'A', sFanCompTech);
+assert(sFanCompTech.fiveDim.wallet === 1000 + 346, '79.2. Z1: R_粉丝构成 high tech fans decreases revenue to 0.60x (346)');
+
+// 79.3: Yellow 预算极小值下界 S = -31 -> R = clamp(0.08, 0.6, 1.8) = 0.60 (夹逼下界承重)
+const sFanCompMin = new GameState(configData, stateDict, endingsData);
+sFanCompMin.currentChapter = 1;
+sFanCompMin.fiveDim.wallet = 1000;
+sFanCompMin.fanComposition = { '大哥': 2, '颜粉': 2, '技术粉': 35 }; // S = 2 + 2 - 35 = -31
+// baseRevenue = 800 * 1.4 * 0.60 * 0.5 * 1.0 = 336; positiveWallet = 336 + 10 = 346
+cardEngine.selectOption(cardWalletTest, 'A', sFanCompMin);
+assert(sFanCompMin.fiveDim.wallet === 1000 + 346, '79.3. Z1: R_粉丝构成 Yellow pre-computed min reachable S=-31 clamped to 0.60x');
+
+// 79.4: Yellow 预算极大值上界 S = 82 -> R = clamp(2.34, 0.6, 1.8) = 1.80 (夹逼上界承重)
+const sFanCompMax = new GameState(configData, stateDict, endingsData);
+sFanCompMax.currentChapter = 1;
+sFanCompMax.fiveDim.wallet = 1000;
+sFanCompMax.fanComposition = { '大哥': 35, '颜粉': 51, '技术粉': 4 }; // S = 35 + 51 - 4 = 82
+// baseRevenue = 800 * 1.4 * 1.80 * 0.5 * 1.0 = 1008; positiveWallet = 1008 + 10 = 1018
+cardEngine.selectOption(cardWalletTest, 'A', sFanCompMax);
+assert(sFanCompMax.fiveDim.wallet === 1000 + 1018, '79.4. Z1: R_粉丝构成 Yellow pre-computed max reachable S=82 clamped to 1.80x');
 
 // R_分成: 野生 0.5 vs 公会 0.35 (Y1.①: 默认中性粉丝构成 R_粉丝构成 = 1.0)
 const sGuildRev = new GameState(configData, stateDict, endingsData);

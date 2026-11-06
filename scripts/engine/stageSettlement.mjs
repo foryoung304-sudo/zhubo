@@ -52,17 +52,38 @@ export class StageSettlement {
     gameState.fiveDim.fans += netFansGain;
     gameState.fiveDim.wallet += netWalletGain;
 
-    // 3. Fan Composition Drift Calculation (§2.7)
+    // 3. Fan Composition Drift Calculation (§2.7 & Z4 漂移输入补全)
     const attrs = gameState.attributes;
     const mode = gameState.selectedSchedule.mode;
+    const slotId = gameState.selectedSchedule.timeSlot;
+    const isCircus = gameState.variables && gameState.variables['Tag_流派'] === '整活';
+
+    // 模式亲和 (×1.5) 与 时段亲和 (×1.5)
+    const m_yan = (mode === '才艺' || mode === '团播') ? 1.5 : 1.0;
+    const s_yan = (slotId === 'slot_prime') ? 1.5 : 1.0;
+
+    const m_sheng = (mode === '电台' || mode === '才艺') ? 1.5 : 1.0;
+    const s_sheng = (slotId === 'slot_morning' || slotId === 'slot_late') ? 1.5 : 1.0;
+
+    const m_ji = (mode === '游戏') ? 1.5 : 1.0;
+    const s_ji = (slotId === 'slot_noon' || slotId === 'slot_prime') ? 1.5 : 1.0;
+
+    const m_le = (mode === 'PK' || mode === '户外' || isCircus) ? 1.5 : 1.0;
+    const s_le = (slotId === 'slot_noon') ? 1.5 : 1.0;
+
+    const m_da = (mode === 'PK' || mode === '电台') ? 1.5 : 1.0;
+    const s_da = (slotId === 'slot_prime' || slotId === 'slot_late') ? 1.5 : 1.0;
+
+    const m_xue = (mode === '游戏' || mode === '团播') ? 1.5 : 1.0;
+    const s_xue = (slotId === 'slot_noon' || slotId === 'slot_weekend') ? 1.5 : 1.0;
 
     const weights = {
-      '颜粉': (attrs['颜值'] + attrs['才艺']) * (mode === '才艺' || mode === '团播' ? 1.5 : 1.0),
-      '声控粉': (attrs['嗓音'] * 2) * (mode === '电台' || mode === '才艺' ? 1.5 : 1.0),
-      '技术粉': (attrs['游戏技术'] * 2) * (mode === '游戏' ? 1.5 : 1.0),
-      '乐子人': (attrs['口才'] + attrs['运气']) * (mode === 'PK' || mode === '户外' ? 1.5 : 1.0),
-      '大哥': (attrs['情商'] + attrs['颜值']) * (mode === 'PK' || mode === '电台' ? 1.5 : 1.0),
-      '学生粉': (attrs['游戏技术'] + attrs['口才']) * (mode === '游戏' || mode === '团播' ? 1.5 : 1.0)
+      '颜粉': (attrs['颜值'] + attrs['才艺']) * m_yan * s_yan,
+      '声控粉': (attrs['嗓音'] * 2) * m_sheng * s_sheng,
+      '技术粉': (attrs['游戏技术'] * 2) * m_ji * s_ji,
+      '乐子人': (attrs['口才'] + attrs['运气']) * m_le * s_le,
+      '大哥': (attrs['情商'] + attrs['颜值']) * m_da * s_da,
+      '学生粉': (attrs['游戏技术'] + attrs['口才']) * m_xue * s_xue
     };
 
     const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0);
@@ -151,6 +172,11 @@ export class StageSettlement {
       }
     }
 
+    // Z2: 练功 buff 仅在紧接的下一阶段内生效，该阶段结算时无论用未用一律清零 (§2.8C & Z2)
+    if (gameState.practiceBuff && gameState.practiceBuff.targetChapter <= ch) {
+      gameState.practiceBuff = null;
+    }
+
     return {
       chapter: ch,
       netFansGain,
@@ -167,6 +193,9 @@ export class StageSettlement {
 
   // Advance to next chapter
   advanceChapter(gameState) {
+    if (gameState.practiceBuff && gameState.practiceBuff.targetChapter <= gameState.currentChapter) {
+      gameState.practiceBuff = null;
+    }
     if (gameState.currentChapter < 6) {
       gameState.currentChapter++;
       gameState.currentCardIndex = 0;

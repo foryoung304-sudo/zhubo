@@ -86,7 +86,9 @@ export class CardEngine {
     if (gameState.variables['Flag_签公会'] === 1) {
       mMode += 0.2; // §2.3: 公会推流加成 M_模式 +0.2
     }
-    if (gameState.nextModeMultBonus && gameState.nextModeMultBonusMode === scheduledMode) {
+    if (gameState.practiceBuff && gameState.practiceBuff.targetChapter === gameState.currentChapter && gameState.practiceBuff.mode === scheduledMode) {
+      mMode += gameState.practiceBuff.bonus; // §2.8C & Z2: 下播行动练功加成 +0.15 (仅下一阶段对应模式生效)
+    } else if (gameState.nextModeMultBonus && gameState.nextModeMultBonusMode === scheduledMode) {
       mMode += gameState.nextModeMultBonus; // §2.8C: 下播行动练功加成 +0.15
     }
     mMode = Math.max(0.8, Math.min(1.5, mMode));
@@ -218,9 +220,15 @@ export class CardEngine {
           rMode = slot.wallet_mult;
         }
 
-        // R_粉丝构成 ∈ [0.6, 1.8] (Y1.①: 按正本口径取段，废止学生粉 ±0.02/0.01)
-        const bigSpender = (gameState.fanComposition && gameState.fanComposition['大哥'] !== undefined) ? gameState.fanComposition['大哥'] : 15;
-        let rFanComp = 1.0 + (bigSpender - 15) * 0.02;
+        // R_粉丝构成 ∈ [0.6, 1.8] (Z1: 正本缺口裁定采用公式 R = clamp(1 + 0.02 * (S - S0), 0.6, 1.8))
+        // S = 大哥% + 颜粉% - 技术粉%; S0 = 15 (新局中性基准 15 + 20 - 20)
+        const comp = gameState.fanComposition || {};
+        const bigSpender = comp['大哥'] !== undefined ? comp['大哥'] : 15;
+        const beautyFans = comp['颜粉'] !== undefined ? comp['颜粉'] : 20;
+        const techFans = comp['技术粉'] !== undefined ? comp['技术粉'] : 20;
+        const S = bigSpender + beautyFans - techFans;
+        const S0 = 15;
+        let rFanComp = 1.0 + 0.02 * (S - S0);
         rFanComp = Math.max(0.6, Math.min(1.8, rFanComp));
 
         // R_分成 (野生 0.5 / 公会 0.35)
