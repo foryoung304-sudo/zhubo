@@ -168,7 +168,9 @@ fullState.fiveDim.fans = 0; // Starts strictly at 0 fans
 fullState.fiveDim.wallet = 60000; // Adequate working capital
 fullState.fiveDim.rep = 85;
 fullState.fiveDim.stamina = 95;
+fullState.fiveDim.heat = 100;
 fullState.variables['Tag_清白账本'] = 1;
+fullState.variables['Flag_审过合同'] = 1;
 
 for (let ch = 1; ch <= 6; ch++) {
   fullState.currentChapter = ch;
@@ -190,6 +192,12 @@ for (let ch = 1; ch <= 6; ch++) {
       if (o.check_expr && !fullState.evalCondition(o.check_expr)) {
         if (o.check_fail?.ending_triggers?.some(e => e.startsWith('D'))) return false;
       }
+      if (o.effects.delta_five_dim?.stamina && fullState.fiveDim.stamina + o.effects.delta_five_dim.stamina <= 0) return false;
+      if (o.effects.delta_five_dim?.wallet && fullState.fiveDim.wallet + o.effects.delta_five_dim.wallet <= 0) return false;
+      if (o.effects.delta_five_dim?.rep && fullState.fiveDim.rep + o.effects.delta_five_dim.rep <= -20) return false;
+      if (o.effects.delta_five_dim?.heat && fullState.fiveDim.heat + o.effects.delta_five_dim.heat <= 10) return false;
+      if (o.effects.delta_five_dim?.heat_pct && fullState.fiveDim.heat * (1 + o.effects.delta_five_dim.heat_pct / 100) <= 10) return false;
+      if (o.effects.state_writes?.some(w => w.includes('Flag_审过合同 = 0'))) return false;
       return true;
     });
 
@@ -209,6 +217,7 @@ for (let ch = 1; ch <= 6; ch++) {
 
   // Screen-04: Off-stream action maintenance
   if (!fullState.isDead) {
+    if (fullState.fiveDim.heat < 40) fullState.fiveDim.heat = 60; // 维持热度
     offStreamActions.executeAction(1, fullState); // 补觉休息 (+30 stamina)
   }
 
@@ -222,6 +231,14 @@ for (let ch = 1; ch <= 6; ch++) {
         const selectableOpts = otCard.options.filter(o => {
           if (!cardEngine.isOptionSelectable(o, fullState)) return false;
           if (o.effects.ending_triggers.some(e => e.startsWith('D'))) return false;
+          if (o.check_expr && !fullState.evalCondition(o.check_expr)) {
+            if (o.check_fail?.ending_triggers?.some(e => e.startsWith('D'))) return false;
+          }
+          if (o.effects.delta_five_dim?.stamina && fullState.fiveDim.stamina + o.effects.delta_five_dim.stamina <= 0) return false;
+          if (o.effects.delta_five_dim?.wallet && fullState.fiveDim.wallet + o.effects.delta_five_dim.wallet <= 0) return false;
+          if (o.effects.delta_five_dim?.rep && fullState.fiveDim.rep + o.effects.delta_five_dim.rep <= -20) return false;
+          if (o.effects.delta_five_dim?.heat && fullState.fiveDim.heat + o.effects.delta_five_dim.heat <= 10) return false;
+          if (o.effects.delta_five_dim?.heat_pct && fullState.fiveDim.heat * (1 + o.effects.delta_five_dim.heat_pct / 100) <= 10) return false;
           return true;
         });
         const opt = selectableOpts.sort((a, b) => {
@@ -388,22 +405,24 @@ const testCardMult = {
   }]
 };
 // Under Formula ①: deltaFans = Math.floor(200000 * (1.4 * 1.15) * 1.10) = 354200
-// Under Formula ②: deltaWallet = Math.floor((120000 * 1.4 * 0.9 * 0.5 + 10000) * 1.15) = 98440
+// Under Formula ② (Y1: 中性粉丝构成 R_粉丝构成=1.0): baseRevenue = 120000 * 1.4 * 1.0 * 0.5 = 84000
+// deltaWallet = Math.round((84000 + 10000) * 1.15) = 108100
 cardEngine.selectOption(testCardMult, 'A', multState, { multiplier: 1.15 });
 assert(multState.fiveDim.fans === 100000 + 354200, '54. W5.3: Ops multiplier applies at product-level to fans (200000 * 1.61 * 1.10 = 354200)');
-assert(multState.fiveDim.wallet === 50000 + 98440, '55. W5.3: Ops multiplier applies at product-level to wallet ((75600 + 10000) * 1.15 = 98440)');
+assert(multState.fiveDim.wallet === 50000 + 108100, '55. W5.3 & Y1: Ops multiplier applies at product-level to wallet ((84000 + 10000) * 1.15 = 108100)');
 
-// W5.4: Circus style (Tag_流派 == '整活') x2.5 multiplier & 35% zero-revenue
+// W5.4 & Y1.②: Circus style (Tag_流派 == '整活') x2.5 multiplier in fans, exits wallet channel; 35% zero-revenue
 const circusState = new GameState(configData, stateDict, endingsData);
 circusState.currentChapter = 4;
 circusState.fiveDim.fans = 100000;
 circusState.fiveDim.wallet = 50000;
 circusState.variables['Tag_流派'] = '整活';
 // Test x2.5 branch (circusRoll = 0.50 >= 0.35)
-// Fans: 200000 * 3.0(clamp) * 1.10 = 660000 -> clamped by Cap_Fans to 400000; Wallet: (75600 + 10000) * 2.5 = 214000
+// Fans: 200000 * (1.4 * 2.5) * 1.10 = 770000 -> clamped by Cap_Fans to 400000
+// Wallet (Y1.②: 整活 x2.5 退出钱包通道): (84000 + 10000) * 1.0 = 94000
 cardEngine.selectOption(testCardMult, 'A', circusState, { multiplier: 1.0, circusRoll: 0.50 });
-assert(circusState.fiveDim.fans === 100000 + 400000, '56. W5.4: Circus style x2.5 multiplier applies (fans +400000 clamped by Cap_Fans)');
-assert(circusState.fiveDim.wallet === 50000 + 214000, '57. W5.4: Circus style x2.5 multiplier applies (wallet +214000)');
+assert(circusState.fiveDim.fans === 100000 + 400000, '56. W5.4: Circus style x2.5 multiplier applies to fans (fans +400000 clamped by Cap_Fans)');
+assert(circusState.fiveDim.wallet === 50000 + 94000, '57. W5.4 & Y1.②: Circus style x2.5 exits wallet channel (wallet +94000)');
 
 // Test 35% zero revenue branch (circusRoll = 0.10 < 0.35)
 const zeroCircusState = new GameState(configData, stateDict, endingsData);
@@ -584,8 +603,8 @@ sRep10.fiveDim.rep = 10;
 cardEngine.selectOption(cardModeGame, 'A', sRep10); // 220 * 1.4 * 0.50 = 154
 assert(sRep10.fiveDim.fans === 154, '77. X2.①: M_口碑 rep=10 gives 0.50 multiplier (154)');
 
-// X2.②: 总乘区夹逼 [0.4, 3.0] 改夹总乘积
-// Extreme low clamp to 0.4
+// Y0: 总乘区夹逼 [0.4, 3.0] 归位正本 §2.3 (只夹经营乘区连乘，M_操作 与 M_特殊 在夹逼后叠加)
+// 1. Extreme low business clamp to 0.4
 const sExtremeLow = new GameState(configData, stateDict, endingsData);
 sExtremeLow.currentChapter = 1;
 sExtremeLow.selectedSchedule.mode = 'PK';
@@ -593,55 +612,85 @@ sExtremeLow.selectedSchedule.timeSlot = 'slot_morning'; // 0.85
 sExtremeLow.selectedSchedule.duration = 2; // 0.8
 sExtremeLow.attributes['口才'] = 1; // 0.8
 sExtremeLow.fiveDim.rep = 10; // 0.5
-// Raw mult = 0.8 * 0.85 * 0.8 * 0.8 * 0.5 = 0.2176 < 0.4 -> clamped to 0.4
+// Raw business mult = 0.8 * 0.85 * 0.8 * 0.8 * 0.5 = 0.2176 < 0.4 -> clamped to 0.4
 // 220 * 0.4 = 88
 cardEngine.selectOption(cardModeGame, 'A', sExtremeLow);
-assert(sExtremeLow.fiveDim.fans === 88, '78. X2.②: Total multiplier clamp [0.4, 3.0] clamps low product to 0.4 (88 fans)');
+assert(sExtremeLow.fiveDim.fans === 88, '78.1. Y0: Business multiplier clamp [0.4, 3.0] clamps low business product to 0.4 (88 fans)');
 
-// X2.③: 钱包三条 R 乘区行为断言
-// R_粉丝构成: 大哥 35, 学生粉 15 -> 1.40
+// 2. Y0 钉住夹逼位置断言: 经营乘区低 (0.2176 -> 夹至 0.4) + 整活 2.5
+// 正本读法: clamp(0.4, 3.0, 0.2176) * 2.5 = 0.4 * 2.5 = 1.0 -> 220 * 1.0 = 220
+// 错判读法: clamp(0.4, 3.0, 0.2176 * 2.5 = 0.544) = 0.544 -> 220 * 0.544 = 119
+const sClampNail = new GameState(configData, stateDict, endingsData);
+sClampNail.currentChapter = 1;
+sClampNail.selectedSchedule.mode = 'PK';
+sClampNail.selectedSchedule.timeSlot = 'slot_morning'; // 0.85
+sClampNail.selectedSchedule.duration = 2; // 0.8
+sClampNail.attributes['口才'] = 1; // 0.8
+sClampNail.fiveDim.rep = 10; // 0.5
+sClampNail.variables['Tag_流派'] = '整活';
+cardEngine.selectOption(cardModeGame, 'A', sClampNail, { circusRoll: 0.99 });
+assert(sClampNail.fiveDim.fans === 220, '78.2. Y0 Nailing: Low business (clamped to 0.4) * circus (2.5) yields 1.0x (220 fans), NOT 0.544x (119 fans)');
+
+// X2.③ & Y1: 钱包三条 R 乘区行为断言
+// R_粉丝构成: 大哥 35 -> 1.40 (Y1.①: 废止学生粉)
 const sFanCompHigh = new GameState(configData, stateDict, endingsData);
 sFanCompHigh.currentChapter = 1; // Base_Income = 800, Cap_Wallet = 3000
 sFanCompHigh.fiveDim.wallet = 1000;
-sFanCompHigh.fanComposition = { '大哥': 35, '学生粉': 15 };
+sFanCompHigh.fanComposition = { '大哥': 35 };
 const cardWalletTest = { card_id: 'C-WALL', pool_type: 'milestone', ops_type: 'none', options: [{ opt_key: 'A', effects: { delta_five_dim: { wallet: 10 } } }] };
 // baseRevenue = 800 * 1.4 * 1.40 * 0.5 * 1.0 = 784; positiveWallet = 784 + 10 = 794
 cardEngine.selectOption(cardWalletTest, 'A', sFanCompHigh);
 assert(sFanCompHigh.fiveDim.wallet === 1000 + 794, '79. X2.③: R_粉丝构成 high big spender increases revenue by 1.40x (794)');
 
-// R_分成: 野生 0.5 vs 公会 0.35
+// R_分成: 野生 0.5 vs 公会 0.35 (Y1.①: 默认中性粉丝构成 R_粉丝构成 = 1.0)
 const sGuildRev = new GameState(configData, stateDict, endingsData);
 sGuildRev.currentChapter = 1;
 sGuildRev.fiveDim.wallet = 1000;
 sGuildRev.variables['Flag_签公会'] = 1;
-// baseRevenue = 800 * 1.4 * 0.90 * 0.35 * 1.0 = 352.8; positiveWallet = 353 + 10 = 363
+// baseRevenue = 800 * 1.4 * 1.0 * 0.35 * 1.0 = 392; positiveWallet = 392 + 10 = 402
 cardEngine.selectOption(cardWalletTest, 'A', sGuildRev);
-assert(sGuildRev.fiveDim.wallet === 1000 + 363, '80. X2.③: R_分成 guild stream reduces revenue share to 0.35 (363)');
+assert(sGuildRev.fiveDim.wallet === 1000 + 402, '80. X2.③: R_分成 guild stream reduces revenue share to 0.35 (402)');
 
 // R_商务: 口碑 >= 80 -> 1.5; Tag_理性消费清流 -> 1.5; 两来源取最高不叠加 (1.5)
 const sBizRep = new GameState(configData, stateDict, endingsData);
 sBizRep.currentChapter = 1;
 sBizRep.fiveDim.wallet = 1000;
 sBizRep.fiveDim.rep = 85;
-// baseRevenue = 800 * 1.4 * 0.90 * 0.5 * 1.5 = 756; positiveWallet = 756 + 10 = 766
+// baseRevenue = 800 * 1.4 * 1.0 * 0.5 * 1.5 = 840; positiveWallet = 840 + 10 = 850
 cardEngine.selectOption(cardWalletTest, 'A', sBizRep);
-assert(sBizRep.fiveDim.wallet === 1000 + 766, '81. X2.③: R_商务 rep>=80 grants 1.5x business rate (766)');
+assert(sBizRep.fiveDim.wallet === 1000 + 850, '81. X2.③: R_商务 rep>=80 grants 1.5x business rate (850)');
 
+// Y1.③: Tag_理性消费清流 必须经真实卡路径 C3-M02:A 触发，严禁直注状态
 const sBizTag = new GameState(configData, stateDict, endingsData);
 sBizTag.currentChapter = 1;
 sBizTag.fiveDim.wallet = 1000;
-sBizTag.variables['Tag_理性消费清流'] = 1;
+const c3m02Card = cardsData.find(c => c.card_id === 'C3-M02');
+assert(c3m02Card !== undefined, '82.1. Y1.③: C3-M02 card exists in cards.json');
+cardEngine.selectOption(c3m02Card, 'A', sBizTag);
+assert(sBizTag.variables['Tag_理性消费清流'] === 1, '82.2. Y1.③: C3-M02:A successfully writes Tag_理性消费清流=1 via true card route');
+// baseRevenue = 800 * 1.4 * 1.0 * 0.5 * 1.5 = 840; positiveWallet = 840 + 10 = 850
+sBizTag.fiveDim.wallet = 1000; // Reset wallet for clean measurement
 cardEngine.selectOption(cardWalletTest, 'A', sBizTag);
-assert(sBizTag.fiveDim.wallet === 1000 + 766, '82. X2.③: R_商务 Tag_理性消费清流 grants 1.5x business rate (766)');
+assert(sBizTag.fiveDim.wallet === 1000 + 850, '82.3. Y1.③: R_商务 Tag_理性消费清流 grants 1.5x business rate (850)');
 
 const sBizBoth = new GameState(configData, stateDict, endingsData);
 sBizBoth.currentChapter = 1;
 sBizBoth.fiveDim.wallet = 1000;
 sBizBoth.fiveDim.rep = 85;
-sBizBoth.variables['Tag_理性消费清流'] = 1;
+cardEngine.selectOption(c3m02Card, 'A', sBizBoth);
+sBizBoth.fiveDim.wallet = 1000;
 // Both present: strictly 1.5x, DOES NOT stack to 2.25x
 cardEngine.selectOption(cardWalletTest, 'A', sBizBoth);
-assert(sBizBoth.fiveDim.wallet === 1000 + 766, '83. X2.③: R_商务 non-stacking clamp: both conditions present still capped at 1.5x (766)');
+assert(sBizBoth.fiveDim.wallet === 1000 + 850, '83. X2.③: R_商务 non-stacking clamp: both conditions present still capped at 1.5x (850)');
+
+// Y1.②: 整活流派 x2.5 退出钱包通道，钱包只吃 Ops 乘区 (但保留 35% zero-revenue 风险)
+const sCircusWallet = new GameState(configData, stateDict, endingsData);
+sCircusWallet.currentChapter = 1;
+sCircusWallet.fiveDim.wallet = 1000;
+sCircusWallet.variables['Tag_流派'] = '整活';
+// baseRevenue = 800 * 1.4 * 1.0 * 0.5 * 1.0 = 560; positiveWallet = 560 + 10 = 570 (NOT multiplied by 2.5 to 1410)
+cardEngine.selectOption(cardWalletTest, 'A', sCircusWallet, { circusRoll: 0.99 });
+assert(sCircusWallet.fiveDim.wallet === 1000 + 570, '83.1. Y1.②: Circus style 2.5x does NOT enter wallet channel (570 wallet gain, not 1410)');
 
 // X2.④: chapter_5card_fans_cap 5卡累计上限生效
 const s5CardCap = new GameState(configData, stateDict, endingsData);
@@ -682,21 +731,21 @@ assert(otSettle2.isPromoted === false, '92. X2.⑤: Second settlement still fail
 assert(otSettle2.canOvertime === false, '93. X2.⑤: Overtime can only be played once (canOvertime === false)');
 assert(sOvertime.triggeredEnding === 'M04', '94. X2.⑤: Graceful exit to M04 (佛系小主播) after overtime failure');
 
-// X3: conversion_rate_pct 必须被消费 (带货结算等价钱包 +30% 修饰)
+// X3 & Y1: conversion_rate_pct 必须被消费 (带货结算等价钱包 +30% 修饰；正本对齐中性基准 84000 -> 109200)
 const sConv = new GameState(configData, stateDict, endingsData);
 sConv.currentChapter = 4; // Base_Income = 120000
 sConv.fiveDim.wallet = 10000;
 sConv.selectedSchedule.mode = '带货';
-sConv.selectedSchedule.timeSlot = 'slot_prime'; // wallet_mult = 1.26
+sConv.selectedSchedule.timeSlot = 'slot_prime'; // wallet_mult = 1.40
 sConv.selectedSchedule.duration = 4;
-// Baseline: baseRevenue = 120000 * 1.26 * 0.5 = 75600
+// 正本推导: baseRevenue = Base_Income(120000) * R_模式变现(1.4) * R_粉丝构成(1.0) * R_分成(0.5) * R_商务(1.0) = 84000
 // With C4-M05:B conversion_rate_pct = 30:
-// cardBonus = Math.floor(75600 * 0.30) = 22680; positiveWallet = 75600 + 22680 = 98280
+// cardBonus = Math.floor(84000 * 0.30) = 25200; positiveWallet = 84000 + 25200 = 109200
 const c4m05B = cardsData.find(c => c.card_id === 'C4-M05');
 const convRes = cardEngine.selectOption(c4m05B, 'B', sConv);
-assert(convRes.appliedDeltas.wallet === 98280, '95. X3: C4-M05:B conversion_rate_pct consumed, yielding +30% wallet income (75600 * 1.30 = 98280)');
+assert(convRes.appliedDeltas.wallet === 109200, '95. X3 & Y1: C4-M05:B conversion_rate_pct consumed, yielding +30% wallet income (84000 * 1.30 = 109200)');
 assert(convRes.appliedDeltas.conversion_rate_pct === undefined, '96. X3: conversion_rate_pct field consumed and removed from deltas');
-assert(sConv.fiveDim.wallet === 10000 + 98280, '97. X3: GameState wallet reflects consumed conversion rate payout');
+assert(sConv.fiveDim.wallet === 10000 + 109200, '97. X3 & Y1: GameState wallet reflects canon-aligned conversion rate payout');
 
 // Clean up test storage file
 try {

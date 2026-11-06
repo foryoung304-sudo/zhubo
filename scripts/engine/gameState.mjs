@@ -38,12 +38,13 @@ export class GameState {
     this.haterPct = 0;
 
     // 3. Fan Composition (6 segments §2.7)
+    // Y1.①: 默认粉丝构成必须中性（大哥 15% 对应 R_粉丝构成 = 1.0，杜绝每局钱包先天 -10%）
     this.fanComposition = {
       '颜粉': 20,
       '声控粉': 15,
       '技术粉': 20,
-      '乐子人': 20,
-      '大哥': 10,
+      '乐子人': 15,
+      '大哥': 15,
       '学生粉': 15
     };
 
@@ -87,6 +88,8 @@ export class GameState {
     this.fanTilt = {}; // Ambiguity A: { segmentName: +5 }
     this.fanRetentionBuff = 0; // Ambiguity A: 10% fan loss reduction
     this.currentCardMultiplier = 1.0;
+    this.nextModeMultBonus = 0; // §2.8C 下播练功增益 +0.15
+    this.nextModeMultBonusMode = null;
     this.cardHistory = [];
   }
 

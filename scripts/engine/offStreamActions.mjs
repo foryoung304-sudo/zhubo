@@ -24,10 +24,13 @@ export class OffStreamActions {
 
     // Handle specific action logic
     if (actionId === 2) {
-      // 专心练功: select one attribute +1
+      // 专心练功: select one attribute +1, 下阶段对应模式乘区 +0.15 (§2.8C)
       const targetAttr = extraChoice || '才艺';
       gameState.attributes[targetAttr] = (gameState.attributes[targetAttr] || 5) + 1;
       result.attr_boosted = targetAttr;
+      const attrToMode = { '才艺': '才艺', '游戏技术': '游戏', '口才': 'PK' };
+      gameState.nextModeMultBonus = 0.15;
+      gameState.nextModeMultBonusMode = attrToMode[targetAttr] || '才艺';
     } else if (actionId === 6) {
       // 看回放复盘: every 2 counts +1 mindset
       const count = gameState.variables['Count_复盘留档'] || 0;

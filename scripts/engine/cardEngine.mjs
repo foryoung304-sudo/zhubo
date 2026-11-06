@@ -86,6 +86,9 @@ export class CardEngine {
     if (gameState.variables['Flag_签公会'] === 1) {
       mMode += 0.2; // §2.3: 公会推流加成 M_模式 +0.2
     }
+    if (gameState.nextModeMultBonus && gameState.nextModeMultBonusMode === scheduledMode) {
+      mMode += gameState.nextModeMultBonus; // §2.8C: 下播行动练功加成 +0.15
+    }
     mMode = Math.max(0.8, Math.min(1.5, mMode));
 
     // 3b. M_时段 ∈ [0.85, 1.4]
@@ -141,10 +144,10 @@ export class CardEngine {
       }
     }
 
-    // 4. 总乘区夹逼 [0.4, 3.0] 改夹总乘积 (X2.②)
+    // 4. 总乘区夹逼 [0.4, 3.0] 归位正本 §2.3 (Y0): 只夹经营乘区连乘，操作和整活在夹后叠加
     const clamp = this.globalRules.total_multiplier_clamp || [0.4, 3.0];
-    let totalMultiplier = mBusiness * opsMultiplier * circusMultiplier;
-    totalMultiplier = Math.max(clamp[0], Math.min(clamp[1], totalMultiplier));
+    const mBusinessClamped = Math.max(clamp[0], Math.min(clamp[1], mBusiness));
+    let totalMultiplier = mBusinessClamped * opsMultiplier * circusMultiplier;
 
     // 5. Apply Multipliers, Base Anchors and Single-card Cap (X1, X2, X3)
     const ch = gameState.currentChapter || 1;
@@ -215,18 +218,17 @@ export class CardEngine {
           rMode = slot.wallet_mult;
         }
 
-        // R_粉丝构成 ∈ [0.6, 1.8]
+        // R_粉丝构成 ∈ [0.6, 1.8] (Y1.①: 按正本口径取段，废止学生粉 ±0.02/0.01)
         const bigSpender = (gameState.fanComposition && gameState.fanComposition['大哥'] !== undefined) ? gameState.fanComposition['大哥'] : 15;
-        const student = (gameState.fanComposition && gameState.fanComposition['学生粉'] !== undefined) ? gameState.fanComposition['学生粉'] : 15;
-        let rFanComp = 1.0 + (bigSpender - 15) * 0.02 - (student - 15) * 0.01;
+        let rFanComp = 1.0 + (bigSpender - 15) * 0.02;
         rFanComp = Math.max(0.6, Math.min(1.8, rFanComp));
 
         // R_分成 (野生 0.5 / 公会 0.35)
         let rShare = (gameState.variables['Flag_签公会'] === 1) ? 0.35 : 0.5;
 
-        // R_商务 (口碑 ≥ 80 或 Tag_理性消费清流 → 1.5，两来源取最高不叠加)
+        // R_商务 (口碑 ≥ 80 或 Tag_理性消费清流 → 1.5，两来源取最高不叠加) (Y1.③: 废除死条款 Tag_人设，只读真实键 Tag_理性消费清流)
         let rCommercial = 1.0;
-        const isRational = gameState.variables['Tag_人设'] === '理性消费清流' || gameState.variables['Tag_理性消费清流'] === 1;
+        const isRational = gameState.variables['Tag_理性消费清流'] === 1;
         if (gameState.fiveDim.rep >= 80 || isRational) {
           rCommercial = 1.5;
         }
@@ -248,8 +250,8 @@ export class CardEngine {
           cardBonus += Math.floor((baseRevenue + cardBonus) * (convRate / 100));
         }
 
-        // 正向收入受 ops 乘区、整活乘区与 Cap_Wallet 夹逼
-        let positiveWallet = Math.round((baseRevenue + cardBonus) * opsMultiplier * circusMultiplier);
+        // 正向收入受 ops 乘区与 Cap_Wallet 夹逼 (Y1.②: 整活 ×2.5 退出钱包通道，钱包只吃 ops 乘区)
+        let positiveWallet = Math.round((baseRevenue + cardBonus) * opsMultiplier);
         if (capWallet !== null && capWallet !== undefined) {
           positiveWallet = Math.min(positiveWallet, capWallet);
         }

@@ -136,13 +136,13 @@ local gameState = {
     },
     haterPct = 0,
 
-    -- 6 段粉丝构成
+    -- 6 段粉丝构成 (Y1.①: 默认中性大哥 15% 对应 R_粉丝构成 = 1.0)
     fanComposition = {
         ["颜粉"] = 20,
         ["声控粉"] = 15,
         ["技术粉"] = 20,
-        ["乐子人"] = 20,
-        ["大哥"] = 10,
+        ["乐子人"] = 15,
+        ["大哥"] = 15,
         ["学生粉"] = 15
     },
     fanTilt = {},
@@ -251,10 +251,15 @@ local function resetGameState()
         ["颜粉"] = 20,
         ["声控粉"] = 15,
         ["技术粉"] = 20,
-        ["乐子人"] = 20,
-        ["大哥"] = 10,
+        ["乐子人"] = 15,
+        ["大哥"] = 15,
         ["学生粉"] = 15
     }
+    gameState.chapterFansGained = 0
+    gameState.overtimeActive = false
+    gameState.overtimePlayed = {}
+    gameState.nextModeMultBonus = 0
+    gameState.nextModeMultBonusMode = nil
     gameState.adUsage = {
         creationPoints = 0,
         reviveOrRepick = 0,
@@ -360,7 +365,8 @@ end
 -- ============================================================================
 -- 5. 抽卡引擎 (Draw Engine §1.8: 2 必出 + 3 随机)
 -- ============================================================================
-local function drawChapterCards(ch)
+local function drawChapterCards(ch, targetCount)
+    targetCount = targetCount or 5
     local pool = {}
     local guaranteed = {}
     local candidateRandom = {}
@@ -403,18 +409,16 @@ local function drawChapterCards(ch)
     shuffle(candidateRandom)
 
     local drawn = {}
-    -- 2 张必出
-    for i = 1, math.min(2, #guaranteed) do
+    local numGuaranteed = math.min(targetCount == 3 and 1 or 2, #guaranteed)
+    for i = 1, numGuaranteed do
         table.insert(drawn, guaranteed[i])
     end
-    -- 3 张随机
-    for i = 1, math.min(5 - #drawn, #candidateRandom) do
+    for i = 1, math.min(targetCount - #drawn, #candidateRandom) do
         table.insert(drawn, candidateRandom[i])
     end
-    -- 兜底补齐到 5 张
-    if #drawn < 5 then
+    if #drawn < targetCount then
         for _, c in ipairs(cardsData) do
-            if #drawn >= 5 then break end
+            if #drawn >= targetCount then break end
             table.insert(drawn, c)
         end
     end
@@ -490,7 +494,64 @@ local function selectCardOption(optKey)
         end
     end
 
-    -- W5: 操作乘区 + 整活乘区 + 单卡 Cap 夹逼
+    -- 3. 乘区处理 (Y0: 经营乘区五段连乘夹逼 [0.4, 3.0]，操作乘区与整活乘区夹后叠加)
+    -- 3a. M_模式 ∈ [0.8, 1.5]
+    local scheduledMode = gameState.schedule.mode or "全模式"
+    local mMode = 1.0
+    if card.mode_tags and #card.mode_tags > 0 then
+        local matched = false
+        for _, t in ipairs(card.mode_tags) do
+            if t == scheduledMode or t == "全模式" or string.find(t, scheduledMode) then
+                matched = true
+                break
+            end
+        end
+        if matched then mMode = 1.0 else mMode = 0.8 end
+    end
+    if tonumber(gameState.variables["Flag_签公会"]) == 1 then
+        mMode = mMode + 0.2 -- §2.3: 公会推流加成 M_模式 +0.2
+    end
+    if gameState.nextModeMultBonus and gameState.nextModeMultBonusMode == scheduledMode then
+        mMode = mMode + gameState.nextModeMultBonus -- §2.8C: 练功加成 +0.15
+    end
+    mMode = math.max(0.8, math.min(1.5, mMode))
+
+    -- 3b. M_时段 ∈ [0.85, 1.4]
+    local slotId = gameState.schedule.timeSlot
+    local timeSlots = (configData.schedules and configData.schedules.time_slots) or {}
+    local slotObj = nil
+    for _, s in ipairs(timeSlots) do
+        if s.id == slotId then slotObj = s break end
+    end
+    local mSlot = (slotObj and slotObj.fans_mult) or 1.0
+    mSlot = math.max(0.85, math.min(1.4, mSlot))
+
+    -- 3c. M_时长 ∈ [0.8, 1.2]
+    local durHours = gameState.schedule.duration
+    local durations = (configData.schedules and configData.schedules.durations) or {}
+    local durObj = nil
+    for _, d in ipairs(durations) do
+        if d.hours == durHours then durObj = d break end
+    end
+    local mDuration = (durObj and durObj.fans_mult) or (durHours == 2 and 0.8 or (durHours == 6 and 1.2 or 1.0))
+    mDuration = math.max(0.8, math.min(1.2, mDuration))
+
+    -- 3d. M_属性 = 1 + 0.05 * (核心属性 - 5) ∈ [0.8, 1.25]
+    local coreAttrMap = { ["游戏"] = "游戏技术", ["才艺"] = "才艺", ["电台"] = "嗓音", ["团播"] = "颜值", ["PK"] = "口才", ["带货"] = "口才", ["户外"] = "体力" }
+    local coreAttrName = coreAttrMap[scheduledMode] or "口才"
+    local coreAttrVal = gameState.attributes[coreAttrName] or 5
+    local mAttr = 1.0 + 0.05 * (coreAttrVal - 5)
+    mAttr = math.max(0.8, math.min(1.25, mAttr))
+
+    -- 3e. M_口碑 = 1 + 0.01 * (口碑 - 60) ∈ [0.5, 1.4]
+    local repVal = gameState.fiveDim.rep or 60
+    local mRep = 1.0 + 0.01 * (repVal - 60)
+    mRep = math.max(0.5, math.min(1.4, mRep))
+
+    -- 经营乘区连乘
+    local mBusiness = mMode * mSlot * mDuration * mAttr * mRep
+
+    -- 3f. Ops 乘区
     local opsMultiplier = 1.0
     if gameState.timingInstance.active and card.ops_type == "timing_bar" then
         opsMultiplier = gameState.timingInstance.multiplier or 1.0
@@ -499,6 +560,7 @@ local function selectCardOption(optKey)
         end
     end
 
+    -- 3g. 整活流派特殊乘区
     local circusMultiplier = 1.0
     local circusZeroRevenue = false
     local isCircus = (gameState.variables["Tag_流派"] == "整活" or gameState.variables["Tag_流派"] == "整活擦边")
@@ -510,51 +572,124 @@ local function selectCardOption(optKey)
         end
     end
 
-    local totalMultiplier = math.max(0.4, math.min(3.0, opsMultiplier * circusMultiplier))
+    -- 4. 总乘区夹逼 (Y0 归位正本: 只夹经营乘区连乘 [0.4, 3.0]，操作和整活在夹后叠加)
+    local mBusinessClamped = math.max(0.4, math.min(3.0, mBusiness))
+    local totalMultiplier = mBusinessClamped * opsMultiplier * circusMultiplier
 
-    -- 获取当章 Cap 设定
-    local ch = gameState.currentChapter
+    -- 获取当章设定
+    local ch = gameState.currentChapter or 1
     local chCfg = nil
     for _, c in ipairs(configData.chapters or {}) do
         if c.chapter == ch then chCfg = c break end
     end
-    local capFans = chCfg and chCfg.Cap_Fans or 5000000
-    local capWallet = chCfg and chCfg.Cap_Wallet or 5000000
+    chCfg = chCfg or { Base_Fans = 220, Cap_Fans = 600, Base_Income = 800, Cap_Wallet = 3000, chapter_5card_fans_cap = 3000 }
+    local baseFans = chCfg.Base_Fans or 220
+    local capFans = chCfg.Cap_Fans
+    local baseIncome = chCfg.Base_Income or 800
+    local capWallet = chCfg.Cap_Wallet
+    local chapter5CardCap = chCfg.chapter_5card_fans_cap or (capFans and capFans * 5 or 3000)
 
-    -- 应用乘区与 Cap
+    -- 应用乘区与 Cap (X1, X2, X3, Y1)
     if circusZeroRevenue then
-        if appliedDeltas.fans_pct and appliedDeltas.fans_pct > 0 then appliedDeltas.fans_pct = 0 end
+        if appliedDeltas.fans_pct and appliedDeltas.fans_pct > 0 then appliedDeltas.fans_pct = nil end
+        if appliedDeltas.fans and appliedDeltas.fans > 0 then appliedDeltas.fans = 0 end
         if appliedDeltas.wallet and appliedDeltas.wallet > 0 then appliedDeltas.wallet = 0 end
-        if appliedDeltas.wallet_pct and appliedDeltas.wallet_pct > 0 then appliedDeltas.wallet_pct = 0 end
+        if appliedDeltas.wallet_pct and appliedDeltas.wallet_pct > 0 then appliedDeltas.wallet_pct = nil end
     else
-        -- 粉丝百分比收益
-        if appliedDeltas.fans_pct and appliedDeltas.fans_pct > 0 then
-            local gain = math.floor(gameState.fiveDim.fans * (appliedDeltas.fans_pct / 100) * totalMultiplier)
-            if capFans then gain = math.min(capFans, gain) end
-            appliedDeltas.fans = gain
+        -- 5a. Fans 结算 (X1: 锚定 Base_Fans(章) + X2.④: 5 卡累计上限)
+        if appliedDeltas.fans_pct and appliedDeltas.fans_pct < 0 then
+            -- 负向掉粉税按实数扣减 (§2.2 注 3)
+            local dropFans = math.floor(gameState.fiveDim.fans * (math.abs(appliedDeltas.fans_pct) / 100))
+            appliedDeltas.fans = -dropFans
+            appliedDeltas.fans_pct = nil
+        elseif appliedDeltas.fans_pct or (appliedDeltas.fans and appliedDeltas.fans > 0) then
+            local cardFansPct = (appliedDeltas.fans_pct and appliedDeltas.fans_pct > 0) and (appliedDeltas.fans_pct / 100) or 0
+            local deltaFans = 0
+            if appliedDeltas.fans_pct then
+                deltaFans = math.floor(baseFans * totalMultiplier * (1 + cardFansPct))
+            elseif appliedDeltas.fans and appliedDeltas.fans > 0 then
+                deltaFans = math.floor(appliedDeltas.fans * totalMultiplier)
+            end
+            if capFans then deltaFans = math.min(capFans, deltaFans) end
+            local alreadyGained = gameState.chapterFansGained or 0
+            local remainingCap = math.max(0, chapter5CardCap - alreadyGained)
+            deltaFans = math.min(deltaFans, remainingCap)
+            gameState.chapterFansGained = alreadyGained + deltaFans
+
+            appliedDeltas.fans = deltaFans
             appliedDeltas.fans_pct = nil
         end
-        -- 钱包绝对值收益
-        if appliedDeltas.wallet and appliedDeltas.wallet > 0 then
-            local gain = math.floor(appliedDeltas.wallet * totalMultiplier)
-            if capWallet then gain = math.min(capWallet, gain) end
-            appliedDeltas.wallet = gain
-        end
-        -- 钱包百分比收益
-        if appliedDeltas.wallet_pct and appliedDeltas.wallet_pct > 0 then
-            local gain = math.floor(gameState.fiveDim.wallet * (appliedDeltas.wallet_pct / 100) * totalMultiplier)
-            if capWallet then gain = math.min(capWallet, gain) end
-            appliedDeltas.wallet = (appliedDeltas.wallet or 0) + gain
+
+        -- 5b. 钱包 R 乘区结算 (X2.③, X3, Y1)
+        local convRate = option.conversion_rate_pct or (appliedDeltas.conversion_rate_pct or (option.effects and option.effects.conversion_rate_pct or 0))
+        local hasPositiveWallet = (appliedDeltas.wallet and appliedDeltas.wallet > 0) or
+                                  (appliedDeltas.wallet_pct and appliedDeltas.wallet_pct > 0) or
+                                  (convRate > 0)
+        local hasNegativeWallet = (appliedDeltas.wallet and appliedDeltas.wallet < 0)
+
+        if hasPositiveWallet then
+            -- R_模式变现
+            local rMode = 1.0
+            if slotObj and slotObj.id == "slot_afternoon" and scheduledMode == "带货" then
+                rMode = slotObj.wallet_mult_ecommerce or 1.25
+            elseif slotObj and slotObj.wallet_mult then
+                rMode = slotObj.wallet_mult
+            end
+
+            -- R_粉丝构成 ∈ [0.6, 1.8] (Y1.①: 废止学生粉)
+            local bigSpender = (gameState.fanComposition and gameState.fanComposition["大哥"]) or 15
+            local rFanComp = 1.0 + (bigSpender - 15) * 0.02
+            rFanComp = math.max(0.6, math.min(1.8, rFanComp))
+
+            -- R_分成 (野生 0.5 / 公会 0.35)
+            local rShare = (tonumber(gameState.variables["Flag_签公会"]) == 1) and 0.35 or 0.5
+
+            -- R_商务 (口碑 >= 80 或 Tag_理性消费清流 == 1 -> 1.5 封顶)
+            local rCommercial = 1.0
+            local isRational = (tonumber(gameState.variables["Tag_理性消费清流"]) == 1)
+            if (gameState.fiveDim.rep or 0) >= 80 or isRational then
+                rCommercial = 1.5
+            end
+
+            -- 基准变现收益
+            local baseRevenue = baseIncome * rMode * rFanComp * rShare * rCommercial
+
+            -- 卡面固定 / 百分比加成
+            local cardBonus = 0
+            if appliedDeltas.wallet and appliedDeltas.wallet > 0 then
+                cardBonus = cardBonus + appliedDeltas.wallet
+            end
+            if appliedDeltas.wallet_pct and appliedDeltas.wallet_pct > 0 then
+                cardBonus = cardBonus + math.floor(gameState.fiveDim.wallet * (appliedDeltas.wallet_pct / 100))
+            end
+
+            -- X3: conversion_rate_pct 消费
+            if convRate > 0 then
+                cardBonus = cardBonus + math.floor((baseRevenue + cardBonus) * (convRate / 100))
+            end
+
+            -- 正向收入受 ops 乘区与 Cap_Wallet 夹逼 (Y1.②: 整活 x2.5 退出钱包通道)
+            local positiveWallet = math.floor((baseRevenue + cardBonus) * opsMultiplier)
+            if capWallet then
+                positiveWallet = math.min(capWallet, positiveWallet)
+            end
+
+            local finalWallet = positiveWallet
+            if hasNegativeWallet then
+                finalWallet = positiveWallet + appliedDeltas.wallet
+            end
+
+            appliedDeltas.wallet = finalWallet
             appliedDeltas.wallet_pct = nil
+            appliedDeltas.conversion_rate_pct = nil
+        elseif hasNegativeWallet then
+            appliedDeltas.wallet_pct = nil
+            appliedDeltas.conversion_rate_pct = nil
         end
     end
 
     -- 应用五维变动
     if appliedDeltas.fans then gameState.fiveDim.fans = math.max(0, gameState.fiveDim.fans + appliedDeltas.fans) end
-    if appliedDeltas.fans_pct then
-        local delta = math.floor(gameState.fiveDim.fans * (appliedDeltas.fans_pct / 100))
-        gameState.fiveDim.fans = math.max(0, gameState.fiveDim.fans + delta)
-    end
 
     if appliedDeltas.heat then gameState.fiveDim.heat = math.max(0, math.min(10000, gameState.fiveDim.heat + appliedDeltas.heat)) end
     if appliedDeltas.heat_pct then
@@ -637,8 +772,13 @@ local function selectCardOption(optKey)
             gameState.timingInstance.active = false
         end
     else
-        -- 本章 5 卡完成，进入下播行动 (Screen-04)
-        gameState.screen = "Screen-04"
+        if gameState.overtimeActive then
+            -- 加时赛 3 卡完成，直接进入结算
+            settleCurrentChapter(false)
+        else
+            -- 本章 5 卡完成，进入下播行动 (Screen-04)
+            gameState.screen = "Screen-04"
+        end
     end
 end
 
@@ -651,7 +791,7 @@ local function settleCurrentChapter(useAdDouble)
     for _, c in ipairs(configData.chapters or {}) do
         if c.chapter == ch then chCfg = c break end
     end
-    chCfg = chCfg or { Base_Fans = 1000, Base_Income = 1000, Cap_Fans = 5000, Cap_Wallet = 15000, fans_gate_to = 1000 }
+    chCfg = chCfg or { Base_Fans = 220, Base_Income = 800, Cap_Fans = 600, Cap_Wallet = 3000, fans_gate_to = 1000 }
 
     -- 1. 热度衰减
     local decay = math.max(15, math.floor(gameState.fiveDim.heat * 0.15))
@@ -698,18 +838,64 @@ local function settleCurrentChapter(useAdDouble)
     newComp["学生粉"] = newComp["学生粉"] + (100 - sumP)
     gameState.fanComposition = newComp
 
-    -- 4. 章节闸门判定
+    -- 4. 章节闸门判定与加时赛逻辑 (X2.⑤ & Y2)
     local gatePassed = (gameState.fiveDim.fans >= chCfg.fans_gate_to)
+    gameState.overtimePlayed = gameState.overtimePlayed or {}
+    local canOvertime = false
+    if not gatePassed and not gameState.isDead then
+        if not gameState.overtimePlayed[ch] then
+            canOvertime = true
+            gameState.overtimeActive = true
+            gameState.overtimePlayed[ch] = true
+        else
+            -- 已跑过加时赛仍未达标 -> 体面收官 (M04 / M12)
+            gameState.isCleared = false
+            gameState.overtimeActive = false
+            if not gameState.triggeredEnding then
+                if (gameState.fiveDim.rep or 0) >= 50 then
+                    gameState.triggeredEnding = "M04" -- 佛系小主播 (口碑良好)
+                else
+                    gameState.triggeredEnding = "M12" -- 正常上班 (泯然众人)
+                end
+                unlockEnding(gameState.triggeredEnding)
+            end
+        end
+    elseif gatePassed then
+        gameState.overtimeActive = false
+    end
+
+    -- 第六章盛典加冕检测
+    if ch == 6 and gatePassed and not gameState.isDead then
+        gameState.isCleared = true
+        if not gameState.triggeredEnding then
+            if tonumber(gameState.variables["Tag_清白账本"]) == 1 and (gameState.fiveDim.rep or 0) >= 80 then
+                gameState.triggeredEnding = "M01"
+            elseif tonumber(gameState.variables["Flag_选品减伤"]) == 1 and gameState.schedule.mode == "带货" then
+                gameState.triggeredEnding = "M02"
+            elseif gameState.variables["Tag_流派"] == "整活" then
+                gameState.triggeredEnding = "M04"
+            elseif tonumber(gameState.variables["Count_算法异常"]) >= 3 and (gameState.attributes["运气"] or 0) == 10 then
+                gameState.triggeredEnding = "H05"
+            else
+                gameState.triggeredEnding = "M05"
+            end
+            unlockEnding(gameState.triggeredEnding)
+        end
+    end
+
     gameState.settleResult = {
         netFans = netFans,
         netWallet = netWallet,
         decay = decay,
         gatePassed = gatePassed,
+        canOvertime = canOvertime,
         targetFans = chCfg.fans_gate_to
     }
 
     gameState.screen = "Screen-05"
 end
+_G.settleCurrentChapter = settleCurrentChapter
+_G.drawChapterCards = drawChapterCards
 
 -- ============================================================================
 -- 8. 交互点击区域管理 (Click Hit-testing)
@@ -1211,31 +1397,37 @@ local function renderScreen05()
 
     if isPassed then
         drawText(30, 305, "✓ 恭喜！顺利跨过章节晋升闸门，开启下一章进阶之路！", 20, 16, 185, 129, 255)
+        if gameState.currentChapter < 6 then
+            drawButton("btn_next_chapter", 40, 430, 460, 52, "进入第 " .. tostring(gameState.currentChapter + 1) .. " 章排班", nvgRGBA(236, 72, 153, 255), nvgRGBA(255, 255, 255, 255), function()
+                gameState.currentChapter = gameState.currentChapter + 1
+                gameState.chapterFansGained = 0
+                gameState.overtimeActive = false
+                gameState.screen = "Screen-02"
+            end)
+        else
+            -- 第六章通关
+            drawButton("btn_final_clear", 40, 430, 460, 52, "完成第六章 · 前往顶流终局加冕！", nvgRGBA(16, 185, 129, 255), nvgRGBA(255, 255, 255, 255), function()
+                gameState.isCleared = true
+                gameState.screen = "Screen-07"
+            end)
+        end
     else
-        drawText(30, 305, "⚠ 粉丝尚未达成硬指标，可在本章进入加时赛或从容收官", 20, 239, 68, 68, 255)
-    end
-
-    -- 广告翻倍按钮 (受 Cap 夹逼)
-    if gameState.adUsage.settlementDouble < 2 then
-        drawButton("btn_ad_double", 40, 360, 460, 48, "看广告本阶段收益翻倍 (单局限2次 · 受Cap封顶)", nvgRGBA(147, 51, 234, 220), nvgRGBA(255, 255, 255, 255), function()
-            settleCurrentChapter(true)
-        end)
-    end
-
-    -- 前进到下一章
-    if gameState.currentChapter < 6 then
-        drawButton("btn_next_chapter", 40, 430, 460, 52, "进入第 " .. tostring(gameState.currentChapter + 1) .. " 章排班", nvgRGBA(236, 72, 153, 255), nvgRGBA(255, 255, 255, 255), function()
-            gameState.currentChapter = gameState.currentChapter + 1
-            gameState.screen = "Screen-02"
-        end)
-    else
-        -- 第六章通关
-        drawButton("btn_final_clear", 40, 430, 460, 52, "完成第六章 · 前往顶流终局加冕！", nvgRGBA(16, 185, 129, 255), nvgRGBA(255, 255, 255, 255), function()
-            gameState.isCleared = true
-            gameState.triggeredEnding = "M01"
-            unlockEnding("M01")
-            gameState.screen = "Screen-07"
-        end)
+        -- Y2 闸门真拦截: 严禁无条件放行进下一章！
+        if res.canOvertime then
+            drawText(30, 305, "⚠ 粉丝尚未达标！触发【加时赛】：补播 3 卡最后冲刺！", 20, 245, 158, 11, 255)
+            drawButton("btn_start_overtime", 40, 430, 460, 52, "进入加时赛 (补播 3 张冲刺卡)", nvgRGBA(245, 158, 11, 255), nvgRGBA(255, 255, 255, 255), function()
+                gameState.overtimeActive = true
+                drawChapterCards(gameState.currentChapter, 3)
+                gameState.screen = "Screen-03"
+            end)
+        else
+            -- 加时赛失败后体面收官 (M04 / M12)
+            local endId = gameState.triggeredEnding or "M12"
+            drawText(30, 305, "⚠ 加时赛结束仍未达成指标，从容收官！达成结局: " .. endId, 20, 239, 68, 68, 255)
+            drawButton("btn_overtime_fail", 40, 430, 460, 52, "体面收官 · 查看结局 (" .. endId .. ")", nvgRGBA(100, 116, 139, 255), nvgRGBA(255, 255, 255, 255), function()
+                gameState.screen = "Screen-07"
+            end)
+        end
     end
 end
 
