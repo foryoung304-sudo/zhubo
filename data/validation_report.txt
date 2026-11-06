@@ -1,17 +1,17 @@
 ================================================================================
 《从小主播到顶流》阶段 1.5 · 机器可读补全与全量裁定校验报告 (validate_transcription.mjs)
-生成时间: 2026-11-05T12:13:32.990Z
+生成时间: 2026-11-06T12:53:31.897Z
 数据基线: E:\taptap\zhubo\data (4 JSON files: state_dictionary, cards, endings_and_talents, config_and_screens)
 gate_type 分布: {"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
 7 模式匹配卡数: 游戏:20, 才艺:17, 电台:16, 团播:15, PK:18, 带货:21, 户外:18
-字段覆盖统计: {"prereq_expr_cards":47,"req_expr_options":10,"delta_five_dim_options":317,"delta_attrs_options":60,"state_writes_options":56,"ending_triggers_options":51,"next_cards_options":6,"qualitative_notes_options":32}
+字段覆盖统计: {"prereq_expr_cards":47,"req_expr_options":10,"delta_five_dim_options":317,"delta_attrs_options":60,"state_writes_options":57,"ending_triggers_options":51,"next_cards_options":6,"qualitative_notes_options":32}
 ================================================================================
 
 [PASS] 1. Card count === 213: total=213 (milestone=63, short=120, cross=30)
 [PASS] 2. Card IDs unique & distribution 63/120/30: unique=213
 [PASS] 3. Card schema completeness (§2.10 required fields present): missing_fields=0
-[PASS] 4. State dictionary auto-generated from §2.9 + Errata S5 === 37 keys: keys=37
-[PASS] 5. Snapshot_BeforeCard total fields === 58 (21 base stats/five_dim/fans + 37 state keys = 58): total_fields=58
+[PASS] 4. State dictionary auto-generated from §2.9 + Errata S5/S6 === 38 keys: keys=38
+[PASS] 5. Snapshot_BeforeCard total fields === 59 (21 base stats/five_dim/fans + 38 state keys = 59): total_fields=59
 [PASS] 6. Zero dangling state references across all 213 cards: dangling=[]
 [PASS] 7. Zero dangling ending references in card options: dangling=[]
 [PASS] 8. Endings count === 50 (12 M + 26 D + 12 H): M=12, D=26, H=12
@@ -98,7 +98,7 @@ gate_type 分布: {"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
 [PASS] 89. F1-4 Off-stream actions count === 8: count=8
 [PASS] 90. F1-4 All 8 off-stream actions structured with cost/stat_deltas/attr_deltas/state_writes (8/8): structured=8
 [PASS] 91. F1-5 delta_five_dim coverage > 300 options: count=317
-[PASS] 92. F1-5 state_writes coverage >= 50 options: count=56
+[PASS] 92. F1-5 state_writes coverage >= 50 options: count=57
 [PASS] 93. F2: X-EGG-09 has Option A and Option B
 [PASS] 94. F2: X-EGG-09 Option A gives all 9 attributes +1
 [PASS] 95. F2: X-EGG-09 Option B targets rep 90: target=90

@@ -292,29 +292,94 @@ export class CardEngine {
       gameState.applyStateWrite(w);
     }
 
-    // 6. Check Endings
+    // 6. Check Endings (落支语义按卡面顺序首个满足者落)
     if (appliedEndings.length > 0) {
-      for (const endingId of appliedEndings) {
-        if (endingId.startsWith('D')) {
-          // Death endings are always immediate termination
-          gameState.isDead = true;
-          gameState.triggeredEnding = endingId;
+      function isEndingSatisfied(eid, gs, cd, tr) {
+        if (eid === 'D20') {
+          return gs.variables['Flag_卖惨人设'] === 1;
+        }
+        if (eid === 'D21') {
+          return gs.variables['Flag_造假剧本'] === 1;
+        }
+        if (eid === 'D15') {
+          return (gs.variables['Count_复盘留档'] || 0) < 2;
+        }
+        if (eid === 'D16') {
+          return (gs.variables['Count_偷拍素材'] || 0) >= 3;
+        }
+        if (eid === 'D19') {
+          return gs.variables['Flag_账号协议'] === 0;
+        }
+        if (eid === 'D09') {
+          const roll = (tr && tr.digitalCloneRoll !== undefined) ? tr.digitalCloneRoll : Math.random();
+          return roll < 0.5;
+        }
+        if (eid === 'H03') {
+          const roll = (tr && tr.digitalCloneRoll !== undefined) ? tr.digitalCloneRoll : Math.random();
+          return roll >= 0.5;
+        }
+        if (eid === 'H04') {
+          return (gs.variables['Count_猫上镜'] || 0) >= 3;
+        }
+        if (eid === 'H10') {
+          return (gs.variables['Count_考编'] || 0) >= 3;
+        }
+        return true;
+      }
+
+      let chosenEnding = null;
+      for (const eid of appliedEndings) {
+        if (isEndingSatisfied(eid, gameState, card, timingResult)) {
+          chosenEnding = eid;
           break;
-        } else if (card.card_id === 'X-EGG-09' && endingId === 'H12') {
-          // X-EGG-09 is the true immediate trigger for H12
-          gameState.isCleared = true;
-          gameState.triggeredEnding = endingId;
-        } else if (card.card_id === 'C6-S19' && endingId === 'H05' && gameState.variables['Count_算法异常'] >= 3) {
-          // H05 full trigger on C6-S19
-          gameState.isCleared = true;
-          gameState.triggeredEnding = endingId;
-        } else if (gameState.currentChapter === 6) {
-          // In chapter 6, final cards can trigger endings
-          gameState.isCleared = true;
-          gameState.triggeredEnding = endingId;
-        } else {
-          // In chapters 1-5, M/H references are qualification / contribution flags
-          gameState.variables[`Qualified_${endingId}`] = 1;
+        }
+      }
+      if (!chosenEnding) {
+        chosenEnding = appliedEndings[0];
+      }
+
+      if (chosenEnding.startsWith('D')) {
+        // Death endings are always immediate termination
+        gameState.isDead = true;
+        gameState.triggeredEnding = chosenEnding;
+      } else if (card.card_id === 'X-EGG-09' && chosenEnding === 'H12') {
+        // X-EGG-09 is the true immediate trigger for H12
+        gameState.isCleared = true;
+        gameState.triggeredEnding = chosenEnding;
+        gameState.variables[`Qualified_${chosenEnding}`] = 1;
+      } else if (card.card_id === 'X-EGG-04' && chosenEnding === 'H01') {
+        // X-EGG-04 Option A is the direct trigger for H01
+        gameState.isCleared = true;
+        gameState.triggeredEnding = chosenEnding;
+        gameState.variables[`Qualified_${chosenEnding}`] = 1;
+      } else if (chosenEnding === 'H04' && (gameState.variables['Count_猫上镜'] || 0) >= 3) {
+        gameState.isCleared = true;
+        gameState.triggeredEnding = chosenEnding;
+        gameState.variables[`Qualified_${chosenEnding}`] = 1;
+      } else if (chosenEnding === 'H10' && (gameState.variables['Count_考编'] || 0) >= 3) {
+        gameState.isCleared = true;
+        gameState.triggeredEnding = chosenEnding;
+        gameState.variables[`Qualified_${chosenEnding}`] = 1;
+      } else if (card.card_id === 'C6-S19' && chosenEnding === 'H05' && (gameState.variables['Count_算法异常'] || 0) >= 3) {
+        // H05 full trigger on C6-S19
+        gameState.isCleared = true;
+        gameState.triggeredEnding = chosenEnding;
+        gameState.variables[`Qualified_${chosenEnding}`] = 1;
+      } else if (card.card_id === 'C6-M06' && chosenEnding === 'H03') {
+        gameState.isCleared = true;
+        gameState.triggeredEnding = chosenEnding;
+        gameState.variables[`Qualified_${chosenEnding}`] = 1;
+      } else if (gameState.currentChapter === 6 && card.card_id !== 'C6-M09') {
+        // In chapter 6, final cards can trigger endings (C6-M09 is pre-condition anchor)
+        gameState.isCleared = true;
+        gameState.triggeredEnding = chosenEnding;
+        gameState.variables[`Qualified_${chosenEnding}`] = 1;
+      } else {
+        // In chapters 1-5 (and C6-M09), M/H references are qualification / contribution flags
+        for (const eid of appliedEndings) {
+          if (!eid.startsWith('D')) {
+            gameState.variables[`Qualified_${eid}`] = 1;
+          }
         }
       }
     }

@@ -184,13 +184,13 @@ export class GameState {
   // Apply state write expression e.g. "Flag_安保习惯 = 1", "Count_复盘留档 += 1", "Tag_人设 = 真实"
   applyStateWrite(writeExpr) {
     if (!writeExpr) return;
-    const m = writeExpr.match(/`?((?:Flag_|Count_|Tag_|Param_|Total_)[A-Za-z0-9_\u4e00-\u9fa5]+)`?\s*([=+=]+)\s*(.*)/);
+    const m = writeExpr.match(/`?((?:Flag_|Count_|Tag_|Param_|Total_)[A-Za-z0-9_\u4e00-\u9fa5]+)`?\s*(\+=|\+|=)\s*(.*)/);
     if (!m) return;
     const key = m[1];
     const op = m[2];
     const rawVal = m[3].trim().replace(/^['"]|['"]$/g, '');
 
-    if (op === '+=') {
+    if (op === '+=' || op === '+') {
       const num = Number(rawVal) || 1;
       this.variables[key] = (this.variables[key] || 0) + num;
     } else if (op === '=') {

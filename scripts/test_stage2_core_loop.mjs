@@ -196,6 +196,18 @@ assert(resCircus.fanComposition['乐子人'] > resNormal.fanComposition['乐子�
 // -----------------------------------------------------------------------------
 // Test 10: 完整一局通关 (0 粉打通到盛典顶流结局 M01/M05)
 // -----------------------------------------------------------------------------
+const origMathRandom = Math.random;
+function testSeedPrng(seed = 20261106) {
+  let s = seed;
+  return function() {
+    let t = s += 0x6D2B79F5;
+    t = Math.imul(t ^ t >>> 15, t | 1);
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+Math.random = testSeedPrng(20261106);
+
 const fullState = new GameState(configData, stateDict, endingsData);
 fullState.fiveDim.fans = 0; // Starts strictly at 0 fans
 fullState.fiveDim.wallet = 60000; // Adequate working capital
@@ -221,7 +233,7 @@ for (let ch = 1; ch <= 6; ch++) {
       if (!cardEngine.isOptionSelectable(o, fullState)) return false;
       const w = o.effects.delta_five_dim.wallet;
       if (w !== undefined && w < 0 && Math.abs(w) > fullState.fiveDim.wallet) return false;
-      if (o.effects.ending_triggers.some(e => e.startsWith('D'))) return false;
+      if (o.effects.ending_triggers.some(e => e.startsWith('D') || (ch === 6 && e.startsWith('H')))) return false;
       if (o.check_expr && !fullState.evalCondition(o.check_expr)) {
         if (o.check_fail?.ending_triggers?.some(e => e.startsWith('D'))) return false;
       }
@@ -263,7 +275,7 @@ for (let ch = 1; ch <= 6; ch++) {
       for (const otCard of otCards) {
         const selectableOpts = otCard.options.filter(o => {
           if (!cardEngine.isOptionSelectable(o, fullState)) return false;
-          if (o.effects.ending_triggers.some(e => e.startsWith('D'))) return false;
+          if (o.effects.ending_triggers.some(e => e.startsWith('D') || (ch === 6 && e.startsWith('H')))) return false;
           if (o.check_expr && !fullState.evalCondition(o.check_expr)) {
             if (o.check_fail?.ending_triggers?.some(e => e.startsWith('D'))) return false;
           }
@@ -300,6 +312,7 @@ assert(fullState.isCleared === true, '32. Full Run: Game cleared through Chapter
 assert(fullState.triggeredEnding && fullState.triggeredEnding.startsWith('M'),
   '33. Full Run: Main ending achieved (M01..M12)',
   `ending=${fullState.triggeredEnding}`);
+Math.random = origMathRandom;
 
 // -----------------------------------------------------------------------------
 // Test 11: 暴毙结局可达性 (D01-D26 sample reachability)
@@ -926,6 +939,151 @@ const convRes = cardEngine.selectOption(c4m05B, 'B', sConv);
 assert(convRes.appliedDeltas.wallet === 109200, '95. X3 & Y1: C4-M05:B conversion_rate_pct consumed, yielding +30% wallet income (84000 * 1.30 = 109200)');
 assert(convRes.appliedDeltas.conversion_rate_pct === undefined, '96. X3: conversion_rate_pct field consumed and removed from deltas');
 assert(sConv.fiveDim.wallet === 10000 + 109200, '97. X3 & Y1: GameState wallet reflects canon-aligned conversion rate payout');
+
+// -----------------------------------------------------------------------------
+// Orange 扫后修复轮: 11 个结局真实卡路径断言
+// (D16, D19, D21, H03 遮蔽类 4 个 + M03, M07, M08, M09, H04, H07, H10 Qualified类 7 个)
+// -----------------------------------------------------------------------------
+
+// 1. D21 (遮蔽类: C5-M08 选项 B 遇造假剧本落 D21)
+const sD21 = new GameState(configData, stateDict, endingsData);
+sD21.currentChapter = 2;
+const c2m04 = cardsData.find(c => c.card_id === 'C2-M04');
+cardEngine.selectOption(c2m04, 'A', sD21); // writes Flag_造假剧本 = 1
+sD21.currentChapter = 5;
+const c5m08 = cardsData.find(c => c.card_id === 'C5-M08');
+cardEngine.selectOption(c5m08, 'B', sD21);
+assert(sD21.isDead === true && sD21.triggeredEnding === 'D21',
+  '98.1. 真实卡路径 D21: C2-M04:A(Flag_造假剧本=1) -> C5-M08:B 首个满足项正确落入 D21');
+
+// 2. D16 (遮蔽类: C5-M10 选项 A 偷拍素材满格落 D16)
+const sD16 = new GameState(configData, stateDict, endingsData);
+const c5m02 = cardsData.find(c => c.card_id === 'C5-M02');
+cardEngine.selectOption(c5m02, 'A', sD16); // Count_复盘留档 = 1
+cardEngine.selectOption(c5m02, 'A', sD16); // Count_复盘留档 = 2 (bypasses D15)
+const c3m04 = cardsData.find(c => c.card_id === 'C3-M04');
+const c4m06 = cardsData.find(c => c.card_id === 'C4-M06');
+cardEngine.selectOption(c3m04, 'B', sD16); // Count_偷拍素材 = 1
+cardEngine.selectOption(c4m06, 'B', sD16); // Count_偷拍素材 = 2
+cardEngine.selectOption(c4m06, 'B', sD16); // Count_偷拍素材 = 3
+sD16.currentChapter = 5;
+const c5m10 = cardsData.find(c => c.card_id === 'C5-M10');
+cardEngine.selectOption(c5m10, 'A', sD16);
+assert(sD16.isDead === true && sD16.triggeredEnding === 'D16',
+  '98.2. 真实卡路径 D16: 留档>=2且素材>=3 -> C5-M10:A 首个满足项正确落入 D16');
+
+// 3. D19 (遮蔽类: C5-M10 选项 A 留档>=2、素材<3、无协议落 D19)
+const sD19 = new GameState(configData, stateDict, endingsData);
+cardEngine.selectOption(c5m02, 'A', sD19);
+cardEngine.selectOption(c5m02, 'A', sD19); // Count_复盘留档 = 2 (bypasses D15)
+// Flag_账号协议 = 0 by default; Count_偷拍素材 = 0 (bypasses D16)
+sD19.currentChapter = 5;
+cardEngine.selectOption(c5m10, 'A', sD19);
+assert(sD19.isDead === true && sD19.triggeredEnding === 'D19',
+  '98.3. 真实卡路径 D19: 留档>=2且素材<3且无协议 -> C5-M10:A 首个满足项正确落入 D19');
+
+// 4. H03 (遮蔽类: C6-M06 选项 A 50%觉醒分支进 H03)
+const sH03 = new GameState(configData, stateDict, endingsData);
+const xmode09 = cardsData.find(c => c.card_id === 'X-MODE-09');
+cardEngine.selectOption(xmode09, 'B', sH03); // Flag_数字人线开放 = 1
+sH03.currentChapter = 6;
+const c6m06 = cardsData.find(c => c.card_id === 'C6-M06');
+cardEngine.selectOption(c6m06, 'A', sH03, { digitalCloneRoll: 0.8 }); // >= 0.5 觉醒分支
+assert(sH03.isCleared === true && sH03.triggeredEnding === 'H03',
+  '98.4. 真实卡路径 H03: X-MODE-09:B -> C6-M06:A(roll>=0.5) 正确落入彩蛋 H03');
+
+// 5. M03 (Qualified类: C5-M03 撕约出走锁 M03)
+const sM03 = new GameState(configData, stateDict, endingsData);
+sM03.currentChapter = 5;
+sM03.fiveDim.wallet = 2000000; // 具备足够现金赔付 50 万违约金，防中途 D02
+const c5m03 = cardsData.find(c => c.card_id === 'C5-M03');
+cardEngine.selectOption(c5m03, 'B', sM03);
+assert(sM03.variables['Qualified_M03'] === 1, '98.5a. Qualified_M03: C5-M03:B 正确写入 Qualified_M03');
+sM03.currentChapter = 6;
+sM03.fiveDim.wallet = 3500000;
+sM03.fiveDim.fans = 10000000;
+stageSettlement.settleChapter(sM03);
+assert(sM03.isCleared === true && sM03.triggeredEnding === 'M03',
+  '98.5b. 真实卡路径 M03: C5-M03:B(Qualified_M03) + 钱包>=300万 终章通关正确结算 M03');
+
+// 6. M07 (Qualified类: C3-M08 团播自证锁 M07)
+const sM07 = new GameState(configData, stateDict, endingsData);
+sM07.currentChapter = 3;
+sM07.attributes['才艺'] = 8;
+const c3m08 = cardsData.find(c => c.card_id === 'C3-M08');
+cardEngine.selectOption(c3m08, 'B', sM07);
+assert(sM07.variables['Qualified_M07'] === 1, '98.6a. Qualified_M07: C3-M08:B 正确写入 Qualified_M07');
+sM07.currentChapter = 6;
+sM07.fiveDim.fans = 10000000;
+stageSettlement.settleChapter(sM07);
+assert(sM07.isCleared === true && sM07.triggeredEnding === 'M07',
+  '98.6b. 真实卡路径 M07: C3-M08:B(Qualified_M07) 终章通关正确结算 M07');
+
+// 7. M08 (Qualified类: C3-M03 游戏自证锁 M08)
+const sM08 = new GameState(configData, stateDict, endingsData);
+sM08.currentChapter = 3;
+const c3m03 = cardsData.find(c => c.card_id === 'C3-M03');
+cardEngine.selectOption(c3m03, 'B', sM08);
+assert(sM08.variables['Qualified_M08'] === 1, '98.7a. Qualified_M08: C3-M03:B 正确写入 Qualified_M08');
+sM08.currentChapter = 6;
+sM08.fiveDim.fans = 10000000;
+stageSettlement.settleChapter(sM08);
+assert(sM08.isCleared === true && sM08.triggeredEnding === 'M08',
+  '98.7b. 真实卡路径 M08: C3-M03:B(Qualified_M08) 终章通关正确结算 M08');
+
+// 8. M09 (Qualified类: C1-M04 老粉情感锚锁 M09)
+const sM09 = new GameState(configData, stateDict, endingsData);
+sM09.currentChapter = 1;
+const c1m04 = cardsData.find(c => c.card_id === 'C1-M04');
+cardEngine.selectOption(c1m04, 'A', sM09);
+assert(sM09.variables['Qualified_M09'] === 1, '98.8a. Qualified_M09: C1-M04:A 正确写入 Qualified_M09');
+sM09.currentChapter = 6;
+sM09.fiveDim.fans = 10000000;
+stageSettlement.settleChapter(sM09);
+assert(sM09.isCleared === true && sM09.triggeredEnding === 'M09',
+  '98.8b. 真实卡路径 M09: C1-M04:A(Qualified_M09) 终章通关正确结算 M09');
+
+// 9. H04 (Qualified类: 连续遇猫进 H04)
+const sH04 = new GameState(configData, stateDict, endingsData);
+const c1s01 = cardsData.find(c => c.card_id === 'C1-S01');
+const c2s01 = cardsData.find(c => c.card_id === 'C2-S01');
+const c3s01 = cardsData.find(c => c.card_id === 'C3-S01');
+sH04.currentChapter = 1;
+cardEngine.selectOption(c1s01, 'B', sH04);
+sH04.currentChapter = 2;
+cardEngine.selectOption(c2s01, 'B', sH04);
+sH04.currentChapter = 3;
+cardEngine.selectOption(c3s01, 'A', sH04);
+assert(sH04.isCleared === true && sH04.triggeredEnding === 'H04',
+  '98.9. 真实卡路径 H04: C1-S01:B -> C2-S01:B -> C3-S01:A(满3) 正确即刻达成彩蛋 H04');
+
+// 10. H07 (Qualified类: C1-M10 零粉快乐终章达成 H07)
+const sH07 = new GameState(configData, stateDict, endingsData);
+sH07.currentChapter = 1;
+const c1m10 = cardsData.find(c => c.card_id === 'C1-M10');
+cardEngine.selectOption(c1m10, 'A', sH07);
+assert(sH07.variables['Qualified_H07'] === 1 && sH07.variables['Flag_零粉快乐'] === 1,
+  '98.10a. Qualified_H07: C1-M10:A 正确写入 Flag_零粉快乐 与 Qualified_H07');
+sH07.currentChapter = 6;
+sH07.fiveDim.fans = 5000;
+sH07.fiveDim.rep = 95;
+stageSettlement.settleChapter(sH07);
+assert(sH07.isCleared === true && sH07.triggeredEnding === 'H07',
+  '98.10b. 真实卡路径 H07: C1-M10:A(Flag_零粉快乐) + 最终粉丝<1万&口碑>=90 终章通关正确结算 H07');
+
+// 11. H10 (Qualified类: 连续考编进 H10)
+const sH10 = new GameState(configData, stateDict, endingsData);
+const c1s07 = cardsData.find(c => c.card_id === 'C1-S07');
+const c2s17 = cardsData.find(c => c.card_id === 'C2-S17');
+const c4s16 = cardsData.find(c => c.card_id === 'C4-S16');
+sH10.currentChapter = 1;
+cardEngine.selectOption(c1s07, 'A', sH10);
+sH10.currentChapter = 2;
+cardEngine.selectOption(c2s17, 'A', sH10);
+sH10.currentChapter = 4;
+cardEngine.selectOption(c4s16, 'A', sH10);
+assert(sH10.isCleared === true && sH10.triggeredEnding === 'H10',
+  '98.11. 真实卡路径 H10: C1-S07:A -> C2-S17:A -> C4-S16:A(满3) 正确即刻达成彩蛋 H10');
 
 // Clean up test storage file
 try {

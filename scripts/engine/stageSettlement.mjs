@@ -39,6 +39,9 @@ export class StageSettlement {
     }
 
     let netFansGain = Math.round((chCfg.Base_Fans || 1000) * fansMult);
+    if (gameState.variables && gameState.variables['Flag_零粉快乐'] === 1) {
+      netFansGain = 0; // H07: 关掉所有推流通道，零粉快乐不享受系统公域涨粉
+    }
     let netWalletGain = Math.round((chCfg.Base_Income || 1000) * walletMult);
 
     // W5.1: 广告翻倍同受 Cap 夹逼 (§2.4 Item 6 / §2.2)
@@ -132,7 +135,17 @@ export class StageSettlement {
     gameState.overtimePlayed = gameState.overtimePlayed || {};
 
     let canOvertime = false;
-    if (!isPromoted && !gameState.isDead) {
+    // Special Hidden Ending H07 check in chapter 6 (零人观看的桃花源: 粉丝 < 10,000 且 口碑 >= 90)
+    const isH07Eligible = (ch === 6 &&
+      (gameState.variables['Qualified_H07'] === 1 || gameState.variables['Flag_零粉快乐'] === 1) &&
+      gameState.fiveDim.fans < 10000 && gameState.fiveDim.rep >= 90);
+
+    if (isH07Eligible && !gameState.isDead) {
+      gameState.isCleared = true;
+      gameState.triggeredEnding = 'H07';
+      canOvertime = false;
+      gameState.overtimeActive = false;
+    } else if (!isPromoted && !gameState.isDead) {
       if (!gameState.overtimePlayed[ch]) {
         // First time failing gate: can play overtime (3 cards)
         canOvertime = true;
@@ -154,18 +167,39 @@ export class StageSettlement {
     }
 
     // Check Chapter 6 Cleared (盛典加冕)
-    if (ch === 6 && isPromoted && !gameState.isDead) {
+    if (ch === 6 && (isPromoted || gameState.isCleared) && !gameState.isDead) {
       gameState.isCleared = true;
       if (!gameState.triggeredEnding) {
-        // Determine main ending M01..M12 based on key flags
-        if (gameState.variables['Tag_清白账本'] === 1 && gameState.fiveDim.rep >= 80) {
+        // 1. Qualified Hidden Endings
+        if ((gameState.variables['Qualified_H07'] === 1 || gameState.variables['Flag_零粉快乐'] === 1) &&
+            gameState.fiveDim.fans < 10000 && gameState.fiveDim.rep >= 90) {
+          gameState.triggeredEnding = 'H07'; // 零人观看的桃花源
+        } else if (gameState.variables['Qualified_H04'] === 1 || (gameState.variables['Count_猫上镜'] || 0) >= 3) {
+          gameState.triggeredEnding = 'H04'; // 全星播最贵铲屎官
+        } else if (gameState.variables['Qualified_H10'] === 1 || (gameState.variables['Count_考编'] || 0) >= 3) {
+          gameState.triggeredEnding = 'H10'; // 宇宙尽头是编制
+        } else if (gameState.variables['Count_算法异常'] >= 3 && attrs['运气'] === 10) {
+          gameState.triggeredEnding = 'H05'; // 冲出楚门直播间
+        } else if (gameState.variables['Qualified_H08'] === 1 && gameState.cardHistory && gameState.cardHistory.includes('C6-M09')) {
+          gameState.triggeredEnding = 'H08'; // 夜航船的万里守候 (需完成终章必出卡 C6-M09 选 A)
+        } else if (gameState.variables['Qualified_H01'] === 1 || ((gameState.variables['Count_黑粉不对线'] || 0) >= 3 && (attrs['情商'] || 0) >= 7)) {
+          gameState.triggeredEnding = 'H01'; // 黑粉头子是真爱
+        // 2. Qualified Main Endings
+        } else if ((gameState.variables['Qualified_M03'] === 1 || (gameState.variables['Flag_野生主播'] === 1 && (attrs['情商'] || 0) >= 8)) && gameState.fiveDim.wallet >= 3000000) {
+          gameState.triggeredEnding = 'M03'; // 屠龙者终成老板
+        } else if (gameState.variables['Qualified_M07'] === 1 || (mode === '团播' && (attrs['才艺'] || 0) >= 8 && gameState.variables['Flag_公款雷'] !== 1)) {
+          gameState.triggeredEnding = 'M07'; // 滚烫的中央聚光灯
+        } else if (gameState.variables['Qualified_M08'] === 1 || (mode === '游戏' && (attrs['游戏技术'] || 0) >= 8)) {
+          gameState.triggeredEnding = 'M08'; // 官方认证·人形外挂
+        } else if (gameState.variables['Qualified_M09'] === 1 || (mode === '户外' && gameState.fiveDim.stamina >= 75)) {
+          gameState.triggeredEnding = 'M09'; // 把直播间搬进山海
+        // 3. Existing Main Endings Checks
+        } else if (gameState.variables['Tag_清白账本'] === 1 && gameState.fiveDim.rep >= 80) {
           gameState.triggeredEnding = 'M01'; // 顶流传奇·长青树
         } else if (gameState.variables['Flag_选品减伤'] === 1 && mode === '带货') {
           gameState.triggeredEnding = 'M02'; // 带货巨擘·品质之选
         } else if (gameState.variables['Tag_流派'] === '整活') {
           gameState.triggeredEnding = 'M04'; // 现象级狂欢·娱乐至死
-        } else if (gameState.variables['Count_算法异常'] >= 3 && attrs['运气'] === 10) {
-          gameState.triggeredEnding = 'H05'; // 冲出楚门直播间
         } else {
           gameState.triggeredEnding = 'M05'; // 盛典加冕·璀璨星光
         }

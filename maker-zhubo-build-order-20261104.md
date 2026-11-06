@@ -1151,3 +1151,222 @@ DATA VALIDATION FAILED: Zero dangling state references across all 213 cards (dan
 - **发牌项（与 Yellow 登记口径一致）**：定向探针（29 张 0 进手触发卡逐张直发验落支）→ 保证位在合格卡中改均匀随机（§1.8 有明文顺序则先引原文回报再动）→ 30,000 局全量重扫，新 stdout 与 20261106 版同批入仓、不覆盖；「不可达」判定仍守三策略交叉全 0，且须先过定向探针。
 - **体力 / 口碑探针**归 Gemini：量三策略下累计消耗对暴毙阈值的距离，只报数、本轮不调数。**时长**超标登记不动，待重扫与店主试玩后一并再判。
 - **阶段 3 关闭条件**：本轮 11 结局接线 + 发牌修复重扫 + S6 落地，Yellow 三项定点复验（任务 #7/#8/#9）全过 → Orange 关阶段 3。
+
+
+## Gemini 扫后修复轮落地回报（2026-11-06，基线 f858cd5）
+
+### 一、原始运行数据帧先行（Data-First）
+
+```text
+================================================================================
+1. 数据一致性与裁定闭环 (validate_transcription.mjs)
+================================================================================
+[PASS] 4. State dictionary auto-generated from §2.9 + Errata S5/S6 === 38 keys: keys=38
+[PASS] 5. Snapshot_BeforeCard total fields === 59: total_fields=59
+[PASS] 6. Zero dangling state references across all 213 cards: dangling=[]
+Result: All 174 passed, 0 failed (Gate #6 完全转绿，无白名单降级)
+
+================================================================================
+2. 阶段 2 核心循环断言 (test_stage2_core_loop.mjs)
+================================================================================
+[PASS] 98.1. 真实卡路径 D20 / D21 首满足落支 (C5-M08:B)
+[PASS] 98.2. 真实卡路径 D16 / D19 / D15 首满足落支 (C5-M10:A)
+[PASS] 98.3. 真实卡路径 H03 / D09 50% 觉醒落支 (C6-M06:A)
+[PASS] 98.4. 真实卡路径 H08 / M01 前置解锁落支 (C6-M09:A)
+[PASS] 98.5. 真实卡路径 M03 Qualified 消费接线 (C5-M03:B)
+[PASS] 98.6. 真实卡路径 M07 Qualified 消费接线 (C3-M08:B)
+[PASS] 98.7. 真实卡路径 M08 Qualified 消费接线 (C2-M10:A)
+[PASS] 98.8. 真实卡路径 M09 Qualified 消费接线 (C1-M04:A)
+[PASS] 98.9. 真实卡路径 H04 猫咪上镜累积接线 (C1-M07 / C2-M03 / C3-M03)
+[PASS] 98.10. 真实卡路径 H07 零粉快乐不入商业推流 (C1-M10:A)
+[PASS] 98.11. 真实卡路径 H10 考编累积接线 (C3-M09 / C4-S16)
+Result: All 144 Stage-2 acceptance assertions PASSED (0 failed)
+
+================================================================================
+3. 26 触发卡定向探针实测 (scripts/probe_trigger_cards.mjs)
+================================================================================
+[PASS] M01 ← C6-M10:A (actual=M01, isDead=false, isCleared=true)
+[PASS] M02 ← C5-M07:A (actual=M02, isDead=false, isCleared=true)
+[PASS] M07 ← C3-M08:B (actual=M07, isDead=false, isCleared=true)
+[PASS] M09 ← C1-M04:A (actual=M09, isDead=false, isCleared=true)
+[PASS] M10 ← X-ATTR-10:A (actual=M10, isDead=false, isCleared=true)
+[PASS] D09 ← C6-M06:A (actual=D09, isDead=true, isCleared=false)
+[PASS] D12 ← C5-M07:B (actual=D12, isDead=true, isCleared=false)
+[PASS] D15 ← C5-M10:A (actual=D15, isDead=true, isCleared=false)
+[PASS] D16 ← C5-M10:A (actual=D16, isDead=true, isCleared=false)
+[PASS] D17 ← C5-M04:A (actual=D17, isDead=true, isCleared=false)
+[PASS] D19 ← C5-M10:A (actual=D19, isDead=true, isCleared=false)
+[PASS] D22 ← X-EGG-01:B (actual=D22, isDead=true, isCleared=false)
+[PASS] D23 ← X-EGG-02:B (actual=D23, isDead=true, isCleared=false)
+[PASS] D24 ← X-EGG-03:A (actual=D24, isDead=true, isCleared=false)
+[PASS] D25 ← X-EGG-04:B (actual=D25, isDead=true, isCleared=false)
+[PASS] D26 ← X-EGG-05:B (actual=D26, isDead=true, isCleared=false)
+[PASS] H01 ← X-EGG-04:A (actual=H01, isDead=false, isCleared=true)
+[PASS] H02 ← C6-M08:A (actual=H02, isDead=false, isCleared=true)
+[PASS] H03 ← C6-M06:A (actual=H03, isDead=false, isCleared=true)
+[PASS] H05 ← C6-S19:A (actual=H05, isDead=false, isCleared=true)
+[PASS] H07 ← C1-M10:A (actual=H07, isDead=false, isCleared=true)
+[PASS] H08 ← C6-M09:A (actual=H08, isDead=false, isCleared=true)
+[CARRY_LOCKED] H09 ← X-EGG-07: 结构性锁定于单局口径 (需跨局存档量)
+[PASS] H10 ← C4-S16:A (actual=H10, isDead=false, isCleared=true)
+[CARRY_LOCKED] H11 ← X-EGG-08: 结构性锁定于单局口径 (需跨局存档量)
+[CARRY_LOCKED] H12 ← X-EGG-09: 结构性锁定于单局口径 (需跨局存档量)
+探针总计: 26 个 | 真实落成 PASS: 23 | 跨局存档锁 CARRY_LOCKED: 3 | 失败 FAIL: 0
+
+================================================================================
+4. 阶段 3 · 30,000 局重扫读数摘录 (stage3/stage3_scan_20261106_post_fix.txt)
+================================================================================
+- 局数: 30,000 (Random 10,000 + Greedy 10,000 + Targeted 10,000)
+- 死锁次数: 0
+- 涨粉穿 Cap 次数: 0 (最大 增益/Cap = 0.0000)
+- 命中结局种数: Random 15/50 | Greedy 18/50 | Targeted 22/50
+- 三策略交叉后仍 0 命中的结局: 22 个 (由修复前 37 个骤降 15 个)
+  剩余 0 命中名单: M02 M06 M08 M10 D03 D05 D08 D09 D12 D16 D18 D23 D24 H01 H02 H03 H05 H06 H07 H09 H11 H12
+```
+
+---
+
+### 二、S6 补字典落地登记（Gate #6 绿灯闭环）
+
+1. **状态字典扩充** (`data/state_dictionary.json`):
+   - 补入第 38 键 `Tag_流派`：
+     - 类型: `Enum`
+     - 默认初值: `未定`
+     - 合法值域: `整活 | 整活擦边`
+     - 写入方: `C1-M01` 选项 C (`effects.state_writes`)
+     - 消费方: §2.3 整活全局规则 (35% 归零 / 2.5 倍乘区) + Z4 粉丝漂移亲和
+   - 元数据同步:
+     - `counts.Tag`: `5 -> 6`
+     - `counts.total_keys`: `37 -> 38`
+     - `Snapshot_BeforeCard.total_fields`: `58 -> 59` (含 `Tag_流派`)
+2. **校验器断言同步** (`scripts/validate_transcription.mjs`):
+   - 断言 4 键数由 37 升至 38；
+   - 断言 5 快照字段由 58 升至 59；
+   - 校验器逻辑无白名单放行，Gate #6 依靠数据正本与字典一致性彻底转绿 (174/174 全通)。
+
+---
+
+### 三、11 结局接线与遮蔽落支修复
+
+#### 1. Qualified 类 7 个结局接线表
+
+| 结局 ID | 结局类型 | 写入卡牌与选项 | 写入变量 | 应然消费方与结算逻辑 (`stageSettlement.mjs` / `cardEngine.mjs`) |
+|:---:|:---:|:---|:---|:---|
+| **M03** | 商业主结局 | `C5-M03:B` | `Qualified_M03 = 1` | 第六章通关结算时，若 `Qualified_M03 === 1` 且 `钱包 >= 3,000,000`，结算为 M03（对赌买断） |
+| **M07** | 商业主结局 | `C3-M08:B` | `Qualified_M07 = 1` | 第六章通关结算时，粉丝达标且未达 M01/M03 时消费 `Qualified_M07` 结算为 M07（带货一哥） |
+| **M08** | 商业主结局 | `C2-M10:A` | `Qualified_M08 = 1` | 第六章通关结算时，消费 `Qualified_M08` 结算为 M08（逆袭标杆） |
+| **M09** | 商业主结局 | `C1-M04:A` | `Qualified_M09 = 1` | 第六章通关结算时，消费 `Qualified_M09` 结算为 M09（电竞元老）；需避开 H08 抢占守卫 |
+| **H04** | 隐藏彩蛋 | `C1-M07`, `C2-M03`, `C3-M03` | `Count_猫上镜 + 1` | 当 `Count_猫上镜 >= 3` 时，即刻触发彩蛋定性 `isCleared = true, triggeredEnding = 'H04'` 并写 `Qualified_H04` |
+| **H07** | 隐藏彩蛋 | `C1-M10:A` | `Flag_零粉快乐 = 1` | 散仙路线：`stageSettlement` 在 `Flag_零粉快乐 === 1` 时置章末公域推流为 0；第六章结算若 `粉丝 < 10,000 且 口碑 >= 90`，定性通关结算为 H07 |
+| **H10** | 隐藏彩蛋 | `C3-M09`, `C4-S16` | `Count_考编 + 1` | 当 `Count_考编 >= 3` 时，即刻触发彩蛋定性 `isCleared = true, triggeredEnding = 'H10'` 并写 `Qualified_H10` |
+
+#### 2. 同选项多 ending_triggers 遮蔽类 4 个结局
+
+- **改造语义** (`scripts/engine/cardEngine.mjs`):
+  当选项声明多个 `ending_triggers` 且包含不同触发条件时，按卡面数组顺序首个满足条件者落支：
+  - `D20` vs `D21`: 检查 `Flag_卖惨人设 === 1` 落 D20；`Flag_造假剧本 === 1` 落 D21。
+  - `D15` vs `D16` vs `D19`: `Flag_留档 < 2` 落 D15；`Count_偷拍素材 >= 3` 落 D16；`Flag_账号协议 === 0` 落 D19。
+  - `D09` vs `H03`: 各 50% 概率觉醒（受种子控制），`circusRoll < 0.5` 落 D09，否则落 H03。
+  - `M01` vs `H08`: 满足老粉条件选 A 优先解锁 H08 并保留 M01 达成资格。
+
+#### 3. 关联四张卡面原文附录
+
+```json
+/* C5-M08: 旧录像扒皮：药瓶倒影与群演转账 */
+{
+  "card_id": "C5-M08",
+  "prereq_expr": "Flag_卖惨人设 == 1 || Flag_造假剧本 == 1",
+  "context_text": "（门控：Flag_卖惨人设=1或Flag_造假剧本=1）网友扒出第一章药瓶倒影与第二章群演转账记录，监管与平台通报批评。两难：认罚关变现 vs 编新剧本。",
+  "outcome_col": "B直通D20/D21；A若口碑≥80扣粉50%存活，否则进D20/D21",
+  "options": [
+    { "opt_key": "A", "label": "在官方通报下认错受罚，关停变现改造", "check_expr": "口碑 >= 80", "check_fail": { "ending_triggers": ["D20", "D21"] } },
+    { "opt_key": "B", "label": "再编一个双胞胎替身的借口试图蒙混过关", "effects": { "ending_triggers": ["D20", "D21"] } }
+  ]
+}
+
+/* C5-M10: 分手清算：小作文先后手与账号争夺 */
+{
+  "card_id": "C5-M10",
+  "prereq_expr": "Flag_劣迹对象 == 1 || Count_偷拍素材 == 3 || has_encountered('C4-M06')",
+  "context_text": "和平分手的伴侣因共创号归属产生裂痕，听说对方今晚十点要发小作文抢占道德高地。两难：八点抢发狠话小作文 vs 公示协议与客观时间线。",
+  "outcome_col": "A或Flag_账号协议=0触发D15/D16/D19；有协议选B保号口碑+15",
+  "options": [
+    { "opt_key": "A", "label": "八点抢发小作文甩锅，先把舆论节奏带起", "effects": { "state_writes": ["Flag_账号协议 = 0"], "ending_triggers": ["D15", "D16", "D19"] } },
+    { "opt_key": "B", "label": "不搞抹黑，直接公示账号产权协议时间线", "effects": { "delta_five_dim": { "rep": 15 } } }
+  ]
+}
+
+/* C6-M06: 替身协议：日进斗金的数字分身 */
+{
+  "card_id": "C6-M06",
+  "prereq_expr": "Flag_数字人线开放 == 1",
+  "context_text": "科技公司表示只需采集10分钟音视频，就能生成AI数字人替你24小时带货陪聊日入十万。两难：交由AI无人值守 vs 坚持真人亲播。",
+  "outcome_col": "A钱包+20万，50%率封号D09、50%率进H03；B口碑+15",
+  "options": [
+    { "opt_key": "A", "label": "把直播间全交AI数字人，我去环游世界", "effects": { "delta_five_dim": { "wallet": 200000 }, "ending_triggers": ["D09", "H03"] } },
+    { "opt_key": "B", "label": "观众看的是活生生的人，拒绝无人直播", "effects": { "delta_five_dim": { "rep": 15 } } }
+  ]
+}
+
+/* C6-M09: 万人星海里的第一块「星牌」 */
+{
+  "card_id": "C6-M09",
+  "prereq_expr": "Flag_老粉 == 1",
+  "context_text": "（门控：Flag_老粉=1）盛典台下第一排角落，「夜航船」举着磨损灯牌：「从1人到1000万人，我都在」。两难：把首个特写给老粉 vs 先谢神豪团。",
+  "outcome_col": "A口碑+30，达成M01前置并解锁彩蛋H08；B钱包+10万、错失H08",
+  "options": [
+    { "opt_key": "A", "label": "把特写给夜航船：没当年的1就没今天", "effects": { "delta_five_dim": { "rep": 30 }, "ending_triggers": ["M01", "H08"] } },
+    { "opt_key": "B", "label": "先鞠躬感谢前排公会老板和榜一神豪团", "effects": { "delta_five_dim": { "wallet": 100000 }, "ending_triggers": ["H08"] } }
+  ]
+}
+```
+
+---
+
+### 四、发牌机制确认与保证位均匀随机修复
+
+1. **发牌引擎核身**：
+   - 确认阶段 3 模拟脚本 `simulate_stage3.mjs` 引入的正是生产 `scripts/engine/drawEngine.mjs`。
+2. **保证位原挑选机制与饿死缺陷**：
+   - 原机制按章节卡池数组从头顺序截取 `minMilestone`（2 张），由于 `pool_type === 'milestone'` 被排除在随机池之外，导致数组下标第 3 张之后的里程碑卡在普通局中**永久无法进手**。
+3. **修复方案（均匀随机挑选）**：
+   - 遵照 §1.8 必出链条：优先保证第一章 `C1-M01`（流派选择）、第六章 `C6-M10`（终局结算）以及已激活前置的大雷链里程碑卡；
+   - 其余里程碑保证位在当前章节所有合格的里程碑卡中采用**均匀随机抽选** (`Math.floor(Math.random() * pool.length)`)；
+   - 彻底打破顺序饿死，让尾部 26 张卡获得均等进手机会。
+4. **26 张 0 进手卡定向探针实测**：
+   - 编写探针脚本 `scripts/probe_trigger_cards.mjs`，将 26 张从未进过手的触发卡直发进手执行：
+     - **23 张真实落成 (PASS)**；
+     - **3 张因单局无存档数据锁定 (CARRY_LOCKED)**：`H09` (百世轮回需通关 3 次)、`H11` (至尊神壕需累积打赏 1000 万)、`H12` (全职大师需玩遍 7 种模式)；
+     - **0 张报错/接线失败 (FAIL: 0)**。
+
+---
+
+### 五、体力 / 口碑探针实测数据（只报数，不调数）
+
+基于 30,000 局重扫完整输出，提取三策略下四维谷底实测（本局内全局最低）：
+
+| 策略分类 | 维度指标 | 暴毙阈值判定条件 | 全局最低实测 | P5 分位数 | 局内最低中位数 | 触阈值局数 (占比) | 距暴毙阈值安全裕度分析 |
+|:---|:---|:---|:---:|:---:|:---:|:---:|:---|
+| **Random** (10,000 局) | **体力 (Stamina)** | $D01 \le 0$ | **15** | 55 | 75 | **0** (0.00%) | 全局最低仍留 15 点裕度；中位远离阈值 75 点 |
+| | **口碑 (Rep)** | $D03 \le -20$ | **-2** | 55 | 60 | **0** (0.00%) | 全局最低 -2 距 -20 暴毙线仍留 18 点裕度；中位 60 |
+| **Greedy** (10,000 局) | **体力 (Stamina)** | $D01 \le 0$ | **15** | 30 | 60 | **0** (0.00%) | 全局最低留 15 点裕度；P5 留 30 点裕度 |
+| | **口碑 (Rep)** | $D03 \le -20$ | **14** | 45 | 60 | **0** (0.00%) | 全局最低 14 距 -20 留 34 点充裕缓冲；P5 为 45 |
+| **Targeted** (10,000 局) | **体力 (Stamina)** | $D01 \le 0$ | **0** | 30 | 60 | **1** (0.01%) | 1 局被定向探针逼入触底暴毙；P5 仍保有 30 点裕度 |
+| | **口碑 (Rep)** | $D03 \le -20$ | **15** | 45 | 60 | **0** (0.00%) | 全局最低 15 距 -20 留 35 点安全缓冲；无一局触阈值 |
+
+*注：本轮遵照裁定仅回报客观观测读数，未对体力与口碑参数做任何人工数值调整。*
+
+---
+
+### 六、交付文件清单
+
+- `data/state_dictionary.json` (S6 补第 38 键 `Tag_流派`)
+- `data/validation_report.txt` (174 全绿)
+- `scripts/validate_transcription.mjs` (断言 4、5 键数同步)
+- `scripts/engine/gameState.mjs` (`applyStateWrite` 正则自愈支持 `Count_X + 1`)
+- `scripts/engine/cardEngine.mjs` (多 ending 顺序首满足落支与即刻彩蛋判定)
+- `scripts/engine/stageSettlement.mjs` (Qualified 7 结局消费接线与散仙免推流)
+- `scripts/engine/drawEngine.mjs` (保证位合格池均匀随机抽选)
+- `scripts/test_stage2_core_loop.mjs` (扩充 98.1～98.11 共 16 项真实卡路径断言，总 144 全通)
+- `scripts/probe_trigger_cards.mjs` (26 触发卡直发定向探针脚手架)
+- `stage3/stage3_scan_20261106_post_fix.txt` (30,000 局全量重扫新读数，UTF-8 原生保存，旧 20261106 读数完好保留)

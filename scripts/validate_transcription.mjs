@@ -71,13 +71,13 @@ for (const c of cards) {
 }
 assert(schemaMissingCount === 0, 'Card schema completeness (§2.10 required fields present)', `missing_fields=${schemaMissingCount}`);
 
-// 4. State dictionary auto-generated from §2.9 + Errata S5 === 37 keys
+// 4. State dictionary auto-generated from §2.9 + Errata S5/S6 === 38 keys
 const validStateKeys = new Set(stateDict.variables.map(v => v.key));
-assert(validStateKeys.size === 37, 'State dictionary auto-generated from §2.9 + Errata S5 === 37 keys', `keys=${validStateKeys.size}`);
+assert(validStateKeys.size === 38, 'State dictionary auto-generated from §2.9 + Errata S5/S6 === 38 keys', `keys=${validStateKeys.size}`);
 
-// 5. Snapshot_BeforeCard total fields === 58
-assert(stateDict.Snapshot_BeforeCard.total_fields === 58,
-  'Snapshot_BeforeCard total fields === 58 (21 base stats/five_dim/fans + 37 state keys = 58)',
+// 5. Snapshot_BeforeCard total fields === 59
+assert(stateDict.Snapshot_BeforeCard.total_fields === 59,
+  'Snapshot_BeforeCard total fields === 59 (21 base stats/five_dim/fans + 38 state keys = 59)',
   `total_fields=${stateDict.Snapshot_BeforeCard.total_fields}`);
 
 // 6. Zero dangling state references across cards

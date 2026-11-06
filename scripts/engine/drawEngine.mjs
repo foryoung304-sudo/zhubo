@@ -59,6 +59,21 @@ export class DrawEngine {
       gameState.evalCondition(c.prereq_expr)
     );
 
+    // §1.8 主线与前置必出位：C1-M01 流派卡开局必出、C6-M10 盛典终局扳机卡终章必出
+    if (chapter === 1 && !drawnIds.has('C1-M01') && !guaranteedPool.includes('C1-M01')) {
+      guaranteedPool.push('C1-M01');
+    }
+    if (chapter === 6 && !drawnIds.has('C6-M10') && !guaranteedPool.includes('C6-M10')) {
+      guaranteedPool.push('C6-M10');
+    }
+    // 满足前置条件的当章里程碑大雷链卡优先排入必出位 (§1.8)
+    const activeChainMilestones = chapterMilestones.filter(c => c.prereq_expr);
+    for (const ac of activeChainMilestones) {
+      if (!guaranteedPool.includes(ac.card_id)) {
+        guaranteedPool.push(ac.card_id);
+      }
+    }
+
     // Pick guaranteed cards (at most maxGuaranteed: 4 for normal, 2 for overtime)
     const maxGuaranteed = targetCount <= 3 ? 2 : 4;
     const selectedGuaranteed = [];
@@ -69,14 +84,13 @@ export class DrawEngine {
       }
     }
 
-    // Ensure milestone representation
+    // Ensure milestone representation (Orange 扫后修复轮: 保证位在合格卡中均匀随机挑选，消除牌序饿死尾部)
     const minMilestone = targetCount <= 3 ? 1 : 2;
-    for (const m of chapterMilestones) {
-      if (selectedGuaranteed.length < minMilestone) {
-        if (!selectedGuaranteed.some(c => c.card_id === m.card_id)) {
-          selectedGuaranteed.push(m);
-        }
-      }
+    const availableMilestones = chapterMilestones.filter(m => !selectedGuaranteed.some(c => c.card_id === m.card_id));
+    while (selectedGuaranteed.length < minMilestone && availableMilestones.length > 0) {
+      const idx = Math.floor(Math.random() * availableMilestones.length);
+      selectedGuaranteed.push(availableMilestones[idx]);
+      availableMilestones.splice(idx, 1);
     }
 
     const guaranteedSlotsCount = Math.min(maxGuaranteed, selectedGuaranteed.length);
