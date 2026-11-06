@@ -82,7 +82,7 @@ export class StageSettlement {
       '声控粉': (attrs['嗓音'] * 2) * m_sheng * s_sheng,
       '技术粉': (attrs['游戏技术'] * 2) * m_ji * s_ji,
       '乐子人': (attrs['口才'] + attrs['运气']) * m_le * s_le,
-      '大哥': (attrs['情商'] + attrs['颜值']) * m_da * s_da,
+      '大哥': (attrs['情商'] + attrs['颜值'] + attrs['才艺']) * m_da * s_da,
       '学生粉': (attrs['游戏技术'] + attrs['口才']) * m_xue * s_xue
     };
 

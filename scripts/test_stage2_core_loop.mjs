@@ -467,6 +467,57 @@ cardEngine.selectOption(testCardMult, 'A', zeroCircusState, { multiplier: 1.0, c
 assert(zeroCircusState.fiveDim.fans === 100000, '58. W5.4: Circus style 35% zero-revenue branch zeros fans gain');
 assert(zeroCircusState.fiveDim.wallet === 50000, '59. W5.4: Circus style 35% zero-revenue branch zeros wallet gain');
 
+// 收尾1 (Round-9 通则: 凡状态门控机制，验收断言必须有至少一条经真实卡路径抵达)
+// Tag_流派 的写入方 = C1-M01:C 卡面原文「整活流（乘区×2.5，35%率收益清零）」，实选该选项后三支机制必须真实触发。
+const c1m01Card = cardsData.find(c => c.card_id === 'C1-M01');
+function personaState(chapter) {
+  const st = new GameState(configData, stateDict, endingsData);
+  st.currentChapter = 1;
+  cardEngine.selectOption(c1m01Card, 'C', st); // 流派归属经真实卡面落入状态，非测试内手置
+  st.currentChapter = chapter;
+  return st;
+}
+
+const personaRoute = personaState(1);
+assert(personaRoute.variables['Tag_流派'] === '整活',
+  '59.1. 收尾1: real card route C1-M01:C writes Tag_流派 === 整活');
+
+const circusViaCard = personaState(4);
+circusViaCard.fiveDim.fans = 100000;
+circusViaCard.fiveDim.wallet = 50000;
+cardEngine.selectOption(testCardMult, 'A', circusViaCard, { multiplier: 1.0, circusRoll: 0.50 });
+assert(circusViaCard.fiveDim.fans === 100000 + 400000,
+  '59.2. 收尾1: circus x2.5 fans channel fires off the card-written Tag (200000*1.4*2.5*1.1 = 770000 -> Cap_Fans 400000)');
+assert(circusViaCard.fiveDim.wallet === 50000 + 94000,
+  '59.3. 收尾1: circus stays out of the wallet channel when the Tag comes from the card route ((84000 + 10000) * 1.0 = 94000)');
+
+const zeroViaCard = personaState(4);
+zeroViaCard.fiveDim.fans = 100000;
+zeroViaCard.fiveDim.wallet = 50000;
+cardEngine.selectOption(testCardMult, 'A', zeroViaCard, { multiplier: 1.0, circusRoll: 0.10 });
+assert(zeroViaCard.fiveDim.fans === 100000 && zeroViaCard.fiveDim.wallet === 50000,
+  '59.4. 收尾1: the 35% zero-revenue branch is reachable through the written Tag (both channels zeroed)');
+
+const driftViaCard = personaState(1);
+driftViaCard.selectedSchedule.mode = '才艺';
+driftViaCard.selectedSchedule.timeSlot = 'slot_noon';
+const resDriftCard = stageSettlement.settleChapter(driftViaCard);
+const driftControl = new GameState(configData, stateDict, endingsData);
+driftControl.currentChapter = 1;
+driftControl.selectedSchedule.mode = '才艺';
+driftControl.selectedSchedule.timeSlot = 'slot_noon';
+const resDriftControl = stageSettlement.settleChapter(driftControl);
+assert(resDriftCard.fanComposition['乐子人'] === 23 && resDriftControl.fanComposition['乐子人'] === 17,
+  '59.5. 收尾1: Z4 乐子人 affinity triggers off the card-written Tag (23% vs 17% control)');
+
+// 收尾2①: §2.7 大哥行原文输入为「情商/颜值/才艺」，漂移权重补第三项
+const daTalentHigh = new GameState(configData, stateDict, endingsData);
+daTalentHigh.currentChapter = 1;
+daTalentHigh.attributes['才艺'] = 10; // 电台 + 黄金档 -> m_da 1.5 x s_da 1.5
+const resDaTalent = stageSettlement.settleChapter(daTalentHigh);
+assert(resDaTalent.fanComposition['大哥'] === 38,
+  '59.6. 收尾2①: 才艺 enters the 大哥 drift weight (情商5+颜值5+才艺10 x2.25 -> 大哥 38%, S 26 -> 34)');
+
 // W6: Tag_人设 == '真实' evaluation in C4-M06:A
 const renSheTrueState = new GameState(configData, stateDict, endingsData);
 renSheTrueState.currentChapter = 4;
@@ -704,6 +755,23 @@ assert(sBuffUnused.practiceBuff === null, '78.4a. Z2: Unused practice buff is cl
 sBuffUnused.currentChapter = 3;
 sBuffUnused.selectedSchedule.mode = '才艺';
 assert(sBuffUnused.nextModeMultBonus === 0, '78.4. Z2: Unused practice buff does NOT carry over to stage 3');
+
+// 收尾2②: Z2 chapter gate 单独承重。78.3/78.4 都在 N+1 结算之后才测 N+2，那条路上 buff 已被清零腿清掉了，
+// gate 腿从来没被单独压过；这里跳过 N+1 结算直接进 N+2，只有 targetChapter 判断能挡住。
+const cardGuard = { card_id: 'C-GUARD', mode_tags: ['才艺'], pool_type: 'milestone', ops_type: 'none', options: [{ opt_key: 'A', effects: { delta_five_dim: { fans_pct: 0 } } }] };
+const sGuard = new GameState(configData, stateDict, endingsData);
+sGuard.currentChapter = 1;
+offStreamActions.executeAction(2, sGuard, '才艺'); // buff 绑 Chapter 2，同时 才艺 +1
+sGuard.currentChapter = 3;                        // 跳过 Chapter 2 结算：清零腿不存在，只剩 gate 这条腿
+sGuard.selectedSchedule.mode = '才艺';
+sGuard.selectedSchedule.timeSlot = 'slot_prime';
+sGuard.selectedSchedule.duration = 4;
+const guardFansBefore = sGuard.fiveDim.fans;
+cardEngine.selectOption(cardGuard, 'A', sGuard);
+assert(sGuard.practiceBuff !== null && sGuard.practiceBuff.targetChapter === 2,
+  '78.5. 收尾2②: the guard case still carries a live buff targeted at chapter 2, so only the targetChapter check can block it');
+assert(sGuard.fiveDim.fans - guardFansBefore === 29400,
+  '78.5a. 收尾2②: stale buff blocked by the chapter gate alone (Base_Fans 20000 x 1.4 x 1.05 = 29400, not the buffed 33810)');
 
 // X2.③ & Y1 & Z1: 钱包三条 R 乘区行为断言
 // R_粉丝构成: S = 大哥% + 颜粉% - 技术粉%; S0 = 15 (新局中性基准 15 + 20 - 20)

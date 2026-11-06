@@ -1,0 +1,199 @@
+======================================================================================================================
+阶段 3 · 结局接线审计 (scripts/stage3_reachability_audit.mjs)
+种子=20261106   50 结局逐条分类   扫表命中数来源 = stage3\stage3_scan_20261106.txt
+口径：A=引擎自有分支 / C=接线通且卡面数组层面确实落到本结局，仅本轮概率不足 / F=同选项多 id 互相抢先
+      G=触发位被 req_expr 锁住 / D=触发卡进不了第六章池 / E=引擎与卡面都不产这个 id
+      「接线可达」≠「本轮实测命中」：两者分列，不用接线结论顶替概率结论，也不用 0 命中顶替接线结论。
+======================================================================================================================
+
+【取证 · Qualified_ 机制】引擎源码命中 1 处，state_dictionary 收录 = false
+      cardEngine.mjs:317: gameState.variables[`Qualified_${endingId}`] = 1;
+      → 只有写、没有读：第 1–5 章的 M/H 触发在 cardEngine.mjs:317 降级成 Qualified_{id} 之后无人认领，
+        既不参与第六章结算，也不是任何结局的落子条件——这是 D 类「结构封死」的机制根因。
+【取证 · 同选项多 id】cardEngine.mjs:296–318 逐条覆盖 triggeredEnding、遇 D 立即 break，
+        故一个选项的 ending_triggers 写了多个 id 时只有最后一支（或最先遇到的 D）真能落成。
+
+【A 结算分支】 6 个：M01 M02 M04 M05 M12 H05
+   三策略交叉后 0 命中：3 个 → M01 M02 H05
+   M01 (main) 触发位 4 个 — random=0  greedy=0  targeted=0
+        接线：ch6 达标 + Tag_清白账本=1 + 口碑≥80 (stageSettlement.mjs:162)
+        判因：遮蔽者 = H08/M12
+   M02 (main) 触发位 3 个 — random=0  greedy=0  targeted=0
+        接线：ch6 达标 + Flag_选品减伤=1 + 本场模式=带货 (stageSettlement.mjs:164)
+   M04 (main) 触发位 0 个 — random=8581  greedy=6341  targeted=5897
+        接线：ch6 达标 + Tag_流派=整活 (stageSettlement.mjs:165)；或加时未达标且口碑≥50 (:146)
+   M05 (main) 触发位 3 个 — random=0  greedy=2806  targeted=2398
+        接线：ch6 达标兜底 (stageSettlement.mjs:170)
+   M12 (main) 触发位 3 个 — random=70  greedy=0  targeted=0
+        接线：加时未达标且口碑<50 (stageSettlement.mjs:148)
+   H05 (hidden) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：ch6 达标 + Count_算法异常≥3 + 运气=10 (stageSettlement.mjs:168)
+        判因： 锁 = 运气 == 10
+
+【A 四维死亡通道】 4 个：D01 D02 D03 D04
+   三策略交叉后 0 命中：2 个 → D01 D03
+   D01 (death) 触发位 0 个 — random=0  greedy=0  targeted=0
+        接线：stamina≤0 (gameState.mjs:290 checkFiveDimDeath)
+   D02 (death) 触发位 0 个 — random=1188  greedy=0  targeted=199
+        接线：wallet≤0 且 ch≥2 (gameState.mjs:290)
+   D03 (death) 触发位 0 个 — random=0  greedy=0  targeted=0
+        接线：rep≤−20 (gameState.mjs:290)
+   D04 (death) 触发位 0 个 — random=0  greedy=13  targeted=0
+        接线：heat≤0 且 ch≥2 (gameState.mjs:290)
+
+【C 可落成（本轮概率不足）】 22 个：M10 M11 D06 D07 D09 D10 D11 D12 D13 D14 D15 D17 D20 D22 D23 D24 D25 D26 H08 H09 H11 H12
+   三策略交叉后 0 命中：14 个 → M10 D09 D12 D15 D17 D22 D23 D24 D25 D26 H08 H09 H11 H12
+   M10 (main) 触发位 2 个 — random=0  greedy=0  targeted=0
+        接线：X-ATTR-10/A(effects)@跨章2–6/cross_attr 数组=[M10]→实落 M10｜引擎实验=M10｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：颜值 <= 3 && 口才 >= 7  ||  X-ATTR-10/B(effects)@跨章2–6/cross_attr 数组=[M10]→实落 M10｜引擎实验=M10｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：颜值 <= 3 && 口才 >= 7
+   M11 (main) 触发位 1 个 — random=0  greedy=173  targeted=137
+        接线：X-EGG-06/A(effects)@跨章4–6/cross_egg 数组=[M11]→实落 M11｜引擎实验=M11｜进手率 random=0.0%/greedy=11.5%/targeted=9.1%｜进手前置：钱包 >= 1000000
+   D06 (death) 触发位 2 个 — random=0  greedy=15  targeted=0
+        接线：C5-M01/C(effects)@5 数组=[D06]→实落 D06｜引擎实验=D06｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：C4-M01 == 'A' || C4-M02 == 'A'  ||  C6-M05/A(effects)@6 数组=[D06]→实落 D06｜引擎实验=D06｜进手率 random=0.0%/greedy=19.3%/targeted=15.6%
+   D07 (death) 触发位 1 个 — random=104  greedy=0  targeted=196
+        接线：C4-M04/A(effects)@4 数组=[D07]→实落 D07｜引擎实验=D07｜进手率 random=1.9%/greedy=92.3%/targeted=89.4%
+   D09 (death) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：C6-M06/A(effects)@6 数组=[D09,H03]→实落 D09｜引擎实验=D09｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：chapter == 6 && Flag_数字人线开放 == 1
+   D10 (death) 触发位 1 个 — random=1  greedy=0  targeted=68
+        接线：C6-M04/A(effects)@6 数组=[D10]→实落 D10｜引擎实验=D10｜进手率 random=0.0%/greedy=34.7%/targeted=30.4%
+   D11 (death) 触发位 1 个 — random=49  greedy=0  targeted=112
+        接线：C4-M05/A(effects)@4 数组=[D11]→实落 D11｜引擎实验=D11｜进手率 random=0.8%/greedy=68.6%/targeted=63.2%
+   D12 (death) 触发位 2 个 — random=0  greedy=0  targeted=0
+        接线：C5-M07/A(check_fail)@5 数组=[D12]→实落 D12｜引擎实验=D12｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：has_encountered('C4-M02')  ||  C5-M07/B(effects)@5 数组=[D12]→实落 D12｜引擎实验=D12｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：has_encountered('C4-M02')
+   D13 (death) 触发位 1 个 — random=2  greedy=642  targeted=787
+        接线：C5-M03/A(check_fail)@5 数组=[D13]→实落 D13｜引擎实验=D13｜进手率 random=0.1%/greedy=14.7%/targeted=17.4%｜进手前置：Flag_签公会 == 1
+   D14 (death) 触发位 1 个 — random=1  greedy=0  targeted=52
+        接线：C5-M03/C(effects)@5 数组=[D14]→实落 D14｜引擎实验=D14｜进手率 random=0.1%/greedy=14.7%/targeted=17.4%｜进手前置：Flag_签公会 == 1
+   D15 (death) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：C5-M10/A(effects)@5 数组=[D15,D16,D19]→实落 D15｜引擎实验=D15｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Flag_劣迹对象 == 1 || Count_偷拍素材 == 3 || has_encountered('C4-M06')
+   D17 (death) 触发位 2 个 — random=0  greedy=0  targeted=0
+        接线：C5-M04/A(effects)@5 数组=[D17]→实落 D17｜引擎实验=D17｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Flag_劣迹对象 == 1 || Count_偷拍素材 == 3  ||  C5-M05/B(effects)@5 数组=[D17]→实落 D17｜引擎实验=D17｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：C5-M04 == 'B' || C5-M04 == 'C'
+   D20 (death) 触发位 2 个 — random=4  greedy=10  targeted=93
+        接线：C5-M08/A(check_fail)@5 数组=[D20,D21]→实落 D20｜引擎实验=D20｜进手率 random=0.0%/greedy=47.7%/targeted=42.4%｜进手前置：Flag_卖惨人设 == 1 || Flag_造假剧本 == 1  ||  C5-M08/B(effects)@5 数组=[D20,D21]→实落 D20｜引擎实验=D20｜进手率 random=0.0%/greedy=47.7%/targeted=42.4%｜进手前置：Flag_卖惨人设 == 1 || Flag_造假剧本 == 1
+   D22 (death) 触发位 2 个 — random=0  greedy=0  targeted=0
+        接线：X-EGG-01/A(check_fail)@跨章3–6/cross_egg 数组=[D22]→实落 D22｜引擎实验=null｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：状态 <= 15  ||  X-EGG-01/B(effects)@跨章3–6/cross_egg 数组=[D22]→实落 D22｜引擎实验=D22｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：状态 <= 15
+   D23 (death) 触发位 2 个 — random=0  greedy=0  targeted=0
+        接线：X-EGG-02/A(check_fail)@跨章3–6/cross_egg 数组=[D23]→实落 D23｜引擎实验=null｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：运气 <= 3  ||  X-EGG-02/B(effects)@跨章3–6/cross_egg 数组=[D23]→实落 D23｜引擎实验=D23｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：运气 <= 3
+   D24 (death) 触发位 2 个 — random=0  greedy=0  targeted=0
+        接线：X-EGG-03/A(effects)@跨章3–6/cross_egg 数组=[D24]→实落 D24｜引擎实验=D24｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：has_encountered('C4-M03') && C4-M03 == 'A'  ||  X-EGG-03/B(effects)@跨章3–6/cross_egg 数组=[D24]→实落 D24｜引擎实验=D24｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：has_encountered('C4-M03') && C4-M03 == 'A'
+   D25 (death) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：X-EGG-04/B(effects)@跨章3–6/cross_egg 数组=[D25]→实落 D25｜引擎实验=D25｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Count_黑粉不对线 >= 1
+   D26 (death) 触发位 2 个 — random=0  greedy=0  targeted=0
+        接线：X-EGG-05/A(check_fail)@跨章3–6/cross_egg 数组=[D26]→实落 D26｜引擎实验=D26｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Flag_放任切片号 == 1  ||  X-EGG-05/B(effects)@跨章3–6/cross_egg 数组=[D26]→实落 D26｜引擎实验=D26｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Flag_放任切片号 == 1
+   H08 (hidden) 触发位 4 个 — random=0  greedy=0  targeted=0
+        接线：C1-M04/A(effects)@1 数组=[M09,H08]→实落 H08｜引擎实验=H08｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进不了第六章池  ||  C2-M10/A(effects)@2 数组=[H08]→实落 H08｜引擎实验=H08｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进不了第六章池  ||  C6-M09/A(effects)@6 数组=[M01,H08]→实落 H08｜引擎实验=H08｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Flag_老粉 == 1  ||  C6-M09/B(effects)@6 数组=[H08]→实落 H08｜引擎实验=H08｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Flag_老粉 == 1
+   H09 (hidden) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：X-EGG-07/A(effects)@跨章4–6/cross_egg 数组=[H09]→实落 H09｜引擎实验=H09｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：equipped_talents_count >= 3
+   H11 (hidden) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：X-EGG-08/A(effects)@跨章4–6/cross_egg 数组=[H11]→实落 H11｜引擎实验=H11｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：total_endings_unlocked >= 30
+   H12 (hidden) 触发位 2 个 — random=0  greedy=0  targeted=0
+        接线：X-EGG-09/A(effects)@跨章4–6/cross_egg 数组=[H12]→实落 H12｜引擎实验=H12｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：cleared_main_endings_count == 12  ||  X-EGG-09/B(effects)@跨章4–6/cross_egg 数组=[H12]→实落 H12｜引擎实验=H12｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：cleared_main_endings_count == 12
+
+【F 同选项互遮蔽（被别的 id 抢先落成）】 4 个：D16 D19 D21 H03
+   三策略交叉后 0 命中：4 个 → D16 D19 D21 H03
+   D16 (death) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：C5-M10/A(effects)@5 数组=[D15,D16,D19]→实落 D15｜引擎实验=D15｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Flag_劣迹对象 == 1 || Count_偷拍素材 == 3 || has_encountered('C4-M06')
+        判因：遮蔽者 = D15
+   D19 (death) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：C5-M10/A(effects)@5 数组=[D15,D16,D19]→实落 D15｜引擎实验=D15｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Flag_劣迹对象 == 1 || Count_偷拍素材 == 3 || has_encountered('C4-M06')
+        判因：遮蔽者 = D15
+   D21 (death) 触发位 2 个 — random=0  greedy=0  targeted=0
+        接线：C5-M08/A(check_fail)@5 数组=[D20,D21]→实落 D20｜引擎实验=D20｜进手率 random=0.0%/greedy=47.7%/targeted=42.4%｜进手前置：Flag_卖惨人设 == 1 || Flag_造假剧本 == 1  ||  C5-M08/B(effects)@5 数组=[D20,D21]→实落 D20｜引擎实验=D20｜进手率 random=0.0%/greedy=47.7%/targeted=42.4%｜进手前置：Flag_卖惨人设 == 1 || Flag_造假剧本 == 1
+        判因：遮蔽者 = D20
+   H03 (hidden) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：C6-M06/A(effects)@6 数组=[D09,H03]→实落 D09｜引擎实验=D09｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：chapter == 6 && Flag_数字人线开放 == 1
+        判因：遮蔽者 = D09
+
+【G 触发位被 req_expr 锁死】 2 个：H01 H02
+   三策略交叉后 0 命中：2 个 → H01 H02
+   H01 (hidden) 触发位 2 个 — random=0  greedy=0  targeted=0
+        接线：C1-M07/B(effects)@1 数组=[H01]→实落 H01｜引擎实验=H01｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进不了第六章池  ||  X-EGG-04/A(effects)@跨章3–6/cross_egg 数组=[H01]→实落 H01｜req_expr 锁：Count_黑粉不对线 >= 3 && 情商 >= 7｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Count_黑粉不对线 >= 1
+        判因： 锁 = Count_黑粉不对线 >= 3 && 情商 >= 7
+   H02 (hidden) 触发位 3 个 — random=0  greedy=0  targeted=0
+        接线：C3-M06/A(effects)@3 数组=[H02]→实落 H02｜引擎实验=H02｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进不了第六章池  ||  C6-M08/A(effects)@6 数组=[H02]→实落 H02｜req_expr 锁：Flag_榜一恋爱 == 1｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Flag_榜一恋爱 == 1 || has_encountered('C4-M06')  ||  C6-M08/B(effects)@6 数组=[H02]→实落 H02｜req_expr 锁：Flag_榜一恋爱 == 1｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Flag_榜一恋爱 == 1 || has_encountered('C4-M06')
+        判因： 锁 = Flag_榜一恋爱 == 1
+
+【D 结构封死（触发卡进不了第六章池）】 7 个：M03 M07 M08 M09 H04 H07 H10
+   三策略交叉后 0 命中：7 个 → M03 M07 M08 M09 H04 H07 H10
+   M03 (main) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：C5-M03/B(effects)@5 数组=[M03]→实落 M03｜引擎实验=M03｜进手率 random=0.1%/greedy=14.7%/targeted=17.4%｜进手前置：Flag_签公会 == 1｜进不了第六章池
+   M07 (main) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：C3-M08/B(effects)@3 数组=[M07]→实落 M07｜req_expr 锁：才艺 >= 7｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进不了第六章池
+   M08 (main) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：C3-M03/B(effects)@3 数组=[M08]→实落 M08｜引擎实验=M08｜进手率 random=5.2%/greedy=60.4%/targeted=55.4%｜进不了第六章池
+   M09 (main) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：C1-M04/A(effects)@1 数组=[M09,H08]→实落 H08｜引擎实验=H08｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进不了第六章池
+   H04 (hidden) 触发位 2 个 — random=0  greedy=0  targeted=0
+        接线：C3-S01/A(effects)@3 数组=[H04]→实落 H04｜引擎实验=H04｜进手率 random=3.3%/greedy=18.3%/targeted=19.0%｜进手前置：Count_猫上镜 >= 2｜进不了第六章池  ||  C3-S01/B(effects)@3 数组=[H04]→实落 H04｜引擎实验=H04｜进手率 random=3.3%/greedy=18.3%/targeted=19.0%｜进手前置：Count_猫上镜 >= 2｜进不了第六章池
+   H07 (hidden) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：C1-M10/A(effects)@1 数组=[H07]→实落 H07｜引擎实验=H07｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进不了第六章池
+   H10 (hidden) 触发位 1 个 — random=0  greedy=0  targeted=0
+        接线：C4-S16/A(effects)@4 数组=[H10]→实落 H10｜引擎实验=H10｜进手率 random=0.0%/greedy=0.0%/targeted=0.0%｜进手前置：Count_考编 >= 2｜进不了第六章池
+
+【E 无任何接线】 5 个：M06 D05 D08 D18 H06
+   三策略交叉后 0 命中：5 个 → M06 D05 D08 D18 H06
+   M06 (main) 触发位 0 个 — random=0  greedy=0  targeted=0
+        接线：卡面无 ending_triggers，结算/死亡分支亦无此 id；trigger_condition 原文：打通第六章 + 主修[电台]模式 ≥ 3 章 + 嗓音 ≥ 8
+   D05 (death) 触发位 0 个 — random=0  greedy=0  targeted=0
+        接线：卡面无 ending_triggers，结算/死亡分支亦无此 id；trigger_condition 原文：任意阶段 黑粉浓度 ≥ 100% 且心态检定失败
+   D08 (death) 触发位 0 个 — random=0  greedy=0  targeted=0
+        接线：卡面无 ending_triggers，结算/死亡分支亦无此 id；trigger_condition 原文：Count_违规警告 ≥ 2（由 C2-M09 选 A、C2-S06、C4-S11 等过界低俗选项累加达标）
+   D18 (death) 触发位 0 个 — random=0  greedy=0  targeted=0
+        接线：卡面无 ending_triggers，结算/死亡分支亦无此 id；trigger_condition 原文：Param_观众当真度 ≥ 40 +（C4-M06 官宣真恋情 或 C5-M10 拆 CP 且 情商 < 7）
+   H06 (hidden) 触发位 0 个 — random=0  greedy=0  targeted=0
+        接线：卡面无 ending_triggers，结算/死亡分支亦无此 id；trigger_condition 原文：全程 6 章全部排 6 小时超长档 + 0 次下播补觉 + 打通第六章且状态未跌穿
+
+======================================================================================================================
+【触发卡三策略 0 进手】的 0 命中结局 = 26 个：M01 M02 M07 M09 M10 D09 D12 D15 D16 D17 D19 D22 D23 D24 D25 D26 H01 H02 H03 H05 H07 H08 H09 H10 H11 H12
+   M01 ← C6-M09, C6-M10
+   M02 ← C4-M01, C5-M01, C5-M07
+   M07 ← C3-M08
+   M09 ← C1-M04
+   M10 ← X-ATTR-10
+   D09 ← C6-M06
+   D12 ← C5-M07
+   D15 ← C5-M10
+   D16 ← C5-M10
+   D17 ← C5-M04, C5-M05
+   D19 ← C5-M10
+   D22 ← X-EGG-01
+   D23 ← X-EGG-02
+   D24 ← X-EGG-03
+   D25 ← X-EGG-04
+   D26 ← X-EGG-05
+   H01 ← C1-M07, X-EGG-04
+   H02 ← C3-M06, C6-M08
+   H03 ← C6-M06
+   H05 ← C6-S19
+   H07 ← C1-M10
+   H08 ← C1-M04, C2-M10, C6-M09
+   H09 ← X-EGG-07   ※ 前置含跨局存档量（equipped_talents_count / total_endings_unlocked / cleared_main_endings_count）；本轮按裁定「未启用存档天赋继承 carry_rules」，每局自 §2.9 初始态起 → 本扫表口径下结构性不可进手，不能据此判不可达
+   H10 ← C4-S16
+   H11 ← X-EGG-08   ※ 前置含跨局存档量（equipped_talents_count / total_endings_unlocked / cleared_main_endings_count）；本轮按裁定「未启用存档天赋继承 carry_rules」，每局自 §2.9 初始态起 → 本扫表口径下结构性不可进手，不能据此判不可达
+   H12 ← X-EGG-09   ※ 前置含跨局存档量（equipped_talents_count / total_endings_unlocked / cleared_main_endings_count）；本轮按裁定「未启用存档天赋继承 carry_rules」，每局自 §2.9 初始态起 → 本扫表口径下结构性不可进手，不能据此判不可达
+======================================================================================================================
+
+======================================================================================================================
+对账：三策略交叉 0 命中 = 37 个，逐桶归因（每桶互斥）：
+   E 类 5 个：M06 D05 D08 D18 H06
+   D 类 7 个：M03 M07 M08 M09 H04 H07 H10
+   F 类 4 个：D16 D19 D21 H03
+   G 类 2 个：H01 H02
+   C 类 14 个：M10 D09 D12 D15 D17 D22 D23 D24 D25 D26 H08 H09 H11 H12
+   A 类 5 个：M01 M02 D01 D03 H05
+   分桶合计 37 / 37
+   三策略有实测命中的结局 = 13 个：M04 M05 M11 M12 D02 D04 D06 D07 D10 D11 D13 D14 D20
+
+结论口径（供回报用；判定权不在本脚本）：
+   ⓪ 本轮三策略实测到的结局 = 13 个；0 命中 = 37 个。
+   ① 扫表根本看不见这批（触发卡在 30,000 局里 0 次进手）= 26 个：M01 M02 M07 M09 M10 D09 D12 D15 D16 D17 D19 D22 D23 D24 D25 D26 H01 H02 H03 H05 H07 H08 H09 H10 H11 H12
+      → 对这 26 个，任何「可达/不可达」的结论都不能由本轮扫表得出；约束在发牌预算与进手前置，不在结局接线。
+   · 可报「现行代码下不存在落成路径」= E(5) + D(7) = 12 个：
+     M06 D05 D08 D18 H06 M03 M07 M08 M09 H04 H07 H10
+     依据是接线声明与入池声明（drawEngine:90–92 + Qualified_* 零读取），不是「扫了没扫到」。
+   · 不许报「不可达」、只能报「本轮没撞出来」= C 且 0 命中(14) + A 类未达标(5) 个：
+     M10 D09 D12 D15 D17 D22 D23 D24 D25 D26 H08 H09 H11 H12 M01 M02 D01 D03 H05
+   · 待裁定（卡面写了，但被引擎语义吃掉或被 req_expr 锁住）= F(4) + G(2) = 6 个：
+     D16 D19 D21 H03 H01 H02
+     这类属「接线写了 + 引擎落不下来」，按冻结正文只读口径一律只回报、不自改。
+   注：①与 ·/·/· 是按不同问题切的两个视图，允许重叠——前者答「扫表有没有能力看见」，后者答「代码有没有路径」。
+======================================================================================================================

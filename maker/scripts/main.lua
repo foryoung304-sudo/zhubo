@@ -260,6 +260,7 @@ local function resetGameState()
     gameState.overtimePlayed = {}
     gameState.nextModeMultBonus = 0
     gameState.nextModeMultBonusMode = nil
+    gameState.practiceBuff = nil
     gameState.adUsage = {
         creationPoints = 0,
         reviveOrRepick = 0,
@@ -641,9 +642,9 @@ local function selectCardOption(optKey)
             -- R_粉丝构成 ∈ [0.6, 1.8] (Z1: 正本缺口裁定采用公式 R = clamp(1 + 0.02 * (S - S0), 0.6, 1.8))
             -- S = 大哥% + 颜粉% - 技术粉%; S0 = 15 (新局中性基准 15 + 20 - 20)
             local comp = gameState.fanComposition or {}
-            local bigSpender = comp["大哥"] or 15
-            local beautyFans = comp["颜粉"] or 20
-            local techFans = comp["技术粉"] or 20
+            local bigSpender = (comp["大哥"] ~= nil) and comp["大哥"] or 15
+            local beautyFans = (comp["颜粉"] ~= nil) and comp["颜粉"] or 20
+            local techFans = (comp["技术粉"] ~= nil) and comp["技术粉"] or 20
             local S = bigSpender + beautyFans - techFans
             local S0 = 15
             local rFanComp = 1.0 + 0.02 * (S - S0)
@@ -852,7 +853,7 @@ local function settleCurrentChapter(useAdDouble)
     local w聲 = ((attrs["嗓音"] or 5) * 2) * m_sheng * s_sheng
     local w技 = ((attrs["游戏技术"] or 5) * 2) * m_ji * s_ji
     local w樂 = ((attrs["口才"] or 5) + (attrs["运气"] or 5)) * m_le * s_le
-    local w哥 = ((attrs["情商"] or 5) + (attrs["颜值"] or 5)) * m_da * s_da
+    local w哥 = ((attrs["情商"] or 5) + (attrs["颜值"] or 5) + (attrs["才艺"] or 5)) * m_da * s_da
     local w學 = ((attrs["游戏技术"] or 5) + (attrs["口才"] or 5)) * m_xue * s_xue
     local totalW = math.max(1, w顏 + w聲 + w技 + w樂 + w哥 + w學)
 
