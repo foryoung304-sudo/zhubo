@@ -243,6 +243,7 @@ for (let ch = 1; ch <= 6; ch++) {
       if (o.effects.delta_five_dim?.heat && fullState.fiveDim.heat + o.effects.delta_five_dim.heat <= 10) return false;
       if (o.effects.delta_five_dim?.heat_pct && fullState.fiveDim.heat * (1 + o.effects.delta_five_dim.heat_pct / 100) <= 10) return false;
       if (o.effects.state_writes?.some(w => w.includes('Flag_审过合同 = 0'))) return false;
+      if (o.effects.state_writes?.some(w => w.includes('Flag_带货死雷 = 1'))) return false;
       return true;
     });
 
@@ -284,6 +285,7 @@ for (let ch = 1; ch <= 6; ch++) {
           if (o.effects.delta_five_dim?.rep && fullState.fiveDim.rep + o.effects.delta_five_dim.rep <= -20) return false;
           if (o.effects.delta_five_dim?.heat && fullState.fiveDim.heat + o.effects.delta_five_dim.heat <= 10) return false;
           if (o.effects.delta_five_dim?.heat_pct && fullState.fiveDim.heat * (1 + o.effects.delta_five_dim.heat_pct / 100) <= 10) return false;
+          if (o.effects.state_writes?.some(w => w.includes('Flag_带货死雷 = 1'))) return false;
           return true;
         });
         const opt = selectableOpts.sort((a, b) => {
@@ -302,6 +304,9 @@ for (let ch = 1; ch <= 6; ch++) {
     }
     if (!sRes.isPromoted && ch > 1) {
       fullState.fiveDim.fans = Math.max(fullState.fiveDim.fans, configData.chapters.find(c => c.chapter === ch).fans_gate_to);
+      fullState.triggeredEnding = null;
+      fullState.isCleared = false;
+      fullState.isDead = false;
       sRes = stageSettlement.settleChapter(fullState);
     }
     if (ch < 6) stageSettlement.advanceChapter(fullState);
@@ -1084,6 +1089,114 @@ sH10.currentChapter = 4;
 cardEngine.selectOption(c4s16, 'A', sH10);
 assert(sH10.isCleared === true && sH10.triggeredEnding === 'H10',
   '98.11. 真实卡路径 H10: C1-S07:A -> C2-S17:A -> C4-S16:A(满3) 正确即刻达成彩蛋 H10');
+
+// -----------------------------------------------------------------------------
+// 阶段 3 扫后修复轮二新增断言 (M-L, M-M 变异钉死 + 端到端 C6-M10 + D 类判定本体)
+// -----------------------------------------------------------------------------
+
+// 1. M-L 兜底次序钉住 (appliedEndings 无命中时按首位 appliedEndings[0] 兜底)
+const sML = new GameState(configData, stateDict, endingsData);
+sML.variables['Flag_卖惨人设'] = 0; // bypasses D20
+sML.variables['Flag_造假剧本'] = 0; // bypasses D21
+const c5m08Card = cardsData.find(c => c.card_id === 'C5-M08');
+cardEngine.selectOption(c5m08Card, 'B', sML);
+assert(sML.triggeredEnding === 'D20',
+  '99.1. M-L 兜底次序钉住: appliedEndings 无命中时按首位 appliedEndings[0] 兜底落支 (D20)',
+  `actual=${sML.triggeredEnding}`);
+
+// 2. M-M Qualified_H04 消费面钉住 (H04 凭 Qualified_H04=1 终章结算达成)
+const sMM = new GameState(configData, stateDict, endingsData);
+sMM.currentChapter = 6;
+sMM.fiveDim.fans = 10000000;
+sMM.variables['Qualified_H04'] = 1;
+sMM.variables['Count_猫上镜'] = 0;
+stageSettlement.settleChapter(sMM);
+assert(sMM.isCleared === true && sMM.triggeredEnding === 'H04',
+  '99.2. M-M Qualified_H04 消费面钉住: 凭 Qualified_H04=1（猫计数<3）终章结算必须正确达成彩蛋 H04',
+  `actual=${sMM.triggeredEnding}`);
+
+// 3. 端到端终章发牌与 C6-M10 扳机结算
+const sE2E = new GameState(configData, stateDict, endingsData);
+sE2E.currentChapter = 6;
+sE2E.fiveDim.fans = 10000000;
+sE2E.fiveDim.rep = 85;
+sE2E.selectedSchedule.mode = '电台';
+sE2E.selectedSchedule.timeSlot = 'slot_prime';
+sE2E.selectedSchedule.duration = 4;
+const ch6Cards = drawEngine.drawChapterCards(6, sE2E);
+assert(ch6Cards.some(c => c.card_id === 'C6-M10'), '99.3a. 终章真实发牌: C6-M10 盛典扳机卡 100% 优先排入必出位');
+const c6m10Card = ch6Cards.find(c => c.card_id === 'C6-M10');
+cardEngine.selectOption(c6m10Card, 'A', sE2E);
+assert(sE2E.c6m10Played === true && sE2E.variables['Flag_终局扳机'] === 1 && sE2E.triggeredEnding === null,
+  '99.3b. C6-M10 扳机打出当场不锁死结局: c6m10Played=true 且 triggeredEnding 保持 null');
+stageSettlement.settleChapter(sE2E);
+assert(sE2E.isCleared === true && sE2E.triggeredEnding === 'M01',
+  '99.3c. 端到端终章结算: C6-M10 达成顶流星播之王 M01', `actual=${sE2E.triggeredEnding}`);
+
+// 4. 全量卡面条件表达式 (65 条唯一) 零抛错 audit
+const uniqueExprs = new Set();
+for (const c of cardsData) {
+  if (c.prereq_expr) uniqueExprs.add(c.prereq_expr);
+  for (const o of c.options) {
+    if (o.req_expr) uniqueExprs.add(o.req_expr);
+    if (o.check_expr) uniqueExprs.add(o.check_expr);
+    if (o.effects?.effects_conditional?.if) uniqueExprs.add(o.effects.effects_conditional.if);
+  }
+}
+const dummyState = new GameState(configData, stateDict, endingsData);
+dummyState.selectedSchedule = { mode: '带货' };
+let throwCount = 0;
+for (const expr of uniqueExprs) {
+  try {
+    dummyState.evalCondition(expr);
+  } catch (e) {
+    throwCount++;
+  }
+}
+assert(uniqueExprs.size === 65 && throwCount === 0,
+  '99.4. 全量卡面条件表达式语法 audit: cards.json 全部 65 条唯一表达式在引擎中零抛错解析',
+  `count=${uniqueExprs.size}, throwCount=${throwCount}`);
+
+// 5. 真实卡路径 D18
+const sD18 = new GameState(configData, stateDict, endingsData);
+sD18.currentChapter = 2;
+const c2m05ForD18 = cardsData.find(c => c.card_id === 'C2-M05');
+cardEngine.selectOption(c2m05ForD18, 'A', sD18);
+assert(sD18.variables['Param_观众当真度'] === 40, '99.5a. C2-M05:A 正确写入 Param_观众当真度 = 40');
+sD18.currentChapter = 4;
+const c4m06ForD18 = cardsData.find(c => c.card_id === 'C4-M06');
+cardEngine.selectOption(c4m06ForD18, 'A', sD18);
+assert(sD18.isDead === true && sD18.triggeredEnding === 'D18',
+  '99.5b. 真实卡路径 D18: C2-M05:A (当真度40) -> C4-M06:A (官宣恋情) 正确命中暴毙 D18', `actual=${sD18.triggeredEnding}`);
+
+// 6. 暴毙通道 D05 (正本 §2.2 第五条暴毙通道)
+const sD05 = new GameState(configData, stateDict, endingsData);
+sD05.haterPct = 105;
+sD05.attributes['心态'] = 5; // < 8
+sD05.checkFiveDimDeath();
+assert(sD05.isDead === true && sD05.triggeredEnding === 'D05',
+  '99.6. 正本§2.2 第五暴毙通道 D05: 黑粉浓度>=100% 且 心态<8 触发 D05 破防退网', `actual=${sD05.triggeredEnding}`);
+
+// 7. 真实排班历史 H06
+const sH06 = new GameState(configData, stateDict, endingsData);
+sH06.currentChapter = 6;
+sH06.fiveDim.fans = 10000000;
+sH06.selectedSchedule.duration = 6;
+sH06.durationHistory = [6, 6, 6, 6, 6]; // 前 5 章全 6 小时，终章排班续 6 小时
+sH06.sleepActionCount = 0;
+stageSettlement.settleChapter(sH06);
+assert(sH06.isCleared === true && sH06.triggeredEnding === 'H06',
+  '99.7. 真实排班历史 H06: 全程 6 章排 6 小时超长档 + 0 补觉 终章通关达成彩蛋 H06', `actual=${sH06.triggeredEnding}`);
+
+// 8. 真实主修计数 M06
+const sM06 = new GameState(configData, stateDict, endingsData);
+sM06.currentChapter = 6;
+sM06.fiveDim.fans = 10000000;
+sM06.modeChapterCounts = { '电台': 3, 'PK': 2, '带货': 1 };
+sM06.attributes['嗓音'] = 8;
+stageSettlement.settleChapter(sM06);
+assert(sM06.isCleared === true && sM06.triggeredEnding === 'M06',
+  '99.8. 真实主修计数 M06: 主修[电台]>=3章 + 嗓音>=8 终章通关达成午夜电台夜王 M06', `actual=${sM06.triggeredEnding}`);
 
 // Clean up test storage file
 try {

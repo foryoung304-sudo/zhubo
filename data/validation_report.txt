@@ -1,6 +1,6 @@
 ================================================================================
 《从小主播到顶流》阶段 1.5 · 机器可读补全与全量裁定校验报告 (validate_transcription.mjs)
-生成时间: 2026-11-07T02:27:22.881Z
+生成时间: 2026-11-07T03:38:54.508Z
 数据基线: E:\taptap\zhubo\data (4 JSON files: state_dictionary, cards, endings_and_talents, config_and_screens)
 gate_type 分布: {"none":97,"dual_boost":12,"soft":95,"hard":8,"progress":1}
 7 模式匹配卡数: 游戏:20, 才艺:17, 电台:16, 团播:15, PK:18, 带货:21, 户外:18

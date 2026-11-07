@@ -90,6 +90,17 @@ export class GameState {
     this.currentCardMultiplier = 1.0;
     this.practiceBuff = null; // §2.8C & Z2: { targetChapter: number, mode: string, bonus: number }
     this.cardHistory = [];
+    this.cardDecisions = {}; // cardId -> optKey
+    this.modeChapterCounts = {}; // mode -> count of chapters scheduled (§2.8B / L678–L704)
+    this.durationHistory = []; // array of durations per chapter
+    this.sleepActionCount = 0; // count of action 1 (补觉) executed
+    this.c6m10Played = false;
+  }
+
+  // ① 落定格：triggeredEnding 一经写入，任何后续卡与结算不得覆盖
+  triggerEnding(endingId) {
+    if (this.triggeredEnding) return;
+    this.triggeredEnding = endingId;
   }
 
   // Z2 练功 buff 生命周期兼容访问器: 仅在紧接下一阶段内生效
@@ -206,7 +217,21 @@ export class GameState {
   evalCondition(expr) {
     if (!expr || expr === 'null') return true;
 
-    // Check variables first
+    // 1. Support has_encountered helper before card ID replacements
+    expr = expr.replace(/has_encountered\('([^']+)'\)/g, (_, cid) => {
+      return String(this.cardHistory.includes(cid));
+    });
+
+    // 2. Support current mode replacement (e.g. mode == '带货')
+    const curMode = this.selectedSchedule?.mode || '';
+    expr = expr.replace(/\bmode\b/g, `'${curMode}'`);
+
+    // 3. Support naked card comparisons (e.g. C4-M01 == 'A' -> 'A' == 'A' or '' == 'A')
+    expr = expr.replace(/\b([C|X][0-9A-Z_]+-[A-Z0-9]+)\b/g, (_, cid) => {
+      return `'${this.cardDecisions?.[cid] || ''}'`;
+    });
+
+    // 4. Check variables
     for (const [k, v] of Object.entries(this.variables)) {
       if (expr.includes(k)) {
         if (typeof v === 'string') {
@@ -217,14 +242,14 @@ export class GameState {
       }
     }
 
-    // Check attributes
+    // 5. Check attributes
     for (const [k, v] of Object.entries(this.attributes)) {
       if (expr.includes(k)) {
         expr = expr.replaceAll(k, String(v));
       }
     }
 
-    // Check five dimensions
+    // 6. Check five dimensions
     expr = expr.replaceAll('口碑', String(this.fiveDim.rep));
     expr = expr.replaceAll('状态', String(this.fiveDim.stamina));
     expr = expr.replaceAll('热度', String(this.fiveDim.heat));
@@ -232,10 +257,14 @@ export class GameState {
     expr = expr.replaceAll('粉丝', String(this.fiveDim.fans));
     expr = expr.replaceAll('chapter', String(this.currentChapter));
 
-    // Support has_encountered helper
-    expr = expr.replace(/has_encountered\('([^']+)'\)/g, (_, cid) => {
-      return String(this.cardHistory.includes(cid));
-    });
+    // 7. Support special textual conditions from draft / cards
+    expr = expr.replace(/整活流/g, `(${this.variables['Tag_流派'] === '整活' || this.variables['Tag_流派'] === '整活擦边'})`);
+    expr = expr.replace(/失控值高/g, `(${Boolean(this.variables['Flag_整活失控'] === 1 || (this.variables['Count_失控值'] || 0) >= 2 || (this.fanComposition?.['乐子人'] || 0) >= 35)})`);
+
+    // 8. Support carry keys
+    expr = expr.replace(/\bcleared_main_endings_count\b/g, String(this.clearedMainEndings?.length || 0));
+    expr = expr.replace(/\bequipped_talents_count\b/g, String(this.equippedTalents?.length || 0));
+    expr = expr.replace(/\btotal_endings_unlocked\b/g, '0');
 
     try {
       // Safe boolean eval for simple comparisons
@@ -290,16 +319,19 @@ export class GameState {
   checkFiveDimDeath() {
     if (this.fiveDim.stamina <= 0 && !this.isDead) {
       this.isDead = true;
-      this.triggeredEnding = 'D01'; // 状态归零猝死
+      this.triggerEnding('D01'); // 状态归零猝死
     } else if (this.fiveDim.wallet <= 0 && this.currentChapter >= 2 && !this.isDead) {
       this.isDead = true;
-      this.triggeredEnding = 'D02'; // 现金流断裂破产
+      this.triggerEnding('D02'); // 现金流断裂破产
     } else if (this.fiveDim.rep <= -20 && !this.isDead) {
       this.isDead = true;
-      this.triggeredEnding = 'D03'; // 口碑崩盘万人声讨
+      this.triggerEnding('D03'); // 口碑崩盘万人声讨
     } else if (this.fiveDim.heat <= 0 && this.currentChapter >= 2 && !this.isDead) {
       this.isDead = true;
-      this.triggeredEnding = 'D04'; // 热度归零查无此人
+      this.triggerEnding('D04'); // 热度归零查无此人
+    } else if (this.haterPct >= 100 && (this.attributes['心态'] || 0) < 8 && !this.isDead) {
+      this.isDead = true;
+      this.triggerEnding('D05'); // 黑粉破防退网 (§2.2 第五条暴毙通道)
     }
   }
 }

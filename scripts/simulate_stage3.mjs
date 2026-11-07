@@ -102,8 +102,18 @@ const PURSUIT = {
   D05: { delta: 'hater_pct' },
   D08: { stateKey: 'Count_违规警告' },
   D18: { stateKey: 'Param_观众当真度' },
+  D09: { stateKey: 'Flag_数字人线开放' },
+  H03: { stateKey: 'Flag_数字人线开放' },
   H06: { duration: 6, avoidAction: 1 },
+  H08: { stateKey: 'Flag_老粉' },
+  H04: { stateKey: 'Count_猫上镜' },
+  H10: { stateKey: 'Count_考编' },
+  H05: { stateKey: 'Count_算法异常', focus: { attr: '运气', to: 10, donor: '体力' } },
+  M02: { mode: '带货', focus: { attr: '口才', to: 8, donor: '体力' } },
   M06: { mode: '电台', focus: { attr: '嗓音', to: 8, donor: '体力' } },
+  M07: { mode: '团播', focus: { attr: '才艺', to: 8, donor: '体力' } },
+  M08: { mode: '游戏', focus: { attr: '游戏技术', to: 8, donor: '体力' } },
+  M09: { mode: '户外' },
 };
 const CIRCUS_TARGETS = new Set(['M04']); // stageSettlement:165 Tag_流派==='整活' → M04（§2.3 整活流分支）
 

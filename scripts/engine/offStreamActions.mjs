@@ -23,7 +23,10 @@ export class OffStreamActions {
     }
 
     // Handle specific action logic
-    if (actionId === 2) {
+    if (actionId === 1) {
+      // 补觉休息: 记账供 H06 (0 次下播补觉) 判定
+      gameState.sleepActionCount = (gameState.sleepActionCount || 0) + 1;
+    } else if (actionId === 2) {
       // 专心练功: select one attribute +1, 下阶段对应模式乘区 +0.15 (§2.8C & Z2)
       const targetAttr = extraChoice || '才艺';
       gameState.attributes[targetAttr] = (gameState.attributes[targetAttr] || 5) + 1;

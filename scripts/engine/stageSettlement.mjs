@@ -17,6 +17,17 @@ export class StageSettlement {
     const slot = this.timeSlots.find(s => s.id === gameState.selectedSchedule.timeSlot) || this.timeSlots[0];
     const duration = this.durations.find(d => d.hours === gameState.selectedSchedule.duration) || this.durations[1];
 
+    // Track mode and duration per chapter (§2.8B / L678–L704 / H06)
+    const mode = gameState.selectedSchedule?.mode || '全模式';
+    const durationHours = (typeof gameState.selectedSchedule?.duration === 'object')
+      ? gameState.selectedSchedule.duration.hours
+      : (gameState.selectedSchedule?.duration || duration.hours || 4);
+
+    gameState.modeChapterCounts = gameState.modeChapterCounts || {};
+    gameState.modeChapterCounts[mode] = (gameState.modeChapterCounts[mode] || 0) + 1;
+    gameState.durationHistory = gameState.durationHistory || [];
+    gameState.durationHistory.push(durationHours);
+
     // 1. Natural Heat Decay: -15%, min 15
     const decay = Math.max(15, Math.floor(gameState.fiveDim.heat * 0.15));
     gameState.fiveDim.heat = Math.max(0, gameState.fiveDim.heat - decay);
@@ -57,7 +68,6 @@ export class StageSettlement {
 
     // 3. Fan Composition Drift Calculation (§2.7 & Z4 漂移输入补全)
     const attrs = gameState.attributes;
-    const mode = gameState.selectedSchedule.mode;
     const slotId = gameState.selectedSchedule.timeSlot;
     const isCircus = gameState.variables && gameState.variables['Tag_流派'] === '整活';
 
@@ -142,7 +152,7 @@ export class StageSettlement {
 
     if (isH07Eligible && !gameState.isDead) {
       gameState.isCleared = true;
-      gameState.triggeredEnding = 'H07';
+      gameState.triggerEnding('H07');
       canOvertime = false;
       gameState.overtimeActive = false;
     } else if (!isPromoted && !gameState.isDead) {
@@ -156,9 +166,9 @@ export class StageSettlement {
         gameState.isCleared = false;
         if (!gameState.triggeredEnding) {
           if (gameState.fiveDim.rep >= 50) {
-            gameState.triggeredEnding = 'M04'; // 佛系小主播 (口碑良好)
+            gameState.triggerEnding('M04'); // 佛系小主播 (口碑良好)
           } else {
-            gameState.triggeredEnding = 'M12'; // 正常上班 (泯然众人)
+            gameState.triggerEnding('M12'); // 正常上班 (泯然众人)
           }
         }
       }
@@ -170,38 +180,64 @@ export class StageSettlement {
     if (ch === 6 && (isPromoted || gameState.isCleared) && !gameState.isDead) {
       gameState.isCleared = true;
       if (!gameState.triggeredEnding) {
-        // 1. Qualified Hidden Endings
-        if ((gameState.variables['Qualified_H07'] === 1 || gameState.variables['Flag_零粉快乐'] === 1) &&
-            gameState.fiveDim.fans < 10000 && gameState.fiveDim.rep >= 90) {
-          gameState.triggeredEnding = 'H07'; // 零人观看的桃花源
+        // 1. Qualified / Accumulated Hidden Endings
+        if ((gameState.variables['Qualified_H08'] === 1 || gameState.variables['Flag_老粉'] === 1) &&
+            (gameState.cardDecisions?.['C6-M09'] === 'A' || (gameState.cardHistory && gameState.cardHistory.includes('C6-M09')))) {
+          gameState.triggerEnding('H08'); // 夜航船的万里守候
+        } else if (gameState.durationHistory?.length >= 6 &&
+                   gameState.durationHistory.every(d => d === 6) &&
+                   (gameState.sleepActionCount || 0) === 0 &&
+                   !gameState.isDead) {
+          gameState.triggerEnding('H06'); // 生产队的驴都哭了 (全勤之神)
         } else if (gameState.variables['Qualified_H04'] === 1 || (gameState.variables['Count_猫上镜'] || 0) >= 3) {
-          gameState.triggeredEnding = 'H04'; // 全星播最贵铲屎官
+          gameState.triggerEnding('H04'); // 全星播最贵铲屎官
         } else if (gameState.variables['Qualified_H10'] === 1 || (gameState.variables['Count_考编'] || 0) >= 3) {
-          gameState.triggeredEnding = 'H10'; // 宇宙尽头是编制
-        } else if (gameState.variables['Count_算法异常'] >= 3 && attrs['运气'] === 10) {
-          gameState.triggeredEnding = 'H05'; // 冲出楚门直播间
-        } else if (gameState.variables['Qualified_H08'] === 1 && gameState.cardHistory && gameState.cardHistory.includes('C6-M09')) {
-          gameState.triggeredEnding = 'H08'; // 夜航船的万里守候 (需完成终章必出卡 C6-M09 选 A)
+          gameState.triggerEnding('H10'); // 宇宙尽头是编制
+        } else if (gameState.variables['Qualified_H05'] === 1 || ((gameState.variables['Count_算法异常'] || 0) >= 3 && attrs['运气'] === 10)) {
+          gameState.triggerEnding('H05'); // 冲出楚门直播间
         } else if (gameState.variables['Qualified_H01'] === 1 || ((gameState.variables['Count_黑粉不对线'] || 0) >= 3 && (attrs['情商'] || 0) >= 7)) {
-          gameState.triggeredEnding = 'H01'; // 黑粉头子是真爱
-        // 2. Qualified Main Endings
-        } else if ((gameState.variables['Qualified_M03'] === 1 || (gameState.variables['Flag_野生主播'] === 1 && (attrs['情商'] || 0) >= 8)) && gameState.fiveDim.wallet >= 3000000) {
-          gameState.triggeredEnding = 'M03'; // 屠龙者终成老板
-        } else if (gameState.variables['Qualified_M07'] === 1 || (mode === '团播' && (attrs['才艺'] || 0) >= 8 && gameState.variables['Flag_公款雷'] !== 1)) {
-          gameState.triggeredEnding = 'M07'; // 滚烫的中央聚光灯
-        } else if (gameState.variables['Qualified_M08'] === 1 || (mode === '游戏' && (attrs['游戏技术'] || 0) >= 8)) {
-          gameState.triggeredEnding = 'M08'; // 官方认证·人形外挂
-        } else if (gameState.variables['Qualified_M09'] === 1 || (mode === '户外' && gameState.fiveDim.stamina >= 75)) {
-          gameState.triggeredEnding = 'M09'; // 把直播间搬进山海
-        // 3. Existing Main Endings Checks
+          gameState.triggerEnding('H01'); // 黑粉头子是真爱
+        } else if ((gameState.variables['Qualified_H07'] === 1 || gameState.variables['Flag_零粉快乐'] === 1) &&
+                   gameState.fiveDim.fans < 10000 && gameState.fiveDim.rep >= 90) {
+          gameState.triggerEnding('H07'); // 零人观看的桃花源
+        // 2. Qualified / Specialized Main Endings
+        } else if (gameState.variables['Qualified_M06'] === 1 ||
+                   ((gameState.modeChapterCounts?.['电台'] || 0) >= 3 && (attrs['嗓音'] || 0) >= 8)) {
+          gameState.triggerEnding('M06'); // 午夜城市的赛博枕头 (电台夜王)
+        } else if (gameState.variables['Qualified_M03'] === 1 ||
+                   ((gameState.variables['Flag_野生主播'] === 1 && (attrs['情商'] || 0) >= 8) && gameState.fiveDim.wallet >= 3000000)) {
+          gameState.triggerEnding('M03'); // 屠龙者终成老板
+        } else if (gameState.variables['Qualified_M07'] === 1 || (mode === '团播' || (gameState.modeChapterCounts?.['团播'] || 0) >= 3) && (attrs['才艺'] || 0) >= 8 && gameState.variables['Flag_公款雷'] !== 1) {
+          gameState.triggerEnding('M07'); // 滚烫的中央聚光灯
+        } else if (gameState.variables['Qualified_M08'] === 1 ||
+                   (((gameState.modeChapterCounts?.['游戏'] || 0) >= 3 || mode === '游戏') && (attrs['游戏技术'] || 0) >= 8)) {
+          gameState.triggerEnding('M08'); // 官方认证·人形外挂
+        } else if (gameState.variables['Qualified_M09'] === 1 ||
+                   (((gameState.modeChapterCounts?.['户外'] || 0) >= 3 || mode === '户外') && gameState.fiveDim.stamina >= 75)) {
+          gameState.triggerEnding('M09'); // 把直播间搬进山海
+        } else if (gameState.variables['Qualified_M02'] === 1 ||
+                   ((gameState.modeChapterCounts?.['带货'] || 0) >= 3 && (attrs['口才'] || 0) >= 8) ||
+                   (gameState.variables['Flag_选品减伤'] === 1 && mode === '带货')) {
+          gameState.triggerEnding('M02'); // 人形上链接机器
+        } else if (gameState.variables['Qualified_M10'] === 1 ||
+                   ((attrs['颜值'] || 0) <= 4 && (attrs['情商'] || 0) >= 7 && (attrs['口才'] || 0) >= 7)) {
+          gameState.triggerEnding('M10'); // 隐身造星的黄金推手
+        } else if (gameState.variables['Qualified_M11'] === 1 ||
+                   (gameState.fiveDim.wallet >= 1000000 && gameState.fiveDim.rep >= 65 && gameState.cardDecisions?.['C6-M10'] === 'C')) {
+          gameState.triggerEnding('M11'); // 人间烟火大排档
+        // 3. Fallbacks and C6-M10 Endgame Triggers
         } else if (gameState.variables['Tag_清白账本'] === 1 && gameState.fiveDim.rep >= 80) {
-          gameState.triggeredEnding = 'M01'; // 顶流传奇·长青树
-        } else if (gameState.variables['Flag_选品减伤'] === 1 && mode === '带货') {
-          gameState.triggeredEnding = 'M02'; // 带货巨擘·品质之选
+          gameState.triggerEnding('M01'); // 顶流传奇·长青树
+        } else if (gameState.cardDecisions?.['C6-M10'] === 'C') {
+          gameState.triggerEnding('M12'); // 正常上班 (退居幕后)
+        } else if (gameState.fiveDim.fans >= 10000000 && gameState.fiveDim.rep >= 85) {
+          gameState.triggerEnding('M01'); // 加冕星播之王
+        } else if (gameState.c6m10Played) {
+          gameState.triggerEnding('M01'); // C6-M10 默认终局
         } else if (gameState.variables['Tag_流派'] === '整活') {
-          gameState.triggeredEnding = 'M04'; // 现象级狂欢·娱乐至死
+          gameState.triggerEnding('M04'); // 现象级狂欢·娱乐至死
         } else {
-          gameState.triggeredEnding = 'M05'; // 盛典加冕·璀璨星光
+          gameState.triggerEnding('M05'); // 盛典加冕·璀璨星光 (常规兜底)
         }
       }
     }

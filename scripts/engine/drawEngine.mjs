@@ -84,13 +84,37 @@ export class DrawEngine {
       }
     }
 
-    // Ensure milestone representation (Orange 扫后修复轮: 保证位在合格卡中均匀随机挑选，消除牌序饿死尾部)
+    // Ensure milestone representation (草稿 L366 & L20–L21: 若当章无待必出链卡，从当章标志性池按模式权重补齐 2 张)
     const minMilestone = targetCount <= 3 ? 1 : 2;
     const availableMilestones = chapterMilestones.filter(m => !selectedGuaranteed.some(c => c.card_id === m.card_id));
     while (selectedGuaranteed.length < minMilestone && availableMilestones.length > 0) {
-      const idx = Math.floor(Math.random() * availableMilestones.length);
-      selectedGuaranteed.push(availableMilestones[idx]);
-      availableMilestones.splice(idx, 1);
+      const weights = availableMilestones.map(c => {
+        const matchesMode = c.mode_tags && c.mode_tags.some(t => {
+          if (t === '全模式') return true;
+          if (t === chosenMode) return true;
+          if (this.config.mode_vocabulary?.tag_aliases?.[t] === chosenMode) return true;
+          return false;
+        });
+        if (c.gate_type === 'dual_boost') {
+          return matchesMode ? 2.0 : 0.5;
+        } else if (c.gate_type === 'soft') {
+          return matchesMode ? 3.0 : 0.5;
+        } else {
+          return matchesMode ? 1.5 : (c.mode_tags?.includes('全模式') ? 1.0 : 0.5);
+        }
+      });
+      const totalWeight = weights.reduce((acc, w) => acc + w, 0);
+      let r = Math.random() * totalWeight;
+      let chosenIdx = 0;
+      for (let i = 0; i < weights.length; i++) {
+        r -= weights[i];
+        if (r <= 0) {
+          chosenIdx = i;
+          break;
+        }
+      }
+      selectedGuaranteed.push(availableMilestones[chosenIdx]);
+      availableMilestones.splice(chosenIdx, 1);
     }
 
     const guaranteedSlotsCount = Math.min(maxGuaranteed, selectedGuaranteed.length);

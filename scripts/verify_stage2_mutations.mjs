@@ -121,14 +121,14 @@ const MUTS = [
     to: `      if (!chosenEnding) {
         chosenEnding = appliedEndings[appliedEndings.length - 1];
       }`,
-    expect: ['⊘兜底无断言覆盖'],
+    expect: ['99.1'],
   },
   {
     id: 'M-M Qualified_H04 消费点摘除（验彩蛋资格消费面）',
     file: 'scripts/engine/stageSettlement.mjs',
     from: `} else if (gameState.variables['Qualified_H04'] === 1 || (gameState.variables['Count_猫上镜'] || 0) >= 3) {`,
     to: `} else if ((gameState.variables['Count_猫上镜'] || 0) >= 3) {`,
-    expect: ['⊘H04 资格消费无断言'],
+    expect: ['99.2'],
   },
 ];
 

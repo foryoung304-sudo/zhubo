@@ -126,6 +126,21 @@ function parseStateDictionary() {
     });
   }
 
+  // Errata S6 (Orange Fix-Round Ruling / #9 citation fix): Add Tag_流派 (37 -> 38 keys)
+  if (!variables.some(v => v.key === 'Tag_流派')) {
+    variables.push({
+      line_no: null,
+      source: '§2.3 乘区段 + C1-M01 卡面；§2.9 无此行',
+      key: 'Tag_流派',
+      category: 'Tag',
+      type: 'Enum',
+      initial_value: '未定',
+      range_or_cap: '整活 | 整活擦边',
+      writers_text: 'C1-M01 选 C（写入「整活」）；整活擦边：有读方（cardEngine 与 Lua 均认）、无写入方',
+      consumers_text: '整活流派特殊乘区 ×2.5 与 35% 清零判定；§2.7 Z4 乐子人亲和漂移加权'
+    });
+  }
+
   const autoSnapshotStateKeys = variables.map(v => v.key);
   // Round-4 Ruling V4: §2.7 Fan composition 6 segments replacing previous English placeholder names
   const fixedBaseFields = [
