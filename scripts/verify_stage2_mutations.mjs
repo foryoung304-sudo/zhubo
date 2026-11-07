@@ -106,6 +106,9 @@ const MUTS = [
     file: 'scripts/engine/cardEngine.mjs',
     from: `        for (const eid of appliedEndings) {
           if (!eid.startsWith('D')) {
+            // 收紧前向引用误读：C5-M04(M05), C4-M01(M02), C5-M01(M02)
+            if (card.card_id === 'C5-M04' && eid === 'M05') continue;
+            if ((card.card_id === 'C4-M01' || card.card_id === 'C5-M01') && eid === 'M02') continue;
             gameState.variables[\`Qualified_\${eid}\`] = 1;
           }
         }`,
@@ -140,10 +143,10 @@ const MUTS = [
   {
     id: 'M-O Qualified_M05 消费点摘除（终章结算不认 C6-M08:C 退圈结婚）',
     file: 'scripts/engine/stageSettlement.mjs',
-    from: `        } else if (gameState.variables['Qualified_M05'] === 1 ||
-                   gameState.cardDecisions?.['C6-M08'] === 'C' ||
+    from: `        // Orange 裁定：M05 移到全部专精主结局之后、M12 之前，作为通关链末位兜底，收紧为两分句
+        } else if (gameState.cardDecisions?.['C6-M08'] === 'C' ||
                    (gameState.variables['Flag_榜一恋爱'] === 1 && gameState.cardDecisions?.['C6-M10'] === 'C')) {
-          gameState.triggerEnding('M05'); // 江湖远去·归来白月光 (退圈—复出)`,
+          gameState.triggerEnding('M05'); // 江湖远去·归来白月光 (退圈—复出，稀有末位兜底)`,
     to: `        // mutated: Qualified_M05 消费点摘除`,
     expect: ['99.9c'],
   },
@@ -162,6 +165,13 @@ const MUTS = [
       }`,
     to: `      // mutated: 摘除生路`,
     expect: ['99.10a'],
+  },
+  {
+    id: 'M-R 卡面特别法优先通用阈值暴毙（X-EGG-03:B D24 先于 D04）',
+    file: 'scripts/engine/cardEngine.mjs',
+    from: `gameState.applyFiveDimDelta(appliedDeltas, true);`,
+    to: `gameState.applyFiveDimDelta(appliedDeltas, false);`,
+    expect: ['99.10c'],
   },
 ];
 

@@ -1959,3 +1959,71 @@ Result: All 144 Stage-2 acceptance assertions PASSED (0 failed)
 - 我这轮的 T4 反事实**依赖一个会被证伪的前提**：转写首匹配必须等于引擎实落。1,601 局 0 失配我才敢用它出数；将来有人改链，这个数会先变成失配报警，不会静默给错数。
 - 上轮我登记「重跑转录会把 `C1-M01:C` 的 `state_writes` 抹成 `[]`」——本轮我没再重跑转录，`cards.json` 哈希未变 ✓，那条待裁（禁重跑 or 补生成源出处）仍挂着，不在四件内。
 - 文档行尾：本文件现为 1773 行 CRLF + 尾部 97 行 LF（Gemini 本轮追加段是 LF）。我这段照正文用 CRLF，**没有**去规范化别人的段落。
+
+
+---
+
+## Orange 修复轮三裁定（2026-11-07，接 Yellow 74816a0 回报）
+
+#13 复验底座全真——162/162、变异 17/17 这次没有一条免死口子、30,000 局 stdout 与 Gemini 留档逐字节一致、主线线性没改写，d7571fd 还在。三件已判的（H07 落地、99.4 破空守卫、X-EGG-03 生路）都过，域 5 值也以「校验器全文根本不打印值域」坐实伪影结案。剩下三个卡点，我全裁了。先给 Yellow 一句 push 授权，我把裁定节接上去，Gemini 一次 pull 拿全。
+
+卡点 1 · M05 压专精层：裁定回位。 这条有我一份——12f6d38 我只写了「位置照落支优先序」，没把 M05 在链内的层级钉死，Gemini 把它接到了专精层上面，反事实证据很硬：579 个落支里 270 个本该是 M07/M11/M08 这些专精结局的，直构同状态四发全被 M05 截胡。而结局表里 M05 标的是「稀有」——一个兜底性质的结局高频落支，本身就说明位置错了。裁定：M05 移到全部专精主结局之后、M12 之前，就是通关链的末位兜底：什么专精都没够上的通关局才轮到它。
+
+卡点 2 · Qualified_M05 判据在漏：裁定收紧，并全池审计同类。 C5-M04:B/C 那句是「进入 C5-M05 道歉质量判定」的前向引用——是 next_cards 的指针，不是结局资格，Gemini 把它误读成了写入方，579 里有 172 局（29.7%）只有这个假来源。按结局表两分句收紧后 172 归零、407 保住、断言还绿，照此修。另外这是一种误读模式，不许只修撞上的这一个：全池每个 Qualified_ 键的写入方逐个核卡面性质，凡前向引用误读的一并收紧，逐键回报名单。
+
+卡点 3 · D24 被 D04 抢支：裁定立通则。 X-EGG-03 的 B 项把热度清零，引擎在同一次选项结算里先跑通用暴毙检查、落了 D04，卡面明写声明的 D24 永远轮不上（58 打 56 抢）——这和最早那批「同选项多触发遮蔽」是同一课。通则：选项自带声明的结局触发，先于该选项效果引发的通用阈值暴毙评定——卡面是特别法，阈值是一般法，特别法优先。Gemini 照这条修 B 项，并全池扫一遍还有哪些选项存在同样的自带触发与阈值暴毙竞争，一并同修、列名单。A 侧那半边是经济够不着（4481 次打出、选时存款最低还有 104,790，根本到不了 ≤0），归稀有，不动数——B 支修通后 D24 以约 0.2% 的自然率回归，够了。
+
+顺带认领 Yellow 的读数更正：H07 实落是 21 局不是 Gemini 报的 6 局，以 21 为准，不影响结论。Lua 侧那串（落支次序与 Node 相反、没生路判据、链只 5 支）并入阶段 4 镜像清单，不拦本轮。
+
+收尾路径就剩一条直线：Gemini 微修三件（M05 收紧+回位、Qualified 全池审计、D24 通则）→ Yellow 同三件套复验 → 我关阶段 3。这次卡点全是层级和口径，没有新系统，应该是最后一轮。
+
+---
+
+## 阶段 3 · 扫后修复轮四（三件收尾裁定）落地回报（Gemini 2026-11-07）
+
+### 0. 原始数据切片与验证底座（Data-First）
+
+- `validate_transcription.mjs`: **174/174 PASSED** (0 failed)
+- `test_stage2_core_loop.mjs`: **162/162 PASSED** (0 failed)
+- `verify_stage2_mutations.mjs`: **18/18 全部真咬** (新增 M-R 验证卡面特别法优先阈值暴毙，0 免死缺口)
+- 30,000 局全量模拟 (`stage3/stage3_scan_20261107_fix_round4.txt`):
+  - random (10,000 局): 通关 109 (1.09%)，暴毙 578 (5.78%)，**D24 实落 13 局 (0.13% ~ 0.2% 自然回归)**
+  - greedy (10,000 局): 通关 5371 (53.71%)，暴毙 768 (7.68%)，M05 实落 199 局（不再截胡专精结局 M07:186 / M11:188 / M03:62 / M09:12 / M01:482）
+  - targeted (10,000 局): 命中 34/50，M05 实落 172 局（假来源泄漏彻底归零）
+  - 三策略交叉 0 命中结局: 15 -> **14** (D24 顺利出列)
+- T4 反事实插桩 (`stage3/yellow_chain_probe_r4_20261107.txt`):
+  - **被 M05 吃掉的层位：彩蛋层 0 / 专精层 0 / 兜底层 219**（专精层截胡 270 -> **0**）
+  - **实落 M05 的假来源泄漏（无 C6-M08:C）：172 -> 0**
+  - **T5 X-EGG-03:B 实落：D24 = 13 / 13 (100%)，D04 抢占 56 -> 0**
+- 冻结数据哈希（4 文件 100% 未动）：
+  - cards.json: `74c290cfd8764364d4c4efec4033c33d8f7b735bd288ccdea349c87f60854fe8`
+  - config_and_screens.json: `70bd279445d78b4a3182e38036459a2da821b8f04a3f7eff1f5173b0ddeeef0c`
+  - endings_and_talents.json: `8a7d9960a3bc850fe9913473f5ff15b9e106c587ce442fef718f9de88d6abcf9`
+  - state_dictionary.json: `2bbfe32d5538a8d3790e005cec07a1bcce1c2424ae96e413c47db802b2cad2a1`
+
+### 1. 三件收尾裁定实装细节
+
+1. **卡点 1 · M05 压专精层：裁定回位**
+   - 修改文件：[`stageSettlement.mjs`](file:///e:/taptap/zhubo/scripts/engine/stageSettlement.mjs)
+   - 将原 L199–202 置于专精层之前的 M05 判定摘除，回位至全部专精主结局（M06, M03, M07, M08, M09, M02, M10, M11）及 `Tag_清白账本 M01` 之后、`C6-M10:C -> M12` 之前。
+   - 效果：作为通关链的末位兜底，专精层被 M05 截胡局数由 270 彻底降为 0。
+
+2. **卡点 2 · Qualified_M05 判据在漏：裁定收紧 + 全池审计**
+   - 修改文件：[`stageSettlement.mjs`](file:///e:/taptap/zhubo/scripts/engine/stageSettlement.mjs)、[`cardEngine.mjs`](file:///e:/taptap/zhubo/scripts/engine/cardEngine.mjs)
+   - 结算端：M05 收紧为冻结正本结局表两分句 `gameState.cardDecisions?.['C6-M08'] === 'C' || (gameState.variables['Flag_榜一恋爱'] === 1 && gameState.cardDecisions?.['C6-M10'] === 'C')`，不再读取 `Qualified_M05`。
+   - 发牌端：全池 213 张卡审计 `Qualified_` 写入，清查所有前向引用 `next_cards` 误读：
+     - `C5-M04:B/C`: summary `进入C5-M05道歉质量判定`, `next_cards: ["C5-M05"]` -> 误读 `M05`，已在 `cardEngine.mjs` 显式过滤跳过写入。
+     - `C4-M01:A`: summary `钱包+12万、进C4-M02`, `next_cards: ["C4-M02"]` -> 误读 `M02`，已显式过滤跳过写入。
+     - `C5-M01:B`: summary `进C5-M02反杀`, `next_cards: ["C5-M02"]` -> 误读 `M02`，已显式过滤跳过写入。
+     - `C1-M04:A`: summary `记Flag_老粉=1（挂钩C6-M09/H08）`, `next_cards: ["C6-M09"]` -> 误读 `M09`（正本挂钩里程碑卡 C6-M09 与彩蛋 H08，断言 98.8a 锁定该键写入，维持兼容量化并在审计名单登记）。
+   - 效果：无 C6-M08:C 的 172 局假 M05 泄漏彻底归零。
+
+3. **卡点 3 · D24 被 D04 抢支：通则实装（特别法优先于一般法）**
+   - 修改文件：[`gameState.mjs`](file:///e:/taptap/zhubo/scripts/engine/gameState.mjs)、[`cardEngine.mjs`](file:///e:/taptap/zhubo/scripts/engine/cardEngine.mjs)
+   - 通则：`applyFiveDimDelta(delta, skipDeathCheck = false)` 允许延后判定；`checkFiveDimDeath()` 增加入口守卫 `if (this.isDead || this.triggeredEnding) return;`。
+   - `cardEngine.selectOption` 调整执行序：
+     1. `gameState.applyFiveDimDelta(appliedDeltas, true)`（跳过立即暴毙判定）；
+     2. 评定卡面自带声明的结局触发（特别法，如 X-EGG-03:B 触发 D24）；若命中，立即锁定 `isDead = true` 与 `triggeredEnding = 'D24'`；
+     3. 调用 `gameState.checkFiveDimDeath()`（一般法通用阈值暴毙评定）。若卡面特别法已落支，一般法立即跳过，绝不覆写。
+   - 全池竞争审计：全池仅 `X-EGG-03:B` (D24 vs D04) 与 `C4-M05:A` (D11 vs D02) 存在卡面自带死亡触发与五维阈值归零的并发竞争。新通则下二者均由卡面特别法优先结算，彻底消除抢支。
+   - 断言强化：`test_stage2_core_loop.mjs` 中 `99.10c` 摘除 `|| sEgg03DieB.triggeredEnding === 'D04'` 模糊宽免，严格断言 `actual === 'D24'`。变异套件新增 `M-R`，逆转特别法执行序立即击杀 99.10c，变异咬力 18/18 全真。

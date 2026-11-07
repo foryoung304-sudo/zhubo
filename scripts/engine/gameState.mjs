@@ -281,7 +281,7 @@ export class GameState {
   }
 
   // Apply Five Dim delta
-  applyFiveDimDelta(delta) {
+  applyFiveDimDelta(delta, skipDeathCheck = false) {
     if (!delta) return;
 
     if (delta.fans !== undefined) this.fiveDim.fans += delta.fans;
@@ -318,24 +318,28 @@ export class GameState {
 
     if (delta.hater_pct !== undefined) this.haterPct += delta.hater_pct;
 
-    // Check death conditions
-    this.checkFiveDimDeath();
+    // Check death conditions (通则：若调用方显式要求延后判定，则跳过)
+    if (!skipDeathCheck) {
+      this.checkFiveDimDeath();
+    }
   }
 
   checkFiveDimDeath() {
-    if (this.fiveDim.stamina <= 0 && !this.isDead) {
+    if (this.isDead || this.triggeredEnding) return;
+
+    if (this.fiveDim.stamina <= 0) {
       this.isDead = true;
       this.triggerEnding('D01'); // 状态归零猝死
-    } else if (this.fiveDim.wallet <= 0 && this.currentChapter >= 2 && !this.isDead) {
+    } else if (this.fiveDim.wallet <= 0 && this.currentChapter >= 2) {
       this.isDead = true;
       this.triggerEnding('D02'); // 现金流断裂破产
-    } else if (this.fiveDim.rep <= -20 && !this.isDead) {
+    } else if (this.fiveDim.rep <= -20) {
       this.isDead = true;
       this.triggerEnding('D03'); // 口碑崩盘万人声讨
-    } else if (this.fiveDim.heat <= 0 && this.currentChapter >= 2 && !this.isDead) {
+    } else if (this.fiveDim.heat <= 0 && this.currentChapter >= 2) {
       this.isDead = true;
       this.triggerEnding('D04'); // 热度归零查无此人
-    } else if (this.haterPct >= 100 && (this.attributes['心态'] || 0) < 8 && !this.isDead) {
+    } else if (this.haterPct >= 100 && (this.attributes['心态'] || 0) < 8) {
       this.isDead = true;
       this.triggerEnding('D05'); // 黑粉破防退网 (§2.2 第五条暴毙通道)
     }

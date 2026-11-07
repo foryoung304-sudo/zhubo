@@ -196,10 +196,6 @@ export class StageSettlement {
                    gameState.fiveDim.fans < 10000 && gameState.fiveDim.rep >= 90) {
           gameState.triggerEnding('H07'); // 零人观看的桃花源 (终章保留末位检查)
         // 2. Qualified / Specialized Main Endings
-        } else if (gameState.variables['Qualified_M05'] === 1 ||
-                   gameState.cardDecisions?.['C6-M08'] === 'C' ||
-                   (gameState.variables['Flag_榜一恋爱'] === 1 && gameState.cardDecisions?.['C6-M10'] === 'C')) {
-          gameState.triggerEnding('M05'); // 江湖远去·归来白月光 (退圈—复出)
         } else if (gameState.variables['Qualified_M06'] === 1 ||
                    ((gameState.modeChapterCounts?.['电台'] || 0) >= 3 && (attrs['嗓音'] || 0) >= 8)) {
           gameState.triggerEnding('M06'); // 午夜城市的赛博枕头 (电台夜王)
@@ -227,6 +223,10 @@ export class StageSettlement {
         // 3. Fallbacks and C6-M10 Endgame Triggers
         } else if (gameState.variables['Tag_清白账本'] === 1 && gameState.fiveDim.rep >= 80) {
           gameState.triggerEnding('M01'); // 顶流传奇·长青树
+        // Orange 裁定：M05 移到全部专精主结局之后、M12 之前，作为通关链末位兜底，收紧为两分句
+        } else if (gameState.cardDecisions?.['C6-M08'] === 'C' ||
+                   (gameState.variables['Flag_榜一恋爱'] === 1 && gameState.cardDecisions?.['C6-M10'] === 'C')) {
+          gameState.triggerEnding('M05'); // 江湖远去·归来白月光 (退圈—复出，稀有末位兜底)
         } else if (gameState.cardDecisions?.['C6-M10'] === 'C') {
           gameState.triggerEnding('M12'); // 正常上班 (退居幕后)
         } else if (gameState.fiveDim.fans >= 10000000 && gameState.fiveDim.rep >= 85) {

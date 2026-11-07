@@ -288,7 +288,7 @@ export class CardEngine {
     }
 
     // 5. Mutate Game State
-    gameState.applyFiveDimDelta(appliedDeltas);
+    gameState.applyFiveDimDelta(appliedDeltas, true); // 通则：先应用五维变化，跳过立即暴毙判定，待卡面特别法评定后再执行通用阈值暴毙评定
     for (const [attr, val] of Object.entries(appliedAttrs)) {
       gameState.attributes[attr] = (gameState.attributes[attr] || 5) + val;
     }
@@ -407,11 +407,17 @@ export class CardEngine {
         // In chapters 1-5 (and C6-M09 / M-series in Ch6), M/H references are qualification / contribution flags
         for (const eid of appliedEndings) {
           if (!eid.startsWith('D')) {
+            // 收紧前向引用误读：C5-M04(M05), C4-M01(M02), C5-M01(M02)
+            if (card.card_id === 'C5-M04' && eid === 'M05') continue;
+            if ((card.card_id === 'C4-M01' || card.card_id === 'C5-M01') && eid === 'M02') continue;
             gameState.variables[`Qualified_${eid}`] = 1;
           }
         }
       }
     }
+
+    // 7. 通用阈值暴毙评定（一般法，在卡面特别法未落支时兜底检查五维归零）
+    gameState.checkFiveDimDeath();
 
     return {
       checkPassed,

@@ -1253,8 +1253,8 @@ cardEngine.selectOption(c4m03, 'A', sEgg03DieB);
 sEgg03DieB.fiveDim.wallet = 500000;
 sEgg03DieB.currentChapter = 5;
 cardEngine.selectOption(xegg03, 'B', sEgg03DieB);
-assert(sEgg03DieB.isDead === true && (sEgg03DieB.triggeredEnding === 'D24' || sEgg03DieB.triggeredEnding === 'D04'),
-  '99.10c. 真实卡路径 X-EGG-03:B 绝路: 选项B直接命中暴毙',
+assert(sEgg03DieB.isDead === true && sEgg03DieB.triggeredEnding === 'D24',
+  '99.10c. 真实卡路径 X-EGG-03:B 绝路: 选项B直接命中暴毙 D24 (特别法优先于一般法)',
   `isDead=${sEgg03DieB.isDead}, ending=${sEgg03DieB.triggeredEnding}`);
 
 // Clean up test storage file
