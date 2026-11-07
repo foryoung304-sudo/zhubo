@@ -1,0 +1,109 @@
+【口径】同一份探针 scripts/stage3_yellow_probe_fix2.mjs 跑两遍：下面第一段 = 本轮 HEAD(482fe7a 后工作区) 引擎；第二段 = 58e0f86（上一版）引擎沙盒（git archive 解到临时目录，在册文件零改动）。
+【P6 补充】YELLOW_REGEN_DIR 只在 HEAD 段提供，指向 scripts/transcribe_data.mjs 在临时沙盒重跑转录的产物目录；旧引擎段不注入（重跑口径只对当前在册数据有意义）。
+
+########## A：本轮引擎（HEAD） ##########
+========================================================================================================
+阶段 3 · Yellow 修复轮二归属探针 (scripts/stage3_yellow_probe_fix2.mjs)
+被检引擎指纹：cardEngine.mjs=c01e2edc80fd0ae9  stageSettlement.mjs=878539b24e7946f8  gameState.mjs=606c1275bba89cd2  drawEngine.mjs=9a62ff11ffa82dcc
+========================================================================================================
+
+【P1】M05 通道逐条：正本 = 第六章 C6-M08 选择「退圈结婚」 或（打通第六章 + 恋爱对象好感满值 + C6-M10 选 C 退居幕后）
+  卡面写入方： C5-M04:B[选] , C5-M04:C[选] , C6-M08:C[选]
+  ① 第6章真卡 C6-M08 选 C「今晚退圈结婚」（卡面写 直通主结局M05）：triggeredEnding=null  Qualified_M05=1  isCleared=false
+  ② 同上再打 C6-M10 后走第6章结算：triggeredEnding=M01  (c6m10Played=true  Qualified_M05=1)
+  ③ 同上但不打 C6-M10（c6m10Played=false）走结算：triggeredEnding=M05
+  ④ 第5章真卡 C5-M04 选 B：triggeredEnding=null  Qualified_M05=1
+  ⑤ Qualified_M05 消费面：cardEngine=false  stageSettlement=false  gameState=false（全引擎无消费点 = 资格位写了也没人读）
+
+【P2】D22 通道：正本 = 触发 X-EGG-01 选 B 或（处于 状态 < 20 警戒区且 运气 ≤ 2 连续抽中翻车卡）
+  卡面写入方： X-EGG-01:A[检定失败] , X-EGG-01:B[选]
+  ① 第3章 X-EGG-01 选 B：triggeredEnding=D22  isDead=true
+  ② 第3章 X-EGG-01 选 A + 运气=2（检定失败支）：triggeredEnding=D22  isDead=true
+  ③ 预置已有落支 D04 后再打 X-EGG-01 B：triggeredEnding=D04   （本引擎有落定格：先到先定格，D22 写不进）
+  ④ 第3章 X-EGG-01 选 A + 运气=2：triggeredEnding=D22（同上，若为 null 说明检定支未接）
+  ⑤ 正本第二子句「状态<20 警戒区且运气≤2 连续抽中翻车卡」消费点：无（引擎全仓无该计数/判定）
+
+【P3】D05：正本 = 任意阶段 黑粉浓度 ≥ 100% 且心态检定失败
+  卡面写入方： （无，走引擎 checkFiveDimDeath 第五支）
+  ① 直构 haterPct=100 + 心态=7 走 applyFiveDimDelta：triggeredEnding=D05  isDead=true
+  ② 直构 haterPct=100 + 心态=8（合取另一半）：triggeredEnding=null  isDead=false
+  ③ 引擎可达的黑粉浓度累加面（唯一入口 gameState.applyFiveDimDelta）：C1-M06:A=+5  C3-M05:A=+15  C4-M11:A=+15  C5-M01:A=+20  → 全打满合计 +55，初始 0
+     正本 §2.6 影子指标（草稿 L396–L398）另列：初始 5%、每阶段按热度公式生成、C2-M09 A +15%、对线硬刚每次 +15%
+
+【P4】D01（本轮同样新入 0 命中，Orange 未点名，一并归因）
+  ① 直构 状态=3 后打 -5：triggeredEnding=D01  isDead=true  状态=0
+  ② 卡面负向 状态 来源共 9 处（接线无关，本轮变动来自策略配置与发牌权重）
+
+【P5】Tag_流派 值域对账（字典 / 生成源 / 卡面实写 / Node 引擎读值 / Lua 读值）
+  ① 已推字典 range_or_cap = "整活 | 整活擦边"  → 值数 2；line_no=null  source=§2.3 乘区段 + C1-M01 卡面；§2.9 无此行
+     writers_text = C1-M01 选 C（写入「整活」）；整活擦边：有读方（cardEngine 与 Lua 均认）、无写入方
+  ② 生成源 transcribe_data.mjs 内 Tag_流派 块 range_or_cap = "整活 | 整活擦边"  → 与字典同口径
+  ③ 卡面实写值：C1-M01:C → Tag_流派 = 整活
+  ④ Node 引擎读值：整活 | 整活擦边（去重 2 值）
+  ⑤ Lua 读值：整活擦边 | 整活；maker/assets/data/state_dictionary.json 里 Tag_流派 键是否存在 = false
+  ⑥ 「深度」在仓内的出处：cards=true  dict=false  草稿=true  转录/校验脚本=false
+      命中上下文：「…title": "【严·正经卡】深度伪造的恶意谣言", …」  「…": "[正经卡] 造谣者用AI深度伪造合成涉你的虚假不雅图…」  草稿 「…-M11 | **【严·正经卡】深度伪造的恶意谣言**<br…」  草稿 「…| `[正经卡]` 造谣者用AI深度伪造合成涉你的虚假不雅图…」
+  ⑥ 「搞钱」在仓内的出处：cards=false  dict=false  草稿=false  转录/校验脚本=false
+      命中上下文：（无命中，无法核对是否为流派取值）
+  ⑥ 「纯纯日常」在仓内的出处：cards=false  dict=false  草稿=false  转录/校验脚本=false
+      命中上下文：（无命中，无法核对是否为流派取值）
+
+【P6】重跑转录是否字节可复现（对 Orange「保证重跑转录不回退」一条取证）
+  state_dictionary.json        元素与字段逐条等价、仅数组排列漂移（按 key 取值的消费方不受影响）；位置差 13+ 处，样例：
+      .Snapshot_BeforeCard.fields[55]：重跑="Param_观众当真度" / 在册="Tag_流派"
+      .Snapshot_BeforeCard.fields[56]：重跑="Total_Income" / 在册="Param_观众当真度"
+      .Snapshot_BeforeCard.fields[57]：重跑="Flag_数字人线开放" / 在册="Total_Income"
+  cards.json                   内容有差异 ← 重跑会改动在册数据，差异 1 处：
+      [0].options[0].effects.state_writes：重跑=[] / 在册=["Tag_流派 = 整活"]
+  endings_and_talents.json     字节一致
+  config_and_screens.json      字节一致
+  重跑后的 C1-M01:C state_writes = []（在册冻结值 = ["Tag_流派 = 整活"]）
+  字典键集合：在册 38 键 / 重跑 38 键；重跑缺 []，重跑多 []
+  Tag_流派 在 variables 数组中的下标：在册 34，重跑 37（重跑把它追加到末尾，条目字段逐条相同）
+
+########## B：上一版引擎（58e0f86 沙盒） ##########
+========================================================================================================
+阶段 3 · Yellow 修复轮二归属探针 (scripts/stage3_yellow_probe_fix2.mjs)
+被检引擎指纹：cardEngine.mjs=7d6f60edb6e733b4  stageSettlement.mjs=62cd5ac12ce4cffa  gameState.mjs=852604c9fc0eac40  drawEngine.mjs=290b1426bd9a504d
+========================================================================================================
+
+【P1】M05 通道逐条：正本 = 第六章 C6-M08 选择「退圈结婚」 或（打通第六章 + 恋爱对象好感满值 + C6-M10 选 C 退居幕后）
+  卡面写入方： C5-M04:B[选] , C5-M04:C[选] , C6-M08:C[选]
+  ① 第6章真卡 C6-M08 选 C「今晚退圈结婚」（卡面写 直通主结局M05）：triggeredEnding=M05  Qualified_M05=1  isCleared=true
+  ② 同上再打 C6-M10 后走第6章结算：triggeredEnding=M01  (c6m10Played=undefined  Qualified_M05=1)
+  ③ 同上但不打 C6-M10（c6m10Played=false）走结算：triggeredEnding=M05
+  ④ 第5章真卡 C5-M04 选 B：triggeredEnding=null  Qualified_M05=1
+  ⑤ Qualified_M05 消费面：cardEngine=false  stageSettlement=false  gameState=false（全引擎无消费点 = 资格位写了也没人读）
+
+【P2】D22 通道：正本 = 触发 X-EGG-01 选 B 或（处于 状态 < 20 警戒区且 运气 ≤ 2 连续抽中翻车卡）
+  卡面写入方： X-EGG-01:A[检定失败] , X-EGG-01:B[选]
+  ① 第3章 X-EGG-01 选 B：triggeredEnding=D22  isDead=true
+  ② 第3章 X-EGG-01 选 A + 运气=2（检定失败支）：triggeredEnding=D22  isDead=true
+  ③ 预置已有落支 D04 后再打 X-EGG-01 B：triggeredEnding=D22   （本引擎无落定格（末位覆写）：D22 把 D04 顶掉）
+  ④ 第3章 X-EGG-01 选 A + 运气=2：triggeredEnding=D22（同上，若为 null 说明检定支未接）
+  ⑤ 正本第二子句「状态<20 警戒区且运气≤2 连续抽中翻车卡」消费点：无（引擎全仓无该计数/判定）
+
+【P3】D05：正本 = 任意阶段 黑粉浓度 ≥ 100% 且心态检定失败
+  卡面写入方： （无，走引擎 checkFiveDimDeath 第五支）
+  ① 直构 haterPct=100 + 心态=7 走 applyFiveDimDelta：triggeredEnding=null  isDead=false
+  ② 直构 haterPct=100 + 心态=8（合取另一半）：triggeredEnding=null  isDead=false
+  ③ 引擎可达的黑粉浓度累加面（唯一入口 gameState.applyFiveDimDelta）：C1-M06:A=+5  C3-M05:A=+15  C4-M11:A=+15  C5-M01:A=+20  → 全打满合计 +55，初始 0
+     正本 §2.6 影子指标（草稿 L396–L398）另列：初始 5%、每阶段按热度公式生成、C2-M09 A +15%、对线硬刚每次 +15%
+
+【P4】D01（本轮同样新入 0 命中，Orange 未点名，一并归因）
+  ① 直构 状态=3 后打 -5：triggeredEnding=D01  isDead=true  状态=0
+  ② 卡面负向 状态 来源共 9 处（接线无关，本轮变动来自策略配置与发牌权重）
+
+【P5】Tag_流派 值域对账（字典 / 生成源 / 卡面实写 / Node 引擎读值 / Lua 读值）
+  ① 已推字典 range_or_cap = "整活 | 整活擦边"  → 值数 2；line_no=592  source=undefined
+     writers_text = C1-M01 选 C（整活擦边路线）
+  ② 生成源 transcribe_data.mjs 内 Tag_流派 块 range_or_cap = "undefined"  → 与字典同口径
+  ③ 卡面实写值：C1-M01:C → Tag_流派 = 整活
+  ④ Node 引擎读值：整活 | 整活擦边（去重 2 值）
+  ⑤ Lua 读值：整活擦边 | 整活；maker/assets/data/state_dictionary.json 里 Tag_流派 键是否存在 = false
+  ⑥ 「深度」在仓内的出处：cards=true  dict=false  草稿=true  转录/校验脚本=false
+  ⑥ 「搞钱」在仓内的出处：cards=false  dict=false  草稿=false  转录/校验脚本=false
+  ⑥ 「纯纯日常」在仓内的出处：cards=false  dict=false  草稿=false  转录/校验脚本=false
+
+【P6】重跑转录是否字节可复现（对 Orange「保证重跑转录不回退」一条取证）
+  未提供 YELLOW_REGEN_DIR，跳过（脚本本身不重跑转录，避免碰在册 data）
