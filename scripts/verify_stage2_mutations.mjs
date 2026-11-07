@@ -82,6 +82,54 @@ const MUTS = [
     let totalMultiplier = mBusinessClamped;`,
     expect: ['78.2'],
   },
+  // ---- 修复轮新增落支代码的咬合面（Yellow #7）----
+  {
+    id: 'M-I D19 谓词摘除：协议门失效',
+    file: 'scripts/engine/cardEngine.mjs',
+    from: `        if (eid === 'D19') {
+          return gs.variables['Flag_账号协议'] === 0;
+        }`,
+    to: `        if (eid === 'D19') {
+          return false;
+        }`,
+    expect: ['98.3'],
+  },
+  {
+    id: 'M-J Qualified_M07 消费点摘除（结算只认本章 mode）',
+    file: 'scripts/engine/stageSettlement.mjs',
+    from: `} else if (gameState.variables['Qualified_M07'] === 1 || (mode === '团播'`,
+    to: `} else if ((mode === '团播'`,
+    expect: ['98.6b'],
+  },
+  {
+    id: 'M-K Qualified 写入循环摘除（1–5 章不再积累资格）',
+    file: 'scripts/engine/cardEngine.mjs',
+    from: `        for (const eid of appliedEndings) {
+          if (!eid.startsWith('D')) {
+            gameState.variables[\`Qualified_\${eid}\`] = 1;
+          }
+        }`,
+    to: `        // mutated: Qualified 不写入`,
+    expect: ['98.5a', '98.6a', '98.7a', '98.8a', '98.10a'],
+  },
+  {
+    id: 'M-L 兜底次序改末位（验兜底语义有无断言钉住）',
+    file: 'scripts/engine/cardEngine.mjs',
+    from: `      if (!chosenEnding) {
+        chosenEnding = appliedEndings[0];
+      }`,
+    to: `      if (!chosenEnding) {
+        chosenEnding = appliedEndings[appliedEndings.length - 1];
+      }`,
+    expect: ['⊘兜底无断言覆盖'],
+  },
+  {
+    id: 'M-M Qualified_H04 消费点摘除（验彩蛋资格消费面）',
+    file: 'scripts/engine/stageSettlement.mjs',
+    from: `} else if (gameState.variables['Qualified_H04'] === 1 || (gameState.variables['Count_猫上镜'] || 0) >= 3) {`,
+    to: `} else if ((gameState.variables['Count_猫上镜'] || 0) >= 3) {`,
+    expect: ['⊘H04 资格消费无断言'],
+  },
 ];
 
 const COPY_SKIP = new Set(['.git', 'node_modules', 'ui-mockups-20261105', 'spike']);
@@ -167,8 +215,13 @@ for (const m of MUTS) {
   }
   fs.writeFileSync(p, orig);
   const uniq = [...new Set(kills)];
-  const verdict = uniq.length === m.expect.length ? '真咬' : (uniq.length ? '部分' : (strays.length ? '被更早断言杀掉' : '未咬'));
-  if (verdict !== '真咬') allTrue = false;
+  const gapExpected = m.expect.every(e => e.startsWith('⊘'));
+  let verdict = uniq.length === m.expect.length ? '真咬' : (uniq.length ? '部分' : (strays.length ? '被更早断言杀掉' : '未咬'));
+  if (gapExpected) {
+    // 期望 ⊘：这条变异本来就是去证明「断言缺口在册」，未被杀掉才是预期结果
+    verdict = uniq.length === 0 && strays.length === 0 ? '按预期未咬（断言缺口在册）' : '异常：缺口已被补齐，请把 ⊘ 改为真断言';
+    if (verdict.startsWith('异常')) allTrue = false;
+  } else if (verdict !== '真咬') allTrue = false;
   console.log(`\n${m.id}`);
   console.log(`   首个击杀 = ${firstKiller || '(无——套件全绿，说明该变异无人认领)'}`);
   console.log(`   期望集内被杀 = ${uniq.join(', ') || '(无)'}   期望集之外被杀 = ${[...new Set(strays)].join(', ') || '(无)'}`);
@@ -176,6 +229,6 @@ for (const m of MUTS) {
 }
 
 console.log('\n' + '='.repeat(104));
-console.log(`总判定：8 条变异${allTrue ? '全部被验收套件杀掉（真咬）' : '存在未被杀掉或锚点未命中者，见上'}`);
+console.log(`总判定：${MUTS.length} 条变异${allTrue ? '全部判定成立（真咬，或 ⊘ 缺口按预期未咬）' : '存在未被杀掉、锚点未命中或 ⊘ 预期失配者，见上'}`);
 console.log('口径提醒：本脚本只读正本、只在临时副本上打变异；正本 data 与 scripts 字节不动。');
 console.log('='.repeat(104));

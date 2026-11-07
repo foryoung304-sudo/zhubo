@@ -1,0 +1,461 @@
+========================================================================================================
+阶段 2 收尾项变异复验 (scripts/verify_stage2_mutations.mjs)
+正本 = E:\taptap\zhubo   副本沙箱 = C:\Users\44844\AppData\Local\Temp\zhubo_mutation_sandbox
+========================================================================================================
+
+### 基线（副本未变异）: All 144 Stage-2 acceptance assertions PASSED (0 failed)
+### 自检：副本 data 含 Tag 写入 = true；副本 DATA_DIR 已重定向 = true
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.1. 收尾1: real card route C1-M01:C writes Tag_流派 === 整活 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:498:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.2. 收尾1: circus x2.5 fans channel fires off the card-written Tag (200000*1.4*2.5*1.1 = 770000 -> Cap_Fans 400000) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:505:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.4. 收尾1: the 35% zero-revenue branch is reachable through the written Tag (both channels zeroed) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:514:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.5. 收尾1: Z4 乐子人 affinity triggers off the card-written Tag (23% vs 17% control) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:526:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+
+M-A 数据口子回退：C1-M01:C 不写 Tag_流派
+   首个击杀 = 59.1
+   期望集内被杀 = 59.1, 59.2, 59.4, 59.5   期望集之外被杀 = (无)
+   期望 [59.1, 59.2, 59.4, 59.5] → 真咬
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.1. 收尾1: real card route C1-M01:C writes Tag_流派 === 整活 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:498:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.5. 收尾1: Z4 乐子人 affinity triggers off the card-written Tag (23% vs 17% control) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:526:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+
+M-B 卡面值改写：写成含糊处的另一值
+   首个击杀 = 59.1
+   期望集内被杀 = 59.1, 59.5   期望集之外被杀 = (无)
+   期望 [59.1, 59.5] → 真咬
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 56. W5.4: Circus style x2.5 multiplier applies to fans (fans +400000 clamped by Cap_Fans) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:473:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 58. W5.4: Circus style 35% zero-revenue branch zeros fans gain ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:483:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59. W5.4: Circus style 35% zero-revenue branch zeros wallet gain ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:484:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.2. 收尾1: circus x2.5 fans channel fires off the card-written Tag (200000*1.4*2.5*1.1 = 770000 -> Cap_Fans 400000) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:505:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.4. 收尾1: the 35% zero-revenue branch is reachable through the written Tag (both channels zeroed) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:514:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 78.2. Y0 Nailing: Low business (clamped to 0.4) * circus (2.5) yields 1.0x (220 fans), NOT 0.544x (119 fans) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:732:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+
+M-C cardEngine 整活读门被摘：×2.5 与 35% 全失效
+   首个击杀 = 56
+   期望集内被杀 = 59.2, 59.4   期望集之外被杀 = 56, 58, 59, 78.2
+   期望 [59.2, 59.4] → 真咬
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 57. W5.4 & Y1.②: Circus style x2.5 exits wallet channel (wallet +94000) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:474:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.3. 收尾1: circus stays out of the wallet channel when the Tag comes from the card route ((84000 + 10000) * 1.0 = 94000) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:507:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 83.1. Y1.②: Circus style 2.5x does NOT enter wallet channel (570 wallet gain, not 1410) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:889:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+
+M-D 整活 ×2.5 漏进钱包通道（Y1.② 反向）
+   首个击杀 = 57
+   期望集内被杀 = 59.3   期望集之外被杀 = 57, 83.1
+   期望 [59.3] → 真咬
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 30.2. Z4: Tag_流派===整活 correctly triggers leziren drift affinity even outside PK/outdoor modes ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:196:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.5. 收尾1: Z4 乐子人 affinity triggers off the card-written Tag (23% vs 17% control) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:526:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+
+M-E stageSettlement 流派亲和被摘（Z4）
+   首个击杀 = 30.2
+   期望集内被杀 = 59.5   期望集之外被杀 = 30.2
+   期望 [59.5] → 真咬
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.5. 收尾1: Z4 乐子人 affinity triggers off the card-written Tag (23% vs 17% control) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:526:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 59.6. 收尾2①: 才艺 enters the 大哥 drift weight (情商5+颜值5+才艺10 x2.25 -> 大哥 38%, S 26 -> 34) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:534:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+
+M-F 收尾2① 回退：大哥权重丢掉才艺
+   首个击杀 = 59.5
+   期望集内被杀 = 59.6   期望集之外被杀 = 59.5
+   期望 [59.6] → 真咬
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 78.5a. 收尾2②: stale buff blocked by the chapter gate alone (Base_Fans 20000 x 1.4 x 1.05 = 29400, not the buffed 33810) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:789:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+
+M-G Z2 护栏回退：练功加成不看章节/模式
+   首个击杀 = 78.5a
+   期望集内被杀 = 78.5a   期望集之外被杀 = (无)
+   期望 [78.5a] → 真咬
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 78.2. Y0 Nailing: Low business (clamped to 0.4) * circus (2.5) yields 1.0x (220 fans), NOT 0.544x (119 fans) ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:732:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+
+M-H Y0 乘区位置回退：经营项塞进 [0.4,3.0] 夹持之内
+   首个击杀 = 78.2
+   期望集内被杀 = 78.2   期望集之外被杀 = (无)
+   期望 [78.2] → 真咬
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 98.3. 真实卡路径 D19: 留档>=2且素材<3且无协议 -> C5-M10:A 首个满足项正确落入 D19 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:985:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+
+M-I D19 谓词摘除：协议门失效
+   首个击杀 = 98.3
+   期望集内被杀 = 98.3   期望集之外被杀 = (无)
+   期望 [98.3] → 真咬
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 98.6b. 真实卡路径 M07: C3-M08:B(Qualified_M07) 终章通关正确结算 M07 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:1022:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+
+M-J Qualified_M07 消费点摘除（结算只认本章 mode）
+   首个击杀 = 98.6b
+   期望集内被杀 = 98.6b   期望集之外被杀 = (无)
+   期望 [98.6b] → 真咬
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 98.5a. Qualified_M03: C5-M03:B 正确写入 Qualified_M03 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:1004:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 98.5b. 真实卡路径 M03: C5-M03:B(Qualified_M03) + 钱包>=300万 终章通关正确结算 M03 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:1009:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 98.6a. Qualified_M07: C3-M08:B 正确写入 Qualified_M07 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:1018:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 98.6b. 真实卡路径 M07: C3-M08:B(Qualified_M07) 终章通关正确结算 M07 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:1022:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 98.7a. Qualified_M08: C3-M03:B 正确写入 Qualified_M08 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:1030:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 98.7b. 真实卡路径 M08: C3-M03:B(Qualified_M08) 终章通关正确结算 M08 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:1034:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 98.8a. Qualified_M09: C1-M04:A 正确写入 Qualified_M09 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:1042:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 98.8b. 真实卡路径 M09: C1-M04:A(Qualified_M09) 终章通关正确结算 M09 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:1046:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27
+    throw new Error(`STAGE 2 TEST FAILED: ${name} (${detail})`);
+          ^
+
+Error: STAGE 2 TEST FAILED: 98.10a. Qualified_H07: C1-M10:A 正确写入 Flag_零粉快乐 与 Qualified_H07 ()
+    at assert (file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:27:11)
+    at file:///C:/Users/44844/AppData/Local/Temp/zhubo_mutation_sandbox/scripts/test_stage2_core_loop.mjs:1068:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:633:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.16.0
+
+M-K Qualified 写入循环摘除（1–5 章不再积累资格）
+   首个击杀 = 98.5a
+   期望集内被杀 = 98.5a, 98.6a, 98.7a, 98.8a, 98.10a   期望集之外被杀 = 98.5b, 98.6b, 98.7b, 98.8b
+   期望 [98.5a, 98.6a, 98.7a, 98.8a, 98.10a] → 真咬
+
+M-L 兜底次序改末位（验兜底语义有无断言钉住）
+   首个击杀 = (无——套件全绿，说明该变异无人认领)
+   期望集内被杀 = (无)   期望集之外被杀 = (无)
+   期望 [⊘兜底无断言覆盖] → 按预期未咬（断言缺口在册）
+
+M-M Qualified_H04 消费点摘除（验彩蛋资格消费面）
+   首个击杀 = (无——套件全绿，说明该变异无人认领)
+   期望集内被杀 = (无)   期望集之外被杀 = (无)
+   期望 [⊘H04 资格消费无断言] → 按预期未咬（断言缺口在册）
+
+========================================================================================================
+总判定：13 条变异全部判定成立（真咬，或 ⊘ 缺口按预期未咬）
+口径提醒：本脚本只读正本、只在临时副本上打变异；正本 data 与 scripts 字节不动。
+========================================================================================================

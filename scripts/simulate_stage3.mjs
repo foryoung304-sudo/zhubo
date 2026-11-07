@@ -121,8 +121,14 @@ for (const ch of CHAPTERS) {
 }
 
 // ---------------------------------------------------------------- 探针：引擎快照—回滚试算
+// Yellow 复验自纠（2026-11-07）：rollbackCardSnapshot 把 triggeredEnding 无条件置 null，且
+// Snapshot_BeforeCard 不含 isCleared；试算一次就把上一张卡已落的结局抹掉、把 isCleared 留在 true。
+// 修复轮后 H04/H10/C6-M10 等即时落支变多，该留痕污染了结局分布与「打通」计数，故在此显式复位。
 function probe(card, opt, st, timing) {
   const adUsage = { ...st.adUsage };
+  const prevEnding = st.triggeredEnding;
+  const prevCleared = st.isCleared;
+  st.triggeredEnding = null;   // 让 out.ending 只反映本选项自身的落支，不混入已落结局
   const b = { ...st.fiveDim, hater: st.haterPct };
   const res = cardEngine.selectOption(card, opt.opt_key, st, timing);
   const out = {
@@ -134,6 +140,8 @@ function probe(card, opt, st, timing) {
     ending: st.triggeredEnding,
   };
   st.rollbackCardSnapshot();
+  st.triggeredEnding = prevEnding;
+  st.isCleared = prevCleared;
   st.adUsage = adUsage; // 复位回滚自带 +1 的 reviveOrRepick，保证探针零留痕
   return out;
 }
@@ -254,11 +262,18 @@ function playOneRun(strategy, target, seed) {
     died: false, deathEnding: null, deathChapter: null, ending: null,
     circusCards: 0, zeroRevenueHits: 0, capExceed: 0, maxGainOverCapRatio: 0,
     hands: [], // 本局实际进过手的卡（含加时），用来把「概率不足」和「接线不足」分开取证
+    landingSrc: null, // 最后写入者：engine:<卡> / settle:ch<章> / settle:ch<章>_fail
+    settleWrites: [], // 章结算真的改写落支的章号（F = 该章未达标）
     dimMin: { ...st.fiveDim }, // 本局内四维实测谷底；只观察、不判定
   };
   const observe = () => {
     for (const k of Object.keys(m.dimMin)) if (st.fiveDim[k] < m.dimMin[k]) m.dimMin[k] = st.fiveDim[k];
   };
+  // 落支来源取证：按「最后一个写入者」归属（卡面即时分支可被后续卡的暴毙支覆写，章结算支只在
+  // triggeredEnding 为空时才写），并单独记录章结算是否真的动过落支——用来直接量第 6 章优先链的可达性。
+  let landingSrc = null;
+  const settleWrites = [];
+  const tagLanding = (src, before) => { if (st.triggeredEnding !== before) landingSrc = src; };
 
   // 开局加点（仅定向收集）：走引擎 allocateAttribute 真实接口，并做零和守恒（+3 主项 / −3 让点项），
   // 保证 base_points_total 45 不变——引擎本身不扣池，这里由策略侧自己守住，不给扫表开后门。
@@ -283,8 +298,10 @@ function playOneRun(strategy, target, seed) {
 
     for (const card of drawEngine.drawChapterCards(ch, st, 5)) {
       m.hands.push(card.card_id);
+      const e0 = st.triggeredEnding;
       playCard(card, strategy, target, st, rng, m);
       observe();
+      tagLanding('engine:' + card.card_id, e0);
       if (st.isDead) break;
     }
     if (st.isDead) { m.died = true; m.deathEnding = st.triggeredEnding; m.deathChapter = ch; break; }
@@ -296,19 +313,27 @@ function playOneRun(strategy, target, seed) {
     offStreamActions.executeAction(actionId, st, pur && pur.attr ? pur.attr : null);
     m.decisions++;
 
+    const e1 = st.triggeredEnding;
     let res = stageSettlement.settleChapter(st, false);
     observe();
+    tagLanding('settle:ch' + ch + (res.isPromoted ? '' : '_fail'), e1);
+    if (st.triggeredEnding !== e1) settleWrites.push(ch + (res.isPromoted ? '' : 'F'));
     if (!res.isPromoted && res.canOvertime) {
       m.overtimeChapters++;
       for (const card of drawEngine.drawChapterCards(ch, st, 3)) {
         m.hands.push(card.card_id);
+        const e0 = st.triggeredEnding;
         playCard(card, strategy, target, st, rng, m);
         observe();
+        tagLanding('engine:' + card.card_id, e0);
         if (st.isDead) break;
       }
       if (st.isDead) { m.died = true; m.deathEnding = st.triggeredEnding; m.deathChapter = ch; break; }
+      const e2 = st.triggeredEnding;
       res = stageSettlement.settleChapter(st, false);
       observe();
+      tagLanding('settle:ch' + ch + (res.isPromoted ? '' : '_fail'), e2);
+      if (st.triggeredEnding !== e2) settleWrites.push(ch + (res.isPromoted ? '' : 'F'));
     }
     m.gatePass[ch] = Boolean(res.isPromoted);
     const cap = chCfg(ch).Cap_Fans;
@@ -319,6 +344,8 @@ function playOneRun(strategy, target, seed) {
   }
 
   if (st.isDead) { m.died = true; m.deathEnding = m.deathEnding || st.triggeredEnding; }
+  m.landingSrc = landingSrc;
+  m.settleWrites = settleWrites;
   m.ending = st.triggeredEnding || (st.isCleared ? 'CLEARED_NO_ENDING' : 'NO_ENDING');
   m.cleared = Boolean(st.isCleared);
   m.outcomeClass = m.cleared ? 'cleared'
@@ -365,6 +392,25 @@ function summarize(runs) {
   }
   const deaths = {};
   for (const r of runs) if (r.died && r.deathEnding) deaths[r.deathEnding] = (deaths[r.deathEnding] || 0) + 1;
+  // 落支来源汇总：最后一个写入者归属；settleWrites 单独统计「章结算真的改写过落支」的局与章号。
+  const landSrc = {};
+  for (const r of runs) { const k = r.landingSrc || 'none'; landSrc[k] = (landSrc[k] || 0) + 1; }
+  const rollup = pred => Object.entries(landSrc).filter(([k]) => pred(k)).reduce((a, [, v]) => a + v, 0);
+  const settleWrites = {};
+  for (const r of runs) for (const w of r.settleWrites) settleWrites[w] = (settleWrites[w] || 0) + 1;
+  const chain6Endings = {};
+  for (const r of runs) if (r.landingSrc === 'settle:ch6') chain6Endings[r.ending] = (chain6Endings[r.ending] || 0) + 1;
+  const landing = {
+    engine: rollup(k => k.startsWith('engine:')),
+    settleChain6: landSrc['settle:ch6'] || 0,
+    settleFail: rollup(k => k.startsWith('settle:') && k.endsWith('_fail')),
+    settleOther: rollup(k => k.startsWith('settle:') && k !== 'settle:ch6' && !k.endsWith('_fail')),
+    none: landSrc['none'] || 0,
+    settleWriteRuns: runs.filter(r => r.settleWrites.length > 0).length,
+    settleWrites,
+    topEngine: Object.entries(landSrc).filter(([k]) => k.startsWith('engine:')).sort((a, b) => b[1] - a[1]).slice(0, 8),
+    chain6Endings,
+  };
   const bucket = cls => {
     const a = runs.filter(r => r.outcomeClass === cls).map(r => r.cardsPlayed);
     return { n: a.length, median: quantile(a, 0.5), p90: quantile(a, 0.9), max: a.length ? Math.max(...a) : 0 };
@@ -374,8 +420,9 @@ function summarize(runs) {
   return {
     n: runs.length,
     cleared: runs.filter(r => r.cleared).length,
+    clearedEarly: runs.filter(r => r.cleared && r.chapterReached < 6).length,
     died: runs.filter(r => r.died).length,
-    gate, deaths, noEnding, clearedNoEnding, other,
+    gate, deaths, noEnding, clearedNoEnding, other, landing,
     durAll: { n: all.length, median: quantile(all, 0.5), p90: quantile(all, 0.9), max: all.length ? Math.max(...all) : 0 },
     durComplete: { n: complete.length, median: quantile(complete, 0.5), p90: quantile(complete, 0.9), max: complete.length ? Math.max(...complete) : 0 },
     durCleared: bucket('cleared'), durGraceful: bucket('graceful'), durDeath: bucket('death'),
@@ -443,6 +490,8 @@ console.log('读数说明（预写三条，先于任何结论）：');
 console.log('  ① 钱包默认线 +9%（Z4 漂移补全后的既有口径，非本次扫表引入）');
 console.log('  ② 构成副作用未建模（正本未给「构成→流量池再分配」公式，扫表按现行只读构成）');
 console.log('  ③ Runtime 字体项与扫表无关（MiSans 属阶段 4 字体包，本扫表全程 Node 逻辑核）');
+console.log('  ④ Yellow 自纠（11-07）：探针 probe() 原会抹掉本局已落结局、并漏还原 isCleared（引擎 rollback 无条件置 null，Snapshot_BeforeCard 不含该字段），');
+console.log('     已改为存档/还原二者；本 stdout 为修正后重扫，贪心/定向两列不可与 20261106 版直接对照，随机列不含探针、可逐字节对照（已验证一致）。');
 console.log('#'.repeat(104));
 
 const t0 = Date.now();
@@ -454,7 +503,8 @@ const out = {
 
 for (const [name, s] of Object.entries(out)) {
   console.log('\n' + '='.repeat(104));
-  console.log(`策略【${name}】 局数=${s.n}  打通第六章=${s.cleared} (${pct(s.cleared, s.n)})  中途暴毙=${s.died} (${pct(s.died, s.n)})`);
+  console.log(`策略【${name}】 局数=${s.n}  通关（引擎 isCleared）=${s.cleared} (${pct(s.cleared, s.n)})  中途暴毙=${s.died} (${pct(s.died, s.n)})`);
+  console.log(`  ├ 其中止步于第 1–5 章的即时彩蛋通关（非六章打通）= ${s.clearedEarly} (${pct(s.clearedEarly, s.n)})   六章内通关 = ${s.cleared - s.clearedEarly} (${pct(s.cleared - s.clearedEarly, s.n)})`);
   console.log('-'.repeat(104));
   console.log('六章闸门可达率（达标 = 引擎 isPromoted，全程无强推）：');
   for (const ch of CHAPTERS) {
@@ -467,12 +517,19 @@ for (const [name, s] of Object.entries(out)) {
   const mins = c => `${(c * 10 / 60).toFixed(1)}–${(c * 20 / 60).toFixed(1)} 分`;
   console.log('单局时长实测（口径 = 本局实际抽到的卡数，含加时；正本 §1.7：30 卡/局 ↔ 5–10 分钟 ⇒ 10–20 秒/卡）：');
   for (const [label, b] of [['全部局', s.durAll], ['完整局（打通+体面收场）', s.durComplete],
-    ['  · 打通六章', s.durCleared], ['  · 加时未达标体面收场', s.durGraceful], ['  · 中途暴毙截断', s.durDeath]]) {
+    ['  · 通关（六章打通 + 即时彩蛋）', s.durCleared], ['  · 加时未达标体面收场', s.durGraceful], ['  · 中途暴毙截断', s.durDeath]]) {
     console.log(`  ${label.padEnd(26)} n=${String(b.n).padStart(6)}  卡数 中位=${String(b.median).padStart(3)} P90=${String(b.p90).padStart(3)} max=${String(b.max).padStart(3)}` +
       `  → 中位≈${mins(b.median)}  P90≈${mins(b.p90)}`);
   }
   console.log(`未落任何结局的局数=${s.noEnding}   通关但无结局=${s.clearedNoEnding}` +
     (Object.keys(s.other).length ? '   非 50 表内标签=' + JSON.stringify(s.other) : ''));
+  console.log('落支来源（最后一个写入者归属；探针零留痕修正后才有此块，旧 stdout 无）：');
+  console.log(`  卡面即时分支(cardEngine) = ${String(s.landing.engine).padStart(5)}   第6章结算优先链(stageSettlement) = ${String(s.landing.settleChain6).padStart(5)}   结算未达标体面收场 = ${String(s.landing.settleFail).padStart(5)}   其他章结算 = ${String(s.landing.settleOther).padStart(5)}   全程未落支 = ${String(s.landing.none).padStart(5)}`);
+  console.log(`  章结算实际改写落支的局数 = ${s.landing.settleWriteRuns}   分布(章号, F=该章未达标)：` +
+    (Object.keys(s.landing.settleWrites).length ? Object.entries(s.landing.settleWrites).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k}=${v}`).join('  ') : '(零)'));
+  console.log('  卡面即时落支 Top：' + s.landing.topEngine.map(([k, v]) => `${k.replace('engine:', '')}=${v}`).join('  '));
+  console.log('  结算优先链（第6章）命中结局：' + (Object.keys(s.landing.chain6Endings).length
+    ? Object.entries(s.landing.chain6Endings).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k}:${v}`).join('  ') : '(零——链从未成为任何一局的最终落支点)'));
   console.log('-'.repeat(104));
   console.log('四类数值暴毙通道（引擎 checkFiveDimDeath 四支；正本 §2.2 的「黑粉」通道在引擎内无死亡分支，见文末附注）：');
   for (const [eid, chName] of Object.entries(CHANNEL_DEATH)) {
