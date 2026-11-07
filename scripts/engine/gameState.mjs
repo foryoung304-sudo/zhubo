@@ -95,6 +95,7 @@ export class GameState {
     this.durationHistory = []; // array of durations per chapter
     this.sleepActionCount = 0; // count of action 1 (补觉) executed
     this.c6m10Played = false;
+    this.evalCatchCount = 0; // 可观测求值异常/catch 计数
   }
 
   // ① 落定格：triggeredEnding 一经写入，任何后续卡与结算不得覆盖
@@ -214,7 +215,7 @@ export class GameState {
   }
 
   // Evaluate simple expression e.g. "Count_复盘留档 >= 2", "Flag_审过合同 == 1", "嗓音 >= 7"
-  evalCondition(expr) {
+  evalCondition(expr, options = {}) {
     if (!expr || expr === 'null') return true;
 
     // 1. Support has_encountered helper before card ID replacements
@@ -270,6 +271,11 @@ export class GameState {
       // Safe boolean eval for simple comparisons
       return Boolean(Function(`"use strict"; return (${expr});`)());
     } catch (e) {
+      this.evalCatchCount = (this.evalCatchCount || 0) + 1;
+      this.lastEvalError = e;
+      if (options?.strict) {
+        throw e;
+      }
       return false;
     }
   }

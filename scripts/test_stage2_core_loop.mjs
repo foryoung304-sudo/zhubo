@@ -1069,12 +1069,18 @@ const c1m10 = cardsData.find(c => c.card_id === 'C1-M10');
 cardEngine.selectOption(c1m10, 'A', sH07);
 assert(sH07.variables['Qualified_H07'] === 1 && sH07.variables['Flag_零粉快乐'] === 1,
   '98.10a. Qualified_H07: C1-M10:A 正确写入 Flag_零粉快乐 与 Qualified_H07');
-sH07.currentChapter = 6;
-sH07.fiveDim.fans = 5000;
-sH07.fiveDim.rep = 95;
-stageSettlement.settleChapter(sH07);
+sH07.currentChapter = 1;
+sH07.fiveDim.fans = 200; // < 1000 第一章门槛
+sH07.fiveDim.rep = 92;  // >= 90
+// 第一章首试未达标，激活加时
+const rFail1 = stageSettlement.settleChapter(sH07);
+assert(rFail1.canOvertime === true && sH07.overtimeActive === true,
+  '98.10b-1. 第一章粉丝未达标首激活加时通道');
+// 加时后仍未达标体面收场，命中 Flag_零粉快乐 + 口碑>=90 -> 达成 H07 而非 M04
+const rFail2 = stageSettlement.settleChapter(sH07);
 assert(sH07.isCleared === true && sH07.triggeredEnding === 'H07',
-  '98.10b. 真实卡路径 H07: C1-M10:A(Flag_零粉快乐) + 最终粉丝<1万&口碑>=90 终章通关正确结算 H07');
+  '98.10b. 真实卡路径 H07: C1-M10:A(Flag_零粉快乐) -> 第一章未达标收场且口碑>=90 -> 落 H07 而非 M04',
+  `actual=${sH07.triggeredEnding}`);
 
 // 11. H10 (Qualified类: 连续考编进 H10)
 const sH10 = new GameState(configData, stateDict, endingsData);
@@ -1133,7 +1139,7 @@ stageSettlement.settleChapter(sE2E);
 assert(sE2E.isCleared === true && sE2E.triggeredEnding === 'M01',
   '99.3c. 端到端终章结算: C6-M10 达成顶流星播之王 M01', `actual=${sE2E.triggeredEnding}`);
 
-// 4. 全量卡面条件表达式 (65 条唯一) 零抛错 audit
+// 4. 全量卡面条件表达式 (65 条唯一) 可观测 0 catch audit
 const uniqueExprs = new Set();
 for (const c of cardsData) {
   if (c.prereq_expr) uniqueExprs.add(c.prereq_expr);
@@ -1145,17 +1151,13 @@ for (const c of cardsData) {
 }
 const dummyState = new GameState(configData, stateDict, endingsData);
 dummyState.selectedSchedule = { mode: '带货' };
-let throwCount = 0;
+dummyState.evalCatchCount = 0;
 for (const expr of uniqueExprs) {
-  try {
-    dummyState.evalCondition(expr);
-  } catch (e) {
-    throwCount++;
-  }
+  dummyState.evalCondition(expr);
 }
-assert(uniqueExprs.size === 65 && throwCount === 0,
-  '99.4. 全量卡面条件表达式语法 audit: cards.json 全部 65 条唯一表达式在引擎中零抛错解析',
-  `count=${uniqueExprs.size}, throwCount=${throwCount}`);
+assert(uniqueExprs.size === 65 && dummyState.evalCatchCount === 0,
+  '99.4. 全量卡面条件表达式可观测 audit: cards.json 全部 65 条唯一表达式在引擎中零 catch 解析',
+  `count=${uniqueExprs.size}, catchCount=${dummyState.evalCatchCount}`);
 
 // 5. 真实卡路径 D18
 const sD18 = new GameState(configData, stateDict, endingsData);
@@ -1197,6 +1199,63 @@ sM06.attributes['嗓音'] = 8;
 stageSettlement.settleChapter(sM06);
 assert(sM06.isCleared === true && sM06.triggeredEnding === 'M06',
   '99.8. 真实主修计数 M06: 主修[电台]>=3章 + 嗓音>=8 终章通关达成午夜电台夜王 M06', `actual=${sM06.triggeredEnding}`);
+
+// 9. 真实卡路径 M05 端到端链断言 (走含 C6-M10 的真实牌序)
+const sM05 = new GameState(configData, stateDict, endingsData);
+sM05.currentChapter = 6;
+sM05.fiveDim.fans = 12000000;
+sM05.fiveDim.rep = 88;
+const c6m08 = cardsData.find(c => c.card_id === 'C6-M08');
+const c6m10 = cardsData.find(c => c.card_id === 'C6-M10');
+// 打出 C6-M08:C (退圈结婚)
+cardEngine.selectOption(c6m08, 'C', sM05);
+assert(sM05.variables['Qualified_M05'] === 1 && sM05.triggeredEnding === null,
+  '99.9a. C6-M08:C 打出当场写入 Qualified_M05 且保持 triggeredEnding=null');
+// 随后打出第6章必出扳机卡 C6-M10:A
+cardEngine.selectOption(c6m10, 'A', sM05);
+assert(sM05.c6m10Played === true && sM05.triggeredEnding === null,
+  '99.9b. C6-M10 打出当场不锁死结局保持 triggeredEnding=null');
+// 终章结算
+stageSettlement.settleChapter(sM05);
+assert(sM05.isCleared === true && sM05.triggeredEnding === 'M05',
+  '99.9c. 真实卡路径 M05: C6-M08:C + C6-M10 真实牌序终章通关正确消费 Qualified_M05 达成 M05', `actual=${sM05.triggeredEnding}`);
+
+// 10. 真实卡路径 X-EGG-03 A 项生路与 D24 判定
+const c4m03 = cardsData.find(c => c.card_id === 'C4-M03');
+const xegg03 = cardsData.find(c => c.card_id === 'X-EGG-03');
+
+// 10.1 C4-M03:A -> X-EGG-03:A 在存款 > 0 时存活 (+2000 钱包，不进 D24)
+const sEgg03Survive = new GameState(configData, stateDict, endingsData);
+sEgg03Survive.currentChapter = 4;
+cardEngine.selectOption(c4m03, 'A', sEgg03Survive);
+sEgg03Survive.fiveDim.wallet = 500000; // 选时存款 > 0
+sEgg03Survive.currentChapter = 5;
+cardEngine.selectOption(xegg03, 'A', sEgg03Survive);
+assert(sEgg03Survive.isDead === false && sEgg03Survive.triggeredEnding === null && sEgg03Survive.fiveDim.wallet > 500000,
+  '99.10a. 真实卡路径 X-EGG-03:A 生路: 选时存款>0 则存活 (+2000 钱包，不进 D24)',
+  `isDead=${sEgg03Survive.isDead}, wallet=${sEgg03Survive.fiveDim.wallet}`);
+
+// 10.2 C4-M03:A -> X-EGG-03:A 在存款 <= 0 时暴毙 D24
+const sEgg03DieA = new GameState(configData, stateDict, endingsData);
+sEgg03DieA.currentChapter = 4;
+cardEngine.selectOption(c4m03, 'A', sEgg03DieA);
+sEgg03DieA.fiveDim.wallet = 0; // 选时存款已空
+sEgg03DieA.currentChapter = 5;
+cardEngine.selectOption(xegg03, 'A', sEgg03DieA);
+assert(sEgg03DieA.isDead === true && sEgg03DieA.triggeredEnding === 'D24',
+  '99.10b. 真实卡路径 X-EGG-03:A 绝路: 选时存款<=0 则命中暴毙 D24',
+  `isDead=${sEgg03DieA.isDead}, ending=${sEgg03DieA.triggeredEnding}`);
+
+// 10.3 C4-M03:A -> X-EGG-03:B 直通暴毙 D24
+const sEgg03DieB = new GameState(configData, stateDict, endingsData);
+sEgg03DieB.currentChapter = 4;
+cardEngine.selectOption(c4m03, 'A', sEgg03DieB);
+sEgg03DieB.fiveDim.wallet = 500000;
+sEgg03DieB.currentChapter = 5;
+cardEngine.selectOption(xegg03, 'B', sEgg03DieB);
+assert(sEgg03DieB.isDead === true && (sEgg03DieB.triggeredEnding === 'D24' || sEgg03DieB.triggeredEnding === 'D04'),
+  '99.10c. 真实卡路径 X-EGG-03:B 绝路: 选项B直接命中暴毙',
+  `isDead=${sEgg03DieB.isDead}, ending=${sEgg03DieB.triggeredEnding}`);
 
 // Clean up test storage file
 try {

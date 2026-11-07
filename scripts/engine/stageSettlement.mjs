@@ -145,27 +145,22 @@ export class StageSettlement {
     gameState.overtimePlayed = gameState.overtimePlayed || {};
 
     let canOvertime = false;
-    // Special Hidden Ending H07 check in chapter 6 (零人观看的桃花源: 粉丝 < 10,000 且 口碑 >= 90)
-    const isH07Eligible = (ch === 6 &&
-      (gameState.variables['Qualified_H07'] === 1 || gameState.variables['Flag_零粉快乐'] === 1) &&
-      gameState.fiveDim.fans < 10000 && gameState.fiveDim.rep >= 90);
-
-    if (isH07Eligible && !gameState.isDead) {
-      gameState.isCleared = true;
-      gameState.triggerEnding('H07');
-      canOvertime = false;
-      gameState.overtimeActive = false;
-    } else if (!isPromoted && !gameState.isDead) {
+    if (!isPromoted && !gameState.isDead) {
       if (!gameState.overtimePlayed[ch]) {
         // First time failing gate: can play overtime (3 cards)
         canOvertime = true;
         gameState.overtimeActive = true;
         gameState.overtimePlayed[ch] = true;
       } else {
-        // Already played overtime and still failed gate: graceful exit (M04 / M12)
+        // Already played overtime and still failed gate: graceful exit (H07 / M04 / M12)
         gameState.isCleared = false;
         if (!gameState.triggeredEnding) {
-          if (gameState.fiveDim.rep >= 50) {
+          // Orange 裁定：H07 改在「局终」评——任何一章未达标体面收场（M04/M12 兜底之前）先评 H07，命中即落 H07
+          if ((gameState.variables['Qualified_H07'] === 1 || gameState.variables['Flag_零粉快乐'] === 1) &&
+              gameState.fiveDim.fans < 10000 && gameState.fiveDim.rep >= 90) {
+            gameState.isCleared = true;
+            gameState.triggerEnding('H07'); // 零人观看的桃花源
+          } else if (gameState.fiveDim.rep >= 50) {
             gameState.triggerEnding('M04'); // 佛系小主播 (口碑良好)
           } else {
             gameState.triggerEnding('M12'); // 正常上班 (泯然众人)
@@ -199,8 +194,12 @@ export class StageSettlement {
           gameState.triggerEnding('H01'); // 黑粉头子是真爱
         } else if ((gameState.variables['Qualified_H07'] === 1 || gameState.variables['Flag_零粉快乐'] === 1) &&
                    gameState.fiveDim.fans < 10000 && gameState.fiveDim.rep >= 90) {
-          gameState.triggerEnding('H07'); // 零人观看的桃花源
+          gameState.triggerEnding('H07'); // 零人观看的桃花源 (终章保留末位检查)
         // 2. Qualified / Specialized Main Endings
+        } else if (gameState.variables['Qualified_M05'] === 1 ||
+                   gameState.cardDecisions?.['C6-M08'] === 'C' ||
+                   (gameState.variables['Flag_榜一恋爱'] === 1 && gameState.cardDecisions?.['C6-M10'] === 'C')) {
+          gameState.triggerEnding('M05'); // 江湖远去·归来白月光 (退圈—复出)
         } else if (gameState.variables['Qualified_M06'] === 1 ||
                    ((gameState.modeChapterCounts?.['电台'] || 0) >= 3 && (attrs['嗓音'] || 0) >= 8)) {
           gameState.triggerEnding('M06'); // 午夜城市的赛博枕头 (电台夜王)

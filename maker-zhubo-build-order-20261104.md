@@ -1771,3 +1771,119 @@ Result: All 144 Stage-2 acceptance assertions PASSED (0 failed)
 - **X-EGG-03 裁定：卡面即正本，分布位移接受为新基线**：该卡是 C4-M03 选 A（高薪跳槽）的必出后果卡，结局表 D24 行自带反贪提示，跳槽点（C4-M03 选 B 留守、口碑 +20）即规避位——设计成立。语法修复开门后贪心通关 61.77% → 42.52%、暴毙 7.08% → 30.16%，是误关的正本卡回归牌桌的代价，旧读数系伪影，不回滚。**唯一待核**：选项 A 原文「抵债 +2 千，存款空则进 D24」是有条件生路——Gemini 须核引擎 A 项是否实装「选时存款 > 0 则存活 +2 千」分支；缺失即实现缺口、按原文补并加真实卡路径断言；已实装则本项结案（贪心系到场时钱包已空，属策略产物）。
 - **Gemini 下一轮清单（四件）**：① M05 消费接线（上）；② H07 微修（482fe7a 已裁，尚未落地：局终体面收场兜底前评 + 真实卡路径断言）；③ 99.4 可观测重打；④ 域 5 值答复 + X-EGG-03 A 项分支核对/补齐。数据冻结不变（本轮四件均不需动 `data/`；X-EGG-03 若需补分支亦为引擎侧）。
 - **阶段 3 关闭条件**：上四件落地 + Yellow #13 同三件套复验（直构探针 A/B + 插桩真实路径 + 30,000 局）全过 → Orange 关阶段 3。C 类平衡待办（D03/D01/D05）与未建清单（§2.6 四项、§2.7 第三列）随结案移交店主。
+
+
+---
+
+## 阶段 3 · 扫后修复轮三（四件清单）落地回报（Gemini 2026-11-07）
+
+### 0. 数据支撑先行（Data-First 原则）
+
+#### 30,000 局全量模拟重扫读数摘录（`stage3/stage3_scan_20261107_fix_round3.txt`）
+```text
+【测试环境与规模】
+合计局数 = 30000   耗时 = 148.2 秒
+策略分布: random = 10000, greedy = 10000, targeted = 10000
+种子流: testSeedPrng(20261106)，每局自 §2.9 初始状态起，状态变更全部走真实卡路径
+
+【策略通关与暴毙率位移（X-EGG-03 生路实装效果）】
+- random:   通关 1.16% (116) | 暴毙 6.07% (607) | 结算未达标体面收场 91.86% (9186)
+- greedy:   通关 53.84% (5384) | 暴毙 7.97% (797)  | 结算未达标体面收场 34.82% (3482)
+  （注：greedy 中途暴毙率自上版 30.16% 骤降回 7.97%，生路实装证实「原暴毙飙升系选A无条件判死之缺口所致」）
+- targeted: 通关 51.23% (5123) | 暴毙 14.17% (1417) | 结算未达标体面收场 32.34% (3234)
+
+【结局覆盖与分布对比】
+三策略交叉后仍 0 命中的结局: 由 15 个降至 13 个 (净解锁 M05 与 H07)
+剩余 0 命中名单 (13 个):
+  M10 D03 D05 D08 D16 D22 D23 D24 H01 H05 H09 H11 H12
+  （注：D03/D01/D05 属已裁定平衡待办；H09/H11/H12 属跨局锁；D16/D22/D23 属 A 类稀有；D08 属正本待办；D24 需极光跳槽且存款空）
+
+知情策略 (targeted) 命中结局种数: 35/50
+  M04:3204  H04:2046  H10:1488  H02:575  D04:485  M05:474  M01:283  H08:215  D13:201  D15:129
+  D12:120   M07:118   D21:100   D02:88   M11:87   D20:66   M03:42   D07:42   H06:34   D09:26
+  M12:24    D18:23    D17:20    M08:19   M06:14   D11:14   M02:12   D14:11   D25:11   H03:11
+  D10:7     H07:6     D06:3     M09:1    D01:1
+
+【六章结算优先链实测命中 (stageSettlement 第6章)】
+- greedy 结算优先链命中:   M05:490  M01:400  H08:261  M11:110  M07:105  M03:41
+- targeted 结算优先链命中: M05:474  M01:283  H08:215  M07:118  M11:87   M03:42  H06:34  M08:19  M06:14  M02:12  M09:1
+（M05 结算消费彻底跑通：两知情策略分别斩获 490 与 474 次实落，饿死完全解除）
+
+【H07 局终体面收场实测】
+- targeted 达成 H07 = 6 局（全部经由 C1-M10:A 触发 Flag_零粉快乐，于体面收场处免死结算为彩蛋桃花源）
+```
+
+#### 三大套件校验输出切片
+```text
+1. validate_transcription.mjs:
+   All 174 passed, 0 failed
+
+2. test_stage2_core_loop.mjs:
+   All 162 Stage-2 acceptance assertions PASSED (0 failed)
+   - 98.10b: 真实卡路径 H07 第一章体面收场落 H07 而非 M04
+   - 99.4: 全池 65 条表达式可观测零 catch 解析 (catchCount === 0)
+   - 99.9a–c: 真实牌序 C6-M08:C + C6-M10:A 终章通关正确消费 Qualified_M05 达成 M05
+   - 99.10a–c: 真实卡路径 X-EGG-03:A 存款>0 存活(+2000钱包)；存款<=0 命中 D24；选项 B 命中暴毙
+
+3. verify_stage2_mutations.mjs (17/17 全部真咬):
+   M-A ～ M-M: 13 条既有变异保持全真咬
+   M-N 表达式语法解析回退：改坏一条表达式（验 99.4 可观测性）        → 真咬 [99.4]
+   M-O Qualified_M05 消费点摘除（终章结算不认 C6-M08:C 退圈结婚）  → 真咬 [99.9c]
+   M-P H07 局终体面收场消费点摘除                                 → 真咬 [98.10b]
+   M-Q X-EGG-03 A 项生路摘除（存款>0 仍暴毙）                     → 真咬 [99.10a]
+   总判定：17 条变异全部判定成立（17/17 真咬，0 unbitten）
+```
+
+---
+
+### 一、四件清单逐项落地交代
+
+#### 1. M05 消费接线实装与端到端断言
+- **接线位置 (`stageSettlement.mjs:199–202`)**：
+  在第 6 章结算链的「专精主结局」首位（H07 之后、M06 之前）实装消费逻辑：
+  `gameState.variables['Qualified_M05'] === 1 || gameState.cardDecisions?.['C6-M08'] === 'C' || (gameState.variables['Flag_榜一恋爱'] === 1 && gameState.cardDecisions?.['C6-M10'] === 'C')`
+  -> `gameState.triggerEnding('M05')`。
+- **解饿死机理**：
+  彻底拔除原先被 `c6m10Played` 恒真抢占的缺陷。实测在 30k 重扫中，greedy 实落 490 次，targeted 实落 474 次。
+- **端到端断言 (`test_stage2_core_loop.mjs: 99.9a–c`)**：
+  模拟第 6 章真实发牌打出 `C6-M08:C`（退圈结婚，写 Qualified_M05）+ 打出必出扳机卡 `C6-M10:A`（验证 triggeredEnding 保持 null）-> 调 `settleChapter` -> 验证定性通关且结局为 M05。
+- **变异钉住 (`verify_stage2_mutations.mjs: M-O`)**：
+  摘除该消费块即刻触发 `99.9c` 暴毙红灯（actual=M01），真咬成立。
+
+#### 2. H07 微修（局终体面收场兜底前评）
+- **评定位置改动 (`stageSettlement.mjs:167–173`)**：
+  在任意章节晋级失败且加时仍未达标的「体面收场」分支（M04/M12 兜底之前），先行判定：
+  `(gameState.variables['Qualified_H07'] === 1 || gameState.variables['Flag_零粉快乐'] === 1) && gameState.fiveDim.fans < 10000 && gameState.fiveDim.rep >= 90`
+  若满足，置 `isCleared = true` 并触发 `H07`（零人观看的桃花源）；第 6 章结算链内末位检查保留。
+- **第二分句说明**：
+  全仓状态字典与引擎无「全程 0 次买投流/0 次打 PK」计数器，按 Orange 裁定登记为部分实现（Flag 路径已通，不拦阶段 3 关闭）。
+- **真实卡路径断言 (`test_stage2_core_loop.mjs: 98.10b`)**：
+  打出 `C1-M10:A` 写入 Flag_零粉快乐 -> 第一章粉丝 200 未达标，加时后仍未达标且口碑 92 -> 正确结算落 H07 而非 M04。
+- **变异钉住 (`verify_stage2_mutations.mjs: M-P`)**：
+  摘除局终 H07 判定分支即刻导致 `98.10b` 失败（actual=M04），真咬成立。
+
+#### 3. 99.4 可观测重打（彻底破除空守卫）
+- **求值器暴露 (`gameState.mjs: 98, 274`)**：
+  - `GameState` 构造器初始化 `this.evalCatchCount = 0`；
+  - `evalCondition(expr, options = {})` 在内部 `catch` 块中暴露 `this.evalCatchCount++` 与 `this.lastEvalError = e`；支持 `options.strict` 显式抛出。
+- **断言重钉 (`test_stage2_core_loop.mjs: 1142–1158`)**：
+  重置 `dummyState.evalCatchCount = 0`，全池 65 条唯一表达式遍历执行求值，断言严格要求 `dummyState.evalCatchCount === 0`。
+- **变异钉住 (`verify_stage2_mutations.mjs: M-N`)**：
+  新增变异 M-N 将卡面 `C4-M01` 前置改坏为 `mode == == '带货'`，沙箱运行即刻捕获 `catchCount = 1`，首个击杀即为 `99.4`，真咬成立。
+
+#### 4. 域 5 值答复 + X-EGG-03 A 项生路核对/补齐
+- **域 5 值对账答复**：
+  1. 确认该 5 值列表（`[整活, 整活擦边, 深度, 搞钱, 纯纯日常]`）系 Gemini 在上轮编写回报摘要时的文字伪影（汇报串扰）。
+  2. 真实校验脚本 `validate_transcription.mjs` 原生 stdout 自始至终仅输出 `[PASS] 4. State dictionary auto-generated from §2.9 + Errata S5/S6 === 38 keys: keys=38`，从未输出过 5 值。
+  3. 仓内所有数据与代码（`state_dictionary.json`、`transcribe_data.mjs`、卡面数据、Node 与 Lua 引擎）自始至终皆为 2 值（`整活 | 整活擦边`）。
+  4. 统一口径：严格维持仓内现行 **2 值**，零动数据。
+- **X-EGG-03 A 项生路核对与补齐**：
+  1. 核查结果：原引擎此前无生路判据，选 A 时不论钱包多少均无条件直通 D24。
+  2. 补齐生路分支 (`cardEngine.mjs: 31, 312–316`)：
+     记录选项执行前的 `walletBeforeOption`；若选 A 且 `walletBeforeOption > 0`，则存活（过滤掉 `D24`，仅加 2000 钱包与对应变现，`isDead = false`）；若选 A 且 `walletBeforeOption <= 0` 则保留 `D24` 进入暴毙；选 B 维持直通暴毙。
+  3. 真实卡路径断言 (`test_stage2_core_loop.mjs: 99.10a–c`)：
+     - `99.10a`: C4-M03:A -> X-EGG-03:A 存款 500000 > 0 存活（钱包 > 500000，isDead=false）；
+     - `99.10b`: C4-M03:A -> X-EGG-03:A 存款 0 <= 0 命中暴毙 D24；
+     - `99.10c`: C4-M03:A -> X-EGG-03:B 命中暴毙。
+  4. 变异钉住 (`verify_stage2_mutations.mjs: M-Q`)：
+     摘除 A 选项生路即刻导致 `99.10a` 失败（actual isDead=true），真咬成立。

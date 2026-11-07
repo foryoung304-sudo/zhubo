@@ -27,8 +27,9 @@ export class CardEngine {
     // Capture snapshot for rollback right before mutating state
     gameState.takeCardSnapshot(card);
 
-    // Record card decision
+    // Record card decision & wallet before option
     gameState.cardDecisions[card.card_id] = optionKey;
+    const walletBeforeOption = gameState.fiveDim.wallet;
 
     let checkPassed = true;
     let appliedDeltas = { ...option.effects.delta_five_dim };
@@ -309,6 +310,14 @@ export class CardEngine {
     }
 
     // 6. Check Endings (落支语义按卡面顺序首个满足者落)
+    // X-EGG-03 A 选项生路核定: 「抵债 +2 千，存款空则进 D24」
+    // 若选 A 时存款 > 0 则存活（抵债 +2 千，不进 D24）；若选 A 时存款 <= 0 则命中暴毙 D24
+    if (card.card_id === 'X-EGG-03' && optionKey === 'A') {
+      if (walletBeforeOption > 0) {
+        appliedEndings = appliedEndings.filter(e => e !== 'D24');
+      }
+    }
+
     if (appliedEndings.length > 0) {
       function isEndingSatisfied(eid, gs, cd, tr) {
         if (eid === 'D20') {

@@ -130,6 +130,39 @@ const MUTS = [
     to: `} else if ((gameState.variables['Count_猫上镜'] || 0) >= 3) {`,
     expect: ['99.2'],
   },
+  {
+    id: 'M-N 表达式语法解析回退：改坏一条表达式（验 99.4 可观测性）',
+    file: 'data/cards.json',
+    from: `"prereq_expr": "mode == '带货'"`,
+    to: `"prereq_expr": "mode == == '带货'"`,
+    expect: ['99.4'],
+  },
+  {
+    id: 'M-O Qualified_M05 消费点摘除（终章结算不认 C6-M08:C 退圈结婚）',
+    file: 'scripts/engine/stageSettlement.mjs',
+    from: `        } else if (gameState.variables['Qualified_M05'] === 1 ||
+                   gameState.cardDecisions?.['C6-M08'] === 'C' ||
+                   (gameState.variables['Flag_榜一恋爱'] === 1 && gameState.cardDecisions?.['C6-M10'] === 'C')) {
+          gameState.triggerEnding('M05'); // 江湖远去·归来白月光 (退圈—复出)`,
+    to: `        // mutated: Qualified_M05 消费点摘除`,
+    expect: ['99.9c'],
+  },
+  {
+    id: 'M-P H07 局终体面收场消费点摘除',
+    file: 'scripts/engine/stageSettlement.mjs',
+    from: `if ((gameState.variables['Qualified_H07'] === 1 || gameState.variables['Flag_零粉快乐'] === 1) &&`,
+    to: `if (false && (gameState.variables['Qualified_H07'] === 1 || gameState.variables['Flag_零粉快乐'] === 1) &&`,
+    expect: ['98.10b'],
+  },
+  {
+    id: 'M-Q X-EGG-03 A 项生路摘除（存款>0 仍暴毙）',
+    file: 'scripts/engine/cardEngine.mjs',
+    from: `      if (walletBeforeOption > 0) {
+        appliedEndings = appliedEndings.filter(e => e !== 'D24');
+      }`,
+    to: `      // mutated: 摘除生路`,
+    expect: ['99.10a'],
+  },
 ];
 
 const COPY_SKIP = new Set(['.git', 'node_modules', 'ui-mockups-20261105', 'spike']);

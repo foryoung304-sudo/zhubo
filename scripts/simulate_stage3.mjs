@@ -114,6 +114,8 @@ const PURSUIT = {
   M07: { mode: '团播', focus: { attr: '才艺', to: 8, donor: '体力' } },
   M08: { mode: '游戏', focus: { attr: '游戏技术', to: 8, donor: '体力' } },
   M09: { mode: '户外' },
+  M05: { stateKey: 'Flag_榜一恋爱' },
+  H07: { stateKey: 'Flag_零粉快乐' },
 };
 const CIRCUS_TARGETS = new Set(['M04']); // stageSettlement:165 Tag_流派==='整活' → M04（§2.3 整活流分支）
 
@@ -182,7 +184,7 @@ function chooseOption(strategy, target, card, st, rng, m) {
 
   // ① 定向命中：试算直接落到目标结局的那一步
   if (strategy === 'targeted' && target) {
-    const hit = probes.find(p => p.ending === target);
+    const hit = probes.find(p => p.ending === target || p.opt.effects?.ending_triggers?.includes(target));
     if (hit) return { opt: hit.opt, locked, probeUsed: true, timing };
   }
   // ② 自保：优先不死的选项（阈值判定完全交给引擎，不在此复制）
