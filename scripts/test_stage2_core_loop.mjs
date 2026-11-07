@@ -1036,17 +1036,31 @@ stageSettlement.settleChapter(sM08);
 assert(sM08.isCleared === true && sM08.triggeredEnding === 'M08',
   '98.7b. 真实卡路径 M08: C3-M03:B(Qualified_M08) 终章通关正确结算 M08');
 
-// 8. M09 (Qualified类: C1-M04 老粉情感锚锁 M09)
-const sM09 = new GameState(configData, stateDict, endingsData);
-sM09.currentChapter = 1;
+// 8. M09 正本路径钉住（Orange 2026-11-07 裁定：C1-M04:A 挂钩 C6-M09/H08，非结局 M09 卡源；M09 纯走正本四条件）
+// 98.8a (负例): C1-M04:A 过滤编号撞车误读，不写入 Qualified_M09；若无户外主修计数，终章结算绝不得落 M09
+const sM09Neg = new GameState(configData, stateDict, endingsData);
+sM09Neg.currentChapter = 1;
 const c1m04 = cardsData.find(c => c.card_id === 'C1-M04');
-cardEngine.selectOption(c1m04, 'A', sM09);
-assert(sM09.variables['Qualified_M09'] === 1, '98.8a. Qualified_M09: C1-M04:A 正确写入 Qualified_M09');
-sM09.currentChapter = 6;
-sM09.fiveDim.fans = 10000000;
-stageSettlement.settleChapter(sM09);
-assert(sM09.isCleared === true && sM09.triggeredEnding === 'M09',
-  '98.8b. 真实卡路径 M09: C1-M04:A(Qualified_M09) 终章通关正确结算 M09');
+cardEngine.selectOption(c1m04, 'A', sM09Neg);
+assert(sM09Neg.variables['Qualified_M09'] === undefined,
+  '98.8a. 负例断言: C1-M04:A 过滤前向引用与编号撞车误读，不得写入 Qualified_M09');
+sM09Neg.currentChapter = 6;
+sM09Neg.fiveDim.fans = 10000000;
+sM09Neg.fiveDim.stamina = 80;
+// 无户外主修计数（modeChapterCounts 为空）
+stageSettlement.settleChapter(sM09Neg);
+assert(sM09Neg.triggeredEnding !== 'M09',
+  `98.8a. 负例断言: 无户外主修计数的终章结算绝不得落 M09 (actual=${sM09Neg.triggeredEnding})`);
+
+// 98.8b (正本正例): 主修[户外]>=3章 + 状态>=75，终章通关正确结算 M09
+const sM09Pos = new GameState(configData, stateDict, endingsData);
+sM09Pos.currentChapter = 6;
+sM09Pos.modeChapterCounts = { '户外': 3 };
+sM09Pos.fiveDim.fans = 10000000;
+sM09Pos.fiveDim.stamina = 80; // 状态 >= 75
+stageSettlement.settleChapter(sM09Pos);
+assert(sM09Pos.isCleared === true && sM09Pos.triggeredEnding === 'M09',
+  `98.8b. 真实正本路径 M09: 主修[户外]>=3章 + 状态>=75 终章通关正确结算 M09 (actual=${sM09Pos.triggeredEnding})`);
 
 // 9. H04 (Qualified类: 连续遇猫进 H04)
 const sH04 = new GameState(configData, stateDict, endingsData);

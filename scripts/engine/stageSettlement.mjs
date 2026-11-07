@@ -207,9 +207,8 @@ export class StageSettlement {
         } else if (gameState.variables['Qualified_M08'] === 1 ||
                    (((gameState.modeChapterCounts?.['游戏'] || 0) >= 3 || mode === '游戏') && (attrs['游戏技术'] || 0) >= 8)) {
           gameState.triggerEnding('M08'); // 官方认证·人形外挂
-        } else if (gameState.variables['Qualified_M09'] === 1 ||
-                   (((gameState.modeChapterCounts?.['户外'] || 0) >= 3 || mode === '户外') && gameState.fiveDim.stamina >= 75)) {
-          gameState.triggerEnding('M09'); // 把直播间搬进山海
+        } else if (((gameState.modeChapterCounts?.['户外'] || 0) >= 3 || mode === '户外') && gameState.fiveDim.stamina >= 75) {
+          gameState.triggerEnding('M09'); // 把直播间搬进山海 (主修户外>=3章 + 状态>=75)
         } else if (gameState.variables['Qualified_M02'] === 1 ||
                    ((gameState.modeChapterCounts?.['带货'] || 0) >= 3 && (attrs['口才'] || 0) >= 8) ||
                    (gameState.variables['Flag_选品减伤'] === 1 && mode === '带货')) {

@@ -106,14 +106,15 @@ const MUTS = [
     file: 'scripts/engine/cardEngine.mjs',
     from: `        for (const eid of appliedEndings) {
           if (!eid.startsWith('D')) {
-            // 收紧前向引用误读：C5-M04(M05), C4-M01(M02), C5-M01(M02)
+            // 收紧前向引用与编号撞车误读：C5-M04(M05), C4-M01(M02), C5-M01(M02), C1-M04(M09)
             if (card.card_id === 'C5-M04' && eid === 'M05') continue;
             if ((card.card_id === 'C4-M01' || card.card_id === 'C5-M01') && eid === 'M02') continue;
+            if (card.card_id === 'C1-M04' && eid === 'M09') continue;
             gameState.variables[\`Qualified_\${eid}\`] = 1;
           }
         }`,
     to: `        // mutated: Qualified 不写入`,
-    expect: ['98.5a', '98.6a', '98.7a', '98.8a', '98.10a'],
+    expect: ['98.5a', '98.6a', '98.7a', '98.10a'],
   },
   {
     id: 'M-L 兜底次序改末位（验兜底语义有无断言钉住）',
@@ -172,6 +173,13 @@ const MUTS = [
     from: `gameState.applyFiveDimDelta(appliedDeltas, true);`,
     to: `gameState.applyFiveDimDelta(appliedDeltas, false);`,
     expect: ['99.10c'],
+  },
+  {
+    id: 'M-S M09 正本消费条件破坏（状态门槛 75 提到 95，验 98.8b 正本钉住）',
+    file: 'scripts/engine/stageSettlement.mjs',
+    from: `gameState.fiveDim.stamina >= 75`,
+    to: `gameState.fiveDim.stamina >= 95`,
+    expect: ['98.8b'],
   },
 ];
 

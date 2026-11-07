@@ -407,9 +407,10 @@ export class CardEngine {
         // In chapters 1-5 (and C6-M09 / M-series in Ch6), M/H references are qualification / contribution flags
         for (const eid of appliedEndings) {
           if (!eid.startsWith('D')) {
-            // 收紧前向引用误读：C5-M04(M05), C4-M01(M02), C5-M01(M02)
+            // 收紧前向引用与编号撞车误读：C5-M04(M05), C4-M01(M02), C5-M01(M02), C1-M04(M09)
             if (card.card_id === 'C5-M04' && eid === 'M05') continue;
             if ((card.card_id === 'C4-M01' || card.card_id === 'C5-M01') && eid === 'M02') continue;
+            if (card.card_id === 'C1-M04' && eid === 'M09') continue;
             gameState.variables[`Qualified_${eid}`] = 1;
           }
         }

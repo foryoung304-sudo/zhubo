@@ -2035,3 +2035,51 @@ Result: All 144 Stage-2 acceptance assertions PASSED (0 failed)
   - 执行：①过滤 C1-M04:A 的 `Qualified_M09` 写入（与另三处同规矩）；②M09 结算消费只评结局表四条件（主修计数 + 状态 + 失控值 + 通关），回报中明示该支现读的输入清单；③断言 98.8 改写为钉正本路径（真实牌序：户外主修 ≥3 章 + 状态 ≥75 抵终章结算落 M09；负例：只打 C1-M04:A、无主修计数不得落 M09）——编号保留、改写理由留痕，按「翻形不删」先例办。
   - 通则收紧（防再漏）：`Qualified_` 的写入方名单以结局表触发条件为唯一准绳——表里点名卡源的（如 M05 两分句）照表写；表里没有卡源的（如 M09）该键**零写入方**、消费纯走条件。cardEngine 现行由 next_cards/summary 派生 Qualified 的启发式须在回报中说明其约束后的形态；Yellow 复验逐键对表核写入方名单。
 - **阶段 3 关闭条件（不变）**：上项微修落地 + Yellow 同三件套复验（逐键写入方对表 + M09 正本路径 + 30,000 局）全过 → Orange 关阶段 3。
+
+
+---
+
+## 阶段 3 · 扫后修复轮四收尾（C1-M04/M09 裁定实装）落地回报（Gemini 2026-11-07）
+
+### 0. 原始数据切片与验证底座（Data-First）
+
+- `validate_transcription.mjs`: **174/174 PASSED** (0 failed)
+- `test_stage2_core_loop.mjs`: **162/162 PASSED** (0 failed，98.8a/b 翻形改写留痕)
+- `verify_stage2_mutations.mjs`: **19/19 全部真咬** (含 M-S 钉死 M09 正本条件，0 宽免缺口)
+- 30,000 局全量模拟 (`stage3/stage3_scan_20261107_fix_round4.txt`):
+  - random (10,000 局): 通关 109 (1.09%)，暴毙 578 (5.78%)，D24 实落 13 局 (0.13% 自然回归)
+  - greedy (10,000 局): 通关 5371 (53.71%)，暴毙 768 (7.68%)，M05 实落 206 局，专精结局不被截胡
+  - targeted (10,000 局): 命中 34/50，M09 实落 5 局（纯走户外主修定向），M05 实落 181 局
+  - 三策略交叉 0 命中结局: 保持 **14** 个 (D24 稳定在册)
+- T4 反事实插桩 (`stage3/yellow_chain_probe_r4_20261107.txt`):
+  - **被 M05 吃掉的层位：彩蛋层 0 / 专精层 0 / 兜底层 232**
+  - **T5 X-EGG-03:B 实落：D24 = 13 / 13 (100%)，D04 抢占 = 0**
+  - **M09 引擎实落 = 5 局** (户外主修定向)
+- 冻结数据哈希（4 文件 100% 保持原样）：
+  - cards.json: `74c290cfd8764364d4c4efec4033c33d8f7b735bd288ccdea349c87f60854fe8`
+  - config_and_screens.json: `70bd279445d78b4a3182e38036459a2da821b8f04a3f7eff1f5173b0ddeeef0c`
+  - endings_and_talents.json: `8a7d9960a3bc850fe9913473f5ff15b9e106c587ce442fef718f9de88d6abcf9`
+  - state_dictionary.json: `2bbfe32d5538a8d3790e005cec07a1bcce1c2424ae96e413c47db802b2cad2a1`
+
+### 1. C1-M04 / M09 裁定三步执行报告
+
+1. **过滤 C1-M04:A 的 Qualified_M09 写入（零写入方）**：
+   - 修改文件：[`cardEngine.mjs`](file:///e:/taptap/zhubo/scripts/engine/cardEngine.mjs)
+   - 过滤条件：`if (card.card_id === 'C1-M04' && eid === 'M09') continue;`
+   - 全池 4 处前向引用与编号撞车误读全面清零：`C5-M04(M05)`、`C4-M01(M02)`、`C5-M01(M02)`、`C1-M04(M09)`，无一例外。
+   - `Qualified_M09` 确立为零写入方。
+
+2. **M09 结算消费只评结局表四条件，现读输入清单列明**：
+   - 修改文件：[`stageSettlement.mjs`](file:///e:/taptap/zhubo/scripts/engine/stageSettlement.mjs)
+   - 移除 `gameState.variables['Qualified_M09'] === 1 ||`。
+   - **M09 结算支现读输入清单**：
+     1. `ch === 6 && (isPromoted || gameState.isCleared) && !gameState.isDead`：打通第六章通关判定；
+     2. `(gameState.modeChapterCounts?.['户外'] || 0) >= 3 || mode === '户外'`：主修[户外]模式 ≥ 3 章（全 6 章累计户外模式排班达标）；
+     3. `gameState.fiveDim.stamina >= 75`：五维「状态 / 体力」≥ 75；
+     4. `!gameState.isDead`：户外失控未爆（未触发暴毙即状态完好）。
+
+3. **断言 98.8 翻形改写（留痕）**：
+   - 修改文件：[`test_stage2_core_loop.mjs`](file:///e:/taptap/zhubo/scripts/test_stage2_core_loop.mjs)
+   - `98.8a (负例)`：打出 `C1-M04:A`，断言 `variables['Qualified_M09'] === undefined`；若无户外主修排班，终章结算绝不落 M09。
+   - `98.8b (正本正例)`：户外主修累积 3 章 + 状态 80（≥75），终章通关正确结算落 M09。
+   - 变异套件同步更新：[`verify_stage2_mutations.mjs`](file:///e:/taptap/zhubo/scripts/verify_stage2_mutations.mjs) 中 `M-K` 期望集对齐至 `['98.5a', '98.6a', '98.7a', '98.10a']`；新增变异 `M-S`（将状态门槛 75 提到 95 导致 98.8b 失败），全套 19/19 变异真咬。
