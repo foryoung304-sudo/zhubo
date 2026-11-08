@@ -1696,12 +1696,36 @@ function Start()
         print("[ERROR] Failed to create NanoVG context!")
     end
 
+    -- 初始化鼠标模式 (PC 平台桌面交互必须显示光标并设为自由模式)
+    local inp = (GetInput and GetInput()) or input
+    if inp then
+        if inp.SetMouseVisible then
+            inp:SetMouseVisible(true)
+        else
+            inp.mouseVisible = true
+        end
+        if MM_FREE then
+            if inp.SetMouseMode then
+                inp:SetMouseMode(MM_FREE)
+            else
+                inp.mouseMode = MM_FREE
+            end
+        end
+    end
+
+    SubscribeToEvent("MouseButtonDown", "HandleMouseButtonDown")
     SubscribeToEvent("TouchEnd", "HandleTouchEnd")
     SubscribeToEvent("Update", "HandleUpdate")
-    print("[ZHUBO] Event listeners subscribed.")
+    print("[ZHUBO] Event listeners subscribed (MouseButtonDown + TouchEnd + Update).")
 end
 
+local lastClickFrame = -1
+local lastClickX = -1
+local lastClickY = -1
+local currentEngineFrame = 0
+
 function HandleUpdate(eventType, eventData)
+    currentEngineFrame = currentEngineFrame + 1
     local dt = eventData["TimeStep"]:GetFloat()
 
     -- 时机条平滑扫条更新 (单向扫条 0 -> 1 -> 0)
@@ -1718,11 +1742,42 @@ function HandleUpdate(eventType, eventData)
     end
 end
 
+local function dispatchClick(x, y)
+    -- 同一物理帧内近距离重复点击（如触屏同时派发 TouchEnd 与合成 MouseButtonDown）防抖
+    if currentEngineFrame == lastClickFrame and math.abs(x - lastClickX) < 10 and math.abs(y - lastClickY) < 10 then
+        return false
+    end
+    lastClickFrame = currentEngineFrame
+    lastClickX = x
+    lastClickY = y
+    return handleScreenClick(x, y)
+end
+
+function HandleMouseButtonDown(eventType, eventData)
+    local button = eventData["Button"] and eventData["Button"]:GetInt()
+    -- 仅响应主按键/左键（Urho3D: MOUSEB_LEFT 为 1 或 0；nil 代表通用点击）
+    if button == nil or button == 1 or button == 0 or (MOUSEB_LEFT and button == MOUSEB_LEFT) then
+        local x = eventData["X"] and eventData["X"]:GetInt()
+        local y = eventData["Y"] and eventData["Y"]:GetInt()
+        if not x or not y then
+            local inp = (GetInput and GetInput()) or input
+            if inp then
+                local pos = inp:GetMousePosition()
+                x = pos.x
+                y = pos.y
+            end
+        end
+        x = x or 0
+        y = y or 0
+        dispatchClick(x, y)
+    end
+end
+
 function HandleTouchEnd(eventType, eventData)
     local x = eventData["X"] and eventData["X"]:GetInt() or 0
     local y = eventData["Y"] and eventData["Y"]:GetInt() or 0
 
-    handleScreenClick(x, y)
+    dispatchClick(x, y)
 end
 
 function HandleRender(eventType, eventData)
@@ -1776,5 +1831,7 @@ _G.clickButtonById = clickButtonById
 _G.getClickableButtons = getClickableButtons
 _G.HandleRender = HandleRender
 _G.HandleUpdate = HandleUpdate
+_G.HandleMouseButtonDown = HandleMouseButtonDown
+_G.HandleTouchEnd = HandleTouchEnd
 _G.clickableButtons = clickableButtons
 
