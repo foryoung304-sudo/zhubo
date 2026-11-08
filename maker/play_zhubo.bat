@@ -22,5 +22,5 @@ if not defined RUNTIME_EXE (
 )
 
 echo [OK] Launching game via: %RUNTIME_EXE%
-echo Parameters: main.lua -tapcode_dir=. -tool_mode
-start "" "%RUNTIME_EXE%" main.lua -tapcode_dir=. -tool_mode
+echo Parameters: spike_live.lua -tapcode_dir=. -tool_mode
+start "" "%RUNTIME_EXE%" spike_live.lua -tapcode_dir=. -tool_mode

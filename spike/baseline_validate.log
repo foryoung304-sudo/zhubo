@@ -1,0 +1,42 @@
+[2026-11-08 14_57_54_620][0] ERROR: Could not find resource Cube/Day/DaySpecularHDR.dds
+[2026-11-08 14_57_54_660][0] ERROR: Can not load themis_x64.dll.
+[2026-11-08 14_57_54_826][1] ERROR: Failed to compile vertex shader UI(DIFFMAP GAMMA_IN_SHADERING MIXCOLOR VERTEXCOLOR):
+shader compile skipped (graphics headless)
+[2026-11-08 14_57_54_826][1] ERROR: Failed to compile pixel shader UI(DIFFMAP GAMMA_IN_SHADERING MIXCOLOR OPACITY VERTEXCOLOR):
+shader compile skipped (graphics headless)
+[2026-11-08 14_57_54_826][1] ERROR: Failed to compile vertex shader UI(DIFFMAP):
+shader compile skipped (graphics headless)
+[2026-11-08 14_57_54_827][1] ERROR: Failed to compile pixel shader UI(DIFFMAP OPACITY):
+shader compile skipped (graphics headless)
+[2026-11-08 14_57_54_846][3] ERROR: Could not find resource Fonts/MiSans-Regular.ttf
+[2026-11-08 14_57_54_854][3] ERROR: Could not open file maker-demo-clone/assets/data/cards.json
+[2026-11-08 14_57_54_880][3] ERROR: Could not open file maker-demo-clone/assets/data/config_and_screens.json
+[2026-11-08 14_57_54_882][3] ERROR: Could not open file maker-demo-clone/assets/data/endings_and_talents.json
+[2026-11-08 14_57_54_887][3] ERROR: Could not open file maker-demo-clone/assets/data/state_dictionary.json
+[2026-11-08 14_57_54_889][3] ERROR: Could not open file zhubo_play_save.json
+[2026-11-08 14_57_54_899][3] ERROR: Failed to compile vertex shader NanoVGFill():
+shader compile skipped (graphics headless)
+[2026-11-08 14_57_54_899][3] ERROR: Failed to compile pixel shader NanoVGFill(HIGH_PRECISION_OUTPUT=1):
+shader compile skipped (graphics headless)
+[2026-11-08 14_57_54_899][3] ERROR: Failed to compile pixel shader NanoVGFill(GAUSSIAN_GLOW HIGH_PRECISION_OUTPUT=1):
+shader compile skipped (graphics headless)
+[2026-11-08 14_57_54_034][0] INFO: DownloadManager initialized
+[2026-11-08 14_57_54_387][0] INFO: a couple of Subsystems registered finish.
+[2026-11-08 14_57_54_389][0] INFO: Engine construct finish.
+[2026-11-08 14_57_54_660][0] WARNING: Directory[E:/taptap/maker-demo-clone/.cli/AgentProject] not exists.
+[2026-11-08 14_57_54_845][3] WARNING: RuntimeRetargeterCache: Cannot load mapping table: uuid://F4ItQUiV0gmvAelLXpk5yrTs
+[2026-11-08 14_57_54_846][3][Script] IsNetworkMode:    false
+[2026-11-08 14_57_54_846][3] WARNING: Could not load global fallback font Fonts/MiSans-Regular.ttf
+[2026-11-08 14_57_54_849][3][Script] [InputAdaptor] Loading input event adaptor...
+[2026-11-08 14_57_54_849][3][Script] [InputAdaptor] Hooked SubscribeToEvent for event mapping.
+[2026-11-08 14_57_54_849][3][Script] [InputAdaptor] Platform: Windows, isTouchPlatform: false
+[2026-11-08 14_57_54_849][3][Script] [InputAdaptor] Hooked Input methods for touch emulation fallback.
+[2026-11-08 14_57_54_850][3][Script] Check Transition.lua SimpleGrid.lua
+[2026-11-08 14_57_54_854][3][Script] [ZHUBO] Starting 《从小主播到顶流》 Maker Playable Build...
+[2026-11-08 14_57_54_880][3][Script] [DATA] Loaded cards.json from assets/data/cards.json (556457B)
+[2026-11-08 14_57_54_882][3][Script] [DATA] Loaded config_and_screens.json from assets/data/config_and_screens.json (30001B)
+[2026-11-08 14_57_54_887][3][Script] [DATA] Loaded endings_and_talents.json from assets/data/endings_and_talents.json (75010B)
+[2026-11-08 14_57_54_888][3][Script] [DATA] Loaded state_dictionary.json from assets/data/state_dictionary.json (16754B)
+[2026-11-08 14_57_54_898][3][Script] [ZHUBO] NanoVG initialized, fontId=0.0
+[2026-11-08 14_57_54_898][3][Script] [ZHUBO] Event listeners subscribed (MouseButtonDown + TouchEnd + Update).
+[2026-11-08 14_57_55_903][63]INFO__VALIDATE_UPDATE__:false

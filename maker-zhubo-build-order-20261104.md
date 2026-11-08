@@ -2208,3 +2208,39 @@ Result: All 144 Stage-2 acceptance assertions PASSED (0 failed)
 - **执行方：Gemini → Yellow。** 店主 2026-11-08 点名：趁 Yellow 尚有免费额度，小样由 Yellow 直接施工（pull 本节所在头，按上节小样工单范围与验收四条执行）。
 - **复核安排（小样专属安排，不构成先例）**：小样为一次性可行性验证，不走「Gemini 落、Yellow 验」的常规分工——Yellow 自报 + **Orange 抽验承重结论**（文本输入链路是否真实可用、帧率采样方法是否合阶段 0 口径、意图演示记录是否属实）+ 店主真手玩手感为最终闸。若小样验通、全量重建开工，其分工届时另行点名，本节不预设。
 - 其余条款（范围、禁区、数据冻结）一字不变。
+
+## 小样自报（Yellow，2026-11-08，施工基线 6837b81）
+
+### 1. 做了什么（对范围六条逐条）
+
+1. **直播主屏**：`maker/scripts/spike_live.lua`（新建，一次性小样）。主播位 + 在线数/热度/粉丝实时跳动；弹幕 13 车道持续滚动，同屏实测 avg 37 / min 35（≥30 达标）；礼物横幅（同一人连送合并计数）、进场行、关注/点赞行、星牌徽章、黑粉红字五型齐；时机条在 timing_bar 卡事件期间显示「时机条·小样未接线」占位（`spike_live.lua:711-712`），不接线。
+2. **氛围弹幕生成器**：六段位语料按 fanComposition 权重抽段（颜20/声15/技20/乐15/大哥15/学生15），刷速 2.5+热度/100×2.5 条/秒、车道速度随热度微涨；段位口吻可辨（颜粉夸脸、声控夸嗓、技术粉问操作、乐子人玩梗、大哥话少带礼物、学生粉宿舍党），M07 事件期间黑粉加权。
+3. **自由打字回复**：屏上输入框收真实 IME 中文（组合态实时显示）；发送/清空走屏上按钮（原因见 §3-1）；发送后玩家弹幕即时上屏，命中意图走意图反应行、未命中走通用接话行，数值效果经 main.lua 原引擎 `selectCardOption` 结算。
+4. **事件注入**：C1-M01/M05/M07/M10/S01 五张第一章真卡，每事件 30 秒窗口 + 注入弹幕脚本 + 意图表；**每意图 opt_key 明示继承原卡选项效果集**（EVENT_DEFS 逐条注释 + 日志 `inherited_effects` 带卡面原文，零新造数值）；未命中=通用接话+事件继续等（零效果）；**超时=中性「没接住」零效果、直播流继续**（harness 5 例断言 + .bat 真跑 4 例）。
+5. **chips**：每事件 3 条预置短句，点击与打字同走 `sendReply`→同一意图匹配器（日志 source=chip 仅区分来源，无逻辑旁路）。
+6. **引擎复用零改动**：`load` main.lua 源码取局部引用（selectCardOption/resetGameState/evalExpr/applyStateWrite），磁盘零改动；数据 canon-first 加载 `zhubo/data`（副本问题见 §3-5）。`main.lua`、`data/`、Node 引擎均未动。按工单口径：除弹幕渲染器与输入管道外，小样代码按一次性看待。
+
+**交付路径**：`maker/play_zhubo.bat` 入口改 `spike_live.lua`（运行时发现链不变），店主双击同一 .bat 即小样。证据工具：`maker/scripts/test_spike_intents.lua`（意图演示 harness）、`maker/scripts/spike_input_probe.lua`（输入探针）；证据目录 `spike/`。
+
+### 2. 门与带的读数（前三门自报全绿；第四门待店主真手玩）
+
+| 门 | 读数 | 证据（`spike/` 目录，Orange 抽验入口） |
+| --- | --- | --- |
+| 帧率实测 | **.bat 真跑**：墙钟 2,100 有效样本 / 2,150 帧，avg 6.16ms / p95 8ms / max 15ms / min 3.99ms（真实抖动，est 162.1fps）；同屏弹幕 avg 37 / min 35 | `live_fps_summary.json`（exported 15:06:05，与 settlement started 15:05:52 同一进程）；方法=os.clock 每 Update 帧墙钟、50 帧预热，照阶段 0 口径，非引擎步长 |
+| 输入实测 | **IME 打字→上屏全链路真实**：探针四轮证实本运行时 Windows 桌面只送 TextInput/TextEditing，KeyDown/GetKeyPress/GetKeyDown 三通道皆无；真跑键入 nihao→空格→zhubo→空格，上屏「你好主播」逐字无丢；组合态内 Backspace 正常、已上屏文本 Backspace 死（运行时限制）；发送按钮发出并记 REPLY source=button | `input_probe_log_run1-4.json`；`live_settlement_log.json` REPLY 条（「你好主播」miss 兜底） |
+| 意图演示 | **55 记录 PASS、failures={}**：玩家自拟打字 33 句（M01=9、M05=6、M07=6+1 属性探针、M10=6、S01=6，每事件≥6）+ chips 15 + 超时 5 + 间隙 1；连续跑（seed 42）验证继承：M01-C 落 `Tag_流派=整活`、M05-A 钱包 2000→2570（R 链）、M10-B 粉丝被 35% 清零乘区抹零 | `intent_demo_log.json`（含 known_engine_gaps 4 条）；复跑：`UrhoXRuntime.exe test_spike_intents.lua -tapcode_dir=. -tool_mode -graphicsheadless -validate -validate-frames=30` |
+| 店主真手玩 | ⊘ 待店主双击 `play_zhubo.bat` 判手感——小样真闸，前三门不替代 | 真跑全程 `live_settlement_log.json`（事件自动推进/超时不卡死/重新开播）+ `shot_run_end.png`（结算屏）+ `shot_live_restart.png`（重开后直播屏） |
+
+Runtime 口径：**lua_errors 0；resource_errors 1（MiSans 缺失，阶段 4 字体包）未消，不称 Runtime 全绿**（`live_validate2.json` / `intent_validate.json`；`baseline_validate.json` 证明 MiSans 与 zhubo_play_save 缺失为既存噪音）。
+
+### 3. 卡点与待裁定（逐条给出处；我不自行改口径）
+
+1. **发送/清空只能走屏上按钮**：运行时 KeyDown 三通道全死（探针四轮实证），Enter/Backspace 收不到。打字本身是真实 IME 全链路（非「按钮假装打字」），但「发送」动作是按钮。请 Orange 抽验时裁此口径是否认可，或挂运行时补 KeyDown 后再验。
+2. **Lua applyStateWrite 单「+」写入静默丢弃**（`main.lua:321-333`：模式捕获 op="+" 但分支只认 "="/"+="）：M07-B `Count_黑粉不对线 + 1`、S01-B `Count_猫上镜 + 1` 实落为空；Node 侧 `gameState.mjs:197-215` 三种 op 全认 → Lua 移植缺口。小样按禁区未修，harness 改为断言缺口复现。待裁：补丁单修 Lua 镜像（建议入阶段 4 镜像清单）。
+3. **delta_attrs 不结算**：M07-A 卡面「口才+1」引擎从不结算（selectCardOption 全段无 delta_attrs 处理），探针实测口才 stays 5。既存缺口，如实报。
+4. **H01/H07 局内忽略**（`main.lua:733-747`）：M07-B/M10-A 的 H 触发局内不生效，与阶段 4 镜像清单⑤相关。
+5. **maker/assets/data 副本陈旧**：C1-M01 选项 C 缺 `Tag_流派 = 整活` 写入、字典 37 键 vs canon 38 键。小样 canon-first 加载 `zhubo/data` 绕开；副本未动，待裁是否同步。
+6. **匹配器否定句不识别**：「别整活」命中整活（首匹配 plain find 口径）。小样明示此限；全量意图表生产（Gemini 落、Yellow 验、Orange 裁）时处理。
+7. **M05-A 钱包 R 链语义**：卡面「钱包+10」经原引擎 R 链实落 +570（baseIncome×rMode×rFanComp×rShare×rCommercial+cardBonus），继承原语义如实报，非新造数值。
+8. **main.lua 有非本人未提交鼠标补丁**：施工前即在，未动未提交，留 working tree。
+9. `data/validation_report.txt` 时间戳被验证重跑抹脏，已 `git checkout` 还原（同轮四口径）；`data/` 四份冻结 JSON 零改动。
