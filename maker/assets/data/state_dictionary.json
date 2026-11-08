@@ -1,10 +1,10 @@
 {
   "schema_version": "v0.2-transcribed",
-  "total_keys": 37,
+  "total_keys": 38,
   "counts": {
     "Flag": 21,
     "Count": 9,
-    "Tag": 5,
+    "Tag": 6,
     "Param": 1,
     "Total": 1
   },
@@ -382,6 +382,17 @@
       "consumers_text": "第六章盛典公众形象加分，口碑上限保护"
     },
     {
+      "line_no": null,
+      "source": "§2.3 乘区段 + C1-M01 卡面；§2.9 无此行",
+      "key": "Tag_流派",
+      "category": "Tag",
+      "type": "Enum",
+      "initial_value": "未定",
+      "range_or_cap": "整活 | 整活擦边",
+      "writers_text": "C1-M01 选 C（写入「整活」）；整活擦边：有读方（cardEngine 与 Lua 均认）、无写入方",
+      "consumers_text": "整活流派特殊乘区 ×2.5 与 35% 清零判定；§2.7 Z4 乐子人亲和漂移加权"
+    },
+    {
       "line_no": 592,
       "key": "Param_观众当真度",
       "category": "Param",
@@ -414,9 +425,9 @@
   ],
   "Snapshot_BeforeCard": {
     "source": "Auto-generated from §2.9 table body keys (Errata P1-1)",
-    "total_fields": 58,
+    "total_fields": 59,
     "base_stats_count": 21,
-    "state_dictionary_keys_count": 37,
+    "state_dictionary_keys_count": 38,
     "fields": [
       "颜值",
       "嗓音",
@@ -473,6 +484,7 @@
       "Tag_清白账本",
       "Tag_长红口碑",
       "Tag_勇敢发声者",
+      "Tag_流派",
       "Param_观众当真度",
       "Total_Income",
       "Flag_数字人线开放"

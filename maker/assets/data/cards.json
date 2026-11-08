@@ -82,7 +82,7 @@
           "summary": "整活流（乘区×2.5，35%率收益清零）",
           "delta_five_dim": {},
           "delta_attrs": {},
-          "state_writes": [],
+          "state_writes": ["Tag_流派 = 整活"],
           "ending_triggers": [],
           "next_cards": [],
           "qualitative_notes": [
