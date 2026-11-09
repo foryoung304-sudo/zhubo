@@ -112,6 +112,27 @@ end
 
 for _, u in ipairs(uncovered) do fail("uncovered option " .. u) end
 
+-- Orange CP2 命名测试例（c2349a1）：跑施工匹配器本体，期望按 opt_key 判定
+local namedCases = {
+    { text = "忍不住想整活", card = "C1-M01", expect_opt = "C", note = "例外词按整词跨度排除否定检测" },
+    { text = "我不想卷了想躺平", card = "C1-M10", expect_opt = "A", note = "否定只作用于其后最近关键词" },
+}
+local namedResults = {}
+for _, nc in ipairs(namedCases) do
+    local e = byId[nc.card]
+    local hitId = e and matcher.match(e.intents, nc.text) or nil
+    local hitOpt, expectId = nil, nil
+    if e then
+        for _, it in ipairs(e.intents) do
+            if it.id == hitId then hitOpt = it.opt_key end
+            if it.opt_key == nc.expect_opt then expectId = it.id end
+        end
+    end
+    local pass = (hitId ~= nil and hitId == expectId)
+    table.insert(namedResults, { text = nc.text, card = nc.card, expect_opt = nc.expect_opt, hit_intent = hitId or "MISS", hit_opt = hitOpt or "MISS", pass = pass, note = nc.note })
+    if not pass then fail("named case [" .. nc.text .. "] expect opt " .. nc.expect_opt .. " got " .. tostring(hitOpt)) end
+end
+
 local report = {
     test = "cp1 full intent-table mechanical audit (shipping Lua matcher)",
     audited_at = os.date("%Y-%m-%dT%H:%M:%S"),
@@ -125,11 +146,12 @@ local report = {
     chips_tested = nChips,
     negation_tested = nNeg,
     uncovered_options = uncovered,
+    named_cases = namedResults,
     failures = failures,
     result = (#failures == 0) and "PASS" or "FAIL",
 }
 local encoded = cjson.encode(report)
-local out = File("E:/taptap/zhubo/rebuild/cp1/intent_audit.json", FILE_WRITE)
+local out = File("E:/taptap/zhubo/rebuild/cp2/intent_audit.json", FILE_WRITE)
 if out:IsOpen() then
     out:WriteString(encoded)
     out:Flush()
