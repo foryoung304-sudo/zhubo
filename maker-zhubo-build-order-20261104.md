@@ -2339,3 +2339,11 @@ Runtime 口径：**lua_errors 0；resource_errors 1（MiSans 缺失，阶段 4 �
 - **⑥ 本点自纠一处（防污染，未触数值）**：dedupe harness 首跑曾以 live_rebuild 默认 `LOG_PATH` 把 dumpLog 写进 `rebuild/cp3/playthrough_log.json`；已将该 CP3 真窗日志恢复至 committed 字节（6404），并给 dedupe 与三个回归 wrapper 加 `LOG_PATH`/`FPS_PATH` cp4 重定向，CP3 证据自此冻结不动。
 - **在册边界（非本点缺陷）**：Ops-B 独立翻样（下播行动 act_5 / renderOpsB）直写语义**未改**（裁定范围仅内嵌小游戏）；rollbackSnapshot 新增键不删 / Qualified 全量 / 第六章链 / 落支次序仍留阶段 4；meme 三类已知限制按裁定出货；gaps engine_errors 4 探针噪音在册。
 - **待 Orange 抽验**：去重三命名例复跑、MiSans 真窗渲染与 resource_errors 0、fps_formal 墙钟读数、全量回归与审计复算、冻结哈希轮换抽验。抽验过 → 阶段 2 只剩店主双击 `play_zhubo.bat` 真手跑一整章签字一闸，重建收官。
+
+## 检查点 4 抽验通过 + 两项裁定（Orange，2026-11-09，基线 4531051）· 全量重建关门
+
+- **亲验项**：①冻结四件在 HEAD 哈希全 MATCH（四件亲算）；②去重件 14/14 逐条读过：n1 计数 ==1 且旗标由选项写、旧叠加已除；n2 计数 ==2、逃逸门开且**实证落 M02**（强于命名要求）；n3 D12/计数 0/不得逃逸；失手两例落支正确；③帧率正式件：2,100 有效墙钟样本、avg 17.36ms（≈57.5fps)、p99 22.99、max 33.99，系出货渲染配置（MiSans）下真窗实测，非预览充数；④字体 provenance 在案（官方 CDN 源、名表与 CJK 覆盖验过、挂载点 assets/Fonts 实证、Data/Fonts 不解析亦如实记）；⑤审计 PASS（941/1,320/459、440/440）；⑥CP3 证据曾被 dumpLog 污染一事，施工方自纠恢复至 committed 字节并加重定向，收。
+- **第三例更正追认（Orange 认账）**：裁定原文「带 0 仅自身成功 ==1」系 Orange 写单时漏看 C5-M07:A 的 `check_expr Count>=1 / check_fail D12`——双引擎同口径 check 先于 write，带 0 点 A 必落 D12、计数停 0，卡面 outcome 原文「0 进 D12」即正本语义。**更正成立：第三例以 D12/0 为准，去重本体不动**；冻结数据与引擎既有次序永远压过裁定文字，本条即为该原则的在案实例。
+- **MiSans 许可裁定**：字体本体免费商用、可随工程嵌入，但禁止单独再分发；本仓公开，TTF 入仓即构成再分发面。**处置：下一小提交将 TTF 移出 git 跟踪并加 .gitignore（本地文件保留、Maker 打包不受影响），provenance 与官方源 + sha256 获取说明留仓**，新克隆按说明取回字节即恢复 `resource_errors 0`；不重写历史（4531051 中的 blob 为已知残留，就此登记，不为它破不强推/不改史的例）。
+- **Runtime 口径更新**：正式入口 validate 全零（lua/engine/resource)，自阶段 0 挂账的 MiSans `resource_errors 1` 就此销账，**可称 Runtime 全绿**（harness 侧 loadJson 首候选探针噪音在案、不计错）。
+- **全量重建四检查点全部通过，呈现重建关门。** 阶段 2 仅剩最后一闸：**店主双击 `play_zhubo.bat` 真手跑一整章签字**（含时机条真窗现形观察项）。签字后阶段 2 关闭，阶段 4（美术 69 张封顶 + 剩余镜像对齐）由 Orange 另行下单；试玩提出的手感问题走「手感修订」小批，不算返工。
