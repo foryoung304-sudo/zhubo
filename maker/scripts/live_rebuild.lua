@@ -1,10 +1,13 @@
--- 《从小主播到顶流》阶段2呈现重做 · 检查点2：抖音式直播主屏 + 第一章完整实玩
+-- 《从小主播到顶流》阶段2呈现重做 · 检查点3：全流程接通 + 轻操作嵌回直播流
 -- 呈现参照系（店主裁定 b9911c6）：全屏视频面 / 左下聊天盒上滚 / 横飞仅大礼物横幅与高等级进场 /
 --   右侧点赞爱心竖列 / 顶部主播药丸+观众头像排 / 底部「说点什么」输入丸 + 屏上发送键。
--- 数值结算复用 main.lua 原引擎（load 源码取局部引用，磁盘零改动）：真抽卡 drawChapterCards(1,5)、
---   真结算 settleCurrentChapter、加时赛 drawChapterCards(1,3)；意图表 intents_full.json 只继承原卡选项，零新数值。
--- 边界（登记）：排班默认直进（才艺/黄金档/4h）、下播行动8选1与第二章推进 CP3 接回；时机条/翻样辨真 CP3 嵌回；
---   复活 CP3；主播位占位（美术阶段4）；字体暂用系统 msyh（MiSans CP4 落地）。
+-- 全流程（CP3）：开局加点(01)→排班(02)→抖音式直播逐卡(03)→下播行动8选1(04)/翻样辨真(Ops-B)→
+--   章节结算(05)→暴毙(06)/加冕(07)→分享卡(08)/图鉴(09)，多章推进。非直播屏委托 main.lua 既有屏渲染+点击。
+-- 数值结算复用 main.lua 原引擎（load 源码取局部引用，磁盘零改动）：真抽卡 drawChapterCards、真结算
+--   settleCurrentChapter；意图表 intents_full.json 只继承原卡选项，零新数值。
+-- 轻操作嵌回（CP3）：时机条挂 6 张 timing_bar 卡的直播事件（甜区×1.15/良区×1.05，沿 main 常量）；
+--   翻样辨真作 C4-M02/C5-M07 的直播内嵌桥段（沿 Ops-B 既有 4 样/2 翻/命中写 Count_验货命中+1 & Flag_选品减伤=1）。
+-- 边界（登记）：主播位占位（美术阶段4）；字体暂用系统 msyh（MiSans CP4 落地）；其余镜像对齐留阶段4。
 -- 输入口径（小样探针实证 + 裁定①）：本运行时 Windows 桌面只送 TextInput/TextEditing，发送/清空走屏上按钮。
 
 local cjson = require("cjson")
@@ -21,13 +24,13 @@ local function readJsonCandidates(name, candidates)
             if raw and #raw > 0 then
                 local ok, parsed = pcall(cjson.decode, raw)
                 if ok then
-                    print("[CP2_DATA] " .. name .. " <- " .. p)
+                    print("[CP3_DATA] " .. name .. " <- " .. p)
                     return parsed
                 end
             end
         end
     end
-    error("cp2 data not found: " .. name)
+    error("cp3 data not found: " .. name)
 end
 
 local function loadEngine()
@@ -46,7 +49,7 @@ local function loadEngine()
             if src and #src > 0 then break end
         end
     end
-    assert(src and #src > 0, "cp2: main.lua source not found")
+    assert(src and #src > 0, "cp3: main.lua source not found")
     local extra = [[
 ;local function __rbLoad(name)
     local candidates = {
@@ -67,7 +70,7 @@ local function loadEngine()
             end
         end
     end
-    error("cp2 frozen data not found: " .. name)
+    error("cp3 frozen data not found: " .. name)
 end
 cardsData = __rbLoad("cards.json")
 configData = __rbLoad("config_and_screens.json")
@@ -75,6 +78,31 @@ endingsData = __rbLoad("endings_and_talents.json")
 stateDict = __rbLoad("state_dictionary.json")
 loadSave()
 resetGameState()
+-- CP3 委托面：非直播屏（01/02/04/05/06/07/08/09/Ops-B）沿用 main.lua 既有屏。
+-- main 的 nvgContext/fontId 局部仅在其 Start 内置；本壳自建上下文后经此 setter 注入。
+-- windowWidth/windowHeight 保持 540/960（main HandleRender 不被调用），按钮坐标即设计坐标。
+local __rbRenderFns = {
+    ["Screen-01"] = renderScreen01, ["Screen-02"] = renderScreen02,
+    ["Screen-04"] = renderScreen04, ["Ops-B"] = renderOpsB,
+    ["Screen-05"] = renderScreen05, ["Screen-06"] = renderScreen06,
+    ["Screen-07"] = renderScreen07, ["Screen-08"] = renderScreen08,
+    ["Screen-09"] = renderScreen09,
+}
+local function __rbSetContext(ctx, fid) nvgContext = ctx; fontId = fid end
+local function __rbRenderMenu()
+    clearButtons()
+    local fn = __rbRenderFns[gameState.screen]
+    if fn then fn() end
+end
+local function __rbMenuClick(x, y) return handleScreenClick(x, y) end
+local function __rbTimingTick(dt)
+    local t = gameState.timingInstance
+    if t.active and not t.isResolved then
+        t.cursorPos = t.cursorPos + t.cursorDir * t.cursorSpeed * dt
+        if t.cursorPos >= 1.0 then t.cursorPos = 1.0; t.cursorDir = -1
+        elseif t.cursorPos <= 0.0 then t.cursorPos = 0.0; t.cursorDir = 1 end
+    end
+end
 return {
     gameState = gameState,
     cardsData = cardsData,
@@ -83,6 +111,11 @@ return {
     resetGameState = resetGameState,
     drawChapterCards = drawChapterCards,
     settleCurrentChapter = settleCurrentChapter,
+    setContext = __rbSetContext,
+    renderMenu = __rbRenderMenu,
+    menuClick = __rbMenuClick,
+    clickButton = clickButtonById,
+    timingTick = __rbTimingTick,
 }
 ]]
     local chunk = assert(load(src .. extra, "@main.lua"))
@@ -117,7 +150,7 @@ for _, p in ipairs({ "scripts/intent_matcher.lua", "intent_matcher.lua", "zhubo/
         end
     end
 end
-assert(matcher, "cp2: intent_matcher.lua not found")
+assert(matcher, "cp3: intent_matcher.lua not found")
 matcher.configure(intentsData.matcher)
 
 local INTENTS_BY_ID = {}
@@ -209,17 +242,17 @@ end
 -- ============================================================================
 -- 3. 日志（实玩证据）
 -- ============================================================================
-local playLog = { build = "zhubo stage2 CP2 douyin shell chapter1", started_at = os.date("%Y-%m-%dT%H:%M:%S"), entries = {} }
+local playLog = { build = "zhubo stage2 CP3 full-flow douyin shell", started_at = os.date("%Y-%m-%dT%H:%M:%S"), entries = {} }
 local logDirty = false
-local LOG_PATH = "E:/taptap/zhubo/rebuild/cp2/playthrough_log.json"
-local FPS_PATH = "E:/taptap/zhubo/rebuild/cp2/live_fps_preview.json"
+local LOG_PATH = "E:/taptap/zhubo/rebuild/cp3/playthrough_log.json"
+local FPS_PATH = "E:/taptap/zhubo/rebuild/cp3/live_fps_preview.json"
 
 local function logEntry(entry)
     entry.t = os.clock()
     entry.frame = frameCount
     table.insert(playLog.entries, entry)
     logDirty = true
-    print("[CP2] " .. cjson.encode(entry))
+    print("[CP3] " .. cjson.encode(entry))
 end
 
 local function dumpLog()
@@ -461,9 +494,10 @@ end
 -- ============================================================================
 -- 6. 事件 runner：真抽卡队列逐卡注入 / 超时没接住 / 命中走原引擎结算
 -- ============================================================================
-runner = { state = "gap", gapT = 2.0, timeLeft = 0, scriptT = 0, script = {} }
--- 首结算时引擎已把 overtimeActive 置真（canOvertime），不能用作「加时赛结算」标题判据；单独记玩家是否真打过加时赛
-local overtimeEntered = false
+runner = { state = "menu", gapT = 2.0, timeLeft = 0, scriptT = 0, script = {} }
+-- 内嵌翻样辨真桥段标记（仅 sample_inspect 卡 C4-M02/C5-M07 激活）；复用 GS.inspectInstance（沿 act_5/Ops-B 口径）
+local inlineInspect = nil
+local lastScreen = "Screen-01"
 
 local function queueIds()
     local ids = {}
@@ -471,14 +505,59 @@ local function queueIds()
     return ids
 end
 
-local function startChapter1()
-    engine.resetGameState()
-    engine.drawChapterCards(1, 5)
-    GS.screen = "Screen-03"
-    GS.timingInstance.active = false
+-- 时机条初始化：逐字镜像 main.lua selectCardOption 推进段 / btn_start_live（常量 0.2/0.6/0.075/0.20 系原引擎值，非新数值）
+local function initTimingForCard(card)
+    local t = GS.timingInstance
+    if card and card.ops_type == "timing_bar" then
+        t.active = true
+        t.cursorPos = 0.0
+        t.cursorDir = 1
+        local center = 0.2 + math.random() * 0.6
+        t.sweetStart = center - 0.075
+        t.sweetEnd = center + 0.075
+        t.goodStart = center - 0.20
+        t.goodEnd = center + 0.20
+        t.multiplier = 1.0
+        t.isResolved = false
+    else
+        t.active = false
+    end
+end
+
+-- 屏迁移统一记账（排班/直播/下播/结算/结局/分享/图鉴/重开），供实玩证据与回归断言
+local function watchScreen()
+    local to = GS.screen
+    if to == lastScreen then return end
+    local from = lastScreen
+    lastScreen = to
+    if to == "Screen-03" then
+        logEntry({ kind = "LIVE_START", chapter = GS.currentChapter, drawn = queueIds(), schedule = shallowCopy(GS.schedule), overtime = GS.overtimeActive or false, from = from })
+    elseif to == "Screen-02" then
+        logEntry({ kind = "SCHEDULE_ENTER", chapter = GS.currentChapter, schedule = shallowCopy(GS.schedule), from = from })
+    elseif to == "Screen-04" then
+        logEntry({ kind = "STREAM_END", chapter = GS.currentChapter, note = "本章卡完成，进入下播行动8选1", from = from })
+    elseif to == "Ops-B" then
+        logEntry({ kind = "OPS_B_ENTER", chapter = GS.currentChapter, from = from })
+    elseif to == "Screen-05" then
+        logEntry({ kind = "SETTLE", chapter = GS.currentChapter, result = shallowCopy(GS.settleResult or {}), fiveDim = shallowCopy(GS.fiveDim), fanComposition = shallowCopy(GS.fanComposition), ending = GS.triggeredEnding, from = from })
+        dumpLog()
+    elseif to == "Screen-06" or to == "Screen-07" then
+        logEntry({ kind = "ENDING", chapter = GS.currentChapter, ending = GS.triggeredEnding, dead = (to == "Screen-06"), cleared = (to == "Screen-07"), from = from })
+        dumpLog()
+    elseif to == "Screen-08" then
+        logEntry({ kind = "SHARE_CARD", ending = GS.triggeredEnding, from = from })
+    elseif to == "Screen-09" then
+        logEntry({ kind = "GALLERY", from = from })
+    elseif to == "Screen-01" then
+        logEntry({ kind = "NEW_RUN", from = from })
+    end
+end
+
+-- 进入直播屏（首开/加时/复活回滚）：重置视觉层，runner 从当前卡序推进（不重置卡序，复活回滚保卡序）
+local function engageLive()
     runner.state = "gap"
     runner.gapT = 2.0
-    overtimeEntered = false
+    inlineInspect = nil
     chatRows = {}
     hearts = {}
     flyBanners = {}
@@ -489,7 +568,6 @@ local function startChapter1()
         local n = corpus.names[math.random(#corpus.names)]
         table.insert(viewerAvatars, utf8Cut(n, 1))
     end
-    logEntry({ kind = "RUN_START", chapter = 1, drawn = queueIds(), schedule = shallowCopy(GS.schedule), note = "排班默认直进（排班屏 CP3）" })
 end
 
 local function startEvent(idx)
@@ -497,17 +575,27 @@ local function startEvent(idx)
     if not card then return end
     GS.currentCard = card
     GS.currentCardIndex = idx
-    GS.timingInstance.active = false
+    -- 时机条已由 btn_start_live / selectCardOption 推进 / advanceNeutral 初始化，此处不重置（避免重随机甜区）
+    inlineInspect = nil
+    if card.ops_type == "sample_inspect" then
+        -- 翻样辨真内嵌桥段：逐字镜像 main.lua act_5 初始化（4 样/2 翻/随机掺假位）
+        GS.inspectInstance.active = true
+        GS.inspectInstance.flipsRemaining = 2
+        GS.inspectInstance.revealed = { false, false, false, false }
+        GS.inspectInstance.fakeIndex = math.random(4)
+        GS.inspectInstance.success = false
+        inlineInspect = { cardId = card.card_id }
+    end
     runner.state = "active"
     runner.timeLeft = EVENT_DURATION
     runner.scriptT = 0
     runner.script = {}
     local def = INTENTS_BY_ID[card.card_id]
-    assert(def, "cp2: intents missing for " .. tostring(card.card_id))
+    assert(def, "cp3: intents missing for " .. tostring(card.card_id))
     for i, s in ipairs(def.script or {}) do
         table.insert(runner.script, { t = (i - 1) * 0.9, kind = s.kind, name = s.name, text = s.text, gift = s.gift, count = s.count })
     end
-    logEntry({ kind = "EVENT_START", card = card.card_id, title = card.title, index = idx, queue = #GS.chapterQueue, overtime = GS.overtimeActive or false })
+    logEntry({ kind = "EVENT_START", card = card.card_id, title = card.title, index = idx, queue = #GS.chapterQueue, ops = card.ops_type or "none", overtime = GS.overtimeActive or false })
 end
 
 local function showEffectToast(diff)
@@ -527,32 +615,23 @@ local function showEffectToast(diff)
     if #lines > 0 then effectToast = { lines = lines, t = 3.0 } end
 end
 
+-- 事件收口：仍在直播屏则间隙推进下一卡；否则交棒 menu（屏迁移由 watchScreen 记账，结局/结算屏委托 main）
 local function afterEventClosed()
-    GS.timingInstance.active = false
-    if GS.screen == "Screen-06" then
-        runner.state = "dead"
-        logEntry({ kind = "ENDING", ending = GS.triggeredEnding, dead = true })
-        dumpLog()
-    elseif GS.screen == "Screen-04" then
-        -- 下播行动 8选1 屏 CP3 接回；本点默认直进结算（登记边界）
-        engine.settleCurrentChapter(false)
-        logEntry({ kind = "SETTLE", result = shallowCopy(GS.settleResult), fiveDim = shallowCopy(GS.fiveDim), fanComposition = shallowCopy(GS.fanComposition), ending = GS.triggeredEnding, note = "下播行动默认跳过（CP3 接回）" })
-        runner.state = "settle"
-        dumpLog()
-    elseif GS.screen == "Screen-05" then
-        logEntry({ kind = "SETTLE", result = shallowCopy(GS.settleResult), fiveDim = shallowCopy(GS.fiveDim), fanComposition = shallowCopy(GS.fanComposition), ending = GS.triggeredEnding, overtime = true })
-        runner.state = "settle"
-        dumpLog()
-    else
+    inlineInspect = nil
+    if GS.screen == "Screen-03" then
         runner.state = "gap"
         runner.gapT = 3.5
+    else
+        runner.state = "menu"
     end
 end
 
+-- 超时没接住：零效果中性推进，逐字镜像 main.lua selectCardOption 流转段（含下一卡时机条初始化）
 local function advanceNeutral()
     GS.currentCardIndex = GS.currentCardIndex + 1
     if GS.currentCardIndex <= #GS.chapterQueue then
         GS.currentCard = GS.chapterQueue[GS.currentCardIndex]
+        initTimingForCard(GS.currentCard)
     else
         GS.currentCard = nil
         if GS.overtimeActive then
@@ -561,7 +640,6 @@ local function advanceNeutral()
             GS.screen = "Screen-04"
         end
     end
-    GS.timingInstance.active = false
 end
 
 function runnerTick(dt)
@@ -700,7 +778,7 @@ local function fpsTick()
         local avg = sum / #sorted
         local p95 = sorted[math.max(1, math.floor(#sorted * 0.95))]
         local payload = {
-            test = "cp2 douyin shell FPS preview (NOT the CP4 gate)",
+            test = "cp3 full-flow douyin shell FPS preview (NOT the CP4 gate)",
             method = "os.clock wall-clock per Update frame; 50-frame warmup; real jitter, not engine step",
             total_frames = frameCount,
             valid_wall_samples = #sorted,
@@ -720,7 +798,7 @@ local function fpsTick()
                 f:WriteString(encoded)
                 f:Flush()
                 f:Close()
-                print("[CP2_FPS] " .. encoded)
+                print("[CP3_FPS] " .. encoded)
             end
         end
     end
@@ -820,6 +898,54 @@ local function renderTopBar()
     drawText(416, 34, fmtOnline(onlineCount), 14, 255, 255, 255)
 end
 
+-- 轻操作内嵌布局（视频面占位区上方），渲染与点击共用同一坐标
+local TIMING_TAP = { x = 70, y = 348, w = 400, h = 40 }
+local function inspectRect(i)
+    local col = (i - 1) % 2
+    local row = math.floor((i - 1) / 2)
+    return 72 + col * 200, 284 + row * 80, 186, 70
+end
+
+local function renderTimingBar()
+    local t = GS.timingInstance
+    local barX, barY, barW, barH = 70, 300, 400, 36
+    drawRound(barX - 12, barY - 30, barW + 24, 128, 12, 20, 24, 40, 238)
+    drawText(barX, barY - 26, "时机条 · 停在甜区享 ×1.15（良区 ×1.05）", 13, 250, 204, 21)
+    drawRound(barX, barY, barW, barH, 6, 15, 23, 42)
+    drawRect(barX + t.goodStart * barW, barY + 2, (t.goodEnd - t.goodStart) * barW, barH - 4, 59, 130, 246, 180)
+    drawRect(barX + t.sweetStart * barW, barY + 2, (t.sweetEnd - t.sweetStart) * barW, barH - 4, 236, 72, 153, 220)
+    drawRect(barX + t.cursorPos * barW - 3, barY - 4, 6, barH + 8, 255, 255, 255)
+    local label = t.isResolved and string.format("已点停：%s ×%.2f", t.resultZone, t.multiplier) or "轻点点停游标"
+    drawRound(TIMING_TAP.x, TIMING_TAP.y, TIMING_TAP.w, TIMING_TAP.h, 8, 245, 158, 11, 225)
+    drawText(TIMING_TAP.x + 130, TIMING_TAP.y + 11, label, 16, 15, 23, 42)
+end
+
+local function renderInspectPanel()
+    local inst = GS.inspectInstance
+    drawRound(60, 250, 420, 212, 12, 20, 24, 40, 238)
+    drawText(72, 256, "翻样辨真 · 翻 2 件找掺假（命中锁选品减伤）", 13, 250, 204, 21)
+    local names = { "1. 查针脚", "2. 查吊牌", "3. 查水洗标", "4. 闻气味" }
+    for i = 1, 4 do
+        local x, y, w, h = inspectRect(i)
+        local rev = inst.revealed[i]
+        local fake = (i == inst.fakeIndex)
+        local r, g, b = 30, 41, 59
+        if rev then
+            if fake then r, g, b = 239, 68, 68 else r, g, b = 16, 185, 129 end
+        end
+        drawRound(x, y, w, h, 8, r, g, b)
+        drawText(x + 10, y + 8, names[i], 14, 255, 255, 255)
+        if rev then
+            drawText(x + 10, y + 36, fake and "致命瑕疵！掺假" or "合格真品", 13, 255, 255, 255)
+        else
+            drawText(x + 10, y + 36, inst.flipsRemaining > 0 and "点翻抽检" or "机会已用尽", 12, 148, 163, 184)
+        end
+    end
+    local status = "剩余抽检机会：" .. inst.flipsRemaining .. " 次"
+    if inst.success then status = status .. " · 验货成功✓ 锁定减伤" end
+    drawText(72, 440, status, 13, inst.success and 16 or 250, inst.success and 185 or 204, inst.success and 129 or 21)
+end
+
 local function renderLive()
     -- 全屏视频面（主播位占位，美术阶段4）
     drawRect(0, 0, DESIGN_W, DESIGN_H, 14, 16, 26)
@@ -837,9 +963,6 @@ local function renderLive()
         drawText(28, 94, ctx, 11, 148, 163, 184)
         local frac = math.max(0, runner.timeLeft / EVENT_DURATION)
         drawRect(28, 118, 480 * frac, 4, frac > 0.25 and 96 or 239, frac > 0.25 and 165 or 68, frac > 0.25 and 250 or 68)
-        if card.ops_type == "timing_bar" then
-            drawText(392, 72, "时机条·CP3接线", 10, 100, 116, 139)
-        end
     else
         drawText(16, 76, "直播进行中… 下一个话题马上来", 13, 100, 116, 139)
     end
@@ -865,6 +988,14 @@ local function renderLive()
         for _, line in ipairs(effectToast.lines) do
             drawText(16, y, line, 14, 52, 211, 153, alpha)
             y = y + 20
+        end
+    end
+    -- 轻操作内嵌（时机条 / 翻样辨真），叠于视频面占位区，事件激活时可见
+    if runner.state == "active" and GS.currentCard then
+        if GS.currentCard.ops_type == "timing_bar" and GS.timingInstance.active then
+            renderTimingBar()
+        elseif GS.currentCard.ops_type == "sample_inspect" and inlineInspect then
+            renderInspectPanel()
         end
     end
     -- 聊天盒（左下，上滚动画，scissor 裁剪）
@@ -919,79 +1050,6 @@ local function renderLive()
     drawText(16, 936, "键盘仅文本通道可用，发送/清空用按钮；超时30s没接住自动继续", 11, 100, 116, 139)
 end
 
-local function recapLines()
-    local lines = {}
-    for i = #playLog.entries, 1, -1 do
-        local e = playLog.entries[i]
-        if e.kind == "RUN_START" then break end
-        if e.kind == "REPLY" and e.result == "hit" then
-            table.insert(lines, 1, (e.card or "?") .. " → 选项" .. (e.opt_key or "?") .. " 命中")
-        elseif e.kind == "REPLY" and e.result == "locked" then
-            table.insert(lines, 1, (e.card or "?") .. " → 选项被条件锁住")
-        elseif e.kind == "TIMEOUT" then
-            table.insert(lines, 1, (e.card or "?") .. " 超时没接住（零效果）")
-        end
-    end
-    while #lines > 9 do table.remove(lines) end
-    return lines
-end
-
-local function renderSettle()
-    drawRect(0, 0, DESIGN_W, DESIGN_H, 14, 16, 26)
-    local sr = GS.settleResult or {}
-    local fd = GS.fiveDim
-    drawText(16, 36, overtimeEntered and "加时赛结算 · 第一章" or "下播结算 · 第一章", 24, 255, 255, 255)
-    drawText(16, 76, "排班：才艺 · 黄金档 · 4h（默认直进，排班屏 CP3）", 12, 100, 116, 139)
-    drawText(16, 108, string.format("基础涨粉 +%d · 基础收入 +￥%d · 热度衰减 -%d", sr.netFans or 0, sr.netWallet or 0, sr.decay or 0), 16, 203, 213, 225)
-    local gateColor = sr.gatePassed and { 52, 211, 153 } or { 251, 146, 60 }
-    drawText(16, 140, string.format("章节闸门：粉丝 %d / %d %s", math.floor(fd.fans), sr.targetFans or 0, sr.gatePassed and "通过" or "未达标"), 16, gateColor[1], gateColor[2], gateColor[3])
-    drawText(16, 172, string.format("当前：粉丝 %d · 热度 %d · 钱包 ￥%d · 口碑 %d · 状态 %d", math.floor(fd.fans), math.floor(fd.heat), math.floor(fd.wallet), math.floor(fd.rep), math.floor(fd.stamina)), 13, 148, 163, 184)
-    if GS.triggeredEnding then
-        drawRound(16, 196, 508, 40, 10, 76, 40, 130)
-        drawText(28, 207, "体面收官结局 " .. tostring(GS.triggeredEnding) .. "（M04 佛系小主播 / M12 正常上班）", 14, 216, 180, 254)
-    end
-    -- 粉丝构成（结算漂移后的实局值）
-    drawText(16, 256, "粉丝构成（结算漂移后）", 15, 255, 255, 255)
-    local y = 286
-    for _, seg in ipairs(SEG_ORDER) do
-        local pct = (GS.fanComposition or {})[seg] or 0
-        drawText(16, y, seg, 13, 203, 213, 225)
-        drawRect(80, y + 4, 300, 12, 30, 35, 58)
-        drawRect(80, y + 4, 300 * pct / 100, 12, 96, 165, 250)
-        drawText(392, y, pct .. "%", 13, 148, 163, 184)
-        y = y + 26
-    end
-    drawText(16, 462, "本局事件回放", 15, 255, 255, 255)
-    local ry = 492
-    for _, line in ipairs(recapLines()) do
-        drawText(16, ry, line, 13, 148, 163, 184)
-        ry = ry + 24
-    end
-    if sr.canOvertime then
-        drawRound(16, 846, 240, 54, 10, 16, 185, 129)
-        drawText(44, 861, "加时赛 · 3卡再战", 17, 255, 255, 255)
-        drawRound(276, 846, 248, 54, 10, 100, 116, 139)
-        drawText(340, 861, "重新开播", 17, 255, 255, 255)
-        drawText(16, 812, "闸门未达标：引擎准你打一次加时赛（3 卡），再结算定通关/收官", 12, 251, 146, 60)
-    else
-        if sr.gatePassed then
-            drawText(16, 812, "第一章闸门通过！第二章排班与全流程 CP3 接通", 13, 52, 211, 153)
-        end
-        drawRound(16, 846, 508, 54, 10, 16, 185, 129)
-        drawText(220, 861, "重新开播", 17, 255, 255, 255)
-    end
-end
-
-local function renderDead()
-    drawRect(0, 0, DESIGN_W, DESIGN_H, 14, 16, 26)
-    drawText(16, 40, "暴毙结局 " .. tostring(GS.triggeredEnding), 26, 239, 68, 68)
-    drawText(16, 90, "直播中途翻车，本章终止（复活与全流程 CP3 接回）", 14, 148, 163, 184)
-    local fd = GS.fiveDim
-    drawText(16, 130, string.format("终值：粉丝 %d · 热度 %d · 钱包 ￥%d · 口碑 %d · 状态 %d", math.floor(fd.fans), math.floor(fd.heat), math.floor(fd.wallet), math.floor(fd.rep), math.floor(fd.stamina)), 14, 203, 213, 225)
-    drawRound(16, 846, 508, 54, 10, 16, 185, 129)
-    drawText(220, 861, "重新开播", 17, 255, 255, 255)
-end
-
 function HandleRender(eventType, eventData)
     if not nvgContext then return end
     local graphics = GetGraphics()
@@ -1007,12 +1065,10 @@ function HandleRender(eventType, eventData)
     nvgScale(nvgContext, viewScale, viewScale)
     drawRect(0, 0, screenDesignW, screenDesignH, 14, 16, 26)
     nvgTranslate(nvgContext, viewOffX, viewOffY)
-    if runner.state == "settle" then
-        renderSettle()
-    elseif runner.state == "dead" then
-        renderDead()
-    else
+    if GS.screen == "Screen-03" then
         renderLive()
+    else
+        engine.renderMenu()
     end
     nvgEndFrame(nvgContext)
 end
@@ -1025,8 +1081,16 @@ function HandleUpdate(eventType, eventData)
     frameCount = frameCount + 1
     timeSec = timeSec + dt
     fpsTick()
-    runnerTick(dt)
-    atmosphereTick(dt)
+    watchScreen()
+    if GS.screen == "Screen-03" then
+        if runner.state == "menu" then engageLive() end
+        engine.timingTick(dt)
+        runnerTick(dt)
+        atmosphereTick(dt)
+    else
+        runner.state = "menu"
+        if inputFocused then setInputFocus(false) end
+    end
     if frameCount % 60 == 0 then dumpLog() end
 end
 
@@ -1034,38 +1098,53 @@ local function toDesign(x, y)
     return x / viewDpr / viewScale - viewOffX, y / viewDpr / viewScale - viewOffY
 end
 
-local function startOvertime()
-    engine.drawChapterCards(1, 3)
-    GS.screen = "Screen-03"
-    GS.timingInstance.active = false
-    runner.state = "gap"
-    runner.gapT = 2.0
-    overtimeEntered = true
-    logEntry({ kind = "OVERTIME_START", chapter = 1, drawn = queueIds() })
-end
-
 local function handleClick(x, y)
     local dx, dy = toDesign(x, y)
-    if runner.state == "settle" then
-        local sr = GS.settleResult or {}
-        if sr.canOvertime and dx >= 16 and dx <= 256 and dy >= 846 and dy <= 900 then
-            startOvertime()
-            return
-        end
-        local rx = sr.canOvertime and 276 or 16
-        local rw = sr.canOvertime and 248 or 508
-        if dx >= rx and dx <= rx + rw and dy >= 846 and dy <= 900 then
-            logEntry({ kind = "RUN_RESTART" })
-            startChapter1()
-        end
+    -- 非直播屏：点击委托 main.lua 既有按钮（设计坐标）
+    if GS.screen ~= "Screen-03" then
+        engine.menuClick(dx, dy)
         return
     end
-    if runner.state == "dead" then
-        if dx >= 16 and dx <= 524 and dy >= 846 and dy <= 900 then
-            logEntry({ kind = "RUN_RESTART" })
-            startChapter1()
+    -- 时机条点停（甜区×1.15/良区×1.05/其余×1.0，沿 main.lua btn_tap_timing 常量）
+    if runner.state == "active" and GS.currentCard and GS.currentCard.ops_type == "timing_bar" and GS.timingInstance.active then
+        if dx >= TIMING_TAP.x and dx <= TIMING_TAP.x + TIMING_TAP.w and dy >= TIMING_TAP.y and dy <= TIMING_TAP.y + TIMING_TAP.h then
+            local t = GS.timingInstance
+            if not t.isResolved then
+                t.isResolved = true
+                local pos = t.cursorPos
+                if pos >= t.sweetStart and pos <= t.sweetEnd then
+                    t.resultZone = "SWEET"; t.multiplier = 1.15
+                elseif pos >= t.goodStart and pos <= t.goodEnd then
+                    t.resultZone = "GOOD"; t.multiplier = 1.05
+                else
+                    t.resultZone = "NORMAL"; t.multiplier = 1.0
+                end
+                logEntry({ kind = "TIMING_TAP", card = GS.currentCard.card_id, zone = t.resultZone, multiplier = t.multiplier })
+            end
+            return
         end
-        return
+    end
+    -- 翻样辨真内嵌翻牌（命中写 Count_验货命中+1 & Flag_选品减伤=1，逐字沿 main.lua renderOpsB）
+    if runner.state == "active" and inlineInspect and GS.currentCard and GS.currentCard.ops_type == "sample_inspect" then
+        local inst = GS.inspectInstance
+        for i = 1, 4 do
+            local sx, sy, sw, sh = inspectRect(i)
+            if dx >= sx and dx <= sx + sw and dy >= sy and dy <= sy + sh then
+                if inst.flipsRemaining > 0 and not inst.revealed[i] then
+                    inst.revealed[i] = true
+                    inst.flipsRemaining = inst.flipsRemaining - 1
+                    if i == inst.fakeIndex then
+                        inst.success = true
+                        GS.variables["Count_验货命中"] = (tonumber(GS.variables["Count_验货命中"]) or 0) + 1
+                        GS.variables["Flag_选品减伤"] = 1
+                        logEntry({ kind = "INSPECT_HIT", card = GS.currentCard.card_id, sample = i })
+                    else
+                        logEntry({ kind = "INSPECT_FLIP", card = GS.currentCard.card_id, sample = i, fake = false })
+                    end
+                end
+                return
+            end
+        end
     end
     -- chips
     local def = currentDef()
@@ -1109,7 +1188,7 @@ end
 
 function HandleTextInput(eventType, eventData)
     local text = eventData:GetString("Text")
-    if inputFocused and text and #text > 0 then
+    if inputFocused and GS.screen == "Screen-03" and text and #text > 0 then
         inputText = inputText .. text
     end
 end
@@ -1123,11 +1202,12 @@ function HandleInputFocus(eventType, eventData)
 end
 
 function Start()
-    print("[CP2] Start · 抖音式主屏 + 第一章完整实玩")
+    print("[CP3] Start · 全流程接通（加点→排班→直播→下播→结算→结局）+ 轻操作嵌回")
     nvgContext = nvgCreate(1)
     if nvgContext then
         fontId = nvgCreateFont(nvgContext, "msyh", "C:/Windows/Fonts/msyh.ttc")
         if fontId == -1 then fontId = nvgCreateFont(nvgContext, "simhei", "C:/Windows/Fonts/simhei.ttf") end
+        engine.setContext(nvgContext, fontId)
         SubscribeToEvent(nvgContext, "NanoVGRender", "HandleRender")
     end
     local inp = (GetInput and GetInput()) or input
@@ -1137,14 +1217,15 @@ function Start()
             if inp.SetMouseMode then inp:SetMouseMode(MM_FREE) else inp.mouseMode = MM_FREE end
         end
     end
-    startChapter1()
-    for _ = 1, 360 do atmosphereTick(1 / 60) end
+    --  boot 至开局加点屏（Screen-01）；resetGameState 已在 loadEngine 内调用，runner 处于 menu
+    runner.state = "menu"
+    lastScreen = GS.screen
     SubscribeToEvent("Update", "HandleUpdate")
     SubscribeToEvent("MouseButtonDown", "HandleMouseButtonDown")
     SubscribeToEvent("TouchEnd", "HandleTouchEnd")
     SubscribeToEvent("TextInput", "HandleTextInput")
     SubscribeToEvent("TextEditing", "HandleTextEditing")
     SubscribeToEvent("InputFocus", "HandleInputFocus")
-    logEntry({ kind = "CP2_READY", note = "抖音式壳/真抽卡5卡/意图表213卡/真结算+加时赛/按钮发送" })
-    print("[CP2] READY")
+    logEntry({ kind = "CP3_READY", note = "全流程九屏委托/抖音式直播逐卡/时机条6卡/翻样辨真C4-M02+C5-M07/多章推进/按钮发送" })
+    print("[CP3] READY")
 end

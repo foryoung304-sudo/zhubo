@@ -2,6 +2,8 @@
 -- 语义与 .tmp/intent_work/matcher_ref.py 逐条一致： intents 数组顺序首匹配；
 -- pattern 任一干净出现即命中；出现点前 3 字（9 字节）窗口内、未被例外词整词跨度覆盖的否定词使该次出现作废。
 -- UTF-8 安全性：否定/例外词都是完整 UTF-8 序列，续字节不含 lead byte，窗口截半字不会假命中。
+-- CP3 追加（build-order:2278）：memeClauseNegated 子句级前置闸，试覆盖「X是不可能X的」回声否定一组样本；
+-- 逐出现 3 字近窗判定口径未动，覆盖不了者按已知限制出货（见 memeClauseNegated 注释）。
 
 local M = {}
 
@@ -52,9 +54,39 @@ local function occurrenceNegated(text, pos)
     return false
 end
 
+-- 子句级 meme 抑制（CP3 裁定 build-order:2278：试覆盖一组样本，不重构判定）
+-- 回声式 rhetorical negation「X是不可能X的」/「X是不可能再X的」：整子句否定 X。
+-- 仅作 M.match 前置闸（子句级），不动 occurrenceNegated 的 3 字近窗逐出现判定。
+-- 已知限制（按裁定出货）：了字尾（无「的」）、混合子句（meme 后接真实意图会整句被抑）、
+-- 非回声框架（否定远离关键词、超出 3 字近窗，如「X这件事是绝对不可能去做的」）不在本闸覆盖内。
+local function memeClauseNegated(text)
+    local marker = "是不可能"
+    local s = 1
+    while true do
+        local i = string.find(text, marker, s, true)
+        if not i then return false end
+        local pre = string.sub(text, math.max(1, i - 18), i - 1) -- marker 前最多 6 字
+        local after = string.sub(text, i + #marker)
+        local dePos = string.find(after, "的", 1, true)
+        if dePos then
+            local post = string.sub(after, 1, dePos - 1)
+            post = post:gsub("^继续", ""):gsub("^再", ""):gsub("^去", ""):gsub("^来", "")
+            local L = math.min(#pre, #post)
+            while L >= 3 do -- 关键词为完整 UTF-8（CJK 3 字节），按字符边界取最长回声
+                if string.sub(pre, #pre - L + 1) == string.sub(post, 1, L) then
+                    return true
+                end
+                L = L - 3
+            end
+        end
+        s = i + #marker
+    end
+end
+
 -- 返回 intent_id, matched_pattern；无命中返回 nil
 function M.match(intents, text)
     if not intents or not text or #text == 0 then return nil end
+    if memeClauseNegated(text) then return nil end
     for _, intent in ipairs(intents) do
         for _, pat in ipairs(intent.patterns) do
             local start = 1

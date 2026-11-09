@@ -1,0 +1,89 @@
+{
+    "version": 2,
+    "script": "scripts/cp3_flow_test.lua",
+    "result": "FAIL",
+    "duration_ms": 911,
+    "frames_completed": 30,
+    "phases": {
+        "load": {
+            "result": "FAIL",
+            "errors": [
+                {
+                    "category": "resource",
+                    "message": "[2026-11-09 11_58_32_397][3] ERROR: Could not find resource Fonts/MiSans-Regular.ttf",
+                    "frame": 0
+                }
+            ]
+        },
+        "init": {
+            "result": "PASS",
+            "errors": []
+        },
+        "run": {
+            "result": "PASS",
+            "errors": []
+        },
+        "scene": {
+            "result": "PASS",
+            "errors": [],
+            "node_count": 0,
+            "component_count": 0,
+            "scene_exists": false
+        }
+    },
+    "state_snapshots": [
+        {
+            "frame": 1,
+            "phase": "init",
+            "nodes": 0,
+            "components": 0,
+            "hash": 0,
+            "frame_time_ms": 410.3501892089844
+        },
+        {
+            "frame": 10,
+            "phase": "run",
+            "nodes": 0,
+            "components": 0,
+            "hash": 0,
+            "frame_time_ms": 16.594100952148439
+        },
+        {
+            "frame": 15,
+            "phase": "run",
+            "nodes": 0,
+            "components": 0,
+            "hash": 0,
+            "frame_time_ms": 16.61389923095703
+        },
+        {
+            "frame": 30,
+            "phase": "run",
+            "nodes": 0,
+            "components": 0,
+            "hash": 0,
+            "frame_time_ms": 16.593700408935548
+        }
+    ],
+    "scene_stalled": true,
+    "max_frame_time_ms": 17.57200050354004,
+    "update_defined": false,
+    "component_census": {},
+    "test_result": "NOT_RUN",
+    "test_assertions": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0
+    },
+    "test_issues": [],
+    "missing_resources": [
+        "Fonts/MiSans-Regular.ttf"
+    ],
+    "missing_engine_resources": [],
+    "summary": {
+        "lua_errors": 0,
+        "resource_errors": 1,
+        "engine_errors": 0,
+        "total_errors": 1
+    }
+}

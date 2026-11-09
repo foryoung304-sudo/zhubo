@@ -2304,3 +2304,18 @@ Runtime 口径：**lua_errors 0；resource_errors 1（MiSans 缺失，阶段 4 �
 ## CP3 施工方确认（店主，2026-11-09）
 
 - 店主 2026-11-09 在本线点名：**检查点 3 仍由 Yellow 施工**（小样、CP1、CP2 均由 Yellow 交付且抽验通过，上下文连续）。2026-11-08 晚「CP2 起改回 Gemini」的口径就此作废；Gemini 回到待命位。抽验（Orange 数据级）与店主试玩闸不变。
+
+## 检查点 3 施工回报（Yellow，2026-11-09，基线 7f16674）
+
+**交付物**：`maker/scripts/main.lua`（四项实玩 Lua 缺口按 Node 口径修）、`maker/scripts/live_rebuild.lua`（全流程九屏接通 + 时机条/翻样辨真嵌回直播流）、`maker/scripts/intent_matcher.lua`（meme 子句级前置闸，判定口径未动）、`maker/scripts/cp3_gaps_test.lua` / `cp3_flow_test.lua` / `cp3_meme_test.lua`（无头回归三件）、`rebuild/cp3/*`（gaps/flow/meme 测试件、validate 件、intent_audit、真窗 playthrough_log、live_fps_preview、`shots/` 十三张真窗截图）。
+
+- **① 全流程接通（排班→直播逐卡→下播行动→结算→结局，多章）**：非直播屏（01 加点 / 02 排班 / 04 下播行动 / 05 结算 / 06 暴毙 / 07 结局 / 08 分享卡 / 09 图鉴 / Ops-B）经 `engine.renderMenu()/menuClick()/clickButton()` 委托 main.lua 既有屏渲染与按钮命中，视觉语言沿既有屏；直播屏（03）走抖音壳。真窗手玩闭环：01→02→03 逐卡（chips 命中继承原选项真效果）→04 八选一下播行动→05 结算（粉丝构成漂移 + 闸门判定）→加时赛 3 卡→终结算→07 结局→08 分享卡→重开复位 01。证据 `rebuild/cp3/shots/01..13`、`playthrough_log.json`（LIVE_START/EVENT_START/REPLY/SETTLE/ENDING/SHARE_CARD/NEW_RUN 逐条）。
+- **② 时机条 / 翻样辨真嵌回其卡的直播流**：时机条对 6 张 `ops_type=timing_bar` 卡（C1-M05/C2-M09/C3-M08/C4-M11/C5-M09/C6-M05）在直播流内渲染游标 + 甜区/好区，点按结算 SWEET×1.15 / GOOD×1.05 / NORMAL×1.0（沿 main 既有常数）；翻样辨真对 C4-M02/C5-M07 以 `sample_inspect` 内嵌四样品二翻检，命中写 `Count_验货命中+1` & `Flag_选品减伤=1`（沿冻结卡面 / Ops-B 同语义）。无头实证 `cp3_flow_test.lua` scene5（甜区×1.15）/ scene6（内嵌命中写键）；真窗经下播行动 act_5 进 Ops-B翻样辨真并命中假样（`shots/07/08`）。本 run 主章队列未抽到 C1-M05，时机条真窗未现形，以无头 scene5 为准（登记不掩饰）。
+- **③ 四项实玩 Lua 缺口（Node 为准绳，只修影响实玩者）**：单「+」写入丢弃（`+`/`+=` 缺省 n=1）、`delta_attrs` 不结算（序：五维→属性→状态写入，基数缺省 5）、H01/H07 局内不评估（H01 即时彩蛋 req 门控 &&/|| 转译、H07 结算前置判定）、落支后循环不退出（首满足 + break + 落支锁定 + `triggeredEnding` 提前 return）。`cp3_gaps_test.lua` **30/30 PASS**（`rebuild/cp3/gaps_test.json`）。其余镜像对齐（落支次序 / X-EGG-03 生路 / 第六章链 / rollbackSnapshot 全量 / Qualified 全量 / MiSans）仍留阶段 4 / CP4，未偷渡。
+- **④ meme 后置否定·子句级抑制试覆盖（2278 裁定）**：仅加 `memeClauseNegated` 子句级前置闸（回声框架「X是不可能(再/去/来/继续)?X的」，最长 UTF-8 字符边界匹配、需「的」收尾），**逐出现 3 字近窗判定口径未动、未重构**。覆盖组 7 句全 MISS、对照组 4 句（含 CP1 两命名例）仍命中，**11/11 PASS**；已知限制如实登记出货：了字尾（假阳）、混合子句（过抑）、非回声远否定（假阳）三类不覆盖（`rebuild/cp3/meme_test.json`）。
+- **⑤ 无头回归 + 审计保持全绿**：`cp3_flow_test.lua` **33/33 PASS**（九屏委托 / 直播逐卡 / 下播 Ops-B / 结算 / 加时 / 多章推进 / 暴毙复活零残留 + 卡写入回滚 / 即时彩蛋 H01 / 分享重开）；全套意图审计重跑 **PASS**（213 卡 / 440 意图、覆盖 440/440、样本 941 / chips 1,320 / 否定 459、failures 空、CP1 两命名例 green；输出改指 `rebuild/cp3/intent_audit.json`，磁盘 CP2 工具与证据不动）。validate：flow/meme `lua_errors 0`、`engine_errors 0`；gaps `engine_errors 4` 系 main.lua loadJson 首候选 `maker-demo-clone/assets/data/*` 探针落空（数据随后自 `assets/data/` 加载、哈希合 canon），`resource_errors 1` = MiSans（CP4），均登记于测试件 payload。
+- **⑥ 真窗实玩（Computer Use 手玩，第一章 + 加时 + 收官）**：主章队列 C1-M01/M06/S01/S15/X-MODE-03（M01/S01/S15 chips 命中真 diff；M06 超时零效果；X-MODE-03 选 A 被 req_expr 锁「这个方向现在还锁着」换条继续）→ 下播行动 act_5 翻样辨真命中假样（验货成功 / Flag_选品减伤）→ 首结算 220/1000 `canOvertime=true` → 加时 M09/S02/S07 全命中 → 终结算 440/1000 `canOvertime=false` 从容收官 **M04** → 结局 / 分享卡 / 重开复位。十三张截图与日志逐条对账。
+- **⑦ 冻结四件零改动**：`data/` 与 `maker/assets/data/` 四件 sha256 逐件复核 = `74c290cf / 70bd2794 / 8a7d9960 / 2bbfe32d`，副本与 canon 字节相等；意图表每 opt_key 均真实存在于冻结卡选项，零新数值。
+- **⑧ 帧率预览（非 CP4 闸）**：真窗墙钟 avg 10.18 ms（≈98 fps）、p95 17 ms、单帧尖峰 51 ms、2,100 有效样本（`rebuild/cp3/live_fps_preview.json`）；正式复测按单留 CP4，不拿预览数充闸。
+- **在册边界 / 待裁（非本点缺陷）**：C4-M02 内嵌翻样命中 +1 与选项 B +1 叠加 =2（沿既有写入语义、零新数值，是否去重待 Orange/店主手感闸裁定）；rollbackSnapshot 新增键不删属阶段 4 镜像④全量语义（本点复活零残留 + 既有键回滚已验）；第六章链 / Qualified 全量 / 落支次序 / MiSans 留阶段 4 / CP4；meme 三类已知限制按裁定出货；07 屏「历经六章…登顶」为既有通用通关文案（M04 标签正确），非四缺口、未改。
+- **待 Orange 抽验**：九屏委托与真窗闭环逐图对照、四缺口 Node 口径复算、meme 子句闸覆盖/限制复跑、审计与命名例保持绿、C4-M02 叠加语义裁定。抽验过再进检查点 4。

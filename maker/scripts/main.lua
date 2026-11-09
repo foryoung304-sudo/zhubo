@@ -284,6 +284,9 @@ local function evalExpr(expr)
     if not expr or expr == "" or expr == "null" then return true end
 
     local s = expr
+    -- CP3 缺口③ H01 前置：卡面布尔运算符 &&/|| 译成 Lua and/or（Node 用 JS Function 原生认；Lua 不认会致 req 门编译失败、H01 锁死）。
+    -- 仅译运算符；卡决策比较/has_encountered/整活流等其余 14 式求值对齐留阶段4。
+    s = s:gsub("&&", " and "):gsub("||", " or ")
     -- 变量替换
     for k, v in pairs(gameState.variables) do
         if string.find(s, k, 1, true) then
@@ -320,14 +323,18 @@ end
 -- 应用属性与状态改写
 local function applyStateWrite(writeExpr)
     if not writeExpr then return end
+    -- CP3 缺口①（Node 为准绳 gameState.mjs:197-215）：op 认 "+="/"+"（单加号）/"=" 三种；
+    -- "+"/"+=" 取 Number(rawVal)||1（非数或 0 默认 +1），"=" 数值转 number 否则留字符串。
     local k, op, val = writeExpr:match("`?([%a%d_\128-\255]+)`?%s*([=+]+)%s*([^\n\r]+)")
     if k then
-        val = val:gsub("`", ""):gsub("'", ""):gsub('"', ""):gsub("%s+$", "")
-        local num = tonumber(val)
-        if op == "=" then
-            gameState.variables[k] = num or val
-        elseif op == "+=" and num then
+        val = val:gsub("^%s+", ""):gsub("%s+$", ""):gsub("^['\"]", ""):gsub("['\"]$", "")
+        if op == "+=" or op == "+" then
+            local n = tonumber(val)
+            local num = (n and n ~= 0) and n or 1
             gameState.variables[k] = (tonumber(gameState.variables[k]) or 0) + num
+        elseif op == "=" then
+            local num = tonumber(val)
+            gameState.variables[k] = (num ~= nil) and num or val
         end
     end
 end
@@ -457,6 +464,7 @@ local function selectCardOption(optKey)
     end
 
     local appliedDeltas = {}
+    local appliedAttrs = {}
     local appliedEndings = {}
     local appliedWrites = {}
 
@@ -476,6 +484,10 @@ local function selectCardOption(optKey)
         if option.effects and option.effects.delta_five_dim then
             for k, v in pairs(option.effects.delta_five_dim) do appliedDeltas[k] = v end
         end
+        -- CP3 缺口②（Node cardEngine.mjs:36/292-294）：delta_attrs 结算（check_fail 无此字段，不补）
+        if option.effects and option.effects.delta_attrs then
+            for k, v in pairs(option.effects.delta_attrs) do appliedAttrs[k] = v end
+        end
         if option.effects and option.effects.ending_triggers then
             for _, e in ipairs(option.effects.ending_triggers) do table.insert(appliedEndings, e) end
         end
@@ -492,6 +504,10 @@ local function selectCardOption(optKey)
         if branch and branch.delta_five_dim then
             appliedDeltas = {}
             for k, v in pairs(branch.delta_five_dim) do appliedDeltas[k] = v end
+        end
+        if branch and branch.delta_attrs then
+            appliedAttrs = {}
+            for k, v in pairs(branch.delta_attrs) do appliedAttrs[k] = v end
         end
     end
 
@@ -724,42 +740,92 @@ local function selectCardOption(optKey)
     if appliedDeltas.stamina then gameState.fiveDim.stamina = math.max(0, math.min(100, gameState.fiveDim.stamina + appliedDeltas.stamina)) end
     if appliedDeltas.hater_pct then gameState.haterPct = math.max(0, math.min(100, gameState.haterPct + appliedDeltas.hater_pct)) end
 
+    -- CP3 缺口②：应用属性增减（Node cardEngine.mjs:292-294，序：五维→属性→状态写入；基数缺省 5）
+    for attr, val in pairs(appliedAttrs) do
+        gameState.attributes[attr] = (gameState.attributes[attr] or 5) + val
+    end
+
     -- 应用状态写入
     for _, w in ipairs(appliedWrites) do
         applyStateWrite(w)
     end
 
-    -- 检定结局触发
-    for _, endingId in ipairs(appliedEndings) do
-        if endingId:sub(1, 1) == "D" then
+    -- CP3 缺口③④（Node cardEngine.mjs:312-417 为准绳）：落支按卡面顺序首个满足者落、落支即停。
+    -- 只接局内即时分支（D 系暴毙 + H01/H04/H10/H03/H12 式即时彩蛋）；M 系与 H07 结算类落支留结算/阶段4。
+    if #appliedEndings > 0 then
+        local function isEndingSatisfied(eid)
+            local v = gameState.variables
+            if eid == "D20" then return tonumber(v["Flag_卖惨人设"]) == 1 end
+            if eid == "D21" then return tonumber(v["Flag_造假剧本"]) == 1 end
+            if eid == "D15" then return (tonumber(v["Count_复盘留档"]) or 0) < 2 end
+            if eid == "D16" then return (tonumber(v["Count_偷拍素材"]) or 0) >= 3 end
+            if eid == "D19" then return tonumber(v["Flag_账号协议"]) == 0 end
+            if eid == "D09" then return math.random() < 0.5 end
+            if eid == "H03" then return math.random() >= 0.5 end
+            if eid == "H04" then return (tonumber(v["Count_猫上镜"]) or 0) >= 3 end
+            if eid == "H10" then return (tonumber(v["Count_考编"]) or 0) >= 3 end
+            return true
+        end
+        local chosenEnding = nil
+        for _, eid in ipairs(appliedEndings) do
+            if isEndingSatisfied(eid) then chosenEnding = eid break end
+        end
+        if not chosenEnding then chosenEnding = appliedEndings[1] end
+
+        local function landEnding(eid, cleared)
+            if gameState.triggeredEnding then return end -- 落定格：一经写入不覆盖（Node gameState.mjs:102-105）
+            gameState.triggeredEnding = eid
+            if cleared then gameState.isCleared = true else gameState.isDead = true end
+            unlockEnding(eid)
+            gameState.screen = cleared and "Screen-07" or "Screen-06"
+        end
+
+        if chosenEnding:sub(1, 1) == "D" then
+            landEnding(chosenEnding, false)
+            return
+        elseif card.card_id == "X-EGG-09" and chosenEnding == "H12" then
+            gameState.variables["Qualified_H12"] = 1
+            landEnding("H12", true)
+            return
+        elseif card.card_id == "X-EGG-04" and chosenEnding == "H01" then
+            gameState.variables["Qualified_H01"] = 1
+            landEnding("H01", true)
+            return
+        elseif chosenEnding == "H04" and (tonumber(gameState.variables["Count_猫上镜"]) or 0) >= 3 then
+            gameState.variables["Qualified_H04"] = 1
+            landEnding("H04", true)
+            return
+        elseif chosenEnding == "H10" and (tonumber(gameState.variables["Count_考编"]) or 0) >= 3 then
+            gameState.variables["Qualified_H10"] = 1
+            landEnding("H10", true)
+            return
+        elseif card.card_id == "C6-M06" and chosenEnding == "H03" then
+            gameState.variables["Qualified_H03"] = 1
+            landEnding("H03", true)
+            return
+        end
+        -- 其余 M/H 引用（含 H07、第六章链）本点不即时落、不写 Qualified（清单⑤留阶段4）；不推进卡，交由数值暴毙/流转
+    end
+
+    -- 数值暴毙判定（一般法兜底；CP3 缺口④：已落支则跳过，绝不覆写，Node gameState.mjs:327-328）
+    if not gameState.isDead and not gameState.triggeredEnding then
+        if gameState.fiveDim.stamina <= 0 then
             gameState.isDead = true
-            gameState.triggeredEnding = endingId
-            unlockEnding(endingId)
+            gameState.triggeredEnding = "D01"
+            unlockEnding("D01")
             gameState.screen = "Screen-06"
             return
-        elseif endingId == "H12" and card.card_id == "X-EGG-09" then
-            gameState.isCleared = true
-            gameState.triggeredEnding = endingId
-            unlockEnding(endingId)
-            gameState.screen = "Screen-07"
+        elseif gameState.fiveDim.rep <= 0 then
+            gameState.isDead = true
+            gameState.triggeredEnding = "D03"
+            unlockEnding("D03")
+            gameState.screen = "Screen-06"
             return
         end
     end
 
-    -- 数值暴毙判定
-    if gameState.fiveDim.stamina <= 0 then
-        gameState.isDead = true
-        gameState.triggeredEnding = "D01"
-        unlockEnding("D01")
-        gameState.screen = "Screen-06"
-        return
-    elseif gameState.fiveDim.rep <= 0 then
-        gameState.isDead = true
-        gameState.triggeredEnding = "D03"
-        unlockEnding("D03")
-        gameState.screen = "Screen-06"
-        return
-    end
+    -- CP3 缺口④：落支即停——本局已有结局则不再推进卡（Node 结局即终局，循环退出对齐）
+    if gameState.triggeredEnding then return end
 
     -- 流转到下一张卡或下播
     gameState.currentCardIndex = gameState.currentCardIndex + 1
@@ -880,11 +946,16 @@ local function settleCurrentChapter(useAdDouble)
             gameState.overtimeActive = true
             gameState.overtimePlayed[ch] = true
         else
-            -- 已跑过加时赛仍未达标 -> 体面收官 (M04 / M12)
+            -- 已跑过加时赛仍未达标 -> 体面收官 (H07 / M04 / M12)
             gameState.isCleared = false
             gameState.overtimeActive = false
             if not gameState.triggeredEnding then
-                if (gameState.fiveDim.rep or 0) >= 50 then
+                -- CP3 缺口③（Node stageSettlement.mjs:157-168，482fe7a 裁定）：局终体面收场，M04/M12 兜底前先评 H07
+                if (tonumber(gameState.variables["Qualified_H07"]) == 1 or tonumber(gameState.variables["Flag_零粉快乐"]) == 1)
+                    and gameState.fiveDim.fans < 10000 and (gameState.fiveDim.rep or 0) >= 90 then
+                    gameState.isCleared = true
+                    gameState.triggeredEnding = "H07" -- 零人观看的桃花源
+                elseif (gameState.fiveDim.rep or 0) >= 50 then
                     gameState.triggeredEnding = "M04" -- 佛系小主播 (口碑良好)
                 else
                     gameState.triggeredEnding = "M12" -- 正常上班 (泯然众人)

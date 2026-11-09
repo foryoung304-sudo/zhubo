@@ -1,0 +1,81 @@
+{
+    "version": 2,
+    "script": "scripts/cp3_meme_test.lua",
+    "result": "FAIL",
+    "duration_ms": 196,
+    "frames_completed": 5,
+    "phases": {
+        "load": {
+            "result": "FAIL",
+            "errors": [
+                {
+                    "category": "resource",
+                    "message": "[2026-11-09 11_58_16_160][3] ERROR: Could not find resource Fonts/MiSans-Regular.ttf",
+                    "frame": 0
+                }
+            ]
+        },
+        "init": {
+            "result": "PASS",
+            "errors": []
+        },
+        "run": {
+            "result": "PASS",
+            "errors": []
+        },
+        "scene": {
+            "result": "PASS",
+            "errors": [],
+            "node_count": 0,
+            "component_count": 0,
+            "scene_exists": false
+        }
+    },
+    "state_snapshots": [
+        {
+            "frame": 1,
+            "phase": "init",
+            "nodes": 0,
+            "components": 0,
+            "hash": 0,
+            "frame_time_ms": 106.15840148925781
+        },
+        {
+            "frame": 2,
+            "phase": "run",
+            "nodes": 0,
+            "components": 0,
+            "hash": 0,
+            "frame_time_ms": 16.785499572753908
+        },
+        {
+            "frame": 5,
+            "phase": "run",
+            "nodes": 0,
+            "components": 0,
+            "hash": 0,
+            "frame_time_ms": 21.774700164794923
+        }
+    ],
+    "scene_stalled": true,
+    "max_frame_time_ms": 21.774700164794923,
+    "update_defined": false,
+    "component_census": {},
+    "test_result": "NOT_RUN",
+    "test_assertions": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0
+    },
+    "test_issues": [],
+    "missing_resources": [
+        "Fonts/MiSans-Regular.ttf"
+    ],
+    "missing_engine_resources": [],
+    "summary": {
+        "lua_errors": 0,
+        "resource_errors": 1,
+        "engine_errors": 0,
+        "total_errors": 1
+    }
+}
