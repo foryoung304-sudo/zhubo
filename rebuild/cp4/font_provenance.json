@@ -1,0 +1,17 @@
+{
+  "test": "cp4 MiSans formal font pack landing (Orange CP4 ticket: resource_errors zero, no system-font impersonation)",
+  "resource": "Fonts/MiSans-Regular.ttf",
+  "mounted_at": "maker/assets/Fonts/MiSans-Regular.ttf",
+  "mount_note": "Runtime mounts tapcode assets/ as resource root; Data/Fonts copy did NOT resolve (verified), assets/Fonts resolves resource_errors to 0. Data/.gitkeep mount anchor left intact.",
+  "source_url": "https://cdn.cnbj1.fds.api.mi-img.com/vipmlmodel/font/MiSans/MiSans-Regular.ttf",
+  "source_official": "Xiaomi HyperOS MiSans official CDN (hyperos.mi.com/font)",
+  "bytes": 7924400,
+  "sha256": "7172aa1b5c703780ee12df3fe4c50481dde01f3b125a045a398000a88d032ae5",
+  "sfnt_magic": "00010000 (TrueType)",
+  "name_table": { "family": "MiSans", "full": "MiSans Regular", "postscript": "MiSans-Regular" },
+  "cjk_coverage": "cmap format 4 covers U+4E2D (中) verified",
+  "genuine": "Downloaded genuine MiSans-Regular.ttf from official Xiaomi CDN; name table + CJK coverage verified. NOT a renamed system font.",
+  "renderer_wiring": "main.lua / live_rebuild.lua NanoVG now prefer assets/Fonts/MiSans-Regular.ttf, fall back to msyh.ttc then simhei.ttf (previously ruled-acceptable fallback preserved).",
+  "license_note": "MiSans free commercial use; official license permits embedding/bundling into projects, prohibits standalone font redistribution. Landed as a project asset per Orange CP4 ruling; flag to owner for public-repo redistribution awareness.",
+  "validate_after": { "lua_errors": 0, "resource_errors": 0, "engine_errors": 0, "total_errors": 0, "result": "PASS" }
+}

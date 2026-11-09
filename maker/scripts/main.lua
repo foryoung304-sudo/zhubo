@@ -1756,8 +1756,11 @@ function Start()
     -- 创建 NanoVG 上下文
     nvgContext = nvgCreate(1)
     if nvgContext ~= nil then
-        -- 尝试挂载系统通用中文字体
-        fontId = nvgCreateFont(nvgContext, "msyh", "C:/Windows/Fonts/msyh.ttc")
+        -- CP4：优先挂载随工程落地的正式 MiSans 字体包，系统字体仅作回退（阶段4补齐正式字体包）
+        fontId = nvgCreateFont(nvgContext, "misans", "assets/Fonts/MiSans-Regular.ttf")
+        if fontId == -1 then
+            fontId = nvgCreateFont(nvgContext, "msyh", "C:/Windows/Fonts/msyh.ttc")
+        end
         if fontId == -1 then
             fontId = nvgCreateFont(nvgContext, "simhei", "C:/Windows/Fonts/simhei.ttf")
         end

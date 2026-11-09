@@ -6,8 +6,9 @@
 -- 数值结算复用 main.lua 原引擎（load 源码取局部引用，磁盘零改动）：真抽卡 drawChapterCards、真结算
 --   settleCurrentChapter；意图表 intents_full.json 只继承原卡选项，零新数值。
 -- 轻操作嵌回（CP3）：时机条挂 6 张 timing_bar 卡的直播事件（甜区×1.15/良区×1.05，沿 main 常量）；
---   翻样辨真作 C4-M02/C5-M07 的直播内嵌桥段（沿 Ops-B 既有 4 样/2 翻/命中写 Count_验货命中+1 & Flag_选品减伤=1）。
--- 边界（登记）：主播位占位（美术阶段4）；字体暂用系统 msyh（MiSans CP4 落地）；其余镜像对齐留阶段4。
+--   翻样辨真作 C4-M02/C5-M07 的直播内嵌桥段（4 样/2 翻沿 Ops-B；CP4 去重 Orange 5d672f2：命中/失手只决定落哪一支选项，
+--   计数由选项写入唯一落，内嵌不再直写 Count_验货命中/Flag_选品减伤）。
+-- 边界（登记）：主播位占位（美术阶段4）；字体 MiSans 正式包已落地（CP4，assets/Fonts），系统 msyh/simhei 仅作回退；其余镜像对齐留阶段4。
 -- 输入口径（小样探针实证 + 裁定①）：本运行时 Windows 桌面只送 TextInput/TextEditing，发送/清空走屏上按钮。
 
 local cjson = require("cjson")
@@ -747,6 +748,56 @@ function sendReply(text, source)
     dumpLog()
 end
 
+-- CP4 去重（Orange 5d672f2）：内嵌翻样只决定落哪一支选项，计数由选项写入唯一落（两卡同例）。
+-- 命中支 = 卡面写 Count_验货命中 的那一支（C4-M02:B / C5-M07:A），失手支 = 另一支；纯由冻结卡面推导，零新数值。
+local function inspectOptKeys(card)
+    local successOpt, failOpt = nil, nil
+    for _, o in ipairs(card.options or {}) do
+        local writesCount = false
+        for _, w in ipairs((o.effects or {}).state_writes or {}) do
+            if string.find(w, "Count_验货命中", 1, true) then writesCount = true break end
+        end
+        if writesCount then successOpt = o.opt_key else failOpt = o.opt_key end
+    end
+    return successOpt, failOpt
+end
+
+local function resolveInspect(hit)
+    local card = GS.currentCard
+    if not card then return end
+    local successOpt, failOpt = inspectOptKeys(card)
+    local optKey = hit and successOpt or failOpt
+    if not optKey then return end
+    local def = INTENTS_BY_ID[card.card_id]
+    local entry = { kind = hit and "INSPECT_HIT" or "INSPECT_MISS", card = card.card_id, opt_key = optKey, source = "inline_inspect" }
+    local before = snapshotState()
+    local beforeIdx, beforeScreen, beforeCard = GS.currentCardIndex, GS.screen, GS.currentCard
+    engine.selectCardOption(optKey)
+    if GS.currentCardIndex == beforeIdx and GS.screen == beforeScreen and GS.currentCard == beforeCard then
+        entry.result = "locked"
+        pushChat("comment", "围观", "这个方向现在还锁着，换一条试试")
+        logEntry(entry)
+        return
+    end
+    entry.result = "hit"
+    entry.diff = diffState(before)
+    local opt = nil
+    for _, o in ipairs(card.options or {}) do
+        if o.opt_key == optKey then opt = o end
+    end
+    entry.inherited_effects = opt and opt.effects or nil
+    local reactions = nil
+    for _, it in ipairs(def.intents or {}) do
+        if it.opt_key == optKey then reactions = it.reactions break end
+    end
+    for _, line in ipairs(reactions or def.miss_reactions or {}) do
+        pushChat("comment", corpus.names[math.random(#corpus.names)], line)
+    end
+    showEffectToast(entry.diff)
+    logEntry(entry)
+    afterEventClosed()
+end
+
 -- ============================================================================
 -- 7. 帧率预览（墙钟口径同小样；正式复测在 CP4，本件仅作早期信号）
 -- ============================================================================
@@ -1124,7 +1175,7 @@ local function handleClick(x, y)
             return
         end
     end
-    -- 翻样辨真内嵌翻牌（命中写 Count_验货命中+1 & Flag_选品减伤=1，逐字沿 main.lua renderOpsB）
+    -- 翻样辨真内嵌翻牌（CP4 去重：命中/失手只决定落哪一支选项，计数由选项写入唯一落，Orange 5d672f2）
     if runner.state == "active" and inlineInspect and GS.currentCard and GS.currentCard.ops_type == "sample_inspect" then
         local inst = GS.inspectInstance
         for i = 1, 4 do
@@ -1135,11 +1186,13 @@ local function handleClick(x, y)
                     inst.flipsRemaining = inst.flipsRemaining - 1
                     if i == inst.fakeIndex then
                         inst.success = true
-                        GS.variables["Count_验货命中"] = (tonumber(GS.variables["Count_验货命中"]) or 0) + 1
-                        GS.variables["Flag_选品减伤"] = 1
-                        logEntry({ kind = "INSPECT_HIT", card = GS.currentCard.card_id, sample = i })
+                        logEntry({ kind = "INSPECT_FLIP", card = GS.currentCard.card_id, sample = i, fake = true })
+                        resolveInspect(true)
                     else
                         logEntry({ kind = "INSPECT_FLIP", card = GS.currentCard.card_id, sample = i, fake = false })
+                        if inst.flipsRemaining == 0 and not inst.success then
+                            resolveInspect(false)
+                        end
                     end
                 end
                 return
@@ -1205,7 +1258,8 @@ function Start()
     print("[CP3] Start · 全流程接通（加点→排班→直播→下播→结算→结局）+ 轻操作嵌回")
     nvgContext = nvgCreate(1)
     if nvgContext then
-        fontId = nvgCreateFont(nvgContext, "msyh", "C:/Windows/Fonts/msyh.ttc")
+        fontId = nvgCreateFont(nvgContext, "misans", "assets/Fonts/MiSans-Regular.ttf")
+        if fontId == -1 then fontId = nvgCreateFont(nvgContext, "msyh", "C:/Windows/Fonts/msyh.ttc") end
         if fontId == -1 then fontId = nvgCreateFont(nvgContext, "simhei", "C:/Windows/Fonts/simhei.ttf") end
         engine.setContext(nvgContext, fontId)
         SubscribeToEvent(nvgContext, "NanoVGRender", "HandleRender")

@@ -1,6 +1,6 @@
 -- CP3 全流程无头回归驱动：load live_rebuild.lua 源码 + 同作用域测试钩子（磁盘零改动）
 -- 覆盖：加点→排班→直播逐卡→下播行动8选1/Ops-B→结算→加时赛→多章推进→暴毙复活(零残留)→即时彩蛋→体面收官
---       + 时机条嵌回(甜区×1.15) + 翻样辨真内嵌(C4-M02 命中写键)
+--       + 时机条嵌回(甜区×1.15) + 翻样辨真内嵌(C4-M02 命中落B选项唯一写计数，CP4去重)
 -- 驱动口径：菜单屏走 engine.renderMenu()+engine.clickButton(真实按钮委托)；直播事件走 startEvent+sendReply(真实匹配器+原引擎)；
 --           轻操作走 handleClick(设计坐标)。闸门分支用测试夹具设状态 forcing（非玩法数值改动，登记于 payload）。
 -- 跑法：UrhoXRuntime.exe cp3_flow_test.lua -tapcode_dir=. -tool_mode -graphicsheadless -validate -validate-frames=30 ...
@@ -151,7 +151,7 @@ local function __runTests()
     __replyOpt("C1-M05", "A")
     __assert("s5_timing_consumed", GS.currentCardIndex == 2 or GS.screen ~= "Screen-03", { idx = GS.currentCardIndex, screen = GS.screen, walletBefore = wBefore, walletAfter = GS.fiveDim.wallet })
 
-    -- ===== Scene 6: 翻样辨真内嵌（C4-M02 命中写键 + 选项B叠加登记）=====
+    -- ===== Scene 6: 翻样辨真内嵌（CP4 去重：C4-M02 命中落 B，计数由选项唯一写）=====
     engine.resetGameState()
     __fixtureLive("C4-M02")
     startEvent(1)
@@ -159,9 +159,8 @@ local function __runTests()
     local fake2 = GS.inspectInstance.fakeIndex
     local sx, sy, sw, sh = inspectRect(fake2)
     handleClick(sx + 10, sy + 10)
-    __assert("s6_inline_hit", GS.inspectInstance.success == true and tonumber(GS.variables["Count_验货命中"]) == 1 and tonumber(GS.variables["Flag_选品减伤"]) == 1, { count = GS.variables["Count_验货命中"], flag = GS.variables["Flag_选品减伤"] })
-    __replyOpt("C4-M02", "B") -- 选项B 本身也写 Count_验货命中+1（沿冻结卡面），叠加后 =2，登记待裁
-    __assert("s6_optionB_stacks", tonumber(GS.variables["Count_验货命中"]) == 2, { count = GS.variables["Count_验货命中"], note = "内嵌命中+1 与 选项B+1 叠加=2，沿既有写入语义，待 Orange/店主裁定是否去重" })
+    __assert("s6_inline_hit_lands_B", GS.inspectInstance.success == true and tonumber(GS.variables["Count_验货命中"]) == 1 and tonumber(GS.variables["Flag_选品减伤"]) == 1, { count = GS.variables["Count_验货命中"], flag = GS.variables["Flag_选品减伤"], note = "CP4 去重 Orange 5d672f2：命中只决定落 B，计数/减伤旗标由选项 B 唯一写" })
+    __assert("s6_no_double_write", tonumber(GS.variables["Count_验货命中"]) == 1 and GS.screen ~= "Screen-03", { count = GS.variables["Count_验货命中"], screen = GS.screen, note = "内嵌不再直写计数，选项落支后事件收口，旧叠加=2 缺陷已除" })
 
     -- ===== Scene 7a: 暴毙 D20 → 复活零残留（卡前既有标记合法保留） =====
     engine.resetGameState()
@@ -211,7 +210,7 @@ local function __runTests()
         total = #__A, passed = pass, failed = fail,
         assertions = __A,
         fixtures_note = "闸门分支用测试夹具 forcing 粉丝/标记状态（999999/0/Flag_卖惨人设/Count_黑粉不对线），非玩法数值改动；时机条游标置甜区中点为夹具。S7b：Flag_安保习惯 预置0、rep=40 为既有键回滚夹具（C6-M02 B 否则支 rep-50→D03）；复活新增键不删属阶段4镜像④ rollback 全量语义，不在本测。",
-        semantic_note = "C4-M02 内嵌翻样辨真命中写 Count_验货命中+1，选项B 亦写 +1（沿冻结卡面），叠加=2；沿既有写入语义、零新数值，是否去重待 Orange/店主手感闸裁定。",
+        semantic_note = "C4-M02 内嵌翻样辨真 CP4 去重（Orange 5d672f2）：命中只决定落 B，计数/减伤旗标由选项 B 唯一写，内嵌不再直写，旧叠加=2 缺陷已除；命名三例见 cp4_dedupe_test.lua。",
         exported_at = os.date("%Y-%m-%dT%H:%M:%S"),
     }
     local ok, encoded = pcall(cjson.encode, payload)
